@@ -42,13 +42,15 @@ public class PlayerController : MonoBehaviour
 
         // Cast a short ray down to detect if player is grounded - BR
         RaycastHit hit;
-        if (Physics.Raycast(groundPoint.position, Vector3.down, out hit, .3f, whatIsGround))
+        if (Physics.Raycast(groundPoint.position, Vector3.down, out hit, 1.0f, whatIsGround))
         {
             isGrounded = true;
+            Debug.DrawRay(groundPoint.position, Vector3.down * hit.distance, Color.green);
         }
         else
         {
             isGrounded = false;
+            Debug.DrawRay(groundPoint.position, Vector3.down * 1.0f, Color.red);
         }
 
         // Allow jumping if player is grounded - BR
