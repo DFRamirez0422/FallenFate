@@ -30,7 +30,7 @@ namespace Player.RhythmBonusPrefabs
 
         public (string tier, float multiplier) EvaluateNow()
         {
-            if (music == null) return ("Miss", missMult);
+            if (music == null) return ("Bad", missMult);
             
             // Get current elapsed song time in seconds (DSP-accurate) 
             double elapsedSec = music.GetElapsedSec() + latencyOffsetSec;
@@ -38,10 +38,10 @@ namespace Player.RhythmBonusPrefabs
             float bestDistSec = float.MaxValue; // Closest to any grid
             float bestIntervalSec = 0f;         // the interval that won
 
-            for (int i = 0; i < stepsOptions.Length; i++)
+            foreach (var option in stepsOptions)
             {
-                float steps = Mathf.Max(1f, stepsOptions[i]); // Avoid 0/negative
-                float intervalSec = music.BeatSec / steps;    // SNote length for this grid
+                float steps = Mathf.Max(1f, option); // Avoid 0/negative
+                float intervalSec = music.BeatSec / steps;    // Note length for this grid
                 double idx = elapsedSec / intervalSec;        // Fractional index into that grid 
                 double nearestIdx = System.Math.Round(idx);   // Nearest gridline
                 float distSec = (float)(System.Math.Abs(      // Distance (sec)
@@ -61,7 +61,7 @@ namespace Player.RhythmBonusPrefabs
             // Compare distance to thresholds → return tier + multiplier
             if (bestDistSec <= perfect) return ("Perfect", perfectMult);
             if (bestDistSec <= good)    return ("Good",    goodMult);
-            return ("Miss", missMult);
+            return ("Bad", missMult);
         }
     }
 }
