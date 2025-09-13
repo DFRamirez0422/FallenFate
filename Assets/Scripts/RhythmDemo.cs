@@ -11,19 +11,44 @@ using UnityEngine;
 
 public class RhythmDemo : MonoBehaviour
 {
+    /*
+        --------------------------------------------------
+        U S E D   F O R   T E S T I N G
+        --------------------------------------------------
+
+        USED FOR TESTING THE SUBSYSTEM
+
+        DESCRIPTION: RhythmConductor
+        AUTHOR: Jose Escobedo
+
+        This script is used to test the rhythm subsystem in isolation. Please do not use in production code as is.
+    */
 
     // ----- Variables -----//
 
     // Game script for the rhythm conductor.
+    [SerializeField] private RhythmConductor m_Conductor;
+
+    // Currently playing background music.
+    [SerializeField] private AudioClip m_CurrentBGM;
+
+    // UI text field that counts the number of hits.
+    [SerializeField] private TMPro.TextMeshProUGUI m_NumHitsUICounter;
+
+    // UI text field that counts the number of misses.
+    [SerializeField] private TMPro.TextMeshProUGUI m_NumMissUICounter;
+
+    // UI text field that counts the current streak.
+    [SerializeField] private TMPro.TextMeshProUGUI m_StreakUICounter;
 
     // Audio source for sound effects.
-    [SerializeField] private AudioSource m_SeSource;
+    [SerializeField] private UnityEngine.AudioSource m_SeSource;
 
     // Audio clip for a feedback sound effect to play for a beat hit.
-    [SerializeField] private AudioClip m_BeatHitSe;
+    [SerializeField] private UnityEngine.AudioClip m_BeatHitSe;
 
     // Audio clip for a feedback sound effect to play for a beat miss.
-    [SerializeField] private AudioClip m_BeatMissSe;
+    [SerializeField] private UnityEngine.AudioClip m_BeatMissSe;
 
     // Counts how many beats were hit in the current streak.
     private int m_HitStreak = 0;
@@ -39,24 +64,58 @@ public class RhythmDemo : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        ResetMusic(170, 100);
+        ResetCounters();
     }
 
     // Update is called once per frame
+    // Processes the player input and responds accordingly.
     void Update()
     {
-        ProcessInput();
-    }
+        // Check periodically whether or not there is a beat to hit.
+        if (m_Conductor.IsOnBeat())
+        {
+            // Any button or key will work but as long as it makes sense.
+            if (UnityEngine.Input.GetButton("Jump"))
+            {
+                m_NumHits += 1;
+                m_HitStreak += 1;
+            }
+            else
+            {
+                m_NumMisses += 1;
+                m_HitStreak = 0;
+            }
+        }
 
-    // Processes the player input and responds accordingly.
-    private void ProcessInput()
-    {
-        ;
+        UpdateUI();
     }
 
     // USED FOR TESTING : Updates the UI to display information to the player concerning rhythm.
     private void UpdateUI()
     {
-        ;
+        m_NumHitsUICounter.text = m_NumHits.ToString();
+        m_NumMissUICounter.text = m_NumMisses.ToString();
+        m_StreakUICounter.text = m_HitStreak.ToString();
+    }
+
+    // Reset music variables in case of music change.
+    private void ResetMusic(int tempo, int ppqn)
+    {
+        m_Conductor.ChangeBGM(m_CurrentBGM, tempo, ppqn);
+    }
+
+    // Reset beat counter variables to default values.
+    private void ResetCounters()
+    {
+        m_HitStreak = 0;
+        m_NumHits = 0;
+        m_NumMisses = 0;
+    }
+
+    // Reset beat streak variables.
+    private void ResetStreak()
+    {
+        m_HitStreak = 0;
     }
 }

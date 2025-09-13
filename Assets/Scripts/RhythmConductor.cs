@@ -52,6 +52,9 @@ public class RhythmConductor : MonoBehaviour
     // Time stretch percentage to modify the tempo on.
     private float m_TempoRate = 1.0f;
 
+    // Stateful flag which stores whether or not there was a recieved message about being on rhythm.
+    private bool m_IsHitOnBeat = false;
+
     // ----- Methods -----//
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,19 +64,20 @@ public class RhythmConductor : MonoBehaviour
         DontDestroyOnLoad(transform.gameObject);
         DontDestroyOnLoad(transform.root.gameObject);
         ResetMusic(120, 100);
-        ResetCounters();
     }
 
     // Update is called once per frame
     void Update()
     {
-        const int seconds_per_minute = 60;
-        const float time_between_beats = seconds_per_minute / (float)m_Tempo * m_TempoRate;
+        // The following variables should be const and shall be pretended to be const.
+        int seconds_per_minute = 60;
+        float time_between_beats = seconds_per_minute / (float)m_Tempo * m_TempoRate;
         m_CurrentTime += Time.deltaTime;
 
         if (m_CurrentTime > time_between_beats)
         {
             m_CurrentTime -= time_between_beats;
+            m_IsHitOnBeat = false;
         }
     }
 
@@ -82,6 +86,8 @@ public class RhythmConductor : MonoBehaviour
     {
         m_CurrentBGM = bgm_music;
         ResetMusic(tempo, ppqn);
+        m_BgmSource.clip = m_CurrentBGM;
+        m_BgmSource.Play();
     }
 
     // Change the current tempo rate, which in turn non-destructively modifies the music tempo. Useful for speed effects!
@@ -95,30 +101,26 @@ public class RhythmConductor : MonoBehaviour
     public bool IsOnBeat()
     {
         // Explanation behind this code found in the comments in the class definition.
-        const int seconds_per_minute = 60;
-        const float time_between_beats = seconds_per_minute / (float)m_Tempo * m_TempoRate;
-        return Math.Abs(time_between_beats - m_CurrentTime) < m_HitTimeThreshold;
+        // The following variables should be const and shall be pretended to be const.
+        int seconds_per_minute = 60;
+        float time_between_beats = seconds_per_minute / (float)m_Tempo * m_TempoRate;
+
+        // Once queried, set the flag to prevent outside code from recieving too many duplicate signals.
+        if (System.Math.Abs(time_between_beats - m_CurrentTime) < m_HitTimeThreshold && !m_IsHitOnBeat)
+        {
+            m_IsHitOnBeat = true;
+            return true;
+        }
+
+        return false;
     }
 
     // Reset music variables in case of music change.
     private void ResetMusic(int tempo, int ppqn)
     {
+        m_BgmSource.Stop();
         m_CurrentTime = 0.0f;
         m_Tempo = tempo;
         m_PPQN = ppqn;
-    }
-
-    // Reset beat counter variables to default values.
-    private void ResetCounters()
-    {
-        m_HitStreak = 0;
-        m_NumHits = 0;
-        m_NumMisses = 0;
-    }
-
-    // Reset beat streak variables.
-    private void ResetStreak()
-    {
-        m_HitStreak = 0;
     }
 }
