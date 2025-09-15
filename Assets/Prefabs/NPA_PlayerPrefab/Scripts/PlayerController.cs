@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player
+namespace Player.NPA_PlayerPrefab.Scripts
 {
     public class PlayerController : MonoBehaviour
     {
@@ -24,17 +24,25 @@ namespace Player
         
         [Tooltip("How long before player can dash again")]
         [SerializeField] private float dashCooldown = 1f;
+
+        [Header("Dash Attack Settings")] [Tooltip("Timing window to perform dash attack")] [SerializeField]
+        private float dashAttackWindow = .5f;
         
         // Internal dash state
         private bool isDashing = false;
         private float dashTimer = 0f;
         private float dashCooldownTimer = 0f;
         private Vector3 dashDirection;
+        
+        // Dash Attack state
+        private bool canDashAttack = false;      // Is player within dash attack window?
+        private float dashAttackTimer = 0f;      // Counts down remaining time of dash attack window
+        private bool dashAttackConsumed = false; // Was dash attack used during this window?
 
         // Input and movement
-        private Vector2 inputVector;           // Raw WASD input
-        private Vector3 moveDirectionWorld;    // Final movement direction in world space
-        private Vector3 velocity;              // Velocity to apply this frame
+        private Vector2 inputVector;             // Raw WASD input
+        private Vector3 moveDirectionWorld;      // Final movement direction in world space
+        private Vector3 velocity;                // Velocity to apply this frame
 
         void Awake()
         {
@@ -56,6 +64,7 @@ namespace Player
             HandleDash(Time.deltaTime);
             HandleMovement(Time.deltaTime);        // Step 3: Calculate velocity
             ApplyMovement(Time.deltaTime);         // Step 4: Apply movement to CharacterController
+            HandleAttack();
         }
 
         // Reads raw WASD input
@@ -138,6 +147,19 @@ namespace Player
             {
                 StartDash();
             }
+            
+            // Tick down dash attack window
+            if (canDashAttack)
+            {
+                dashAttackTimer -= dt;
+                if (dashAttackTimer <= 0f)
+                {
+                    if (!dashAttackConsumed)
+                        Debug.Log("Dash Attack Window Missed!");
+                    
+                    canDashAttack = false;
+                }
+            }
         }
 
         void StartDash()
@@ -146,12 +168,32 @@ namespace Player
             dashTimer = dashDuration;
             dashCooldownTimer = dashCooldown;
             dashDirection = moveDirectionWorld;
+            
+            // Start dash attack window
+            canDashAttack = true;
+            dashAttackConsumed  = false;        // Reset dash attack flag
+            dashAttackTimer = dashAttackWindow;
+            Debug.Log("Dash Started, Attack window open!");
         }
 
         void StopDash()
         {
             isDashing = false;
             dashDirection = Vector3.zero;
+        }
+
+        void HandleAttack()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (canDashAttack && !dashAttackConsumed)
+                {
+                    Debug.Log("Dash Attack");
+                    dashAttackConsumed  = true; // Mark it used
+                    canDashAttack  = false;     // Close window
+                }
+                else Debug.Log("Normal Attack");
+            }
         }
     }
 }
