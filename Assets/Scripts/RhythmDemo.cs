@@ -32,6 +32,9 @@ public class RhythmDemo : MonoBehaviour
     // Currently playing background music.
     [SerializeField] private AudioClip m_CurrentBGM;
 
+    // UI text field that counts the current streak.
+    [SerializeField] private TMPro.TextMeshProUGUI m_TempoUI;
+
     // UI text field that counts the number of hits.
     [SerializeField] private TMPro.TextMeshProUGUI m_NumHitsUICounter;
 
@@ -50,6 +53,12 @@ public class RhythmDemo : MonoBehaviour
     // Audio clip for a feedback sound effect to play for a beat miss.
     [SerializeField] private UnityEngine.AudioClip m_BeatMissSe;
 
+    // Base tempo value in beats per minute.
+    [SerializeField] private int m_BgmTempo = 120;
+
+    // Base pulse-per-quarter-beat value.
+    [SerializeField] private int m_BgmPulsePerBeat = 100;
+
     // Counts how many beats were hit in the current streak.
     private int m_HitStreak = 0;
 
@@ -64,7 +73,7 @@ public class RhythmDemo : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ResetMusic(170, 100);
+        ResetMusic(m_BgmTempo, m_BgmPulsePerBeat);
         ResetCounters();
     }
 
@@ -94,6 +103,7 @@ public class RhythmDemo : MonoBehaviour
     // USED FOR TESTING : Updates the UI to display information to the player concerning rhythm.
     private void UpdateUI()
     {
+        m_TempoUI.text = m_BgmTempo.ToString();
         m_NumHitsUICounter.text = m_NumHits.ToString();
         m_NumMissUICounter.text = m_NumMisses.ToString();
         m_StreakUICounter.text = m_HitStreak.ToString();
