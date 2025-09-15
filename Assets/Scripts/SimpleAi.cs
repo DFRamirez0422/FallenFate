@@ -7,6 +7,8 @@ public class SimpleAi : MonoBehaviour
 
     public Transform player;
 
+    public PlayerHealthN PlayerHealth;
+
     public LayerMask whatIsGround, whatIsPlayer;
 
     //Patroling
@@ -30,6 +32,7 @@ public class SimpleAi : MonoBehaviour
 
     private void Update()
     {
+        PlayerHealth = player.GetComponent<PlayerHealthN>();
         //check for sight and attack range
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -79,6 +82,7 @@ public class SimpleAi : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Attack code
+            PlayerHealth.TakeDamage();
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
