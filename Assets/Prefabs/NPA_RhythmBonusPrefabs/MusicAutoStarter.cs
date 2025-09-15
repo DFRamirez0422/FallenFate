@@ -11,7 +11,8 @@ namespace Player.RhythmBonusPrefabs
             if (!music) music = GetComponent<RhythmMusicPlayer>();
             if (music != null)
             {
-                music.StartSong(0.1); // Schedule start 0.1s in the future
+                // TODO: make the string something dynamic and an actual variable.
+                music.StartSong("Catchy Test", 0.1); // Schedule start 0.1s in the future
                 Debug.Log("[MusicAutoStarter] Music scheduled to start");
             }
         }
