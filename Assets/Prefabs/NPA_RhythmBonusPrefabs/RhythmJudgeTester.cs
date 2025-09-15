@@ -5,7 +5,7 @@ namespace Player.RhythmBonusPrefabs
     /// <summary>
     /// Quick debug helper: press a key to test
     /// </summary>
-    public class RyhthmJudgeTester : MonoBehaviour
+    public class RhythmJudgeTester : MonoBehaviour
     {
         [SerializeField] private RhythmBonusJudge judge;
         [SerializeField] private KeyCode testKey = KeyCode.Mouse0; // Key to sim "attack"
@@ -16,7 +16,7 @@ namespace Player.RhythmBonusPrefabs
             if (Input.GetKeyDown(testKey))
             {
                 var (tier, mult) = judge.EvaluateNow(); // Call the judge
-                Debug.Log($"[Rhyhtm Test] {tier} hit, Multiplier = x{mult}");
+                Debug.Log($"[Rhythm Test] {tier} hit, Multiplier = x{mult}");
             }
         }
     }

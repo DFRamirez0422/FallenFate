@@ -36,7 +36,7 @@ namespace Player.RhythmBonusPrefabs
         }
         
         // Start playback locked to DSP clock
-        public void StartSong(double delaySec = 0.1)
+        public void StartSong(double delaySec = 0.3)
         {
             if (!source || !clip) return;
             
