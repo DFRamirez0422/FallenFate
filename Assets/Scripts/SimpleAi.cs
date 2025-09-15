@@ -20,6 +20,8 @@ public class SimpleAi : MonoBehaviour
     public float timeBetweenAttacks;
     bool alreadyAttacked;
 
+    public bool RangedToogle;
+
     //States 
     public float sightRange, attackRange;
     public bool PlayerInSightRange, PlayerInAttackRange;
