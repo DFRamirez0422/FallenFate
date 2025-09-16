@@ -1,33 +1,35 @@
 using UnityEngine;
+using NPA_Health_Components;
 
-public class Hitbox : MonoBehaviour
+namespace NPA_PlayerPrefab.Scripts
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private AttackData attackData; 
-    private GameObject owner;
-
-    public void Initialize(AttackData data, GameObject ownerObj)
+    public class Hitbox : MonoBehaviour
     {
-        attackData = data;
-        owner = ownerObj;
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        private AttackData attackData; 
+        private GameObject owner;
 
-
-        BoxCollider col = GetComponent<BoxCollider>();
-        if (col != null) col.size = attackData.hitboxSize;
-
-
-        Destroy(GameObject, attackData.attackDuration);
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject == owner) return; //dont hit self
-
-        Health health = other.GetComponent<Health>();
-        if (health != null)
+        public void Initialize(AttackData data, GameObject ownerObj)
         {
-            health.TakeDamage(attackData.damage);
+            attackData = data;
+            owner = ownerObj;
+
+
+            BoxCollider col = GetComponent<BoxCollider>();
+            if (col != null) col.size = attackData.hitboxSize;
+            
+            Destroy(gameObject, attackData.attackDuration);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject == owner) return; //dont hit self
+
+            Health health = other.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(attackData.damage);
+            }
         }
     }
 }

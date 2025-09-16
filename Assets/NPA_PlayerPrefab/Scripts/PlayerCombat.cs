@@ -22,7 +22,7 @@ namespace NPA_PlayerPrefab.Scripts
 
         private void HandleAttackInput()
         {
-           if (Input.GetButtonDown(attackKey) && !isAttacking)
+           if (Input.GetKeyDown(attackKey) && !isAttacking)
            {
                Attack(defaultAttack);
            }
