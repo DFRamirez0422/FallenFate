@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player.NPA_PlayerPrefab.Scripts
+namespace NPA_PlayerPrefab.Scripts
 {
     public class PlayerController : MonoBehaviour
     {

@@ -1,7 +1,7 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-namespace Player.RhythmBonusPrefabs
+namespace NPA_RhythmBonusPrefabs
 {
     public class PulseToBeat : MonoBehaviour
     {
@@ -17,6 +17,10 @@ namespace Player.RhythmBonusPrefabs
         
         [Tooltip("Auto-pulse with beat?")]
         [SerializeField] private bool autoPlay = true;
+
+        [Header("Calibration")]
+        [Tooltip("Extra offset (in seconds) to shift pulses later/earlier")]
+        [SerializeField] private float pulseOffsetSec = 0f;
         
         private Vector3 startSize; // Original scale of UI
         
@@ -47,7 +51,7 @@ namespace Player.RhythmBonusPrefabs
             if (music == null || music.BPM <= 0) yield break;
             
             double beatSec = 60 / (music.BPM * subdivision);
-            double nextBeat = music.SongStartDSP;
+            double nextBeat = music.SongStartDSP + pulseOffsetSec + beatSec;
             
             while (AudioSettings.dspTime < nextBeat)
                 yield return null;

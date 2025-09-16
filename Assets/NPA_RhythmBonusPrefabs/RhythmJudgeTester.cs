@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player.RhythmBonusPrefabs
+namespace NPA_RhythmBonusPrefabs
 {
     /// <summary>
     /// Quick debug helper: press a key to test
