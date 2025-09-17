@@ -39,6 +39,7 @@ namespace Player.RhythmBonusPrefabs
         public (RhythmTier tier, float multiplier) EvaluateNow()
         {
             if (music == null) return (RhythmTier.Miss, missMult);
+            if (!music.IsPlaying) return (RhythmTier.Miss, missMult);
             
             // Get current elapsed song time in seconds (DSP-accurate) 
             double elapsedSec = music.GetElapsedSec() + latencyOffsetSec;

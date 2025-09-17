@@ -93,6 +93,9 @@ namespace Player.RhythmBonusPrefabs
         // TODO: ONLY USED FOR TESTING : please remove when finished.
         private void UpdateUI()
         {
+            // If the UI doesn't exist, return immediately.
+            if (!m_TempoUI) return;
+
             m_TempoUI.text = m_MusicPlayer.BPM.ToString();
             m_NumHitsPerfectUI.text = m_NumPerfectHits.ToString();
             m_NumHitsGoodUI.text = m_NumGoodHits.ToString();

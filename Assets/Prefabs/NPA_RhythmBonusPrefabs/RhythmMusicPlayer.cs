@@ -11,21 +11,24 @@ namespace Player.RhythmBonusPrefabs
     {
         [Header("Audio")]
         [SerializeField] private AudioSource source; // Reference to AudioSource
+        [SerializeField] private MusicDictionary m_MusicDictionary; // Reference to the script to retrieve songs by their names.
+        
+        [Tooltip("Song speed as a multiplier relative to the base tempo.")]
         [SerializeField] private float m_TempoRate = 1.0f; // change the rhythm tempo without affecting the base value
+        
+        [Tooltip("Whether or not to loop the song once it reaches the end.")]
         [SerializeField] private bool loop = true;   // Use Unity's built-in looping
         
         private float bpm = 120f; // Beats per minute used by the code
+        private bool m_IsPlaying = false; // Boolean flag to determine whether or not a song is playing.
         
         // Public values read by RhythmBonusJudge
         public double SongStartDSP { get; private set; } = 0.0;                 // DSP time when beat 0 began
         public float BPM          => bpm * m_TempoRate;                         // Return BPM after modifying
         public float BeatSec      => (bpm > 0f) ? 60f / bpm * m_TempoRate : 0f; // Seconds per quarter note
+        public bool IsPlaying     => m_IsPlaying;                               // Whether or not a song is playing.
 
         private bool playing = false; // Is music currently playing?
-
-        // This variable added by Jose E.
-        // Reference to the script to retrieve songs by their names.
-        private MusicDictionary m_MusicDictionary;
         
         void Reset()
         {
@@ -48,6 +51,8 @@ namespace Player.RhythmBonusPrefabs
             // Retrieve the song by its name and check if it exists. If it doesn't,
             // return as there's nothing else to be done.
             var song_entry = m_MusicDictionary.GetMusicByName(song_name);
+            m_IsPlaying = (song_entry is not null);
+
             if (song_entry is null) return;
 
             // Change tempo related variables.
