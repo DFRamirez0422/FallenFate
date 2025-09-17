@@ -1,3 +1,4 @@
+using NPA_Health_Components;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +8,7 @@ public class SimpleAi : MonoBehaviour
 
     public Transform player;
 
-    public PlayerHealthN PlayerHealth;
+    public Health PlayerHealth;
 
     public LayerMask whatIsGround, whatIsPlayer;
     
@@ -38,7 +39,7 @@ public class SimpleAi : MonoBehaviour
 
     private void Update()
     {
-        PlayerHealth = player.GetComponent<PlayerHealthN>();
+        PlayerHealth = player.GetComponent<Health>();
         //check for sight and attack range
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -94,7 +95,7 @@ public class SimpleAi : MonoBehaviour
             }
             else
             {
-                PlayerHealth.TakeDamage();
+                PlayerHealth.TakeDamage(10);
             }
 
                 alreadyAttacked = true;
