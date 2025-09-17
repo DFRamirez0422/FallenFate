@@ -43,6 +43,7 @@ namespace NPA_PlayerPrefab.Scripts
         private Vector2 inputVector;             // Raw WASD input
         private Vector3 moveDirectionWorld;      // Final movement direction in world space
         private Vector3 velocity;                // Velocity to apply this frame
+        public Vector3 facingDirection => moveDirectionWorld != Vector3.zero ? moveDirectionWorld : transform.forward;
 
         void Awake()
         {

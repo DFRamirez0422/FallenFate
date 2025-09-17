@@ -9,5 +9,6 @@ namespace NPA_PlayerPrefab.Scripts
         public int damage = 10;
         public float attackDuration = 0.3f; // In seconds
         public Vector3 hitboxSize = new Vector3(1f, 1f, 1f);
+        public Vector3 hitboxOffset;
     }
 }
