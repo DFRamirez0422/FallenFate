@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace Player.RhythmBonusPrefabs
 {
+    using Tier = RhythmBonusJudge.RhythmTier;
+
     /// <summary>
     /// Quick debug helper: press a key to test
     /// </summary>
@@ -53,30 +55,32 @@ namespace Player.RhythmBonusPrefabs
             if (Input.GetKeyDown(testKey))
             {
                 var (tier, mult) = judge.EvaluateNow(); // Call the judge
-                Debug.Log($"[Rhyhtm Test] {tier} hit, Multiplier = x{mult}");
+                string tier_name = System.Enum.GetName(typeof(Tier), tier); // Retrieve the name of the tier for printing.
 
                 // Below section added by Jose E.
-                // I would suggest using enums rather than strings to avoid costly
-                // comparisons as well as potential for spelling mistakes.
-                // Otherwise, this showcases how we can integrate the evaluation
-                // results to the rest of the game. The question is, how does
-                // external code refer to the results?
+                // This showcases how we might integrate the evaluation results to the rest of the
+                // game. The question is, how does external code refer to the results?
                 switch (tier)
                 {
-                    case "Perfect":
+                    case Tier.Perfect:
+                        tier_name = "Perfect";
                         m_NumPerfectHits += 1;
                         m_HitStreak += 1;
                         break;
-                    case "Good":
+                    case Tier.Good:
+                        tier_name = "Good";
                         m_NumGoodHits += 1;
                         m_HitStreak += 1;
                         break;
-                    case "Miss":
+                    case Tier.Miss:
                     default:
+                        tier_name = "Miss";
                         m_NumMisses += 1;
                         m_HitStreak = 0;
                         break;
                 }
+
+                Debug.Log($"[Rhyhtm Test] {tier_name} hit, Multiplier = x{mult}");
             }
 
             // Below section added by Jose E.

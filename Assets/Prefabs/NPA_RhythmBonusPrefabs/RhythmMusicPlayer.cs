@@ -17,9 +17,9 @@ namespace Player.RhythmBonusPrefabs
         private float bpm = 120f; // Beats per minute used by the code
         
         // Public values read by RhythmBonusJudge
-        public double SongStartDSP { get; private set; } = 0.0;   // DSP time when beat 0 began
-        public float BPM          => bpm;                         // Return BPM
-        public float BeatSec      => (bpm > 0f) ? 60f / bpm : 0f; // Seconds per quarter note
+        public double SongStartDSP { get; private set; } = 0.0;                 // DSP time when beat 0 began
+        public float BPM          => bpm * m_TempoRate;                         // Return BPM after modifying
+        public float BeatSec      => (bpm > 0f) ? 60f / bpm * m_TempoRate : 0f; // Seconds per quarter note
 
         private bool playing = false; // Is music currently playing?
 
