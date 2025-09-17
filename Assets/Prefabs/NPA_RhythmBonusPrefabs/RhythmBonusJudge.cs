@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player.RhythmBonusPrefabs
+namespace NPA_RhythmBonusPrefabs
 {
     /// <summary>
     /// Judges attack timing against the music grid

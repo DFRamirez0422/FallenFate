@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player.RhythmBonusPrefabs
+namespace NPA_RhythmBonusPrefabs
 {
     /// <summary>
     ///  Plays music locked to DSP time
