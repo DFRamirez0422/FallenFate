@@ -10,6 +10,10 @@ public class SimpleAi : MonoBehaviour
     public PlayerHealthN PlayerHealth;
 
     public LayerMask whatIsGround, whatIsPlayer;
+    
+    // Shooting
+    public Transform bulletPoint;
+    public GameObject ShotPrefab;
 
     //Patroling
     public Vector3 walkPoint;
@@ -84,9 +88,16 @@ public class SimpleAi : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Attack code
-            PlayerHealth.TakeDamage();
+            if (RangedToogle == true)
+            {
+                Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+            }
+            else
+            {
+                PlayerHealth.TakeDamage();
+            }
 
-            alreadyAttacked = true;
+                alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
