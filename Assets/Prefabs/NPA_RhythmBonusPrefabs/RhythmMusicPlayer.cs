@@ -9,18 +9,12 @@ namespace Player.RhythmBonusPrefabs
     [RequireComponent(typeof(MusicDictionary))]
     public class RhythmMusicPlayer : MonoBehaviour
     {
-        // TODO: Note by Jose E.
-        // Delete these variables to make way for a modular approach to specifying songs instead.
         [Header("Audio")]
         [SerializeField] private AudioSource source; // Reference to AudioSource
-        [SerializeField] private AudioClip clip;     // The song to play
+        [SerializeField] private float m_TempoRate = 1.0f; // change the rhythm tempo without affecting the base value
         [SerializeField] private bool loop = true;   // Use Unity's built-in looping
         
-        // TODO: Note by Jose E.
-        // Delete this variable to make way for a modular approach to specifying songs instead.
-        [Header("Tempo")]
-        [Tooltip("Quarter-note BPM of this track")]
-        [SerializeField] private float bpm = 120f; // Beats per minute
+        private float bpm = 120f; // Beats per minute used by the code
         
         // Public values read by RhythmBonusJudge
         public double SongStartDSP { get; private set; } = 0.0;   // DSP time when beat 0 began
@@ -42,7 +36,6 @@ namespace Player.RhythmBonusPrefabs
         {
             if (!m_MusicDictionary) m_MusicDictionary = GetComponent<MusicDictionary>();
             if (!source) source = GetComponent<AudioSource>(); // Ensure source exists
-            if (clip) source.clip = clip;                      // Load song if set 
         }
         
         // Start playback locked to DSP clock
@@ -56,10 +49,9 @@ namespace Player.RhythmBonusPrefabs
             if (song_entry is null) return;
 
             // Change tempo related variables.
-            bpm = song_entry.Value.m_Tempo;
+            bpm = song_entry.Value.m_Tempo * m_TempoRate;
 
-            // TODO: remove this line.
-            if (!source || !clip) return;
+            if (!source) return;
             
             source.clip = song_entry.Value.m_MusicClip; // Assign clip to AudioSource
             source.playOnAwake = false;                 // Don't autoplay
