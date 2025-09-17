@@ -45,11 +45,11 @@ namespace NPA_PlayerPrefab.Scripts
 
             GameObject hb = Instantiate(hitBoxPrefab, spawnPos, facingRot);
 
-            //Hitbox hbComp = hb.GetComponent<Hitbox>();
-            //if (hbComp != null)
-            //{
-            //    hbComp.Initialize(attackData, this.gameObject);
-            //}
+            Hitbox hbComp = hb.GetComponent<Hitbox>();
+            if (hbComp != null)
+            {
+                hbComp.Initialize(attackData, this.gameObject);
+            }
             
             Invoke(nameof(ResetAttack), attackData.attackDuration);
         }
