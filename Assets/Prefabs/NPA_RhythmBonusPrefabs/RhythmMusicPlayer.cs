@@ -44,11 +44,14 @@ namespace Player.RhythmBonusPrefabs
         // - Added argument for specifying the song name to be looked up by the music player.
         public void StartSong(string song_name, double delaySec = 0.1)
         {
-            // Bottom lines added by Jose E.
+            // Jose E.
+            // Retrieve the song by its name and check if it exists. If it doesn't,
+            // return as there's nothing else to be done.
             var song_entry = m_MusicDictionary.GetMusicByName(song_name);
             if (song_entry is null) return;
 
             // Change tempo related variables.
+            // TODO: how to make tempo rate affect the tempo mid-song? Is this even needed?
             bpm = song_entry.Value.m_Tempo * m_TempoRate;
 
             if (!source) return;

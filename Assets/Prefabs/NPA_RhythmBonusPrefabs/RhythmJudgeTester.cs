@@ -56,6 +56,11 @@ namespace Player.RhythmBonusPrefabs
                 Debug.Log($"[Rhyhtm Test] {tier} hit, Multiplier = x{mult}");
 
                 // Below section added by Jose E.
+                // I would suggest using enums rather than strings to avoid costly
+                // comparisons as well as potential for spelling mistakes.
+                // Otherwise, this showcases how we can integrate the evaluation
+                // results to the rest of the game. The question is, how does
+                // external code refer to the results?
                 switch (tier)
                 {
                     case "Perfect":
@@ -80,6 +85,8 @@ namespace Player.RhythmBonusPrefabs
         
         // Added by Jose E.
         // Updates the UI to display information to the player concerning rhythm.
+        //
+        // TODO: ONLY USED FOR TESTING : please remove when finished.
         private void UpdateUI()
         {
             m_TempoUI.text = m_MusicPlayer.BPM.ToString();
