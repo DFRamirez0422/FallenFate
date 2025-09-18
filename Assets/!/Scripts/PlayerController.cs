@@ -25,8 +25,9 @@ namespace NPA_PlayerPrefab.Scripts
         [Tooltip("How long before player can dash again")]
         [SerializeField] private float dashCooldown = 1f;
 
-        [Header("Dash Attack Settings")] [Tooltip("Timing window to perform dash attack")] [SerializeField]
-        private float dashAttackWindow = .5f;
+        [Header("Dash Attack Settings")] 
+        [Tooltip("Timing window to perform dash attack")] 
+        [SerializeField] private float dashAttackWindow = .5f;
         
         // Internal dash state
         private bool isDashing = false;
@@ -38,11 +39,20 @@ namespace NPA_PlayerPrefab.Scripts
         private bool canDashAttack = false;      // Is player within dash attack window?
         private float dashAttackTimer = 0f;      // Counts down remaining time of dash attack window
         private bool dashAttackConsumed = false; // Was dash attack used during this window?
+        
+        // Exposed read-only property for PlayerCombat
+        public bool DashAttackWindowActive => canDashAttack && !dashAttackConsumed;
 
         // Input and movement
         private Vector2 inputVector;             // Raw WASD input
         private Vector3 moveDirectionWorld;      // Final movement direction in world space
-        private Vector3 velocity;                // Velocity to apply this frame
+        private Vector3 lastFacingDirection = Vector3.right; // Default idle facing direction
+        private Vector3 velocity;                // Current velocity applied
+        public Vector3 FacingDirection => 
+            moveDirectionWorld != Vector3.zero ? moveDirectionWorld : lastFacingDirection;
+        
+        private bool attackLocked = false;       // Locks movement when true
+        public void SetAttackLock(bool value) => attackLocked = value;
 
         void Awake()
         {
@@ -64,7 +74,6 @@ namespace NPA_PlayerPrefab.Scripts
             HandleDash(Time.deltaTime);
             HandleMovement(Time.deltaTime);        // Step 3: Calculate velocity
             ApplyMovement(Time.deltaTime);         // Step 4: Apply movement to CharacterController
-            HandleAttack();
         }
 
         // Reads raw WASD input
@@ -86,7 +95,7 @@ namespace NPA_PlayerPrefab.Scripts
                 return;
             }
 
-            // Get the camera's forward direction, flattened (no vertical tilt)
+            // Camera-relative axes
             Vector3 camForward = mainCamera.transform.forward;
             camForward.y = 0f;
             camForward.Normalize();
@@ -101,6 +110,10 @@ namespace NPA_PlayerPrefab.Scripts
 
             // Normalize to prevent faster diagonal movement
             moveDirectionWorld = direction.sqrMagnitude > 1f ? direction.normalized : direction;
+            
+            // Update last facing if moving
+            if (moveDirectionWorld != Vector3.zero)
+                lastFacingDirection = moveDirectionWorld;
         }
 
         // Sets velocity using calculated movement direction
@@ -110,9 +123,13 @@ namespace NPA_PlayerPrefab.Scripts
             {
                 velocity = dashDirection * dashSpeed;
             }
-            else
+            else if (!attackLocked) // Only move if not attacking
             {
                 velocity = moveDirectionWorld * moveSpeed;
+            }
+            else
+            {
+                velocity = Vector3.zero; //  Freeze during attack
             }
         }
 
@@ -125,6 +142,7 @@ namespace NPA_PlayerPrefab.Scripts
             controller.Move((velocity + snapDown) * dt);
         }
         
+        // Handles dash input, timers, and dash attack window
         void HandleDash(float dt)
         {
             // Check if dash was pressed this frame (SPACE/B)
@@ -136,6 +154,7 @@ namespace NPA_PlayerPrefab.Scripts
 
             if (isDashing)
             {
+                // Tick down active dash timer
                 dashTimer -= dt;
                 if (dashTimer <= 0f)
                     StopDash();
@@ -148,7 +167,7 @@ namespace NPA_PlayerPrefab.Scripts
                 StartDash();
             }
             
-            // Tick down dash attack window
+            // While dash attack window is active, tick down its timer
             if (canDashAttack)
             {
                 dashAttackTimer -= dt;
@@ -165,35 +184,28 @@ namespace NPA_PlayerPrefab.Scripts
         void StartDash()
         {
             isDashing = true;
-            dashTimer = dashDuration;
-            dashCooldownTimer = dashCooldown;
-            dashDirection = moveDirectionWorld;
-            
-            // Start dash attack window
+            dashTimer = dashDuration;           // Reset dash duration timer
+            dashCooldownTimer = dashCooldown;   // Set cooldown before next dash
+            dashDirection = moveDirectionWorld; // Lock direction at dash start
+    
+            // Open dash attack window
             canDashAttack = true;
-            dashAttackConsumed  = false;        // Reset dash attack flag
-            dashAttackTimer = dashAttackWindow;
+            dashAttackConsumed  = false;        // Reset attack usage flag
+            dashAttackTimer = dashAttackWindow; // Window countdown
             Debug.Log("Dash Started, Attack window open!");
         }
 
         void StopDash()
         {
             isDashing = false;
-            dashDirection = Vector3.zero;
+            dashDirection = Vector3.zero; // Clear direction
         }
 
-        void HandleAttack()
+        // Called by PlayerCombat once dash attack is executed
+        public void ConsumeDashAttack()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (canDashAttack && !dashAttackConsumed)
-                {
-                    Debug.Log("Dash Attack");
-                    dashAttackConsumed  = true; // Mark it used
-                    canDashAttack  = false;     // Close window
-                }
-                else Debug.Log("Normal Attack");
-            }
+            dashAttackConsumed = true; // Mark that player used dash attack
+            canDashAttack = false;     // Immediately close the window
         }
     }
 }
