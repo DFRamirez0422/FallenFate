@@ -648,7 +648,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 009ebf3b65369384eb2dc887aa552796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 25
+  maxHealth: 50
+--- !u!54 &487328316
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487328308}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &560426411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4464237075027044, guid: 15eeb30f457f3da4e9514031c235f7ac, type: 3}
@@ -1284,7 +1311,7 @@ Transform:
   m_GameObject: {fileID: 859387703}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.09, y: 0, z: -2.5}
+  m_LocalPosition: {x: 4.09, y: 0, z: 8.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2156,6 +2183,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 615121276234995555, guid: f4b1a306d277255499e8ff9968a8a328, type: 3}
       insertIndex: -1
       addedObject: {fileID: 487328315}
+    - targetCorrespondingSourceObject: {fileID: 615121276234995555, guid: f4b1a306d277255499e8ff9968a8a328, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 487328316}
   m_SourcePrefab: {fileID: 100100000, guid: f4b1a306d277255499e8ff9968a8a328, type: 3}
 --- !u!1 &1877178961 stripped
 GameObject:
