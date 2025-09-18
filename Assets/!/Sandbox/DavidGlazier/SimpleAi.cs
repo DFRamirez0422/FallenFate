@@ -2,51 +2,61 @@ using NPA_Health_Components;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class SimpleAi : MonoBehaviour
 {
     public NavMeshAgent agent;
 
-    public Transform player;
-
-    public Health Health;
+    public Transform player;              // assign in Inspector or found in Awake
+    public Health Health;                 // this enemy's own health
 
     public LayerMask whatIsGround, whatIsPlayer;
-    
+
     // Shooting
     public Transform bulletPoint;
     public GameObject ShotPrefab;
 
-    //Patroling
+    // Patrolling
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
 
-    //Attacking 
-    public float timeBetweenAttacks;
+    // Attacking
+    public float timeBetweenAttacks = 1f;
     bool alreadyAttacked;
-
     public bool RangedToogle;
 
-    //States 
-    public float sightRange, attackRange;
+    // States
+    public float sightRange = 10f, attackRange = 2f;
     public bool PlayerInSightRange, PlayerInAttackRange;
 
-    private void Awaked()
+    // ---- FIX: declare & use this instead of undefined 'PlayerHealth'
+    private Health playerHealth;
+
+    private void Awake() // FIX: Unity method name
     {
-        player = GameObject.Find("Sprite").transform;
+        if (player == null)
+        {
+            // Prefer a tag on your player object: tag it "Player"
+            var p = GameObject.FindWithTag("Player");
+            if (p != null) player = p.transform;
+        }
+
         agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        PlayerHealth = player.GetComponent<Health>();
-        //check for sight and attack range
-        PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        if (player != null && playerHealth == null)
+            playerHealth = player.GetComponent<Health>(); // FIX: cache the component
+
+        // check for sight and attack range
+        PlayerInSightRange  = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
         if (!PlayerInSightRange && !PlayerInAttackRange) Patrolling();
-        if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();
-        if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();
+        if (PlayerInSightRange && !PlayerInAttackRange)  ChasePlayer();
+        if (PlayerInSightRange && PlayerInAttackRange)   AttackPlayer();
     }
 
     private void Patrolling()
@@ -58,49 +68,55 @@ public class SimpleAi : MonoBehaviour
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        //Walkpoint reached
+        // Walk point reached
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
     }
 
     private void SearchWalkPoint()
     {
-        //Calculate random point in range
+        // Calculate random point in range
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        walkPoint = new Vector3(transform.position.x + randomX,
+                                transform.position.y,
+                                transform.position.z + randomZ);
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        if (Physics.Raycast(walkPoint + Vector3.up, Vector3.down, 2f, whatIsGround))
             walkPointSet = true;
     }
+
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        if (player != null)
+            agent.SetDestination(player.position);
     }
 
     private void AttackPlayer()
     {
-        //Make sure enemy doesn't move
+        // Make sure enemy doesn't move
         agent.SetDestination(transform.position);
 
-        transform.LookAt(player);
+        if (player != null)
+            transform.LookAt(player);
 
-        if (!alreadyAttacked)
+        if (alreadyAttacked) return;
+
+        // Attack code
+        if (RangedToogle)
         {
-            //Attack code
-            if (RangedToogle == true)
-            {
+            if (ShotPrefab != null && bulletPoint != null)
                 Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
-            }
-            else
-            {
-                PlayerHealth.TakeDamage(10);
-            }
-
-                alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+        else
+        {
+            if (playerHealth != null)
+                playerHealth.TakeDamage(10); // FIX: use declared variable
+        }
+
+        alreadyAttacked = true;
+        Invoke(nameof(ResetAttack), timeBetweenAttacks);
     }
 
     private void ResetAttack()
