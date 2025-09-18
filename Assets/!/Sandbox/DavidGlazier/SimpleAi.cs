@@ -8,7 +8,7 @@ public class SimpleAi : MonoBehaviour
 
     public Transform player;
 
-    public Health PlayerHealth;
+    public Health Health;
 
     public LayerMask whatIsGround, whatIsPlayer;
     
