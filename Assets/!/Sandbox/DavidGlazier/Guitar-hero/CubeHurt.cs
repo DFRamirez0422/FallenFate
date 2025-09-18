@@ -20,7 +20,7 @@ public class CubeHurt : MonoBehaviour
         if (other.CompareTag("Player") && playerHealth != null)
         {
             playerHealth.TakeDamage(damage);
-            print("player took projectile damage");
+            print($"player took {damage} projectile");
             Destroy(gameObject);
         }
     }
