@@ -1180,37 +1180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aded312a557ec24691e99bcda1ab968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &897175226
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 897175227}
-  m_Layer: 0
-  m_Name: Hitbox Spawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &897175227
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 897175226}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.002, y: 1.036, z: -0.029}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 448228714}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &906530123 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2340839409254425529, guid: 35ab4b060c0e3c6429b8a7c82dbcdd72, type: 3}
@@ -1874,10 +1843,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b729a0fec2cf5c142ba90843f01ef6ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackSpawnPoint: {fileID: 897175227}
   hitBoxPrefab: {fileID: 4975051620370011707, guid: 0da87ef69d4fa8d47bda59492be5c3bf, type: 3}
   defaultAttack: {fileID: 11400000, guid: 39739baa0e5222a439a1f66d987ee76c, type: 2}
+  playerController: {fileID: 1877178963}
+  dashAttackData: {fileID: 11400000, guid: a4e3739f836909541af090b7ff1506d5, type: 2}
   attackKey: 323
+--- !u!114 &1877178963 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2357863302574831891, guid: 8af3246346d111848b27dcea3fe6c54b, type: 3}
+  m_PrefabInstance: {fileID: 5005389496267945100}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877178961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9e110f3f503484aadfedd838c78c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1967423085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4400385367350492, guid: 9fc36df6c286ca14d8f14a5310be6c78, type: 3}
@@ -2128,7 +2109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1767950326230091009, guid: 1d8a2bba8bfbc4f4e86796326240908f, type: 3}
       propertyPath: m_Volume
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6002349010981674730, guid: 1d8a2bba8bfbc4f4e86796326240908f, type: 3}
       propertyPath: m_Name
@@ -2209,10 +2190,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b4e2a56f192626341b05d943fd1f2d01, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5727177107550828939, guid: 8af3246346d111848b27dcea3fe6c54b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 897175227}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2344414788718996121, guid: 8af3246346d111848b27dcea3fe6c54b, type: 3}
       insertIndex: -1

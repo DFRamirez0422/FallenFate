@@ -5,66 +5,72 @@ namespace NPA_PlayerPrefab.Scripts
     public class PlayerCombat : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private Transform attackSpawnPoint; // Where hitbox spawns
-        [SerializeField] private GameObject hitBoxPrefab;    // Hitbox prefab
-        [SerializeField] private AttackData defaultAttack;   // Attack stats
-        [SerializeField] private PlayerController playerController; //reference direction for spawning hitbox
-        [SerializeField] private bool showGizmo = false; // Toggle gizmo in editor
+        // [SerializeField] private Transform attackSpawnPoint; // Where hitbox spawns
+        [SerializeField] private GameObject hitBoxPrefab;           // Hitbox prefab
+        [SerializeField] private AttackData defaultAttack;          // Attack stats
+        [SerializeField] private PlayerController playerController; // Reads facing & dash state
+        [SerializeField] private AttackData dashAttackData;         // Special dash attack data
         
         [Header("Input Settings")]
         [SerializeField] private KeyCode attackKey = KeyCode.Mouse0; // Basic attack button
 
-        private bool isAttacking = false;
+        private bool isAttacking = false; // Prevents attack spamming
         
-        // Update is called once per frame
         void Update()
         {
-            HandleAttackInput();
+            HandleAttackInput(); // Check for player input each frame
         }
 
         private void HandleAttackInput()
         {
+            // Only trigger an attack if not already mid-attack
            if (Input.GetKeyDown(attackKey) && !isAttacking)
            {
-               Attack(defaultAttack);
+               // Use DashAttack if within dash window, else normal attack
+               if (playerController.DashAttackWindowActive)
+               {
+                   Attack(dashAttackData);
+                   playerController.ConsumeDashAttack();
+               }
+               else
+               {
+                   Attack(defaultAttack);
+               }
            }
         }
         
         private void Attack(AttackData attackData)
         {
-            if (attackData == null || hitBoxPrefab == null || attackSpawnPoint == null) return;
+            if (attackData == null || hitBoxPrefab == null) return;
             
             isAttacking = true;
+            playerController.SetAttackLock(true); // Freeze movement during attack
 
-            // Spawn hitbox
-            Vector3 facing = playerController.facingDirection;
-            Quaternion facingRot = Quaternion.LookRotation(facing, Vector3.up);
+            // Build facing rotation (direction from controller + attack-specific offset)
+            Vector3 facing = playerController.FacingDirection;
+            Quaternion facingRot = Quaternion.LookRotation(facing, Vector3.up)
+                                   * Quaternion.Euler(attackData.rotationOffset);
 
-            //Apply offset when using AttackData
-            Vector3 spawnPos = attackSpawnPoint.position + facingRot * attackData.hitboxOffset;
+            // Spawn position relative to player
+            Vector3 spawnPos = transform.position + facingRot * attackData.hitboxOffset;
 
-            GameObject hb = Instantiate(hitBoxPrefab, spawnPos, facingRot);
+            // Spawn hitbox under player
+            GameObject hb = Instantiate(hitBoxPrefab, spawnPos, facingRot, transform);
 
+            // Initialize with attack parameters
             Hitbox hbComp = hb.GetComponent<Hitbox>();
             if (hbComp != null)
             {
                 hbComp.Initialize(attackData, this.gameObject);
             }
-            
+            // End attack after its duration
             Invoke(nameof(ResetAttack), attackData.attackDuration);
         }
-        private void OnDrawGizmos()
-        {
-            if (!showGizmo) return;
-            BoxCollider col = GetComponent<BoxCollider>();
-            if (col != null) return;
-            Gizmos.color = Color.green;
-            Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawWireCube(col.center, col.size);
-        }
+        
         private void ResetAttack()
         {
             isAttacking = false;
+            playerController.SetAttackLock(false); // Unlock movement after attack ends
         }
     }
 }
