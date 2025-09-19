@@ -140,8 +140,8 @@ public class ChartOnFunction : MonoBehaviour
         // Example: quick mouse test (left click to evaluate a hit)
         if (Input.GetKeyDown(KeyCode.Mouse0)) // or: if (Input.GetMouseButtonDown(0))
         {
-            var res = EvaluateHitNow();
-            Debug.Log($"HIT: {res.tier}");
+        var res = EvaluateHitNow();
+        Debug.Log($"HIT: {res.tier}  err={res.errorSec * 1000f:F0}ms  note={res.noteIndex}");
         }
 
     }
