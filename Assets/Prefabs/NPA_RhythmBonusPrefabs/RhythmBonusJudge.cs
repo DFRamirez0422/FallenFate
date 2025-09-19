@@ -29,6 +29,8 @@ namespace NPA_RhythmBonusPrefabs
         [SerializeField] private float latencyOffsetSec = 0f;   // Offset to compensate for device/controller lag
 
         // Enumeration to be returned by EvaluateNow() to determine how well the beat was hit to the rhythm.
+        // If there are more multiplier bonuses planned, PLEASE write them in the enum to ensure they are
+        // evluated correctly!
         public enum RhythmTier
         {
             Perfect,

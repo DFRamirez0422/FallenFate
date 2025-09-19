@@ -25,7 +25,7 @@ namespace NPA_RhythmBonusPrefabs
         // Public values read by RhythmBonusJudge
         public double SongStartDSP { get; private set; } = 0.0;                 // DSP time when beat 0 began
         public float BPM          => bpm * m_TempoRate;                         // Return BPM after modifying
-        public float BeatSec      => (bpm > 0f) ? 60f / bpm * m_TempoRate : 0f; // Seconds per quarter note
+        public float BeatSec      => (bpm > 0f) ? 60f / (bpm * m_TempoRate) : 0f; // Seconds per quarter note
         public bool IsPlaying     => m_IsPlaying;                               // Whether or not a song is playing.
 
         private bool playing = false; // Is music currently playing?
@@ -57,7 +57,7 @@ namespace NPA_RhythmBonusPrefabs
 
             // Change tempo related variables.
             // TODO: how to make tempo rate affect the tempo mid-song? Is this even needed?
-            bpm = song_entry.Value.m_Tempo * m_TempoRate;
+            bpm = song_entry.Value.m_Tempo;
 
             if (!source) return;
             
