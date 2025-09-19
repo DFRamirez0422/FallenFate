@@ -22,7 +22,7 @@ public class ChartManager : MonoBehaviour
     public float latencyOffsetSec = 0f;
 
     [Header("Lane & Target")]
-    [Tooltip("Five lane anchors (index 0..4). X is ignored at spawn; Y/Z/rot define lane row.")]
+    [Tooltip("Five lane anchors (index 0..4). X is ignored at spawn; Y/Z/rot define the lane row.")]
     public Transform[] laneAnchors = new Transform[5];
     [Tooltip("Right-side target; notes destroy when they reach this x.")]
     public Transform target;
@@ -39,8 +39,12 @@ public class ChartManager : MonoBehaviour
     public int[] laneRemap = new int[5] { 0, 1, 2, 3, 4 };
 
     [Header("Prefabs & Pooling")]
+    [Tooltip("Fallback prefab if a lane-specific prefab is not provided.")]
     public GameObject notePrefab;
-    public int initialPool = 64;
+    [Tooltip("Optional: lane-specific prefabs (0..4). If null, uses fallback 'notePrefab'.")]
+    public GameObject[] lanePrefabs = new GameObject[5];
+    [Tooltip("Initial pool size per lane (also used for the fallback pool).")]
+    public int initialPoolPerLane = 24;
 
     [Header("Debug")]
     public bool autoStart = true;
@@ -55,8 +59,10 @@ public class ChartManager : MonoBehaviour
     private double songStartTime;
     private bool running;
 
-    private readonly Queue<GameObject> pool = new Queue<GameObject>();
-    private Transform poolRoot;
+    // pools: 5 lane pools + 1 default pool
+    private readonly Queue<GameObject>[] lanePools = new Queue<GameObject>[5];
+    private readonly Queue<GameObject> defaultPool = new Queue<GameObject>();
+    private Transform poolsRoot;
 
     [Serializable]
     private struct ChartNote { public double timeSec; public int lane; }
@@ -91,10 +97,21 @@ public class ChartManager : MonoBehaviour
 
     void Awake()
     {
-        poolRoot = new GameObject("NotePool").transform;
-        poolRoot.SetParent(transform, false);
+        poolsRoot = new GameObject("NotePools").transform;
+        poolsRoot.SetParent(transform, false);
+
+        // init per-lane pools
+        for (int i = 0; i < 5; i++)
+        {
+            lanePools[i] = new Queue<GameObject>();
+            var prefab = GetPrefabForLane(i);
+            if (prefab != null)
+                WarmPool(lanePools[i], prefab, initialPoolPerLane, $"Lane{i}_");
+        }
+
+        // also warm default pool if needed later
         if (notePrefab != null)
-            for (int i = 0; i < Mathf.Max(1, initialPool); i++) Enqueue(NewNote());
+            WarmPool(defaultPool, notePrefab, initialPoolPerLane, "Default_");
     }
 
     void Start()
@@ -127,7 +144,12 @@ public class ChartManager : MonoBehaviour
     {
         if (target == null) { Debug.LogError("[ChartManager] Assign a target Transform."); return; }
         if (laneAnchors == null || laneAnchors.Length != 5) { Debug.LogError("[ChartManager] Provide exactly 5 lane anchors."); return; }
-        if (notePrefab == null) { Debug.LogError("[ChartManager] Assign a note prefab."); return; }
+
+        // Validate at least one prefab exists among lanePrefabs or fallback
+        bool hasAnyPrefab = notePrefab != null;
+        if (!hasAnyPrefab)
+            for (int i = 0; i < 5; i++) if (lanePrefabs[i] != null) { hasAnyPrefab = true; break; }
+        if (!hasAnyPrefab) { Debug.LogError("[ChartManager] No prefabs assigned (neither fallback nor any lane prefab)."); return; }
 
         string fullPath = Path.Combine(songFolder, chartFileName);
         if (!File.Exists(fullPath)) { Debug.LogError("[ChartManager] Chart not found: " + fullPath); return; }
@@ -154,13 +176,11 @@ public class ChartManager : MonoBehaviour
             foreach (var n in raw)
             {
                 bool[] buttons = n.ButtonIndexes; // GH frets Green..Orange
-                // Safety: some charts/tools may have longer arrays; we only care about first 5
                 int max = Mathf.Min(buttons?.Length ?? 0, 5);
                 if (max == 0)
                 {
-                    // Fallback: if ButtonIndexes is missing/empty (very rare), just assume fret 0
-                    int mapped = (laneRemap != null && laneRemap.Length == 5) ? Mathf.Clamp(laneRemap[0], 0, 4) : 0;
-                    allNotes.Add(new ChartNote { timeSec = n.Seconds, lane = mapped });
+                    int mappedFallback = (laneRemap != null && laneRemap.Length == 5) ? Mathf.Clamp(laneRemap[0], 0, 4) : 0;
+                    allNotes.Add(new ChartNote { timeSec = n.Seconds, lane = mappedFallback });
                     continue;
                 }
 
@@ -176,14 +196,13 @@ public class ChartManager : MonoBehaviour
             }
         }
 
-        // Sort by time so spawns are chronological even after chord expansion
+        // Sort by time then lane so spawns are deterministic for chords
         allNotes.Sort((a, b) =>
         {
             int c = a.timeSec.CompareTo(b.timeSec);
             return c != 0 ? c : a.lane.CompareTo(b.lane);
         });
 
-        // Preview a few for sanity
         if (debugPreviewCount > 0)
         {
             int count = Mathf.Min(debugPreviewCount, allNotes.Count);
@@ -225,7 +244,7 @@ public class ChartManager : MonoBehaviour
         float distance = Mathf.Abs(target.position.x - spawnPos.x);
         float speed = distance / Mathf.Max(0.0001f, travelTimeSec);
 
-        GameObject go = Dequeue();
+        GameObject go = Dequeue(cn.lane);
         go.transform.SetPositionAndRotation(spawnPos, laneAnchors[cn.lane].rotation);
         go.SetActive(true);
 
@@ -241,20 +260,56 @@ public class ChartManager : MonoBehaviour
     {
         if (mover == null) return;
         mover.gameObject.SetActive(false);
-        Enqueue(mover.gameObject);
+
+        // figure out which pool this instance belongs to by matching its prefab source (tagging is safer)
+        // Simpler approach: use name prefix set at creation time to decide the pool.
+        string n = mover.gameObject.name;
+        int lane = -1;
+        if (n.StartsWith("Lane0_")) lane = 0;
+        else if (n.StartsWith("Lane1_")) lane = 1;
+        else if (n.StartsWith("Lane2_")) lane = 2;
+        else if (n.StartsWith("Lane3_")) lane = 3;
+        else if (n.StartsWith("Lane4_")) lane = 4;
+
+        if (lane >= 0) lanePools[lane].Enqueue(mover.gameObject);
+        else defaultPool.Enqueue(mover.gameObject);
     }
 
-    // ---------------- pool ----------------
+    // ---------------- pools ----------------
 
-    private GameObject NewNote()
+    private void WarmPool(Queue<GameObject> pool, GameObject prefab, int count, string namePrefix)
     {
-        var go = Instantiate(notePrefab, poolRoot);
-        go.name = "Note";
-        go.SetActive(false);
-        return go;
+        for (int i = 0; i < Mathf.Max(1, count); i++)
+        {
+            var go = Instantiate(prefab, poolsRoot);
+            go.name = namePrefix + i;
+            go.SetActive(false);
+            pool.Enqueue(go);
+        }
     }
-    private void Enqueue(GameObject go) => pool.Enqueue(go);
-    private GameObject Dequeue() => pool.Count > 0 ? pool.Dequeue() : NewNote();
+
+    private GameObject Dequeue(int lane)
+    {
+        var prefab = GetPrefabForLane(lane);
+        var pool = (prefab == null) ? defaultPool : lanePools[lane];
+
+        // if empty, instantiate one more of the right prefab
+        if (pool.Count == 0)
+        {
+            var go = Instantiate(prefab ?? notePrefab, poolsRoot);
+            go.name = (prefab == null ? "Default_" : $"Lane{lane}_") + Guid.NewGuid().ToString("N").Substring(0, 8);
+            go.SetActive(false);
+            return go;
+        }
+        return pool.Dequeue();
+    }
+
+    private GameObject GetPrefabForLane(int lane)
+    {
+        if (lanePrefabs != null && lanePrefabs.Length == 5 && lanePrefabs[lane] != null)
+            return lanePrefabs[lane];
+        return notePrefab; // may be null; checked earlier in LoadChart
+    }
 
 #if UNITY_EDITOR
     void OnDrawGizmosSelected()

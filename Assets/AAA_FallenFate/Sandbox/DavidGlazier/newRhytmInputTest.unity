@@ -2688,7 +2688,13 @@ MonoBehaviour:
   singleLaneIndex: 2
   laneRemap: 0000000001000000020000000300000004000000
   notePrefab: {fileID: 226191417356918110, guid: 075bd78c7da44af40bea560ad5fa9fdc, type: 3}
-  initialPool: 64
+  lanePrefabs:
+  - {fileID: 226191417356918110, guid: e91bff03ad5411c409eb02120313f347, type: 3}
+  - {fileID: 226191417356918110, guid: 075bd78c7da44af40bea560ad5fa9fdc, type: 3}
+  - {fileID: 226191417356918110, guid: cb95d770e312fe5468bd805879dc2df4, type: 3}
+  - {fileID: 226191417356918110, guid: 2c424e92da4d99d4a810202fa59273b7, type: 3}
+  - {fileID: 226191417356918110, guid: 140b2ddd2aef8c8498d3ccfc0ab1f6d9, type: 3}
+  initialPoolPerLane: 24
   autoStart: 1
   logSpawns: 0
   debugPreviewCount: 16
