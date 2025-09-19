@@ -3315,7 +3315,7 @@ MonoBehaviour:
   hitBoxPrefab: {fileID: 4975051620370011707, guid: 0da87ef69d4fa8d47bda59492be5c3bf, type: 3}
   defaultAttack: {fileID: 11400000, guid: 39739baa0e5222a439a1f66d987ee76c, type: 2}
   playerController: {fileID: 1877178971}
-  dashAttackData: {fileID: 0}
+  dashAttackData: {fileID: 11400000, guid: 0d2976b0410e62246816d8307a9f9624, type: 2}
   attackKey: 323
 --- !u!1 &1885468279
 GameObject:
@@ -3870,6 +3870,10 @@ PrefabInstance:
     - target: {fileID: 2357863302574831891, guid: 8af3246346d111848b27dcea3fe6c54b, type: 3}
       propertyPath: mainCamera
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357863302574831891, guid: 8af3246346d111848b27dcea3fe6c54b, type: 3}
+      propertyPath: dashCooldown
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5727177107550828939, guid: 8af3246346d111848b27dcea3fe6c54b, type: 3}
       propertyPath: m_LocalPosition.x
