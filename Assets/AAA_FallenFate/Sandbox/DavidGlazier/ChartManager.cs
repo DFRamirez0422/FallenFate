@@ -1,330 +1,586 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using UnityEngine;
 using ChartLoader.NET.Framework;
 using ChartLoader.NET.Utils;
 
-public class ChartManager : MonoBehaviour
+public class SimpleNoteSpawner : MonoBehaviour
 {
-    public enum SpawnMode { MultiLane, SingleLane }
-
-    [Header("Chart Setup")]
+    [Header("Chart File")]
     public string songFolder = "Assets/ChartLoader/ChartLoader/Songs/DOOM";
     public string chartFileName = "notes.chart";
-    [Tooltip("e.g. ExpertSingle / HardSingle / EasySingle etc.")]
     public string chartSection = "ExpertSingle";
 
-    [Header("Timing")]
-    [Tooltip("How long a note takes to travel from spawn to target.")]
-    public float travelTimeSec = 1.50f;
-    [Tooltip("Positive spawns earlier to compensate latency.")]
-    public float latencyOffsetSec = 0f;
-
-    [Header("Lane & Target")]
-    [Tooltip("Five lane anchors (index 0..4). X is ignored at spawn; Y/Z/rot define the lane row.")]
-    public Transform[] laneAnchors = new Transform[5];
-    [Tooltip("Right-side target; notes destroy when they reach this x.")]
-    public Transform target;
-    [Tooltip("X coordinate where notes appear (must be < target.x for left→right).")]
-    public float spawnX = -8f;
-    public float hitRadius = 0.1f;
-
-    [Header("Mode")]
-    public SpawnMode spawnMode = SpawnMode.MultiLane;
-    [Range(0,4)] public int singleLaneIndex = 0;
-
-    [Header("Lane Mapping (MultiLane only)")]
-    [Tooltip("Optional remap incoming fret 0..4 to anchor index 0..4.")]
-    public int[] laneRemap = new int[5] { 0, 1, 2, 3, 4 };
-
-    [Header("Prefabs & Pooling")]
-    [Tooltip("Fallback prefab if a lane-specific prefab is not provided.")]
+    [Header("Lane Setup")]
+    public Transform[] lanePositions = new Transform[5]; // 5 lane positions
     public GameObject notePrefab;
-    [Tooltip("Optional: lane-specific prefabs (0..4). If null, uses fallback 'notePrefab'.")]
-    public GameObject[] lanePrefabs = new GameObject[5];
-    [Tooltip("Initial pool size per lane (also used for the fallback pool).")]
-    public int initialPoolPerLane = 24;
-
+    
+    [Header("Mode")]
+    public bool useSingleLane = false;
+    [Range(0, 4)] public int singleLaneIndex = 2; // Middle lane
+    
+    [Header("Spawning")]
+    public float noteSpacing = 100f; // Distance between notes (UI units)  
+    public bool useXAxis = true; // True for X-axis, False for Y-axis
+    
+    [Header("Hit Target")]
+    public Transform hitTarget; // Where notes need to reach to be hittable
+    public float hitWindow = 0.2f; // Time window for successful hits
+    
+    [Header("Timing")]
+    public float travelTime = 2f; // How long notes take to reach hit target
+    public bool autoStart = true; // Auto start the song
+    
+    private float songStartTime;
+    private bool songRunning;
+    private int score = 0;
+    private List<MovingNote> activeNotes = new List<MovingNote>();
+    
     [Header("Debug")]
-    public bool autoStart = true;
-    public bool logSpawns = false;
-    [Tooltip("Log first N parsed timestamps+lanes after load.")]
-    public int debugPreviewCount = 24;
-
-    // ---------------- internals ----------------
-    private ChartReader chartReader;
-    private List<ChartNote> allNotes = new List<ChartNote>(); // flattened list: one entry per visual lane-hit
-    private int spawnIndex;
-    private double songStartTime;
-    private bool running;
-
-    // pools: 5 lane pools + 1 default pool
-    private readonly Queue<GameObject>[] lanePools = new Queue<GameObject>[5];
-    private readonly Queue<GameObject> defaultPool = new Queue<GameObject>();
-    private Transform poolsRoot;
-
-    [Serializable]
-    private struct ChartNote { public double timeSec; public int lane; }
-
-    private class NoteMover : MonoBehaviour
-    {
-        public Transform target;
-        public float speed;
-        public float hitRadius;
-        public Action<NoteMover> OnDespawn;
-        private bool armed;
-
-        public void Arm(Transform t, float s, float r)
-        { target = t; speed = s; hitRadius = r; armed = true; }
-
-        void Update()
-        {
-            if (!armed || target == null) return;
-            var p = transform.position;
-            float dir = Mathf.Sign(target.position.x - p.x); // expect +1 (left→right)
-            p.x += dir * speed * Time.deltaTime;
-            transform.position = p;
-
-            float dx = Mathf.Abs(target.position.x - p.x);
-            if (dx <= hitRadius || (dir > 0 && p.x >= target.position.x) || (dir < 0 && p.x <= target.position.x))
-            {
-                armed = false;
-                OnDespawn?.Invoke(this);
-            }
-        }
-    }
-
-    void Awake()
-    {
-        poolsRoot = new GameObject("NotePools").transform;
-        poolsRoot.SetParent(transform, false);
-
-        // init per-lane pools
-        for (int i = 0; i < 5; i++)
-        {
-            lanePools[i] = new Queue<GameObject>();
-            var prefab = GetPrefabForLane(i);
-            if (prefab != null)
-                WarmPool(lanePools[i], prefab, initialPoolPerLane, $"Lane{i}_");
-        }
-
-        // also warm default pool if needed later
-        if (notePrefab != null)
-            WarmPool(defaultPool, notePrefab, initialPoolPerLane, "Default_");
-    }
+    public bool showDebugInfo = true;
+    public bool showTimingDebug = false; // Extra timing visualization
 
     void Start()
     {
         if (autoStart)
         {
-            LoadChart();
-            StartRun();
+            StartSong();
         }
     }
 
     void Update()
     {
-        if (!running || allNotes.Count == 0) return;
+        if (!songRunning) return;
 
-        double t = Time.timeAsDouble - songStartTime;
-
-        // spawn when it's time so the piece arrives exactly on its beat
-        while (spawnIndex < allNotes.Count)
+        // Show current timing info
+        if (showTimingDebug)
         {
-            double spawnTime = allNotes[spawnIndex].timeSec - travelTimeSec - latencyOffsetSec;
-            if (t >= spawnTime) { Spawn(allNotes[spawnIndex]); spawnIndex++; }
-            else break;
+            float songTime = Time.time - songStartTime;
+            Debug.Log($"[Timing] Song Time: {songTime:F3}s");
         }
-    }
 
-    // ---------------- loading ----------------
-
-    public void LoadChart()
-    {
-        if (target == null) { Debug.LogError("[ChartManager] Assign a target Transform."); return; }
-        if (laneAnchors == null || laneAnchors.Length != 5) { Debug.LogError("[ChartManager] Provide exactly 5 lane anchors."); return; }
-
-        // Validate at least one prefab exists among lanePrefabs or fallback
-        bool hasAnyPrefab = notePrefab != null;
-        if (!hasAnyPrefab)
-            for (int i = 0; i < 5; i++) if (lanePrefabs[i] != null) { hasAnyPrefab = true; break; }
-        if (!hasAnyPrefab) { Debug.LogError("[ChartManager] No prefabs assigned (neither fallback nor any lane prefab)."); return; }
-
-        string fullPath = Path.Combine(songFolder, chartFileName);
-        if (!File.Exists(fullPath)) { Debug.LogError("[ChartManager] Chart not found: " + fullPath); return; }
-
-        chartReader = new ChartReader();
-        Chart chart = chartReader.ReadChartFile(fullPath);
-
-        // pull notes for the selected difficulty/section
-        Note[] raw = chart?.GetNotes(chartSection);
-        if (raw == null || raw.Length == 0) { Debug.LogError($"[ChartManager] No notes in section: {chartSection}"); return; }
-
-        allNotes.Clear();
-
-        if (spawnMode == SpawnMode.SingleLane)
+        // Handle input
+        if (Input.GetMouseButtonDown(0))
         {
-            int forced = Mathf.Clamp(singleLaneIndex, 0, 4);
-            foreach (var n in raw)
-            {
-                allNotes.Add(new ChartNote { timeSec = n.Seconds, lane = forced });
-            }
+            TryHitNote();
         }
-        else // MultiLane — read ButtonIndexes[0..4] and make one entry per true fret
+
+        // Update active notes
+        UpdateMovingNotes();
+        
+        // Show rhythm timing debug
+        if (showTimingDebug && songRunning)
         {
-            foreach (var n in raw)
+            float songTime = Time.time - songStartTime;
+            
+            // Find the next note that should be hit
+            var nextNote = activeNotes.Where(n => n.isActive && n.time >= songTime)
+                                    .OrderBy(n => n.time)
+                                    .FirstOrDefault();
+                                    
+            if (nextNote.gameObject != null)
             {
-                bool[] buttons = n.ButtonIndexes; // GH frets Green..Orange
-                int max = Mathf.Min(buttons?.Length ?? 0, 5);
-                if (max == 0)
+                float timeUntilHit = nextNote.time - songTime;
+                if (timeUntilHit <= 1f) // Only show when close
                 {
-                    int mappedFallback = (laneRemap != null && laneRemap.Length == 5) ? Mathf.Clamp(laneRemap[0], 0, 4) : 0;
-                    allNotes.Add(new ChartNote { timeSec = n.Seconds, lane = mappedFallback });
-                    continue;
-                }
-
-                for (int fret = 0; fret < max; fret++)
-                {
-                    if (!buttons[fret]) continue;
-                    int mapped = fret;
-                    if (laneRemap != null && laneRemap.Length == 5)
-                        mapped = Mathf.Clamp(laneRemap[fret], 0, 4);
-
-                    allNotes.Add(new ChartNote { timeSec = n.Seconds, lane = mapped });
+                    Debug.Log($"[Rhythm Check] Song: {songTime:F3}s | Next Hit: {nextNote.time:F3}s | In: {timeUntilHit:F3}s");
                 }
             }
         }
+    }
 
-        // Sort by time then lane so spawns are deterministic for chords
-        allNotes.Sort((a, b) =>
+    [ContextMenu("Start Song")]
+    public void StartSong()
+    {
+        // Clear any existing notes
+        ClearExistingNotes();
+        
+        // Load notes from chart
+        var notes = LoadNotesFromChart();
+        if (notes == null || notes.Count == 0)
         {
-            int c = a.timeSec.CompareTo(b.timeSec);
-            return c != 0 ? c : a.lane.CompareTo(b.lane);
-        });
-
-        if (debugPreviewCount > 0)
-        {
-            int count = Mathf.Min(debugPreviewCount, allNotes.Count);
-            for (int i = 0; i < count; i++)
-                Debug.Log($"[ChartManager] t={allNotes[i].timeSec:F3}s lane={allNotes[i].lane}");
+            Debug.LogWarning("[SimpleNoteSpawner] No notes to play!");
+            return;
         }
 
-        if (logSpawns) Debug.Log($"[ChartManager] Loaded {allNotes.Count} lane-hits from {chartSection}.");
+        // Start the song
+        songStartTime = Time.time;
+        songRunning = true;
+        score = 0;
+        
+        // Prepare notes for spawning
+        PrepareNotesForSpawning(notes);
+        
+        if (showDebugInfo)
+            Debug.Log($"[SimpleNoteSpawner] Song started! {notes.Count} notes loaded. Score: {score}");
     }
 
-    // ---------------- run control ----------------
-
-    public void StartRun()
+    private void PrepareNotesForSpawning(List<SimpleNote> notes)
     {
-        spawnIndex = 0;
-        songStartTime = Time.timeAsDouble;
-        running = true;
-    }
-
-    public void StopRun(bool clearActive = true)
-    {
-        running = false;
-        if (clearActive)
+        activeNotes.Clear();
+        
+        foreach (var note in notes)
         {
-            foreach (var mover in FindObjectsOfType<NoteMover>())
-                mover?.OnDespawn?.Invoke(mover);
+            var movingNote = new MovingNote
+            {
+                time = note.time, // This is when the note should be HIT (on rhythm)
+                lane = note.lane,
+                spawnTime = note.time - travelTime, // Spawn earlier so it arrives on rhythm
+                hasSpawned = false,
+                gameObject = null,
+                isActive = false
+            };
+            
+            activeNotes.Add(movingNote);
         }
+        
+        if (showDebugInfo)
+            Debug.Log($"[SimpleNoteSpawner] Prepared {activeNotes.Count} notes. First note hits at {activeNotes[0].time:F3}s, spawns at {activeNotes[0].spawnTime:F3}s");
     }
 
-    // ---------------- spawning ----------------
-
-    private void Spawn(ChartNote cn)
+    private void UpdateMovingNotes()
     {
-        if (cn.lane < 0 || cn.lane >= laneAnchors.Length) return;
-
-        Vector3 lanePos = laneAnchors[cn.lane].position;
-        Vector3 spawnPos = new Vector3(spawnX, lanePos.y, lanePos.z);
-
-        float distance = Mathf.Abs(target.position.x - spawnPos.x);
-        float speed = distance / Mathf.Max(0.0001f, travelTimeSec);
-
-        GameObject go = Dequeue(cn.lane);
-        go.transform.SetPositionAndRotation(spawnPos, laneAnchors[cn.lane].rotation);
-        go.SetActive(true);
-
-        var mover = go.GetComponent<NoteMover>();
-        if (mover == null) mover = go.AddComponent<NoteMover>();
-        mover.OnDespawn = Despawn;
-        mover.Arm(target, speed, hitRadius);
-
-        if (logSpawns) Debug.Log($"[ChartManager] Spawn t={cn.timeSec:F3}s lane={cn.lane} speed={speed:F3}");
-    }
-
-    private void Despawn(NoteMover mover)
-    {
-        if (mover == null) return;
-        mover.gameObject.SetActive(false);
-
-        // figure out which pool this instance belongs to by matching its prefab source (tagging is safer)
-        // Simpler approach: use name prefix set at creation time to decide the pool.
-        string n = mover.gameObject.name;
-        int lane = -1;
-        if (n.StartsWith("Lane0_")) lane = 0;
-        else if (n.StartsWith("Lane1_")) lane = 1;
-        else if (n.StartsWith("Lane2_")) lane = 2;
-        else if (n.StartsWith("Lane3_")) lane = 3;
-        else if (n.StartsWith("Lane4_")) lane = 4;
-
-        if (lane >= 0) lanePools[lane].Enqueue(mover.gameObject);
-        else defaultPool.Enqueue(mover.gameObject);
-    }
-
-    // ---------------- pools ----------------
-
-    private void WarmPool(Queue<GameObject> pool, GameObject prefab, int count, string namePrefix)
-    {
-        for (int i = 0; i < Mathf.Max(1, count); i++)
+        float currentTime = Time.time - songStartTime;
+        
+        for (int i = activeNotes.Count - 1; i >= 0; i--)
         {
-            var go = Instantiate(prefab, poolsRoot);
-            go.name = namePrefix + i;
-            go.SetActive(false);
-            pool.Enqueue(go);
+            var note = activeNotes[i];
+            
+            // Spawn note if it's time
+            if (!note.hasSpawned && currentTime >= note.spawnTime)
+            {
+                SpawnNote(ref note, i);
+            }
+            
+            // Move note if it's active
+            if (note.isActive && note.gameObject != null)
+            {
+                UpdateNotePosition(note, currentTime);
+                
+                // Remove note if it's too late (missed)
+                if (currentTime > note.time + hitWindow)
+                {
+                    if (showDebugInfo)
+                        Debug.Log($"[SimpleNoteSpawner] Missed note at time {note.time:F2}s");
+                        
+                    Destroy(note.gameObject);
+                    activeNotes.RemoveAt(i);
+                }
+            }
         }
     }
 
-    private GameObject Dequeue(int lane)
+    private void SpawnNote(ref MovingNote note, int index)
     {
-        var prefab = GetPrefabForLane(lane);
-        var pool = (prefab == null) ? defaultPool : lanePools[lane];
-
-        // if empty, instantiate one more of the right prefab
-        if (pool.Count == 0)
-        {
-            var go = Instantiate(prefab ?? notePrefab, poolsRoot);
-            go.name = (prefab == null ? "Default_" : $"Lane{lane}_") + Guid.NewGuid().ToString("N").Substring(0, 8);
-            go.SetActive(false);
-            return go;
-        }
-        return pool.Dequeue();
+        if (notePrefab == null || lanePositions[note.lane] == null)
+            return;
+            
+        // Calculate spawn position (where note starts)
+        Vector3 spawnPos = CalculateNoteStartPosition(note.lane);
+        
+        // Create note
+        GameObject noteObj = Instantiate(notePrefab, spawnPos, lanePositions[note.lane].rotation);
+        noteObj.name = $"Note_Lane{note.lane}_Time{note.time:F2}";
+        noteObj.transform.SetParent(transform, false);
+        
+        // Add note data component
+        var noteData = noteObj.GetComponent<MovingNoteData>();
+        if (noteData == null)
+            noteData = noteObj.AddComponent<MovingNoteData>();
+            
+        noteData.targetTime = note.time;
+        noteData.lane = note.lane;
+        noteData.noteIndex = index;
+        
+        // Update the note in our list
+        note.hasSpawned = true;
+        note.gameObject = noteObj;
+        note.isActive = true;
+        activeNotes[index] = note;
+        
+        if (showDebugInfo)
+            Debug.Log($"[SimpleNoteSpawner] Spawned note for lane {note.lane} at time {note.time:F2}s");
     }
 
-    private GameObject GetPrefabForLane(int lane)
+    private Vector3 CalculateNoteStartPosition(int lane)
     {
-        if (lanePrefabs != null && lanePrefabs.Length == 5 && lanePrefabs[lane] != null)
-            return lanePrefabs[lane];
-        return notePrefab; // may be null; checked earlier in LoadChart
+        if (hitTarget == null || lanePositions[lane] == null)
+            return lanePositions[lane].position;
+            
+        Vector3 lanePos = lanePositions[lane].position;
+        Vector3 targetPos = hitTarget.position;
+        
+        // Calculate offset from target based on travel time
+        Vector3 startOffset = Vector3.zero;
+        
+        if (useXAxis)
+        {
+            // Notes move along X axis - spawn to the left if target is to the right
+            startOffset.x = -travelTime * noteSpacing / 2f; // Adjust multiplier as needed
+        }
+        else
+        {
+            // Notes move along Y axis - spawn above if target is below
+            startOffset.y = travelTime * noteSpacing / 2f;
+        }
+        
+        return lanePos + startOffset;
+    }
+
+    private void UpdateNotePosition(MovingNote note, float currentTime)
+    {
+        if (note.gameObject == null || hitTarget == null) return;
+        
+        // Calculate how far along the note should be (0 to 1)
+        // When currentTime == note.time, progress should be 1.0 (at hit target)
+        float progress = (currentTime - note.spawnTime) / travelTime;
+        progress = Mathf.Clamp01(progress);
+        
+        // Calculate positions
+        Vector3 startPos = CalculateNoteStartPosition(note.lane);
+        Vector3 laneTargetPos = lanePositions[note.lane].position;
+        
+        // Adjust target position to align with hit target
+        if (useXAxis)
+        {
+            laneTargetPos.x = hitTarget.position.x;
+        }
+        else
+        {
+            laneTargetPos.y = hitTarget.position.y;
+        }
+        
+        // Move note - it should be at laneTargetPos exactly when currentTime == note.time
+        Vector3 currentPos = Vector3.Lerp(startPos, laneTargetPos, progress);
+        note.gameObject.transform.position = currentPos;
+        
+        // Debug visualization for rhythm checking
+        if (showTimingDebug && Mathf.Abs(currentTime - note.time) < 0.1f)
+        {
+            Debug.Log($"[Note Position] Time: {currentTime:F3}, Target: {note.time:F3}, Progress: {progress:F3}, Should be at hit target: {progress >= 0.95f}");
+        }
+    }
+
+    private void TryHitNote()
+    {
+        float songTime = Time.time - songStartTime; // Current position in the song
+        
+        if (showTimingDebug)
+            Debug.Log($"[Hit Attempt] Song Time: {songTime:F3}s, Mouse clicked!");
+        
+        MovingNote? closestNote = null;
+        int closestIndex = -1;
+        float closestDistance = float.MaxValue;
+        
+        // Show all active notes and their timing
+        if (showTimingDebug)
+        {
+            Debug.Log($"[Hit Check] Checking {activeNotes.Count} active notes:");
+            for (int i = 0; i < activeNotes.Count; i++)
+            {
+                var note = activeNotes[i];
+                if (note.isActive && note.gameObject != null)
+                {
+                    float timeDiff = Mathf.Abs(songTime - note.time);
+                    float progress = (songTime - note.spawnTime) / travelTime;
+                    Debug.Log($"  Note {i}: Target={note.time:F3}s, Diff={timeDiff:F3}s, Progress={progress:F2}, InWindow={timeDiff <= hitWindow}");
+                }
+            }
+        }
+        
+        // Find the note closest to being at the hit target right now
+        for (int i = 0; i < activeNotes.Count; i++)
+        {
+            var note = activeNotes[i];
+            if (!note.isActive || note.gameObject == null) continue;
+            
+            // Check if this note should be at the hit target right now
+            float timeDiff = Mathf.Abs(songTime - note.time);
+            
+            if (timeDiff <= hitWindow && timeDiff < closestDistance)
+            {
+                closestDistance = timeDiff;
+                closestNote = note;
+                closestIndex = i;
+            }
+        }
+        
+        // Hit the closest note
+        if (closestNote.HasValue && closestIndex >= 0)
+        {
+            // For rhythm accuracy, let's be more lenient about position
+            // The key is timing, not position
+            HitNote(closestNote.Value, closestIndex, closestDistance);
+        }
+        else
+        {
+            if (showDebugInfo)
+            {
+                // Show why no note was hit
+                if (activeNotes.Count == 0)
+                    Debug.Log($"[Miss] No active notes at song time {songTime:F3}s");
+                else
+                {
+                    var nextNote = activeNotes.Where(n => n.isActive && n.time > songTime).OrderBy(n => n.time).FirstOrDefault();
+                    if (nextNote.gameObject != null)
+                        Debug.Log($"[Miss] Song time {songTime:F3}s - Next note at {nextNote.time:F3}s (in {nextNote.time - songTime:F2}s)");
+                    else
+                        Debug.Log($"[Miss] No notes in hit window ({hitWindow:F2}s) at song time {songTime:F3}s");
+                }
+            }
+        }
+    }
+
+    private bool IsNoteAtHitPosition(MovingNote note, float songTime)
+    {
+        // Calculate how far the note has traveled (0 to 1)
+        float progress = (songTime - note.spawnTime) / travelTime;
+        
+        // Note should be at hit position when progress is close to 1
+        // Allow some tolerance for the hit window
+        return progress >= 0.8f && progress <= 1.2f; // Adjust tolerance as needed
+    }
+
+    private void HitNote(MovingNote note, int index, float timeDiff)
+    {
+        float songTime = Time.time - songStartTime;
+        
+        // Calculate timing accuracy based on how close we are to the note's exact time
+        float accuracy = 1f - (timeDiff / hitWindow);
+        accuracy = Mathf.Clamp01(accuracy);
+        
+        // Determine hit quality
+        string hitQuality = "Miss";
+        int basePoints = 0;
+        
+        if (timeDiff <= hitWindow * 0.1f) // Within 10% of hit window
+        {
+            hitQuality = "Perfect!";
+            basePoints = 100;
+        }
+        else if (timeDiff <= hitWindow * 0.3f) // Within 30% of hit window
+        {
+            hitQuality = "Great!";
+            basePoints = 80;
+        }
+        else if (timeDiff <= hitWindow * 0.6f) // Within 60% of hit window
+        {
+            hitQuality = "Good";
+            basePoints = 60;
+        }
+        else if (timeDiff <= hitWindow) // Within hit window
+        {
+            hitQuality = "Okay";
+            basePoints = 40;
+        }
+        
+        int finalPoints = Mathf.RoundToInt(basePoints * accuracy);
+        score += finalPoints;
+        
+        // Destroy the note
+        if (note.gameObject != null)
+        {
+            Destroy(note.gameObject);
+        }
+        
+        // Remove from active list
+        activeNotes.RemoveAt(index);
+        
+        // Detailed debug info
+        if (showDebugInfo)
+        {
+            Debug.Log($"[SimpleNoteSpawner] {hitQuality} Hit!\n" +
+                     $"Song Time: {songTime:F3}s | Note Time: {note.time:F3}s | Diff: {timeDiff:F3}s\n" +
+                     $"Accuracy: {accuracy:F2} | Points: {finalPoints} | Total Score: {score}");
+        }
+    }
+
+    private List<SimpleNote> LoadNotesFromChart()
+    {
+        var noteList = new List<SimpleNote>();
+        
+        try
+        {
+            string fullPath = System.IO.Path.Combine(songFolder, chartFileName);
+            
+            if (!System.IO.File.Exists(fullPath))
+            {
+                Debug.LogError($"[SimpleNoteSpawner] Chart file not found: {fullPath}");
+                return noteList;
+            }
+
+            var chartReader = new ChartReader();
+            var chart = chartReader.ReadChartFile(fullPath);
+            var rawNotes = chart?.GetNotes(chartSection);
+
+            if (rawNotes == null || rawNotes.Length == 0)
+            {
+                Debug.LogError($"[SimpleNoteSpawner] No notes found in section: {chartSection}");
+                return noteList;
+            }
+
+            if (showDebugInfo)
+                Debug.Log($"[SimpleNoteSpawner] Loaded {rawNotes.Length} raw notes from {chartSection}");
+
+            // Convert to simple notes
+            foreach (var note in rawNotes)
+            {
+                if (useSingleLane)
+                {
+                    // All notes go to single lane
+                    noteList.Add(new SimpleNote(note.Seconds, singleLaneIndex));
+                }
+                else
+                {
+                    // Multi-lane mode
+                    var buttons = note.ButtonIndexes;
+                    if (buttons != null && buttons.Length > 0)
+                    {
+                        for (int i = 0; i < Mathf.Min(buttons.Length, 5); i++)
+                        {
+                            if (buttons[i])
+                            {
+                                noteList.Add(new SimpleNote(note.Seconds, i));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Fallback to lane 0 if no button data
+                        noteList.Add(new SimpleNote(note.Seconds, 0));
+                    }
+                }
+            }
+
+            // Sort by time
+            noteList.Sort((a, b) => a.time.CompareTo(b.time));
+            
+            if (showDebugInfo)
+                Debug.Log($"[SimpleNoteSpawner] Created {noteList.Count} simple notes");
+
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[SimpleNoteSpawner] Error loading chart: {e.Message}");
+        }
+
+        // Remove the old SpawnNotes method since we're using the new system
+        
+        return noteList;
+    }
+
+    private void ClearExistingNotes()
+    {
+        // Find and destroy all existing notes
+        var existingNotes = GetComponentsInChildren<MovingNoteData>();
+        for (int i = existingNotes.Length - 1; i >= 0; i--)
+        {
+            if (existingNotes[i] != null)
+            {
+                if (Application.isPlaying)
+                    Destroy(existingNotes[i].gameObject);
+                else
+                    DestroyImmediate(existingNotes[i].gameObject);
+            }
+        }
+        
+        // Clear active notes list
+        activeNotes.Clear();
+        songRunning = false;
+    }
+
+    // Simple note data structure
+    [System.Serializable]
+    public struct SimpleNote
+    {
+        public float time;
+        public int lane;
+
+        public SimpleNote(float t, int l)
+        {
+            time = t;
+            lane = l;
+        }
+    }
+
+    // Moving note data structure for runtime
+    [System.Serializable]
+    public struct MovingNote
+    {
+        public float time;           // When note should be hit
+        public int lane;            // Which lane
+        public float spawnTime;     // When to spawn the note
+        public bool hasSpawned;     // Has been spawned yet?
+        public GameObject gameObject; // The spawned note object
+        public bool isActive;       // Is currently active
+    }
+
+    // Component to attach to spawned note objects
+    public class MovingNoteData : MonoBehaviour
+    {
+        public float targetTime;
+        public int lane;
+        public int noteIndex;
     }
 
 #if UNITY_EDITOR
     void OnDrawGizmosSelected()
     {
-        if (target == null || laneAnchors == null) return;
-        Gizmos.color = new Color(0.2f, 0.9f, 0.9f, 0.6f);
-        foreach (var lane in laneAnchors)
+        if (lanePositions == null) return;
+
+        // Draw lane positions and hit target
+        for (int i = 0; i < lanePositions.Length; i++)
         {
-            if (lane == null) continue;
-            Vector3 a = new Vector3(spawnX, lane.position.y, lane.position.z);
-            Vector3 b = new Vector3(target.position.x, lane.position.y, lane.position.z);
-            Gizmos.DrawLine(a, b);
+            if (lanePositions[i] == null) continue;
+            
+            Vector3 lanePos = lanePositions[i].position;
+            
+            // Lane position
+            Gizmos.color = useSingleLane && i == singleLaneIndex ? Color.yellow : Color.cyan;
+            Gizmos.DrawWireSphere(lanePos, 20f);
+            
+            // Note path from spawn to hit target
+            if (hitTarget != null)
+            {
+                Vector3 startPos = CalculateNoteStartPosition(i);
+                Vector3 targetPos = lanePos;
+                
+                // Adjust target to hit target position
+                if (useXAxis)
+                    targetPos.x = hitTarget.position.x;
+                else
+                    targetPos.y = hitTarget.position.y;
+                
+                // Draw note path
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(startPos, targetPos);
+                
+                // Draw spawn position
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireCube(startPos, Vector3.one * 15f);
+            }
         }
-        Gizmos.color = new Color(1f, 0.6f, 0.2f, 0.8f);
-        Gizmos.DrawWireSphere(target.position, hitRadius);
+        
+        // Draw hit target
+        if (hitTarget != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(hitTarget.position, 25f);
+            
+            // Draw hit window visualization
+            Gizmos.color = new Color(1f, 0f, 0f, 0.3f);
+            Vector3 windowSize = useXAxis ? 
+                new Vector3(hitWindow * noteSpacing, 50f, 1f) : 
+                new Vector3(50f, hitWindow * noteSpacing, 1f);
+            Gizmos.DrawCube(hitTarget.position, windowSize);
+        }
+        
+        // Display score during play
+        if (Application.isPlaying && songRunning)
+        {
+            UnityEditor.Handles.Label(transform.position + Vector3.up * 50, 
+                $"Score: {score}\nActive Notes: {activeNotes.Count}\nTime: {Time.time - songStartTime:F1}s");
+        }
     }
 #endif
 }

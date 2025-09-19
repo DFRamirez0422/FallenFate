@@ -478,7 +478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -385, y: -183.16}
+  m_AnchoredPosition: {x: -385, y: -134.51999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &524545338
@@ -1014,7 +1014,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -385, y: -160}
+  m_AnchoredPosition: {x: -385, y: -111.359985}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &740442781
@@ -1897,7 +1897,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: -152}
+  m_AnchoredPosition: {x: 1, y: -103.359985}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1245459367
@@ -2373,7 +2373,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -385, y: -207.64001}
+  m_AnchoredPosition: {x: -385, y: -159}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1425083847
@@ -2534,7 +2534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -385, y: -114.2}
+  m_AnchoredPosition: {x: -385, y: -65.55998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1533761446
@@ -2673,31 +2673,24 @@ MonoBehaviour:
   songFolder: Assets/ChartLoader/ChartLoader/Songs/DOOM
   chartFileName: notes.chart
   chartSection: ExpertSingle
-  travelTimeSec: 1.5
-  latencyOffsetSec: 0
-  laneAnchors:
+  lanePositions:
   - {fileID: 1533761445}
   - {fileID: 1885468280}
   - {fileID: 740442780}
   - {fileID: 524545337}
   - {fileID: 1425083846}
-  target: {fileID: 1245459366}
-  spawnX: -8
-  hitRadius: 0.1
-  spawnMode: 0
-  singleLaneIndex: 2
-  laneRemap: 0000000001000000020000000300000004000000
   notePrefab: {fileID: 226191417356918110, guid: 075bd78c7da44af40bea560ad5fa9fdc, type: 3}
-  lanePrefabs:
-  - {fileID: 226191417356918110, guid: e91bff03ad5411c409eb02120313f347, type: 3}
-  - {fileID: 226191417356918110, guid: 075bd78c7da44af40bea560ad5fa9fdc, type: 3}
-  - {fileID: 226191417356918110, guid: cb95d770e312fe5468bd805879dc2df4, type: 3}
-  - {fileID: 226191417356918110, guid: 2c424e92da4d99d4a810202fa59273b7, type: 3}
-  - {fileID: 226191417356918110, guid: 140b2ddd2aef8c8498d3ccfc0ab1f6d9, type: 3}
-  initialPoolPerLane: 24
+  useSingleLane: 1
+  singleLaneIndex: 2
+  noteSpacing: 50
+  useXAxis: 1
+  hitTarget: {fileID: 1245459366}
+  hitWindow: 0.2
+  perfectWindow: 0.03
+  travelTime: 2
   autoStart: 1
-  logSpawns: 0
-  debugPreviewCount: 16
+  showDebugInfo: 0
+  showTimingDebug: 0
 --- !u!4 &1822314125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4464237075027044, guid: 15eeb30f457f3da4e9514031c235f7ac, type: 3}
@@ -2954,7 +2947,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -385, y: -136.9}
+  m_AnchoredPosition: {x: -385, y: -88.25998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1885468281
