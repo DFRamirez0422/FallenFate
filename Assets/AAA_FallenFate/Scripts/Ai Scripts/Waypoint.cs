@@ -21,7 +21,7 @@ public class Waypoint : MonoBehaviour
 
         float distanceToWaypoint = Vector3.Distance(waypoint[currentWaypointIndex].position, self.transform.position);
 
-        if (distanceToWaypoint <= 3)
+        if (distanceToWaypoint <= 2)
         {
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoint.Count;
         }

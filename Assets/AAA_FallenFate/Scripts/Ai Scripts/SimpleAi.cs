@@ -26,7 +26,7 @@ public class SimpleAi : MonoBehaviour
     public float timeBetweenAttacks;
     bool alreadyAttacked;
 
-    public bool RangedToogle;
+    public bool RangedToogle = false;
 
     //States 
     public float sightRange, attackRange;
