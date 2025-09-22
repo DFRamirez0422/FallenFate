@@ -342,7 +342,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533553168}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82b350d575fc32345b04f1e54e29a1e6, type: 3}
   m_Name: 
@@ -610,6 +610,7 @@ RectTransform:
   m_Children:
   - {fileID: 1136375102}
   - {fileID: 1230540732}
+  - {fileID: 1438690297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -627,8 +628,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cae699efd9035504394328fc13a4b3d3, type: 3}
-  m_Resource: {fileID: 8300000, guid: cae699efd9035504394328fc13a4b3d3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6e791aa775f0426408274b7801e0a71c, type: 3}
+  m_Resource: {fileID: 8300000, guid: 6e791aa775f0426408274b7801e0a71c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -804,6 +805,7 @@ GameObject:
   - component: {fileID: 1230540734}
   - component: {fileID: 1230540733}
   - component: {fileID: 1230540736}
+  - component: {fileID: 1230540737}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -828,7 +830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -91.517, y: -168}
+  m_AnchoredPosition: {x: -177, y: -290}
   m_SizeDelta: {x: 126.25, y: 41.261}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1230540733
@@ -947,6 +949,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1230540737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230540731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dcfc4596caccfc43a48d3d6655937d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScaleMultiplier: 1.2
+  clickScaleMultiplier: 1.4
+  scaleSpeed: 10
 --- !u!1 &1260854077
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,14 +991,14 @@ RectTransform:
   m_GameObject: {fileID: 1260854077}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.341803, y: 5.341803, z: 5.341803}
+  m_LocalScale: {x: 7.4507465, y: 7.4507465, z: 7.4507465}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1136375102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -321, y: 135}
+  m_AnchoredPosition: {x: -385, y: 108}
   m_SizeDelta: {x: 167.9751, y: 83.276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1260854079
@@ -1158,11 +1175,11 @@ Transform:
   m_GameObject: {fileID: 1438690295}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 9.89001, z: -445.05045}
+  m_LocalScale: {x: 4.945005, y: 4.9450045, z: 4.9450045}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 976398135}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1438690298
 MonoBehaviour:
@@ -1214,8 +1231,8 @@ Transform:
   m_GameObject: {fileID: 2013042840}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 43, y: -61, z: 0}
-  m_LocalScale: {x: 66.9349, y: 47.298985, z: 51.399036}
+  m_LocalPosition: {x: 43, y: 26.413, z: 0}
+  m_LocalScale: {x: 66.9349, y: 63.47524, z: 51.399036}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2029800771}
@@ -1322,8 +1339,8 @@ Transform:
   m_GameObject: {fileID: 2029800770}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.205, y: -18, z: 0}
-  m_LocalScale: {x: 1.2062, y: 1.2062, z: 1.2062}
+  m_LocalPosition: {x: -8.6338, y: -121, z: 0}
+  m_LocalScale: {x: 1.7605695, y: 1.7605695, z: 1.7605695}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2013042841}
@@ -1334,7 +1351,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 844015426}
-  - {fileID: 1438690297}
   - {fileID: 976398135}
   - {fileID: 239141188}
   - {fileID: 1370134722}
