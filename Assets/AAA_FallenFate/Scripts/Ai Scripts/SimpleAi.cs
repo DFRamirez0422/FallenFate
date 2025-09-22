@@ -20,6 +20,7 @@ public class SimpleAi : MonoBehaviour
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
+    public Waypoint WaypointScript;
 
     //Attacking 
     public float timeBetweenAttacks;
@@ -31,9 +32,9 @@ public class SimpleAi : MonoBehaviour
     public float sightRange, attackRange;
     public bool PlayerInSightRange, PlayerInAttackRange;
 
-    private void Awaked()
+    private void Awake()
     {
-        player = GameObject.Find("Sprite").transform;
+        player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -44,7 +45,7 @@ public class SimpleAi : MonoBehaviour
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!PlayerInSightRange && !PlayerInAttackRange) Patrolling();
+        if (!PlayerInSightRange && !PlayerInAttackRange) Waypoints();
         if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();
     }
@@ -61,6 +62,12 @@ public class SimpleAi : MonoBehaviour
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
+    }
+
+    private void Waypoints()
+    {
+        WaypointScript.Walking();
+        agent.SetDestination(WaypointScript.waypoint[WaypointScript.currentWaypointIndex].position);
     }
 
     private void SearchWalkPoint()
