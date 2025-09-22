@@ -25,8 +25,9 @@ public class SimpleAi : MonoBehaviour
     //Attacking 
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-
+    public GameObject fist;
     public bool RangedToogle = false;
+    private float fistTimer = 1;
 
     //States 
     public float sightRange, attackRange;
@@ -40,7 +41,10 @@ public class SimpleAi : MonoBehaviour
 
     private void Update()
     {
-        PlayerHealth = player.GetComponent<Health>();
+        if (player != null)
+        {
+            PlayerHealth = player.GetComponent<Health>();
+        }
         //check for sight and attack range
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -48,6 +52,16 @@ public class SimpleAi : MonoBehaviour
         if (!PlayerInSightRange && !PlayerInAttackRange) Waypoints();
         if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();
+
+        if (fist == true)
+        {
+            fistTimer = fistTimer - Time.deltaTime;
+        }
+        if (fistTimer <= 0)
+        {
+            fist.SetActive(false);
+            fistTimer = 1;
+        }
     }
 
     private void Patrolling()
@@ -66,7 +80,7 @@ public class SimpleAi : MonoBehaviour
 
     private void Waypoints()
     {
-        WaypointScript.Walking();
+            WaypointScript.Walking();
         agent.SetDestination(WaypointScript.waypoint[WaypointScript.currentWaypointIndex].position);
     }
 
@@ -83,36 +97,47 @@ public class SimpleAi : MonoBehaviour
     }
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        if ( player != null)
+        {
+            agent.SetDestination(player.position);
+        }
     }
 
     private void AttackPlayer()
     {
-        //Make sure enemy doesn't move
-        agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
+        if (player != null)
         {
-            //Attack code
-            if (RangedToogle == true)
+            //Make sure enemy doesn't move
+            agent.SetDestination(transform.position);
+
+            transform.LookAt(player);
+
+            if (!alreadyAttacked)
             {
-                Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
-            }
-            else
-            {
-                PlayerHealth.TakeDamage(10);
-            }
+                //Attack code
+                if (RangedToogle == true)
+                {
+                    Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+                }
+                else
+                {
+                    fist.SetActive(true);
+                    PlayerHealth.TakeDamage(10);
+                }
 
                 alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+                
+                
+
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            }
         }
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        
     }
 
     private void OnDrawGizmosSelected()
