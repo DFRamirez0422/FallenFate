@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace NPA_RhythmBonusPrefabs
+namespace Player.RhythmBonusPrefabs
 {
     /// <summary>
     ///  Plays music locked to DSP time
@@ -36,7 +36,7 @@ namespace NPA_RhythmBonusPrefabs
         }
         
         // Start playback locked to DSP clock
-        public void StartSong(double delaySec = 0.3)
+        public void StartSong(double delaySec = 0.1)
         {
             if (!source || !clip) return;
             
