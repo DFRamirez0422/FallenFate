@@ -33,7 +33,6 @@ namespace NPA_RhythmBonusPrefabs
         // evluated correctly!
         public enum RhythmTier
         {
-<<<<<<< HEAD:Assets/Prefabs/NPA_RhythmBonusPrefabs/RhythmBonusJudge.cs
             Perfect,
             Good,
             Miss
@@ -43,9 +42,6 @@ namespace NPA_RhythmBonusPrefabs
         {
             if (music == null) return (RhythmTier.Miss, missMult);
             if (!music.IsPlaying) return (RhythmTier.Miss, missMult);
-=======
-            if (music == null) return ("Bad", missMult);
->>>>>>> main:Assets/AAA_FallenFate/Scripts/RhythmScripts/RhythmBonusJudge.cs
             
             // Get current elapsed song time in seconds (DSP-accurate) 
             double elapsedSec = music.GetElapsedSec() + latencyOffsetSec;
@@ -74,15 +70,9 @@ namespace NPA_RhythmBonusPrefabs
             float good    = goodQuarterSec    * (bestIntervalSec / music.BeatSec);
             
             // Compare distance to thresholds → return tier + multiplier
-<<<<<<< HEAD:Assets/Prefabs/NPA_RhythmBonusPrefabs/RhythmBonusJudge.cs
             if (bestDistSec <= perfect) return (RhythmTier.Perfect, perfectMult);
             if (bestDistSec <= good)    return (RhythmTier.Good,    goodMult);
             return (RhythmTier.Miss, missMult);
-=======
-            if (bestDistSec <= perfect) return ("Perfect", perfectMult);
-            if (bestDistSec <= good)    return ("Good",    goodMult);
-            return ("Bad", missMult);
->>>>>>> main:Assets/AAA_FallenFate/Scripts/RhythmScripts/RhythmBonusJudge.cs
         }
     }
 }

@@ -55,7 +55,6 @@ namespace NPA_RhythmBonusPrefabs
             if (Input.GetKeyDown(testKey))
             {
                 var (tier, mult) = judge.EvaluateNow(); // Call the judge
-<<<<<<< HEAD:Assets/Prefabs/NPA_RhythmBonusPrefabs/RhythmJudgeTester.cs
                 string tier_name = System.Enum.GetName(typeof(Tier), tier); // Retrieve the name of the tier for printing.
 
                 // Below section added by Jose E.
@@ -82,9 +81,6 @@ namespace NPA_RhythmBonusPrefabs
                 }
 
                 Debug.Log($"[Rhyhtm Test] {tier_name} hit, Multiplier = x{mult}");
-=======
-                Debug.Log($"[Rhythm Test] {tier} hit, Multiplier = x{mult}");
->>>>>>> main:Assets/AAA_FallenFate/Scripts/RhythmScripts/RhythmJudgeTester.cs
             }
 
             // Below section added by Jose E.
