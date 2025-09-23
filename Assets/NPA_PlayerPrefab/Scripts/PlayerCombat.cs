@@ -32,68 +32,93 @@ namespace NPA_PlayerPrefab.Scripts
 
         private void HandleAttackInput()
         {
-           
-          
+            // Check if player pressed attack, is not already attacking, 
+            // and cooldown has passed (per-attack)
             if (Input.GetKeyDown(attackKey) && !isAttacking && Time.time >= nextAttackTime)
             {
-                    // Reset combo if too slow
-                if (Time.time - lastAttackTime > comboResetDelay)
-                    currentComboStep = 0;
+                AttackData attackData; // This will hold the attack we perform
 
-                    // Pick which attack in the chain
-                AttackData attackData = comboAttacks[Mathf.Clamp(currentComboStep, 0, comboAttacks.Length - 1)];
+                //  DASH ATTACK LOGIC 
+                if (playerController.DashAttackWindowActive)
+                {
+                    attackData = dashAttackData;            // Use dash attack data
+                    playerController.ConsumeDashAttack();   // Consume the dash attack "window"
+                }
+                else
+                {
+                    //  COMBO ATTACK LOGIC 
+                    // If too much time has passed since last combo attack, reset to first combo step
+                    if (Time.time - lastAttackTime > comboResetDelay)
+                        currentComboStep = 0;
 
-                    // Advance step
-                currentComboStep++;
-                lastAttackTime = Time.time;
+                    // Pick the attack in the combo sequence based on current step
+                    attackData = comboAttacks[Mathf.Clamp(currentComboStep, 0, comboAttacks.Length - 1)];
 
-                Attack(attackData);
+                    // Advance combo step for next attack
+                    currentComboStep++;
+
+                    // Track time of this attack for combo reset logic
+                    lastAttackTime = Time.time;
+                }
+
+                //  PERFORM ATTACK 
+                Attack(attackData); // Call your attack function
+
+                //  SET COOLDOWN 
+                // Each attack can have its own cooldown to control pacing
+                nextAttackTime = Time.time + attackData.cooldown;
             }
-           
-
-            // Only trigger an attack if not already mid-attack
-           if (Input.GetKeyDown(attackKey) && !isAttacking)
-           {
-               // Use DashAttack if within dash window, else normal attack
-               if (playerController.DashAttackWindowActive)
-               {
-                   Attack(dashAttackData);
-                   playerController.ConsumeDashAttack();
-               }
-               else
-               {
-                   Attack(defaultAttack);
-               }
-           }
         }
+
+
         
         private void Attack(AttackData attackData)
         {
             if (attackData == null || hitBoxPrefab == null) return;
-            
-            isAttacking = true;
-            playerController.SetAttackLock(true); // Freeze movement during attack
 
-            // Build facing rotation (direction from controller + attack-specific offset)
+            isAttacking = true;
+            playerController.SetAttackLock(true); // Freeze or slow movement
+
             Vector3 facing = playerController.FacingDirection;
             Quaternion facingRot = Quaternion.LookRotation(facing, Vector3.up)
                                    * Quaternion.Euler(attackData.rotationOffset);
-
-            // Spawn position relative to player
             Vector3 spawnPos = transform.position + facingRot * attackData.hitboxOffset;
 
-            // Spawn hitbox under player
-            GameObject hb = Instantiate(hitBoxPrefab, spawnPos, facingRot, transform);
+            // Delay hitbox spawn until after startup
+            StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot));
+        }
+        private System.Collections.IEnumerator HandleAttackPhases(AttackData attackData, Vector3 spawnPos, Quaternion rot)
+        {
+            // --- STARTUP ---
+            yield return new WaitForSeconds(attackData.startupTime);
 
-            // Initialize with attack parameters
+            // --- ACTIVE ---
+            GameObject hb = Instantiate(hitBoxPrefab, spawnPos, rot, transform);
             Hitbox hbComp = hb.GetComponent<Hitbox>();
             if (hbComp != null)
-            {
                 hbComp.Initialize(attackData, this.gameObject);
-            }
-            // End attack after its duration
-            Invoke(nameof(ResetAttack), attackData.attackDuration);
+
+            yield return new WaitForSeconds(attackData.activeTime);
+
+            // Destroy hitbox after active frames
+            if (hb != null)
+                Destroy(hb);
+
+            // --- RECOVERY ---
+            yield return new WaitForSeconds(attackData.recoveryTime);
+
+            // Unlock movement and reset attack state
+            isAttacking = false;
+            playerController.SetAttackLock(false);
+
+            // Set cooldown for next attack
+            nextAttackTime = Time.time + attackData.cooldown;
+
+            // Reset combo if finished
+            if (currentComboStep >= comboAttacks.Length)
+                currentComboStep = 0;
         }
+
         
         private void ResetAttack()
         {

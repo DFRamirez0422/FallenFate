@@ -19,7 +19,7 @@ namespace NPA_PlayerPrefab.Scripts
             if (col != null) col.size = attackData.hitboxSize;
             
             // Destroy hitbox after attack duration
-            Destroy(gameObject, attackData.attackDuration);
+            Destroy(gameObject, attackData.TotalDuration);
         }
 
         private void OnTriggerEnter(Collider other)

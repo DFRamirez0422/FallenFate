@@ -6,7 +6,9 @@ namespace NPA_PlayerPrefab.Scripts
     {
         [Header("Movement Settings")] 
         [Tooltip("How fast the player moves")]
-        [SerializeField] private float moveSpeed = 5f;   
+        [SerializeField] private float moveSpeed = 5f;
+
+        [SerializeField] private float movementSlowOnAttack = 0.3f;
         
         [Tooltip("Small downward force to keep grounded")]
         [SerializeField] private float groundSnap = 2f;
@@ -129,7 +131,8 @@ namespace NPA_PlayerPrefab.Scripts
             }
             else
             {
-                velocity = Vector3.zero; //  Freeze during attack
+                velocity = moveDirectionWorld * moveSpeed * movementSlowOnAttack;
+
             }
         }
 
