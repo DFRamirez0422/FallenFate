@@ -75,6 +75,12 @@ namespace NPA_RhythmBonusPrefabs
             if (!music) music = FindAnyObjectByType<RhythmMusicPlayer>();
             startSize = m_CursorObject.transform.localScale;
             startPosition = m_CursorObject.transform.position;
+
+            // Moves the cursor back just enough to adjust for any lag from the song.
+            // Probably should find a way to bring in the game's start time as well; a lot of
+            // the lag I am encountering stems from just Unity itself.
+            float lag_time = (float)(music.SongStartDSP % music.BeatSec);
+            m_CursorObject.transform.Translate(-lag_time, 0.0f, 0.0f);
             
             if (autoPlay && music != null) 
                 StartCoroutine(PulseRoutine());
@@ -106,12 +112,24 @@ namespace NPA_RhythmBonusPrefabs
             m_CursorObject.transform.localScale = startSize * pulseSize;
         }
 
+        // Calculates the beats per second given a dynamically-changing tempo.
+        private double CalcBeatPerSec()
+        {
+            // Jose E.:
+            // Recalculate if the tempo has been changed.
+            // Clamping is needed to avoid locking Unity.
+            // Removing the clamping will lock Unity entirely and require force close. Please do not remove.
+            // Please do not ask what the magic numbers mean either. They're supposed to be sensible limits.
+            double beatSec = 60 / (music.BPM * subdivision);
+            return System.Math.Clamp(beatSec, 1.0 / 10.0, 2.0);
+        }
+
         // Pulses every quarter note using the song's BPM
         IEnumerator PulseRoutine()
         {
             if (music == null || music.BPM <= 0) yield break;
             
-            double beatSec = 60 / (music.BPM * subdivision);
+            double beatSec = CalcBeatPerSec();
             double nextBeat = music.SongStartDSP + pulseOffsetSec + beatSec;
             
             while (AudioSettings.dspTime < nextBeat)
@@ -125,14 +143,8 @@ namespace NPA_RhythmBonusPrefabs
                 // Wait until DSP time reaches next beat
                 while (AudioSettings.dspTime < nextBeat)
                     yield return null;
-
-                // Jose E.:
-                // Recalculate if the tempo has been changed.
-                // Clamping is needed to avoid locking Unity.
-                // Removing the clamping will lock Unity entirely and require force close. Please do not remove.
-                // Please do not ask what the magic numbers mean either. They're supposed to be sensible limits.
-                beatSec = 60 / (music.BPM * subdivision);
-                beatSec = System.Math.Clamp(beatSec, 1.0 / 10.0, 1.0);
+                    
+                beatSec = CalcBeatPerSec();
             }
         }
     }
