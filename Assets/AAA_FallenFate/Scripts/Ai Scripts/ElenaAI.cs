@@ -30,23 +30,28 @@ public class ElenaAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        if (CombatToggle == false)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            FollowPlayer();
-            if (Input.GetKeyDown(KeyCode.E))
+            if (CombatToggle == false)
             {
                 CombatToggle = true;
             }
+            else if (CombatToggle == true)
+            {
+                CombatToggle = false;
+            }
+
+        }
+        if (CombatToggle == false)
+        {
+            FollowPlayer();
+            
         }
 
         if (CombatToggle == true)
         {
             TakeCover();
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                CombatToggle = false;
-            }
+            
         }       
     }
 
