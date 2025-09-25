@@ -9,7 +9,7 @@ public class SimpleAi : MonoBehaviour
     public Transform player;
 
     public Health PlayerHealth;
-    
+
     public Hitstun stun;
 
     public LayerMask whatIsGround, whatIsPlayer;
@@ -22,33 +22,48 @@ public class SimpleAi : MonoBehaviour
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
+    public Waypoint WaypointScript;
 
     //Attacking 
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-
-    public bool RangedToogle;
+    public GameObject fist;
+    public bool RangedToogle = false;
+    private float fistTimer = 1;
 
     //States 
     public float sightRange, attackRange;
     public bool PlayerInSightRange, PlayerInAttackRange;
 
-    private void Awaked()
+    private void Awake()
     {
-        player = GameObject.Find("Sprite").transform;
+        player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        PlayerHealth = player.GetComponent<Health>();
+        if (player != null)
+        {
+            PlayerHealth = player.GetComponent<Health>();
+        }
         //check for sight and attack range
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!PlayerInSightRange && !PlayerInAttackRange) Patrolling();
+        if (!PlayerInSightRange && !PlayerInAttackRange) Waypoints();
         if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();
+
+        if (fist == true)
+        {
+            fistTimer = fistTimer - Time.deltaTime;
+        }
+        if (fistTimer <= 0)
+        {
+            fist.SetActive(false);
+            fistTimer = 1;
+        }
     }
 
     private void Patrolling()
@@ -65,6 +80,12 @@ public class SimpleAi : MonoBehaviour
             walkPointSet = false;
     }
 
+    private void Waypoints()
+    {
+            WaypointScript.Walking();
+        agent.SetDestination(WaypointScript.waypoint[WaypointScript.currentWaypointIndex].position);
+    }
+
     private void SearchWalkPoint()
     {
         //Calculate random point in range
@@ -78,43 +99,52 @@ public class SimpleAi : MonoBehaviour
     }
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        if ( player != null)
+        {
+            agent.SetDestination(player.position);
+        }
     }
 
     private void AttackPlayer()
     {
-      
-
-        //Make sure enemy doesn't move
-        agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
+        if (player != null)
         {
-            if (stun != null && stun.IsStunned) 
+            //Make sure enemy doesn't move
+            agent.SetDestination(transform.position);
+
+            transform.LookAt(player);
+
+            if (!alreadyAttacked)
             {
-                  Debug.Log("STUNNED!");
-                  return; // skip attack
-            }
-              //Attack code
-            if (RangedToogle == true)
-            {
-                Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
-            }
-            else
-            {
-                PlayerHealth.TakeDamage(10);
-            }
+                if (stun != null && stun.IsStunned) 
+                {
+                    Debug.Log("STUNNED!");
+                    return; // skip attack
+                }
+                //Attack code
+                if (RangedToogle == true)
+                {
+                    Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+                }
+                else
+                {
+                    fist.SetActive(true);
+                    PlayerHealth.TakeDamage(10);
+                }
 
                 alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+                
+                
+
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            }
         }
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        
     }
 
     private void OnDrawGizmosSelected()
