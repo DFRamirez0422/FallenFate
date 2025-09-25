@@ -32,6 +32,12 @@ namespace NPA_PlayerPrefab.Scripts
             {
                 health.TakeDamage(attackData.damage);
             }
+            if (other.TryGetComponent<Hitstun>(out Hitstun hitstun))
+            {
+                // maybe will add duration from AttackData
+                hitstun.ApplyHitstun(2f); 
+            }
+
         }
         
         private void OnDrawGizmos()
