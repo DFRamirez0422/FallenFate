@@ -14,9 +14,9 @@ namespace NPA_PlayerPrefab.Scripts
             attackData = data;
             owner = ownerObj;
 
-            // Resize collider to match AttackData
-            BoxCollider col = GetComponent<BoxCollider>();
-            if (col != null) col.size = attackData.hitboxSize;
+            // Resize prefab to match AttackData
+            transform.localScale = attackData.hitboxSize;
+
             
             // Destroy hitbox after attack duration
             Destroy(gameObject, attackData.TotalDuration);
@@ -35,7 +35,7 @@ namespace NPA_PlayerPrefab.Scripts
             if (other.TryGetComponent<Hitstun>(out Hitstun hitstun))
             {
                 // maybe will add duration from AttackData
-                hitstun.ApplyHitstun(2f); 
+                hitstun.ApplyHitstun(hitstun.defaultStunDuration); 
             }
 
         }

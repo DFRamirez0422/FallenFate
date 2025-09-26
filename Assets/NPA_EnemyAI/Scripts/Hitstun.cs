@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Hitstun : MonoBehaviour
 {
-    [SerializeField] private float defaultStunDuration = 0.3f; 
+    [SerializeField] public float defaultStunDuration = 0.3f; 
 
     private float stunTimer = 0f;
     private bool isStunned = false;

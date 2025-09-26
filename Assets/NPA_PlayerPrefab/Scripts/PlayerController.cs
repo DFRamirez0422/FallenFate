@@ -8,7 +8,7 @@ namespace NPA_PlayerPrefab.Scripts
         [Tooltip("How fast the player moves")]
         [SerializeField] private float moveSpeed = 5f;
 
-        [SerializeField] private float movementSlowOnAttack = 0.3f;
+        [SerializeField] private float movementSlowOnAttack = 0.01f;
         
         [Tooltip("Small downward force to keep grounded")]
         [SerializeField] private float groundSnap = 2f;

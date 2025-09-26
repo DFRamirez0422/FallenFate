@@ -39,10 +39,17 @@ public class SimpleAi : MonoBehaviour
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        
     }
 
     private void Update()
     {
+        // If stunned freeze movement and skip all logic
+        if (stun != null && stun.IsStunned)
+        {
+            agent.SetDestination(transform.position); // stop NavMeshAgent
+            return; // don't patrol, chase, or attack
+        }
         if (player != null)
         {
             PlayerHealth = player.GetComponent<Health>();
@@ -112,7 +119,10 @@ public class SimpleAi : MonoBehaviour
             //Make sure enemy doesn't move
             agent.SetDestination(transform.position);
 
-            transform.LookAt(player);
+            Vector3 lookPos = player.position;
+            lookPos.y = transform.position.y; // ignore vertical difference
+            transform.LookAt(lookPos);
+
 
             if (!alreadyAttacked)
             {
