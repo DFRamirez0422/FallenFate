@@ -21,6 +21,25 @@ namespace NPA_PlayerPrefab.Scripts
 
         [Tooltip("Time after active frames until player can act again")]
         public float recoveryTime = 0.2f;
+        
+        [Header("Finishers")]
+        [Tooltip("0 = not a finisher, 1 = unlocked at 3 hits, 2 = at 6 hits, 3 = at 9 hits")]
+        public int finisherTier = 0;
+
+        [Tooltip("If set, this attack spawns a projectile prefab when used")]
+        public GameObject projectilePrefab;
+        public float projectileSpeed = 12f;
+
+        [Tooltip("If true, using this attack grants a temporary lifesteal buff")]
+        public bool grantsLifestealBuff = false;
+
+        [Tooltip("How long the lifesteal buff lasts (seconds)")]
+        public float lifestealDuration = 0f;
+
+        [Tooltip("Percentage of damage converted to healing (0.2 = 20%)")]
+        [Range(0f, 1f)] 
+        public float lifestealPercent = 0f;
+
 
         // Total duration for convenience
         public float TotalDuration => startupTime + activeTime + recoveryTime;

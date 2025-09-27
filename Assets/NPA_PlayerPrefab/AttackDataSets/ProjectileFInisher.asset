@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b644360b1d1fdf847ad2e50ec5d8cfa4, type: 3}
-  m_Name: Cross Slash
+  m_Name: ProjectileFInisher
   m_EditorClassIdentifier: 
   attackName: Basic Attack
-  damage: 20
+  damage: 10
   startupTime: 0.1
   activeTime: 0.15
   recoveryTime: 0.2
-  finisherTier: 0
-  projectilePrefab: {fileID: 0}
+  finisherTier: 3
+  projectilePrefab: {fileID: 8887454416506644482, guid: f4865ff1c99087b43885f95bbfa0937f, type: 3}
   projectileSpeed: 12
   grantsLifestealBuff: 0
   lifestealDuration: 0
   lifestealPercent: 0
-  hitboxSize: {x: 2, y: 1, z: 2}
-  hitboxOffset: {x: 1, y: 1, z: 1}
-  rotationOffset: {x: -45, y: -90, z: 0}
+  hitboxSize: {x: 1, y: 1, z: 1}
+  hitboxOffset: {x: 1, y: 1, z: 0}
+  rotationOffset: {x: 0, y: -90, z: 0}
   cooldown: 0.5

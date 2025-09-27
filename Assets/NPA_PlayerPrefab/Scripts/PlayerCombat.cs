@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace NPA_PlayerPrefab.Scripts
@@ -18,6 +19,15 @@ namespace NPA_PlayerPrefab.Scripts
         [SerializeField] private AttackData[] comboAttacks; // assign 1–4 moves
         [SerializeField] private float attackCooldown = 0.25f;
         [SerializeField] private float comboResetDelay = 1f;
+        
+        // --- Combo Finisher System ---
+        [SerializeField] private KeyCode finisherKey = KeyCode.Mouse1; // Finisher button
+        [SerializeField] private AttackData finisher3Hit;
+        [SerializeField] private AttackData finisher6Hit;
+        [SerializeField] private AttackData finisher9Hit;
+
+        private int currentHitCount = 0; // Tracks consecutive successful hits
+
 
         private int currentComboStep = 0; 
         private float nextAttackTime = 0f;
@@ -27,8 +37,10 @@ namespace NPA_PlayerPrefab.Scripts
         
         void Update()
         {
-            HandleAttackInput(); // Check for player input each frame
-        }
+            HandleAttackInput();
+            HandleFinisherInput();
+        }// Check for player input each frame
+        
 
         private void HandleAttackInput()
         {
@@ -70,7 +82,25 @@ namespace NPA_PlayerPrefab.Scripts
             }
         }
 
+        private void HandleFinisherInput()
+        {
+            if (Input.GetKeyDown(finisherKey) && !isAttacking)
+            {
+                AttackData chosenFinisher = null;
 
+                if (currentHitCount >= 9) chosenFinisher = finisher9Hit;
+                else if (currentHitCount >= 6) chosenFinisher = finisher6Hit;
+                else if (currentHitCount >= 3) chosenFinisher = finisher3Hit;
+
+                if (chosenFinisher != null)
+                {
+                    Attack(chosenFinisher);
+
+                    // Reset hit counter after using finisher
+                    currentHitCount = 0;
+                }
+            }
+        }
         
         private void Attack(AttackData attackData)
         {
@@ -85,39 +115,84 @@ namespace NPA_PlayerPrefab.Scripts
             Vector3 spawnPos = transform.position + facingRot * attackData.hitboxOffset;
 
             // Delay hitbox spawn until after startup
-            StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot));
+            StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot, facing));
         }
-        private System.Collections.IEnumerator HandleAttackPhases(AttackData attackData, Vector3 spawnPos, Quaternion rot)
+        private IEnumerator HandleAttackPhases(AttackData attackData, Vector3 spawnPos, Quaternion rot, Vector3 facing)
         {
-            // --- STARTUP ---
+            // STARTUP
             yield return new WaitForSeconds(attackData.startupTime);
 
-            // --- ACTIVE ---
-            GameObject hb = Instantiate(hitBoxPrefab, spawnPos, rot, transform);
-            Hitbox hbComp = hb.GetComponent<Hitbox>();
-            if (hbComp != null)
-                hbComp.Initialize(attackData, this.gameObject);
+            GameObject hb = null;
+            GameObject hbProj = null;
 
+            // ACTIVE
+            if (attackData.projectilePrefab == null)
+            {
+                // Only spawn hitbox
+                hb = Instantiate(hitBoxPrefab, spawnPos, rot, transform);
+                if (hb.TryGetComponent<Hitbox>(out Hitbox hbComp))
+                {
+                    hbComp.Initialize(attackData, this.gameObject);
+                    hbComp.SetOwnerCombat(this);
+                }
+            }
+            else
+            {
+                // Only spawn projectile
+                hbProj = Instantiate(attackData.projectilePrefab, spawnPos, rot);
+
+                if (hbProj.TryGetComponent<Hitbox>(out Hitbox hbProjComp))
+                {
+                    hbProjComp.Initialize(attackData, this.gameObject);
+                    hbProjComp.SetOwnerCombat(this);
+                }
+
+                if (hbProj.TryGetComponent<ProjectileMover>(out ProjectileMover mover))
+                {
+                    mover.direction = facing.normalized;
+                    mover.speed = attackData.projectileSpeed;
+                    
+                    hbProj.transform.rotation = Quaternion.LookRotation(facing, Vector3.up);
+
+                }
+            }
+
+            // Keep hitbox alive for activeTime
             yield return new WaitForSeconds(attackData.activeTime);
 
-            // Destroy hitbox after active frames
-            if (hb != null)
-                Destroy(hb);
+            if (hb != null) Destroy(hb);
+            if (hbProj != null) Destroy(hbProj);
 
-            // --- RECOVERY ---
+            // RECOVERY
             yield return new WaitForSeconds(attackData.recoveryTime);
 
-            // Unlock movement and reset attack state
+            // Unlock player movement
             isAttacking = false;
             playerController.SetAttackLock(false);
 
             // Set cooldown for next attack
             nextAttackTime = Time.time + attackData.cooldown;
-
-            // Reset combo if finished
+            // reset Combo
             if (currentComboStep >= comboAttacks.Length)
                 currentComboStep = 0;
         }
+
+        
+        public void RegisterHit()
+        {
+            currentHitCount++;
+
+            Debug.Log($"Hit Count: {currentHitCount}");
+
+            // Example: unlock finishers
+            if (currentHitCount == 3)
+                Debug.Log("3-Hit Finisher unlocked!");
+            else if (currentHitCount == 6)
+                Debug.Log("6-Hit Finisher unlocked!");
+            else if (currentHitCount == 9)
+                Debug.Log("9-Hit Finisher unlocked!");
+        }
+
 
         
         private void ResetAttack()

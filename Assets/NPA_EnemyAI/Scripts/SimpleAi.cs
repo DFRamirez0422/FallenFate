@@ -129,6 +129,8 @@ public class SimpleAi : MonoBehaviour
                 if (stun != null && stun.IsStunned) 
                 {
                     Debug.Log("STUNNED!");
+                    fist.SetActive(false);
+                    fistTimer = 0;
                     return; // skip attack
                 }
                 //Attack code
