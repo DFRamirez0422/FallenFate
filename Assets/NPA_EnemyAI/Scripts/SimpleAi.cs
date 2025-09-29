@@ -44,7 +44,7 @@ public class SimpleAi : MonoBehaviour
 
     private void Update()
     {
-        // If stunned freeze movement and skip all logic
+        // If stunned freeze movement and skip all logic - ERIK
         if (stun != null && stun.IsStunned)
         {
             agent.SetDestination(transform.position); // stop NavMeshAgent
@@ -126,7 +126,7 @@ public class SimpleAi : MonoBehaviour
 
             if (!alreadyAttacked)
             {
-                if (stun != null && stun.IsStunned) 
+                if (stun != null && stun.IsStunned) // Eriks stun code
                 {
                     Debug.Log("STUNNED!");
                     fist.SetActive(false);
