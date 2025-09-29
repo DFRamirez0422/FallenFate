@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8000793437638479493}
   - component: {fileID: 6235680588838002235}
   - component: {fileID: 6162780170175948858}
-  - component: {fileID: 2369524760842482915}
   m_Layer: 7
   m_Name: PlayerRoot
   m_TagString: Player
@@ -31,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2344414788718996121}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.35, y: 0, z: 0.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -136,21 +135,6 @@ MonoBehaviour:
   playerController: {fileID: 2357863302574831891}
   dashAttackData: {fileID: 11400000, guid: 0d2976b0410e62246816d8307a9f9624, type: 2}
   attackKey: 323
---- !u!114 &2369524760842482915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2344414788718996121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89c9d99f90c637c4f8beeef9d4adf25a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentRespawnPoint: {fileID: 0}
-  CurrentCheckPoint: {fileID: 0}
-  playerRespawn: {x: 0, y: 0, z: 0}
 --- !u!1 &3533410122699017750
 GameObject:
   m_ObjectHideFlags: 0

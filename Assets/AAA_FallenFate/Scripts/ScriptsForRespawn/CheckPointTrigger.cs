@@ -10,7 +10,7 @@ public class CheckPointTrigger : MonoBehaviour
 
     private void Awake()
     {
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Respawn>();
+        Player = GameObject.FindGameObjectWithTag("Respawn").GetComponent<Player_Respawn>();
         SphereC = GetComponent<SphereCollider>();
     }
 

@@ -13,7 +13,7 @@ namespace NPA_Health_Components
         private void Start()
         {
             currentHealth = 50;
-            respawn = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Respawn>();
+            respawn = GameObject.FindGameObjectWithTag("Respawn").GetComponent<Player_Respawn>();
         }
 
         public void TakeDamage(int damage)

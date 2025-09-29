@@ -6,30 +6,30 @@ public class Player_Respawn : MonoBehaviour
 {
     [SerializeField] private GameObject CurrentRespawnPoint;
     public GameObject CurrentCheckPoint;
-    public Transform playerRespawn;
-    [SerializeField] private bool IsDead;
 
-    private void Start()
+    [SerializeField] private bool IsDead;
+    [SerializeField] private GameObject Player;
+
+    private void Awake()
     {
-        playerRespawn = this.transform;
-        CurrentRespawnPoint = CurrentCheckPoint;
-        playerRespawn.position = CurrentRespawnPoint.transform.position;
         IsDead = false;
+        SpawnPlayer PLAYER = GameObject.FindGameObjectWithTag("StartingSpawnPoint").GetComponent<SpawnPlayer>();
+        Player = PLAYER.playerclone;
     }
     // Update is called once per frame
     void Update()
     {
-        CurrentRespawnPoint = CurrentCheckPoint;
+            CurrentRespawnPoint = CurrentCheckPoint;
+
         if (IsDead)
         {
-            this.transform.localPosition = playerRespawn.position;
-            Health Health = this.gameObject.GetComponent<Health>();
+            Player.transform.position = CurrentRespawnPoint.transform.position;
+            Health Health = Player.gameObject.GetComponent<Health>();
         }
     }
 
     public void DieAndRespawn(bool Dead)
     {
-        playerRespawn.position = CurrentRespawnPoint.transform.position;
         Debug.Log($"{gameObject.name} has died!");
         IsDead = Dead;
     }
