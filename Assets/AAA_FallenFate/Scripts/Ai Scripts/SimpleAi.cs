@@ -9,6 +9,7 @@ public class SimpleAi : MonoBehaviour
     public Transform player;
 
     public Health PlayerHealth;
+    public CombatManager combatManager;
 
     public LayerMask whatIsGround, whatIsPlayer;
     
@@ -35,8 +36,9 @@ public class SimpleAi : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>();
     }
 
     private void Update()
@@ -97,6 +99,7 @@ public class SimpleAi : MonoBehaviour
     }
     private void ChasePlayer()
     {
+        combatManager.CombatFuntion();
         if ( player != null)
         {
             agent.SetDestination(player.position);
