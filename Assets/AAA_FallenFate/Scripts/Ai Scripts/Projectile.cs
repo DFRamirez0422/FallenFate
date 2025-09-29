@@ -1,8 +1,9 @@
+using NPA_Health_Components;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public PlayerHealthN PlayerHealth;
+    public Health PlayerHealth;
     public float speed = 20f;
     public Rigidbody rb;
 
@@ -26,12 +27,12 @@ public class Projectile : MonoBehaviour
         
 
         // Get a specific component from the colliding object
-        PlayerHealth = otherObject.GetComponent<PlayerHealthN>();
+        PlayerHealth = otherObject.GetComponent<Health>();
 
         if (otherObject.CompareTag("Player"))
         {
             Debug.Log("Got Player");
-            PlayerHealth.TakeDamage();
+            PlayerHealth.TakeDamage(20);
             Destroy(gameObject);
         }
         else
