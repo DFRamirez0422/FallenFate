@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace NPA_RhythmBonusPrefabs
 {
@@ -55,6 +56,9 @@ namespace NPA_RhythmBonusPrefabs
         [Tooltip("Prefab for the beat marker object.")]
         [SerializeField] private GameObject m_BeatMarkerPrefab;
 
+        [Tooltip("Speed to fade in the beats from the ends of the staff.")]
+        [SerializeField] private float m_BeatFadeSpeed = 2.0f;
+
         /*
             How do we implement the moving beat makers?
             Well, we keep a list of all the instances of the prefab that we initialize on Start(). This list
@@ -84,10 +88,10 @@ namespace NPA_RhythmBonusPrefabs
         // As mentioned above, in order to keep things simple, we will initialize to 4 beats on the staff.
         private const int s_NumBeatMarkers = 4;
 
-        // Current index within the queue to the head.
+        // Current index within the queue to the head, aka where the closest markers to the center are.
         private int m_CurrentHeadIndex = 0;
 
-        // Current index within the queue to the tail.
+        // Current index within the queue to the tail, aka where the farthest away markers are located.
         private int m_CurrentTailIndex = 0;
 
         private void Start()
@@ -117,7 +121,11 @@ namespace NPA_RhythmBonusPrefabs
             // This makes the UI not match up properly to the music and not match up properly to the
             // beat entering the center of the screen. This line is suppoosed to help fix it
             // but it's only a bit of a band-aid. It doesn't always work either...
-            m_ElapsedTime += (float)music.SongStartDSP + (music.BeatSec * 0.25f);
+            //m_ElapsedTime += (float)music.SongStartDSP + (music.BeatSec * 0.25f);
+            //
+            // Update: September 29, 2025 13:13
+            // Might be fixed with this line and with a little experimenting with the offset in PulseToBeat.cs
+            m_ElapsedTime -= (float)Time.realtimeSinceStartupAsDouble % music.BeatSec;
         }
 
         // Helper function for initializating new beat markers.
@@ -155,16 +163,16 @@ namespace NPA_RhythmBonusPrefabs
             if (m_ElapsedTime > music.BeatSec)
             {
                 // For the first couple of beats, we have to activate them manually.
-                if (m_CurrentHeadIndex < s_NumBeatMarkers)
+                if (m_CurrentTailIndex < s_NumBeatMarkers)
                 {
-                    var marker_left_script = getBeatMarkerOnLeft(m_CurrentHeadIndex).GetComponent<UIElementFader>();
-                    var marker_right_script = getBeatMarkerOnRight(m_CurrentHeadIndex).GetComponent<UIElementFader>();
+                    var marker_left_script = getBeatMarkerOnLeft(m_CurrentTailIndex).GetComponent<UIElementFader>();
+                    var marker_right_script = getBeatMarkerOnRight(m_CurrentTailIndex).GetComponent<UIElementFader>();
 
                     marker_left_script.activate(music.BeatSec);
                     marker_right_script.activate(music.BeatSec);
                 }
 
-                m_CurrentHeadIndex++;
+                m_CurrentTailIndex++;
                 m_ElapsedTime = 0.0f;
             }
         }
@@ -192,10 +200,10 @@ namespace NPA_RhythmBonusPrefabs
                 marker_left.transform.localPosition = m_LeftmostEnd;
                 marker_right.transform.localPosition = m_RightmostEnd;
 
-                marker_left_script.activate(music.BeatSec * 2.0f);
-                marker_right_script.activate(music.BeatSec * 2.0f);
+                marker_left_script.activate(music.BeatSec * m_BeatFadeSpeed);
+                marker_right_script.activate(music.BeatSec * m_BeatFadeSpeed);
 
-                m_CurrentTailIndex++;
+                m_CurrentHeadIndex++;
             }
         }
 
@@ -209,7 +217,7 @@ namespace NPA_RhythmBonusPrefabs
             int num_beats_per_measure = 4;
             float staff_dimension = m_StaffObject.rect.width / 2.0f;
             float delta_speed = (staff_dimension / (float)num_beats_per_measure) / music.BeatSec * Time.deltaTime;
-            int num_beat_markers = Math.Min(s_NumBeatMarkers, m_CurrentHeadIndex);
+            int num_beat_markers = Math.Min(s_NumBeatMarkers, m_CurrentTailIndex);
 
             for (int i = 0; i < num_beat_markers; i++)
             {
@@ -226,14 +234,16 @@ namespace NPA_RhythmBonusPrefabs
         // the center.
         private GameObject getBeatMarkerOnLeft(int index)
         {
-            return m_BeatMarkersList[(index + m_CurrentTailIndex) % s_NumBeatMarkers];
+            Assert.IsTrue(index >= 0 && index < s_NumBeatMarkers);
+            return m_BeatMarkersList[(index + m_CurrentHeadIndex) % s_NumBeatMarkers];
         }
 
         // Returns the beat marker to the right of the center by its index. The lower the number, the closer to
         // the center.
         private GameObject getBeatMarkerOnRight(int index)
         {
-            return m_BeatMarkersList[m_BeatMarkersList.Count - 1 - (index + m_CurrentTailIndex) % s_NumBeatMarkers];
+            Assert.IsTrue(index >= 0 && index < s_NumBeatMarkers);
+            return m_BeatMarkersList[m_BeatMarkersList.Count - 1 - (index + m_CurrentHeadIndex) % s_NumBeatMarkers];
         }
     }
 }
