@@ -5,27 +5,41 @@ namespace NPA_Health_Components
     public class Health : MonoBehaviour
     {
         [SerializeField] private int maxHealth = 100;
-        private int currentHealth;
-        private void Awake()
+        public int currentHealth;
+
+        //To get checkpoint to respawn
+        private Player_Respawn respawn;
+
+        private void Start()
         {
-            currentHealth = maxHealth;
+            currentHealth = 50;
+            respawn = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Respawn>();
         }
-        
+
         public void TakeDamage(int damage)
         {
-            currentHealth -= damage;
-            Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
+                currentHealth -= damage;
 
+            Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
             if (currentHealth <= 0)
             {
-                Die();
+                bool Dead = true;
+                respawn.DieAndRespawn(Dead);
             }
         }
 
-        private void Die()
+        //Change Made by AngelR
+        // to give him health back from health power up
+        public void GetHealth(int GiveHealth)
         {
-            Debug.Log($"{gameObject.name} has died!");
-            Destroy(gameObject);
+            if (currentHealth > 0 && currentHealth < maxHealth)
+            {
+                currentHealth += GiveHealth;
+            }
+            else if (currentHealth > 100)
+            {
+            }
         }
+
     }
 }
