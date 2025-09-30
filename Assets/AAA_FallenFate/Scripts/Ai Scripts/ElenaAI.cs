@@ -21,6 +21,9 @@ public class ElenaAI : MonoBehaviour
         self = GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();
         
+        // Disable automatic rotation so Elena does not rotate while moving
+        agent.updateRotation = false;
+        
     }
     void Start()
     {
