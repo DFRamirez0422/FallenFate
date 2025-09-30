@@ -30,7 +30,7 @@ namespace NPA_PlayerPrefab.Scripts
                 if (other.TryGetComponent<Health>(out Health health))
                 {
                     health.TakeDamage(attackData.damage);
-                    owner.GetComponent<PlayerCombat>()?.RegisterHit();
+                    ownerCombat?.RegisterHit();
                 }
 
                 if (other.TryGetComponent<Hitstun>(out Hitstun hitstun))
@@ -67,9 +67,9 @@ namespace NPA_PlayerPrefab.Scripts
         
         }
         
-        private PlayerCombat ownerCombat;
+        private IPlayerCombat ownerCombat;
 
-        public void SetOwnerCombat(PlayerCombat combat)
+        public void SetOwnerCombat(IPlayerCombat combat)
         {
             ownerCombat = combat;
         }

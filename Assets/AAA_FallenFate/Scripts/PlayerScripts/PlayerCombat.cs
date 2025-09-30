@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NPA_PlayerPrefab.Scripts
 {
-    public class PlayerCombat : MonoBehaviour
+    public class PlayerCombat : MonoBehaviour, IPlayerCombat
     {
         [Header("References")]
         // [SerializeField] private Transform attackSpawnPoint; // Where hitbox spawns
