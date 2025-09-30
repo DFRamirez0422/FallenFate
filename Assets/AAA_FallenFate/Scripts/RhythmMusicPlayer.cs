@@ -6,12 +6,11 @@ namespace NPA_RhythmBonusPrefabs
     ///  Plays music locked to DSP time
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
-    [RequireComponent(typeof(MusicDictionary))]
     public class RhythmMusicPlayer : MonoBehaviour
     {
         [Header("Audio")]
         [SerializeField] private AudioSource source; // Reference to AudioSource
-        [SerializeField] private MusicDictionary m_MusicDictionary; // Reference to the script to retrieve songs by their names.
+        // [SerializeField] private MusicDictionary m_MusicDictionary; // Reference to the script to retrieve songs by their names.
         
         [Tooltip("Song speed as a multiplier relative to the base tempo.")]
         [SerializeField] private float m_TempoRate = 1.0f; // change the rhythm tempo without affecting the base value
