@@ -21,12 +21,6 @@ namespace NPA_Health_Components
                 Die();
             }
         }
-        public void Heal(int amount)
-        {
-            currentHealth += amount;
-            currentHealth = Mathf.Min(currentHealth, maxHealth);
-            Debug.Log($"Healed {amount}. Health now {currentHealth}");
-        }
 
         private void Die()
         {

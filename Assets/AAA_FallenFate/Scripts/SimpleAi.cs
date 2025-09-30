@@ -10,11 +10,6 @@ public class SimpleAi : MonoBehaviour
 
     public Health PlayerHealth;
 
-<<<<<<< HEAD
-=======
-    public Hitstun stun;
-
->>>>>>> chore/attacksystem-organized-EA-MH-DG
     public LayerMask whatIsGround, whatIsPlayer;
     
     // Shooting
@@ -25,80 +20,33 @@ public class SimpleAi : MonoBehaviour
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
-<<<<<<< HEAD
-=======
-    public Waypoint WaypointScript;
->>>>>>> chore/attacksystem-organized-EA-MH-DG
 
     //Attacking 
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-<<<<<<< HEAD
 
     public bool RangedToogle;
-=======
-    public GameObject fist;
-    public bool RangedToogle = false;
-    private float fistTimer = 1;
->>>>>>> chore/attacksystem-organized-EA-MH-DG
 
     //States 
     public float sightRange, attackRange;
     public bool PlayerInSightRange, PlayerInAttackRange;
 
-<<<<<<< HEAD
     private void Awaked()
     {
         player = GameObject.Find("Sprite").transform;
         agent = GetComponent<NavMeshAgent>();
-=======
-    private void Awake()
-    {
-        player = GameObject.Find("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
-        
->>>>>>> chore/attacksystem-organized-EA-MH-DG
     }
 
     private void Update()
     {
-<<<<<<< HEAD
         PlayerHealth = player.GetComponent<Health>();
-=======
-        // If stunned freeze movement and skip all logic - ERIK
-        if (stun != null && stun.IsStunned)
-        {
-            agent.SetDestination(transform.position); // stop NavMeshAgent
-            return; // don't patrol, chase, or attack
-        }
-        if (player != null)
-        {
-            PlayerHealth = player.GetComponent<Health>();
-        }
->>>>>>> chore/attacksystem-organized-EA-MH-DG
         //check for sight and attack range
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-<<<<<<< HEAD
         if (!PlayerInSightRange && !PlayerInAttackRange) Patrolling();
         if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();
-=======
-        if (!PlayerInSightRange && !PlayerInAttackRange) Waypoints();
-        if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();
-        if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();
-
-        if (fist == true)
-        {
-            fistTimer = fistTimer - Time.deltaTime;
-        }
-        if (fistTimer <= 0)
-        {
-            fist.SetActive(false);
-            fistTimer = 1;
-        }
->>>>>>> chore/attacksystem-organized-EA-MH-DG
     }
 
     private void Patrolling()
@@ -115,15 +63,6 @@ public class SimpleAi : MonoBehaviour
             walkPointSet = false;
     }
 
-<<<<<<< HEAD
-=======
-    private void Waypoints()
-    {
-            WaypointScript.Walking();
-        agent.SetDestination(WaypointScript.waypoint[WaypointScript.currentWaypointIndex].position);
-    }
-
->>>>>>> chore/attacksystem-organized-EA-MH-DG
     private void SearchWalkPoint()
     {
         //Calculate random point in range
@@ -137,19 +76,11 @@ public class SimpleAi : MonoBehaviour
     }
     private void ChasePlayer()
     {
-<<<<<<< HEAD
         agent.SetDestination(player.position);
-=======
-        if ( player != null)
-        {
-            agent.SetDestination(player.position);
-        }
->>>>>>> chore/attacksystem-organized-EA-MH-DG
     }
 
     private void AttackPlayer()
     {
-<<<<<<< HEAD
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
 
@@ -169,54 +100,12 @@ public class SimpleAi : MonoBehaviour
 
                 alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
-=======
-        if (player != null)
-        {
-            //Make sure enemy doesn't move
-            agent.SetDestination(transform.position);
-
-            Vector3 lookPos = player.position;
-            lookPos.y = transform.position.y; // ignore vertical difference
-            transform.LookAt(lookPos);
-
-
-            if (!alreadyAttacked)
-            {
-                if (stun != null && stun.IsStunned) // Eriks stun code
-                {
-                    Debug.Log("STUNNED!");
-                    fist.SetActive(false);
-                    fistTimer = 0;
-                    return; // skip attack
-                }
-                //Attack code
-                if (RangedToogle == true)
-                {
-                    Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
-                }
-                else
-                {
-                    fist.SetActive(true);
-                    PlayerHealth.TakeDamage(10);
-                }
-
-                alreadyAttacked = true;
-                
-                
-
-                Invoke(nameof(ResetAttack), timeBetweenAttacks);
-            }
->>>>>>> chore/attacksystem-organized-EA-MH-DG
         }
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
-<<<<<<< HEAD
-=======
-        
->>>>>>> chore/attacksystem-organized-EA-MH-DG
     }
 
     private void OnDrawGizmosSelected()
