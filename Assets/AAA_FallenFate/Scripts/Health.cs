@@ -4,22 +4,31 @@ namespace NPA_Health_Components
 {
     public class Health : MonoBehaviour
     {
+        [Tooltip("Maximum HP")]
         [SerializeField] private int maxHealth = 100;
-        private int currentHealth;
+        private int currentHealth; // Current HP runtime
         private void Awake()
         {
-            currentHealth = maxHealth;
+            currentHealth = maxHealth; // Initialize health on spawn
         }
         
         public void TakeDamage(int damage)
         {
+            // Subtract incoming damage from current health
             currentHealth -= damage;
             Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
 
+            // If health drops to 0 or below, kill the object
             if (currentHealth <= 0)
             {
                 Die();
             }
+        }
+        public void Heal(int amount)
+        {
+            currentHealth += amount;
+            currentHealth = Mathf.Min(currentHealth, maxHealth);
+            Debug.Log($"Healed {amount}. Health now {currentHealth}");
         }
 
         private void Die()

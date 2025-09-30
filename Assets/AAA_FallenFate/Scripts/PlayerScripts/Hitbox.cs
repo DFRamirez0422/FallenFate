@@ -14,25 +14,66 @@ namespace NPA_PlayerPrefab.Scripts
             attackData = data;
             owner = ownerObj;
 
-            // Resize collider to match AttackData
-            BoxCollider col = GetComponent<BoxCollider>();
-            if (col != null) col.size = attackData.hitboxSize;
+            // Resize prefab to match AttackData
+            transform.localScale = attackData.hitboxSize;
+
             
             // Destroy hitbox after attack duration
-            Destroy(gameObject, attackData.attackDuration);
+            Destroy(gameObject, attackData.TotalDuration);
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject == owner) return; // Ignore self-hits
 
-            // Apply damage if target has Health
-            Health health = other.GetComponent<Health>();
-            if (health != null)
+                // Deal damage
+                if (other.TryGetComponent<Health>(out Health health))
+                {
+                    health.TakeDamage(attackData.damage);
+                    owner.GetComponent<PlayerCombat>()?.RegisterHit();
+                }
+
+                if (other.TryGetComponent<Hitstun>(out Hitstun hitstun))
             {
-                health.TakeDamage(attackData.damage);
+                // Apply the hitstun
+                hitstun.ApplyHitstun(0.5f); // or replace 2f with attackData.hitstunDuration if you add that
+                Debug.Log("Hitstun applied to " + other.name);
             }
+            else
+            {
+                Debug.Log("No Hitstun component found on " + other.name);
+            }
+
+
+            if (owner.TryGetComponent<PlayerBuffs>(out PlayerBuffs buffs))
+            {
+                    // If this is the 9-hit finisher, apply the buff
+                    if (attackData.grantsLifestealBuff)
+                    {
+                        buffs.ApplyLifesteal(attackData.lifestealPercent, attackData.lifestealDuration);
+                        Debug.Log("Finisher applied lifesteal buff!");
+                    }
+
+                    // Heal from damage if lifesteal buff is active
+                    if (buffs.IsLifestealActive)
+                    {
+                        buffs.HealFromDamage(attackData.damage);
+                        Debug.Log("Healing applied from lifesteal buff!");
+                    }
+            }
+            
+
+         
+        
         }
+        
+        private PlayerCombat ownerCombat;
+
+        public void SetOwnerCombat(PlayerCombat combat)
+        {
+            ownerCombat = combat;
+        }
+
         
         private void OnDrawGizmos()
         {
