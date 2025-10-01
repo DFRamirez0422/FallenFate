@@ -1,9 +1,8 @@
 using UnityEngine;
-using NPA_RhythmBonusPrefabs;
 
-namespace NPA_PlayerPrefab.Scripts
+namespace NPA_RhythmBonusPrefabs
 {
-    using RhythmTier = NPA_RhythmBonusPrefabs.RhythmBonusJudge.RhythmTier;
+    using RhythmTier =RhythmBonusJudge.RhythmTier;
 
     public class BeatComboCounter : MonoBehaviour
     {
@@ -23,6 +22,9 @@ namespace NPA_PlayerPrefab.Scripts
 
         // Counts how many beats were hit in the current combo.
         private int m_ComboCounter = 0;
+
+        // Counts the highest combo ever recorded.
+        private int m_MaxCombos = 0;
 
         // Counts how many total beats were hit perfectly.
         private int m_NumPerfectHits = 0;
@@ -54,6 +56,11 @@ namespace NPA_PlayerPrefab.Scripts
                     break;
             }
 
+            if (m_ComboCounter > m_MaxCombos)
+            {
+                m_MaxCombos = m_ComboCounter;
+            }
+
             return tier;
         }
 
@@ -62,6 +69,7 @@ namespace NPA_PlayerPrefab.Scripts
         public void Reset()
         {
             m_ComboCounter = 0;
+            m_MaxCombos = 0;
             m_NumPerfectHits = 0;
             m_NumMisses = 0;
         }
@@ -70,12 +78,19 @@ namespace NPA_PlayerPrefab.Scripts
         public void ResetCombo()
         {
             m_ComboCounter = 0;
+            m_MaxCombos = 0;
         }
 
         // Returns how many perfect hits were done on combo.
         public int GetCurrentCombo()
         {
             return m_ComboCounter;
+        }
+
+        // Returns the highest combo recorded.
+        public int GetMaxEverCombo()
+        {
+            return m_MaxCombos;
         }
 
         // Returns how many perfect hits were done in total.
@@ -93,7 +108,13 @@ namespace NPA_PlayerPrefab.Scripts
         // Returns how many perfect hits were done as a percentage between zero and one.
         public float GetTimingGrade()
         {
-            return m_NumPerfectHits / (m_NumPerfectHits + m_NumMisses);
+            // Special case to avoid a division by zero.
+            if (m_NumPerfectHits == 0 || m_NumMisses == 0)
+            {
+                return 1.0f;
+            }
+
+            return (float)m_NumPerfectHits / ((float)m_NumPerfectHits + (float)m_NumMisses);
         }
     }
 }
