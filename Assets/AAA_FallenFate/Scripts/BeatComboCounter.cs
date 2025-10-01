@@ -19,6 +19,14 @@ namespace NPA_RhythmBonusPrefabs
 
         [Tooltip("Reference to the rhythm evaluation system deemed the bonus judge.")]
         [SerializeField] private RhythmBonusJudge m_Judge;
+        
+        [Header("Combo Bonuses")]
+
+        [Tooltip("List of multiplier bonuses depending on the combo.")]
+        [SerializeField] private float[] m_MultiplierBonuses = new float[] { 3, 6, 9 };
+
+        [Tooltip("Specify how many hits to qualify for each bonus.")]
+        [SerializeField] private int[] m_ComboCountBonuses = new int[] { 3, 6, 9 };
 
         // Counts how many beats were hit in the current combo.
         private int m_ComboCounter = 0;
@@ -62,6 +70,13 @@ namespace NPA_RhythmBonusPrefabs
             }
 
             return tier;
+        }
+
+        // Query function that returns whether or not the caller is currently on beat to the music but without changing
+        // any counters or combos. Can be used to quietly check the rhythm.
+        public RhythmTier IsOnBeat()
+        {
+            ;
         }
 
         // Reset all internal counters. Can be used if outside code wants a clean slate with combos and the number

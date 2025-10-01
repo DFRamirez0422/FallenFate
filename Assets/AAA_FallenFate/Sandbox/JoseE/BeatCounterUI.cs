@@ -7,7 +7,9 @@ using Tier = NPA_RhythmBonusPrefabs.RhythmBonusJudge.RhythmTier;
 /// </summary>
 public class BeatCounterUI : MonoBehaviour
 {
-    [SerializeField] private KeyCode testKey = KeyCode.Mouse0; // Key to sim "attack"
+    [SerializeField] private KeyCode m_BeatKey = KeyCode.Mouse0; // Key to sim "attack"
+
+    [SerializeField] private KeyCode m_ResetKey = KeyCode.Mouse1; // Key to reset manually during testing
 
     [SerializeField] private RhythmMusicPlayer m_MusicPlayer;
 
@@ -38,7 +40,7 @@ public class BeatCounterUI : MonoBehaviour
     void Update()
     {
         // When key is pressed, evaluate rhythm and print result
-        if (Input.GetKeyDown(testKey))
+        if (Input.GetKeyDown(m_BeatKey))
         {
             var tier = m_ComboCounter.EvaluateBeat();
             string tier_name = System.Enum.GetName(typeof(Tier), tier); // Retrieve the name of the tier for printing.
@@ -62,9 +64,13 @@ public class BeatCounterUI : MonoBehaviour
 
             Debug.Log($"[Rhyhtm Test] {tier_name} hit");
         }
+        if (Input.GetKeyDown(m_ResetKey))
+        {
+            m_ComboCounter.Reset();
+        }
 
         // Below section added by Jose E.
-        UpdateUI();
+            UpdateUI();
     }
 
     // Added by Jose E.
