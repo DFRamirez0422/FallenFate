@@ -12,7 +12,7 @@ public class Melee : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lifeTimer = lifeTimer - Time.deltaTime;
+        lifeTimer = lifeTimer - Time.deltaTime * 4;
 
         if (lifeTimer <= 0 )
         {
