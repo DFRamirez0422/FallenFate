@@ -28,9 +28,20 @@ namespace NPA_RhythmBonusPrefabs
         [Tooltip("Positive = judge later; Negative = earlier")]
         [SerializeField] private float latencyOffsetSec = 0f;   // Offset to compensate for device/controller lag
 
-        public (string tier, float multiplier) EvaluateNow()
+        // Enumeration to be returned by EvaluateNow() to determine how well the beat was hit to the rhythm.
+        // If there are more multiplier bonuses planned, PLEASE write them in the enum to ensure they are
+        // evluated correctly!
+        public enum RhythmTier
         {
-            if (music == null) return ("Bad", missMult);
+            Perfect,
+            Good,
+            Miss
+        }
+
+        public (RhythmTier tier, float multiplier) EvaluateNow()
+        {
+            if (music == null) return (RhythmTier.Miss, missMult);
+            if (!music.IsPlaying) return (RhythmTier.Miss, missMult);
             
             // Get current elapsed song time in seconds (DSP-accurate) 
             double elapsedSec = music.GetElapsedSec() + latencyOffsetSec;
@@ -59,9 +70,9 @@ namespace NPA_RhythmBonusPrefabs
             float good    = goodQuarterSec    * (bestIntervalSec / music.BeatSec);
             
             // Compare distance to thresholds → return tier + multiplier
-            if (bestDistSec <= perfect) return ("Perfect", perfectMult);
-            if (bestDistSec <= good)    return ("Good",    goodMult);
-            return ("Bad", missMult);
+            if (bestDistSec <= perfect) return (RhythmTier.Perfect, perfectMult);
+            if (bestDistSec <= good)    return (RhythmTier.Good,    goodMult);
+            return (RhythmTier.Miss, missMult);
         }
     }
 }

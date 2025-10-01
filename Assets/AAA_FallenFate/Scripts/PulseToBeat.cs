@@ -60,10 +60,18 @@ namespace NPA_RhythmBonusPrefabs
             {
                 Pulse();
                 nextBeat += beatSec;
-                
+
                 // Wait until DSP time reaches next beat
                 while (AudioSettings.dspTime < nextBeat)
                     yield return null;
+
+                // Jose E.:
+                // Recalculate if the tempo has been changed.
+                // Clamping is needed to avoid locking Unity.
+                // Removing the clamping will lock Unity entirely and require force close. Please do not remove.
+                // Please do not ask what the magic numbers mean either. They're supposed to be sensible limits.
+                beatSec = 60 / (music.BPM * subdivision);
+                beatSec = System.Math.Clamp(beatSec, 1.0 / 10.0, 1.0);
             }
         }
     }
