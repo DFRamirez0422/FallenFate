@@ -4,6 +4,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public Health PlayerHealth;
+    public int damage = 20;
     public float speed = 20f;
     public Rigidbody rb;
 
@@ -32,7 +33,7 @@ public class Projectile : MonoBehaviour
         if (otherObject.CompareTag("Player"))
         {
             Debug.Log("Got Player");
-            PlayerHealth.TakeDamage(20);
+            PlayerHealth.TakeDamage(damage);
             Destroy(gameObject);
         }
         else
