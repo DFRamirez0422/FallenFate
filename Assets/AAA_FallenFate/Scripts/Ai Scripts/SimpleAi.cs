@@ -28,6 +28,7 @@ public class SimpleAi : MonoBehaviour
     bool alreadyAttacked;
     public bool RangedToogle = false;
     public GameObject MeleePrefab; // This is just a representation for now
+    public GameObject MarkPrefab; //In enemies folder
 
     //States 
     public float sightRange, attackRange;
@@ -116,15 +117,15 @@ public class SimpleAi : MonoBehaviour
                 }
                 else
                 {
-                    Instantiate(MeleePrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
-                    PlayerHealth.TakeDamage(10);
+                    Instantiate(MarkPrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+                    Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - 1.5f);
                 }
 
                 alreadyAttacked = true;
                 
                 
 
-                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what attacks
+                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what attacks //timeBetweenAttacks is what adds a delay on my attacks.
             }
         }
     }
@@ -132,6 +133,15 @@ public class SimpleAi : MonoBehaviour
     private void ResetAttack()
     {
         alreadyAttacked = false;
+    }
+
+    private void FlashAttackMelee()
+    {
+        Instantiate(MeleePrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+        if (PlayerInSightRange && PlayerInAttackRange)
+        {
+            PlayerHealth.TakeDamage(10);
+        }
     }
 
     private void OnDrawGizmosSelected()

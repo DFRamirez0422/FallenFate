@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Melee : MonoBehaviour
+public class LifeTime : MonoBehaviour
 {
     public float lifeTimer = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
