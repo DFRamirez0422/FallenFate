@@ -10,10 +10,24 @@ namespace NPA_Health_Components
         //To get checkpoint to respawn
         private Player_Respawn respawn;
 
+        //GetHealth from Elena
+        private ElenaAI Elena;
+
         private void Start()
         {
             currentHealth = 50;
-            respawn = GameObject.FindGameObjectWithTag("Respawn").GetComponent<Player_Respawn>();
+            Elena = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
+            //respawn = GameObject.FindGameObjectWithTag("Respawn").GetComponent<Player_Respawn>();
+        }
+
+        private void FixedUpdate()
+        {
+            if (Elena.CombatToggle && currentHealth < 100/3
+                       && Input.GetKeyDown(KeyCode.Z) && Elena.HealthPackHold == 1)
+            {
+                Elena.ThrowHealthPowerUP();
+                Elena.HealthPackHold = 0;
+            }
         }
 
         public void TakeDamage(int damage)
@@ -21,25 +35,26 @@ namespace NPA_Health_Components
                 currentHealth -= damage;
 
             Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
-            if (currentHealth <= 0)
-            {
-                bool Dead = true;
-                respawn.DieAndRespawn(Dead);
-            }
+           // if (currentHealth <= 0)
+           // {
+           //     bool Dead = true;
+             //   respawn.DieAndRespawn(Dead);
+           // }
         }
 
         //Change Made by AngelR
         // to give him health back from health power up
         public void GetHealth(int GiveHealth)
         {
-            if (currentHealth > 0 && currentHealth < maxHealth)
+            if (currentHealth >= 0 && currentHealth < maxHealth)
             {
                 currentHealth += GiveHealth;
             }
-            else if (currentHealth > 100)
-            {
-            }
         }
+
+
+
+
 
     }
 }

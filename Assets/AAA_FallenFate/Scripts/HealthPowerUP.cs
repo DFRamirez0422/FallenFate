@@ -1,18 +1,42 @@
-using NPA_Health_Components;
 using UnityEngine;
+using NUnit.Framework;
 
 public class HealthPowerUP : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private NPA_Health_Components.Health OrbPower;
+    private ElenaAI ElenaPickUp;
+    private void Update()
     {
-        if (collision.gameObject.tag == "Player")
+        var copy = this.gameObject;
+        Destroy(copy, 10);
+    }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
         {
-            Health OrbPower = collision.gameObject.GetComponent<Health>();
+            OrbPower = other.gameObject.GetComponent<NPA_Health_Components.Health>();
+
             if (OrbPower != null)
             {
-                OrbPower.GetHealth(10);
+                OrbPower.GetHealth(15);
+                Debug.Log("Player got Health");
+                var copy = this.gameObject;
+                Destroy(copy);
             }
             else { }
+        }
+
+        if (other.gameObject.CompareTag("Elena"))
+        {
+            ElenaPickUp = other.gameObject.GetComponent<ElenaAI>();
+            if(ElenaPickUp != null)
+            {
+                ElenaPickUp.HealthPackHold = 1;
+                var copyH = this.gameObject;
+                Destroy(copyH);
+            }
         }
     }
 }

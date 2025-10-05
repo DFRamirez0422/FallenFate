@@ -124,7 +124,10 @@ public class SimpleAi : MonoBehaviour
                 //Attack code
                 if (RangedToogle == true)
                 {
-                    Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+                    GameObject projecttille;
+                    projecttille = Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
+                    var copy = projecttille;
+                    Destroy(copy, 2);
                 }
                 else
                 {
