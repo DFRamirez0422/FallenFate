@@ -113,7 +113,10 @@ public class ElenaAI : MonoBehaviour
                 closestHealthPack = objH;
             }
         }
+
+        if (HealthPowerInGame != null && HealthPackHold == 0) { 
         agent.SetDestination(closestHealthPack.transform.position);
+        }
 
         if (HealthPackHold == 1 && CombatToggle)
         {

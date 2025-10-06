@@ -32,14 +32,11 @@ namespace NPA_Health_Components
 
         public void TakeDamage(int damage)
         {
+            if(currentHealth <= maxHealth && currentHealth > 0)
                 currentHealth -= damage;
+            else { }
 
-            Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
-           // if (currentHealth <= 0)
-           // {
-           //     bool Dead = true;
-             //   respawn.DieAndRespawn(Dead);
-           // }
+                Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
         }
 
         //Change Made by AngelR
@@ -50,6 +47,7 @@ namespace NPA_Health_Components
             {
                 currentHealth += GiveHealth;
             }
+            else { }
         }
 
 
