@@ -148,10 +148,16 @@ public class SimpleAi : MonoBehaviour
 
     private void FlashAttackMelee()
     {
-        Instantiate(MeleePrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the Melee placeholder. Replace with a cool animation once we have them.
+        Vector3 lookPos = player.position;
+        lookPos.y = transform.position.y;
         if (PlayerInSightRange && PlayerInAttackRange) //An extra check for when the attack comes out to make sure your in range
         {
+            Instantiate(MeleePrefab, lookPos, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the Melee placeholder. Replace with a cool animation once we have them.
             PlayerHealth.TakeDamage(10); // Deals damage if your in range
+        }
+        else
+        {
+            Instantiate(MeleePrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the Melee placeholder. Replace with a cool animation once we have them.
         }
     }
 
