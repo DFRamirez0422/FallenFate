@@ -47,6 +47,28 @@ namespace NPA_RhythmBonusPrefabs
     */
     public class MusicBarUI : MonoBehaviour
     {
+        // ========================= Public Fields =========================//
+
+        /*
+            Tells the music staff to start animating and appear on screen. To be used when the
+            music staff will be needed to show on screen.
+        */
+        public void activate()
+        {
+            onActivate();
+        }
+
+        /*
+            Tells the music staff to hide from the screen and stop processing. To be used when
+            the music staff is no longer needed to be on screen.
+        */
+        public void deactivate()
+        {
+            onDeactivate();
+        }
+
+        // ========================= Private Fields =========================//
+
         [Tooltip("The instance of the rhythm music player.")]
         [SerializeField] private RhythmMusicPlayer music;  // Music clock
 
@@ -55,6 +77,9 @@ namespace NPA_RhythmBonusPrefabs
 
         [Tooltip("Prefab for the beat marker object.")]
         [SerializeField] private GameObject m_BeatMarkerPrefab;
+
+        [Tooltip("UI element fader instance from the staff center image.")]
+        [SerializeField] private UIElementFader m_StaffCenterUI;
 
         [Tooltip("Speed to fade in the beats from the ends of the staff.")]
         [SerializeField] private float m_BeatFadeSpeed = 2.0f;
@@ -94,8 +119,23 @@ namespace NPA_RhythmBonusPrefabs
         // Current index within the queue to the tail, aka where the farthest away markers are located.
         private int m_CurrentTailIndex = 0;
 
+        // Flag to be set only when deactivate() was called but the UI is still visible on screen.
+        private bool m_IsFading = false;
+
+        // Active flag. The music staff will only work when this flag is set.
+        private bool m_IsActive = false;
+
         private void Start()
         {
+            m_IsActive = false;
+            m_IsFading = false;
+        }
+
+        // Called when the UI is activated via activate()
+        private void onActivate()
+        {
+            m_StaffCenterUI.activate(music.BeatSec);
+
             // As stated in the note above, we initialize all the needed markers right away and make them inactive
             // immediately to only be made active when needed.
             Vector3[] staff_corners = new Vector3[4];
@@ -126,6 +166,25 @@ namespace NPA_RhythmBonusPrefabs
             // Update: September 29, 2025 13:13
             // Might be fixed with this line and with a little experimenting with the offset in PulseToBeat.cs
             m_ElapsedTime -= (float)Time.realtimeSinceStartupAsDouble % music.BeatSec;
+
+            m_IsActive = true;
+            m_IsFading = false;
+        }
+
+        // Called when the UI is stopped via deactivate()
+        private void onDeactivate()
+        {
+            m_IsActive = false;
+            m_IsFading = true;
+            m_ElapsedTime = 0.0f;
+            m_CurrentHeadIndex = 0;
+            m_CurrentTailIndex = 0;
+            m_StaffCenterUI.deactivate(music.BeatSec);
+
+            foreach (GameObject marker in m_BeatMarkersList)
+            {
+                marker.GetComponent<UIElementFader>().deactivate(music.BeatSec);
+            }
         }
 
         // Helper function for initializating new beat markers.
@@ -151,10 +210,41 @@ namespace NPA_RhythmBonusPrefabs
 
         private void Update()
         {
-            handleBeatAppearance();
-            updateMarkerMovement();
-            handleBeatOnCenter();
-            m_ElapsedTime += Time.deltaTime;
+            // If the UI is either active or in the process of fading out in deactivation,
+            // update all movement variables. Otherwise, destroy the entire list.
+            if (m_IsActive)
+            {
+                handleBeatAppearance();
+                updateMarkerMovement();
+                handleBeatOnCenter();
+                m_ElapsedTime += Time.deltaTime;
+            }
+            else if (m_IsFading)
+            {
+                updateMarkerMovement();
+                m_ElapsedTime += Time.deltaTime;
+
+                // For each remaining beat, check if it's done fading out and if it's done,
+                // destroy it and remove it from the list. Since the list is modified concurrently
+                // to its access, we check by index.
+                int num_beats_remaining = m_BeatMarkersList.Count;
+
+                for (int i = 0; i < num_beats_remaining; i++)
+                {
+                    var marker_fader = m_BeatMarkersList[i].GetComponent<UIElementFader>();
+                    if (marker_fader.isDoneDeactivate())
+                    {
+                        Destroy(m_BeatMarkersList[i]);
+                        m_BeatMarkersList.RemoveAt(i);
+                    }
+                }
+
+                // If no beat markers remain, we're no longer fading.
+                if (num_beats_remaining == 0)
+                {
+                    m_IsFading = false;
+                }
+            }
         }
 
         // Handles the general cycle for beats in terms of appearance, not related to their actual movement.

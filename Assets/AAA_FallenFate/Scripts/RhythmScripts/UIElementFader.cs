@@ -4,6 +4,55 @@ using System;
 
 public class UIElementFader : MonoBehaviour
 {
+    // ========================= Public Fields =========================//
+
+    // Deactivates the object, which makes the UI element fade out over time, expressed in seconds.
+    public void deactivate(float time)
+    {
+
+        m_FadeInTime = 0.0f;
+        m_FadeOutTime = time;
+        m_FadeTimeRemaining = time;
+
+        // If the given time is too short, don't bother fading or rendering anything.
+        float threshold = 0.01f;
+
+        if (time < threshold)
+        {
+            m_UIElement.enabled = false;
+        }
+    }
+
+    // Activates this object, which makes the UI element fade in over time, expressed in seconds.
+    public void activate(float time)
+    {
+        m_FadeInTime = time;
+        m_FadeOutTime = 0.0f;
+        m_FadeTimeRemaining = time;
+    }
+
+    // Returns true if the UI element is finished fading in.
+    public bool isDoneActivate()
+    {
+        return (m_FadeInTime > 0.0f) && (m_FadeTimeRemaining <= 0.0f);
+    }
+
+    // Returns true if the UI element is finished fading out.
+    public bool isDoneDeactivate()
+    {
+        return (m_FadeOutTime > 0.0f) && (m_FadeTimeRemaining <= 0.0f);
+    }
+
+    // Helper function for the song and dance involving changing the alpha value of an Image component.
+    private void setImageOpacity(float opacity)
+    {
+        var color = m_UIElement.color;
+        color.a = opacity;
+        m_UIElement.color = color;
+    }
+    
+    // ========================= Private Fields =========================//
+
     [Tooltip("Image component of the UI element with which to modify over time.")]
     [SerializeField] private Image m_UIElement;
     private float m_FadeInTime = 0.0f;
@@ -53,50 +102,5 @@ public class UIElementFader : MonoBehaviour
                 setImageOpacity((m_FadeInTime - m_FadeTimeRemaining) / m_FadeInTime);
             }
         }
-    }
-
-    // Deactivates the object, which makes the UI element fade out over time, expressed in seconds.
-    public void deactivate(float time)
-    {
-
-        m_FadeInTime = 0.0f;
-        m_FadeOutTime = time;
-        m_FadeTimeRemaining = time;
-
-        // If the given time is too short, don't bother fading or rendering anything.
-        float threshold = 0.01f;
-
-        if (time < threshold)
-        {
-            m_UIElement.enabled = false;
-        }
-    }
-
-    // Activates this object, which makes the UI element fade in over time, expressed in seconds.
-    public void activate(float time)
-    {
-        m_FadeInTime = time;
-        m_FadeOutTime = 0.0f;
-        m_FadeTimeRemaining = time;
-    }
-
-    // Returns true if the UI element is finished fading in.
-    public bool isDoneActivate()
-    {
-        return (m_FadeInTime > 0.0f) && (m_FadeTimeRemaining <= 0.0f);
-    }
-
-    // Returns true if the UI element is finished fading out.
-    public bool isDoneDeactivate()
-    {
-        return (m_FadeOutTime > 0.0f) && (m_FadeTimeRemaining <= 0.0f);
-    }
-
-    // Helper function for the song and dance involving changing the alpha value of an Image component.
-    private void setImageOpacity(float opacity)
-    {
-        var color = m_UIElement.color;
-        color.a = opacity;
-        m_UIElement.color = color;
     }
 }

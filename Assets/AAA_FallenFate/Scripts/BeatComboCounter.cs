@@ -17,28 +17,7 @@ namespace NPA_RhythmBonusPrefabs
             timing grade for the player, and evaluates how well did the player hit a beat on rhythm.
         */
 
-        [Tooltip("Reference to the rhythm evaluation system deemed the bonus judge.")]
-        [SerializeField] private RhythmBonusJudge m_Judge;
-        
-        [Header("Combo Bonuses")]
-
-        [Tooltip("List of multiplier bonuses depending on the combo.")]
-        [SerializeField] private float[] m_MultiplierBonuses = new float[] { 3, 6, 9 };
-
-        [Tooltip("Specify how many hits to qualify for each bonus.")]
-        [SerializeField] private int[] m_ComboCountBonuses = new int[] { 3, 6, 9 };
-
-        // Counts how many beats were hit in the current combo.
-        private int m_ComboCounter = 0;
-
-        // Counts the highest combo ever recorded.
-        private int m_MaxCombos = 0;
-
-        // Counts how many total beats were hit perfectly.
-        private int m_NumPerfectHits = 0;
-
-        // Counts how many total beats were missed in rhythm.
-        private int m_NumMisses = 0;
+        // ========================= Public Fields =========================//
 
         // Main function to be called to evaluate whether or not the music was hit on beat and updates
         // the counters accordingly. In other words, this is intended to be called by external code
@@ -132,5 +111,30 @@ namespace NPA_RhythmBonusPrefabs
 
             return (float)m_NumPerfectHits / ((float)m_NumPerfectHits + (float)m_NumMisses);
         }
+
+        // ========================= Private Fields =========================//
+
+        [Tooltip("Reference to the rhythm evaluation system deemed the bonus judge.")]
+        [SerializeField] private RhythmBonusJudge m_Judge;
+        
+        [Header("Combo Bonuses")]
+
+        [Tooltip("List of multiplier bonuses depending on the combo.")]
+        [SerializeField] private float[] m_MultiplierBonuses = new float[] { 3, 6, 9 };
+
+        [Tooltip("Specify how many hits to qualify for each bonus.")]
+        [SerializeField] private int[] m_ComboCountBonuses = new int[] { 3, 6, 9 };
+
+        // Counts how many beats were hit in the current combo.
+        private int m_ComboCounter = 0;
+
+        // Counts the highest combo ever recorded.
+        private int m_MaxCombos = 0;
+
+        // Counts how many total beats were hit perfectly.
+        private int m_NumPerfectHits = 0;
+
+        // Counts how many total beats were missed in rhythm.
+        private int m_NumMisses = 0;
     }
 }

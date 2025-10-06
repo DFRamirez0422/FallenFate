@@ -500,6 +500,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93144902}
   m_CullTransparentMesh: 1
+--- !u!114 &103448932 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6981469966743289125, guid: 90bc7940a4b97c645b1b4df1f562d748, type: 3}
+  m_PrefabInstance: {fileID: 760073194592038066}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c2b3e7ffaf17346aa6aba354971d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &446881729
 GameObject:
   m_ObjectHideFlags: 0
@@ -2751,9 +2762,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433b223809e319c428806bd5724aa928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testKey: 32
+  m_BeatKey: 323
+  m_ResetKey: 324
+  m_StaffAppearKey: 9
   m_MusicPlayer: {fileID: 45242578}
   m_ComboCounter: {fileID: 1935239773}
+  m_MusicStaff: {fileID: 103448932}
   m_TempoUI: {fileID: 1004882205}
   m_NumHitsPerfectUI: {fileID: 1827274635}
   m_GradeUI: {fileID: 1169076862}
@@ -2773,6 +2787,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Judge: {fileID: 898248067}
+  m_MultiplierBonuses:
+  - 3
+  - 6
+  - 9
+  m_ComboCountBonuses: 030000000600000009000000
 --- !u!1 &2057460113
 GameObject:
   m_ObjectHideFlags: 0
