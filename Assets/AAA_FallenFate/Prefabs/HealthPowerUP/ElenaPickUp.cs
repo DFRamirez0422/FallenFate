@@ -14,7 +14,8 @@ public class ElenaPickUp : MonoBehaviour
                 var copyH = this.gameObject;
                 Destroy(copyH);
             }
-
+            else { }
         }
+        else { }
     }
 }

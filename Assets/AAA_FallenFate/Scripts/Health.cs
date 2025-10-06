@@ -7,9 +7,6 @@ namespace NPA_Health_Components
         [SerializeField] private int maxHealth = 100;
         public int currentHealth;
 
-        //To get checkpoint to respawn
-        private Player_Respawn respawn;
-
         //GetHealth from Elena
         private ElenaAI Elena;
 
@@ -17,7 +14,6 @@ namespace NPA_Health_Components
         {
             currentHealth = 50;
             Elena = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
-            //respawn = GameObject.FindGameObjectWithTag("Respawn").GetComponent<Player_Respawn>();
         }
 
         private void FixedUpdate()

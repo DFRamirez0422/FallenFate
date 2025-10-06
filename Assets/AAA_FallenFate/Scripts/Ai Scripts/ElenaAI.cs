@@ -100,7 +100,7 @@ public class ElenaAI : MonoBehaviour
 
     private void RetrieveHealthPack()
     {
-        GameObject closestHealthPack = null;
+        GameObject closestHealthPack;
         float minDistSq = float.MaxValue;
         Vector3 tPos = Elena.position;
 
@@ -111,11 +111,11 @@ public class ElenaAI : MonoBehaviour
             {
                 minDistSq = distSq;
                 closestHealthPack = objH;
+                if (HealthPowerInGame != null && HealthPackHold == 0)
+                {
+                    agent.SetDestination(closestHealthPack.transform.position);
+                }
             }
-        }
-
-        if (HealthPowerInGame != null && HealthPackHold == 0) { 
-        agent.SetDestination(closestHealthPack.transform.position);
         }
 
         if (HealthPackHold == 1 && CombatToggle)
