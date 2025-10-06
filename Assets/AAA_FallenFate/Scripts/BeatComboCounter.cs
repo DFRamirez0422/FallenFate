@@ -76,7 +76,8 @@ namespace NPA_RhythmBonusPrefabs
         // any counters or combos. Can be used to quietly check the rhythm.
         public RhythmTier IsOnBeat()
         {
-            ;
+            var (tier, mult) = m_Judge.EvaluateNow(); // Call the judge
+            return tier;
         }
 
         // Reset all internal counters. Can be used if outside code wants a clean slate with combos and the number
