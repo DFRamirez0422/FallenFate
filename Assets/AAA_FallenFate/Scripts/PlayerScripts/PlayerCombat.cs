@@ -51,7 +51,7 @@ namespace NPA_PlayerPrefab.Scripts
         private void UpdateFinisherUnlocks()
         {
             int currentCombo = rhythmCombo.GetCurrentCombo();
-            Debug.Log (currentCombo);
+            
             if (currentCombo >= 3) finisher3Unlocked = true;
             if (currentCombo >= 6) finisher6Unlocked = true;
             if (currentCombo >= 9) finisher9Unlocked = true;

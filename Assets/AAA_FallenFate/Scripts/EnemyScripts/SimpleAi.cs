@@ -1,6 +1,8 @@
+using AAA_FallenFate.Scripts.PlayerScripts;
 using NPA_Health_Components;
 using UnityEngine;
 using UnityEngine.AI;
+using static AAA_FallenFate.Scripts.PlayerScripts.ParryBlock;
 
 public class SimpleAi : MonoBehaviour
 {
@@ -8,7 +10,7 @@ public class SimpleAi : MonoBehaviour
 
     public Transform player;
 
-    public Health PlayerHealth;
+    public ParryBlock TakeDamage;
 
     public Hitstun stun;
 
@@ -52,7 +54,7 @@ public class SimpleAi : MonoBehaviour
         }
         if (player != null)
         {
-            PlayerHealth = player.GetComponent<Health>();
+            TakeDamage = player.GetComponent<ParryBlock>();
         }
         //check for sight and attack range
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
@@ -141,7 +143,7 @@ public class SimpleAi : MonoBehaviour
                 else
                 {
                     fist.SetActive(true);
-                    PlayerHealth.TakeDamage(10);
+                    TakeDamage.TakeIncomingDamage(10);
                 }
 
                 alreadyAttacked = true;
