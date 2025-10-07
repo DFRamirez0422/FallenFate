@@ -5,7 +5,7 @@ public class Hitstun : MonoBehaviour
     [SerializeField] public float defaultStunDuration = 0.3f; 
 
     private float stunTimer = 0f;
-    private bool isStunned = false;
+    public bool isStunned = false;
 
     private Renderer rend;
     private Color originalColor;

@@ -6,7 +6,6 @@ public class Projectile : MonoBehaviour
     public Health PlayerHealth;
     public float speed = 20f;
     public Rigidbody rb;
-    public int damage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,7 +32,7 @@ public class Projectile : MonoBehaviour
         if (otherObject.CompareTag("Player"))
         {
             Debug.Log("Got Player");
-            PlayerHealth.TakeDamage(damage);
+            PlayerHealth.TakeDamage(20);
             Destroy(gameObject);
         }
         else

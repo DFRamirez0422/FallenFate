@@ -1,6 +1,6 @@
 using NPA_RhythmBonusPrefabs;
 using UnityEngine;
-using NPA_Health_Components; // so we can talk to Health
+using NPA_Health_Components;
 
 namespace AAA_FallenFate.Scripts.PlayerScripts
 {
@@ -18,59 +18,90 @@ namespace AAA_FallenFate.Scripts.PlayerScripts
         [Header("Block Settings")]
         [SerializeField] private KeyCode blockKey = KeyCode.Mouse1;
         [SerializeField] private float blockCooldown = 0.5f;
+        [SerializeField] private float maxBlockDuration = 1f;
 
         [Header("Damage Multipliers")]
         [SerializeField] private float normalBlockMultiplier = 0.5f;
         [SerializeField] private float parryMultiplier = 0.1f;
 
         private bool isBlocking = false;
+        private float blockStartTime = 0f;
         private float lastBlockTime = -10f;
+        private RhythmBonusJudge.RhythmTier lastBlockTier = RhythmBonusJudge.RhythmTier.Miss;
 
         void Update()
         {
-            // Check if block key is held
-            isBlocking = Input.GetKey(blockKey);
+            // Trigger block only on key down
+            if (Input.GetKeyDown(blockKey))
+            {
+                if (Time.time - lastBlockTime >= blockCooldown)
+                {
+                    // Start block
+                    isBlocking = true;
+                    blockStartTime = Time.time;
 
-            // Change material for visual feedback
+                    // Evaluate rhythm immediately
+                    lastBlockTier = rhythmCounter.EvaluateBeat();
+
+                    if (lastBlockTier == RhythmBonusJudge.RhythmTier.Miss)
+                    {
+                        Debug.Log("Block Missed! Bad Timing");
+                        isBlocking = false; // cancel block
+                    }
+                    else if (lastBlockTier == RhythmBonusJudge.RhythmTier.Good)
+                    {
+                        Debug.Log("Normal Block!");
+                    }
+                    else if (lastBlockTier == RhythmBonusJudge.RhythmTier.Perfect)
+                    {
+                        Debug.Log("Perfect Parry!");
+                    }
+                }
+            }
+
+            // End block if max duration exceeded
+            if (isBlocking && Time.time - blockStartTime >= maxBlockDuration)
+            {
+                isBlocking = false;
+                lastBlockTime = Time.time; // start cooldown
+            }
+
+            // Optional: stop block on key release
+            if (Input.GetKeyUp(blockKey) && isBlocking)
+            {
+                isBlocking = false;
+                lastBlockTime = Time.time; // start cooldown
+            }
+
+            // Update material
             if (playerRenderer != null)
                 playerRenderer.material = isBlocking ? blockingMaterial : normalMaterial;
         }
 
-        /// <summary>
-        /// Call this instead of Health.TakeDamage directly.
-        /// </summary>
-        public void TakeIncomingDamage(int incomingDamage)
+        public void TakeIncomingDamage(int incomingDamage, GameObject attacker)
         {
             int damageToApply = incomingDamage;
 
             if (isBlocking)
             {
-                // enforce cooldown
-                if (Time.time - lastBlockTime >= blockCooldown)
+                // Apply damage reduction based on the block tier evaluated at key press
+                switch (lastBlockTier)
                 {
-                    lastBlockTime = Time.time;
+                    case RhythmBonusJudge.RhythmTier.Perfect:
+                        damageToApply = Mathf.RoundToInt(incomingDamage * parryMultiplier);
+                        break;
 
-                    var tier = rhythmCounter.EvaluateBeat();
-                    switch (tier)
-                    {
-                        case RhythmBonusJudge.RhythmTier.Perfect:
-                            damageToApply = Mathf.RoundToInt(incomingDamage * parryMultiplier);
-                            Debug.Log("Perfect Parry!");
-                            break;
+                    case RhythmBonusJudge.RhythmTier.Good:
+                        damageToApply = Mathf.RoundToInt(incomingDamage * normalBlockMultiplier);
+                        break;
 
-                        case RhythmBonusJudge.RhythmTier.Good:
-                            damageToApply = Mathf.RoundToInt(incomingDamage * normalBlockMultiplier);
-                            Debug.Log("Normal Block!");
-                            break;
-
-                        case RhythmBonusJudge.RhythmTier.Miss:
-                            Debug.Log("Block Missed!");
-                            break;
-                    }
+                    case RhythmBonusJudge.RhythmTier.Miss:
+                        // Shouldn't happen while isBlocking, but safe fallback
+                        break;
                 }
             }
 
-            // Pass final damage to Health
+            // Apply final damage
             playerHealth.TakeDamage(damageToApply);
         }
     }
