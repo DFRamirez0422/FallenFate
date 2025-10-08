@@ -78,13 +78,15 @@ public class BeatCounterUI : MonoBehaviour
         {
             if (m_IsActive)
             {
-                m_MusicStaff.deactivate();
+                m_ComboCounter.Deactivate();
+                m_MusicStaff.Deactivate();
                 m_IsActive = false;
             }
             else
             {
+                m_ComboCounter.Activate();
                 m_MusicStaff.gameObject.SetActive(true);
-                m_MusicStaff.activate();
+                m_MusicStaff.Activate();
                 m_IsActive = true;
             }
         }

@@ -54,7 +54,7 @@ namespace NPA_RhythmBonusPrefabs
             Tells the music staff to start animating and appear on screen. To be used when the
             music staff will be needed to show on screen.
         */
-        public void activate()
+        public void Activate()
         {
             onActivate();
         }
@@ -63,7 +63,7 @@ namespace NPA_RhythmBonusPrefabs
             Tells the music staff to hide from the screen and stop processing. To be used when
             the music staff is no longer needed to be on screen.
         */
-        public void deactivate()
+        public void Deactivate()
         {
             onDeactivate();
         }
@@ -83,7 +83,10 @@ namespace NPA_RhythmBonusPrefabs
         [SerializeField] private UIElementFader m_StaffCenterUI;
 
         [Tooltip("Speed to fade in the beats from the ends of the staff.")]
-        [SerializeField] private float m_BeatFadeSpeed = 2.0f;
+        [SerializeField] private float m_BeatAppearanceSpeed = 2.0f;
+
+        [Tooltip("Speed for the music staff to pop in and pop out when activate() or deactivate() are called.")]
+        [SerializeField] private float m_StaffPopInOutSpeed = 2.0f;
 
         /*
             How do we implement the moving beat makers?
@@ -135,7 +138,7 @@ namespace NPA_RhythmBonusPrefabs
         // Called when the UI is activated via activate()
         private void onActivate()
         {
-            m_StaffCenterUI.activate(music.BeatSec);
+            m_StaffCenterUI.activate(m_StaffPopInOutSpeed);
 
             // As stated in the note above, we initialize all the needed markers right away and make them inactive
             // immediately to only be made active when needed.
@@ -181,7 +184,7 @@ namespace NPA_RhythmBonusPrefabs
 
             foreach (GameObject marker in m_BeatMarkersList)
             {
-                marker.GetComponent<UIElementFader>().deactivate(music.BeatSec);
+                marker.GetComponent<UIElementFader>().deactivate(m_StaffPopInOutSpeed);
             }
         }
 
@@ -236,7 +239,7 @@ namespace NPA_RhythmBonusPrefabs
             // Check only the first beat since chances are if one is finished, the
             // rest are finished as well. If it is finished, destroy the entire list
             // reset the entire object as new, ready for activation.
-            if (getBeatMarkerOnLeft(0).GetComponent<UIElementFader>().isDoneDeactivate())
+            if (getBeatMarkerOnLeft(1).GetComponent<UIElementFader>().isDoneDeactivate())
             {
                 m_IsActive = false;
                 m_IsFading = false;
@@ -284,7 +287,7 @@ namespace NPA_RhythmBonusPrefabs
             if (m_ElapsedTime > music.BeatSec)
             {
                 // For the first couple of beats, we have to activate them manually.
-                if (m_CurrentTailIndex < s_NumBeatMarkers)
+                if (!m_IsFading && m_CurrentTailIndex < s_NumBeatMarkers)
                 {
                     var marker_left_script = getBeatMarkerOnLeft(m_CurrentTailIndex).GetComponent<UIElementFader>();
                     var marker_right_script = getBeatMarkerOnRight(m_CurrentTailIndex).GetComponent<UIElementFader>();
@@ -323,8 +326,8 @@ namespace NPA_RhythmBonusPrefabs
                     marker_left.transform.localPosition = m_LeftmostEnd;
                     marker_right.transform.localPosition = m_RightmostEnd;
 
-                    marker_left_script.activate(music.BeatSec * m_BeatFadeSpeed);
-                    marker_right_script.activate(music.BeatSec * m_BeatFadeSpeed);
+                    marker_left_script.activate(music.BeatSec * m_BeatAppearanceSpeed);
+                    marker_right_script.activate(music.BeatSec * m_BeatAppearanceSpeed);
                 }
 
                 m_CurrentHeadIndex++;

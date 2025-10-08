@@ -17,7 +17,26 @@ namespace NPA_RhythmBonusPrefabs
             timing grade for the player, and evaluates how well did the player hit a beat on rhythm.
         */
 
+        // Active flag. As long as this is set to true, the combos will count as normal.
+        public bool m_IsActive = false;
+
         // ========================= Public Fields =========================//
+
+        // Enables the beat counter mechanism, such as during the normal gameplay loop. By default, the
+        // beat combo counter starts life inactive and must be enabled manually.
+        public void Activate()
+        {
+            m_IsActive = true;
+            Reset();
+        }
+
+        // Disable the beat counter mechanism, such as for example in a cutscene, player death, or other
+        // event within the game where rhythm should not be counted.
+        public void Deactivate()
+        {
+            m_IsActive = false;
+            Reset();
+        }
 
         // Main function to be called to evaluate whether or not the music was hit on beat and updates
         // the counters accordingly. In other words, this is intended to be called by external code
@@ -27,6 +46,8 @@ namespace NPA_RhythmBonusPrefabs
         // Returns the tier - whether or not a perfect hit was done on beat or not.
         public RhythmTier EvaluateBeat()
         {
+            if (!m_IsActive) return RhythmTier.Miss;
+
             var (tier, mult) = m_Judge.EvaluateNow(); // Call the judge
 
             switch (tier)
@@ -55,6 +76,8 @@ namespace NPA_RhythmBonusPrefabs
         // any counters or combos. Can be used to quietly check the rhythm.
         public RhythmTier IsOnBeat()
         {
+            if (!m_IsActive) return RhythmTier.Miss;
+
             var (tier, mult) = m_Judge.EvaluateNow(); // Call the judge
             return tier;
         }
