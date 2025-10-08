@@ -65,6 +65,40 @@ public class BossStringController : MonoBehaviour
         }
     }
 
+    //Unused combos
+    public void Combo1()
+    {
+        String1.SetActive(true);
+        String2.SetActive(true);
+        String3.SetActive(true);
+    }
 
-    
+    public void Combo2()
+    {
+        String4.SetActive(true);
+        String5.SetActive(true);
+        String6.SetActive(true);
+    }
+
+    public void Combo3()
+    {
+        String1.SetActive(true);
+        String3.SetActive(true);
+        String5.SetActive(true);
+    }
+
+    public void Combo4()
+    {
+        String2.SetActive(true);
+        String4.SetActive(true);
+        String6.SetActive(true);
+    }
+
+    public void Combo5()
+    {
+        String1.SetActive(true);
+        String2.SetActive(true);
+        String5.SetActive(true);
+        String6.SetActive(true);
+    }
 }
