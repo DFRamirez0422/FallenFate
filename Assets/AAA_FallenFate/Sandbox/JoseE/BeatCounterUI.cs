@@ -7,11 +7,17 @@ using Tier = NPA_RhythmBonusPrefabs.RhythmBonusJudge.RhythmTier;
 /// </summary>
 public class BeatCounterUI : MonoBehaviour
 {
-    [SerializeField] private KeyCode testKey = KeyCode.Mouse0; // Key to sim "attack"
+    [SerializeField] private KeyCode m_BeatKey = KeyCode.Mouse0; // Key to sim "attack"
+
+    [SerializeField] private KeyCode m_ResetKey = KeyCode.Mouse1; // Key to reset manually during testing
+
+    [SerializeField] private KeyCode m_StaffAppearKey = KeyCode.Mouse2; // Key to test music bar UI activation
 
     [SerializeField] private RhythmMusicPlayer m_MusicPlayer;
 
     [SerializeField] private BeatComboCounter m_ComboCounter;
+
+    [SerializeField] private MusicBarUI m_MusicStaff;
 
     // UI text field that displays the song tempo in BPM.
     [SerializeField] private TMPro.TextMeshProUGUI m_TempoUI;
@@ -31,14 +37,16 @@ public class BeatCounterUI : MonoBehaviour
     // UI text field that counts the highest combo.
     [SerializeField] private TMPro.TextMeshProUGUI m_MaxComboUI;
 
+    private bool m_IsActive = false;
+
     /*
         End variable section from Jose E.
     */
-    
+
     void Update()
     {
         // When key is pressed, evaluate rhythm and print result
-        if (Input.GetKeyDown(testKey))
+        if (Input.GetKeyDown(m_BeatKey))
         {
             var tier = m_ComboCounter.EvaluateBeat();
             string tier_name = System.Enum.GetName(typeof(Tier), tier); // Retrieve the name of the tier for printing.
@@ -62,9 +70,29 @@ public class BeatCounterUI : MonoBehaviour
 
             Debug.Log($"[Rhyhtm Test] {tier_name} hit");
         }
+        if (Input.GetKeyDown(m_ResetKey))
+        {
+            m_ComboCounter.Reset();
+        }
+        if (Input.GetKeyDown(m_StaffAppearKey))
+        {
+            if (m_IsActive)
+            {
+                m_ComboCounter.Deactivate();
+                m_MusicStaff.Deactivate();
+                m_IsActive = false;
+            }
+            else
+            {
+                m_ComboCounter.Activate();
+                m_MusicStaff.gameObject.SetActive(true);
+                m_MusicStaff.Activate();
+                m_IsActive = true;
+            }
+        }
 
         // Below section added by Jose E.
-        UpdateUI();
+            UpdateUI();
     }
 
     // Added by Jose E.
