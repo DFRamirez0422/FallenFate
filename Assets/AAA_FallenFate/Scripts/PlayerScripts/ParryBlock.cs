@@ -1,108 +1,139 @@
-using NPA_RhythmBonusPrefabs;
 using UnityEngine;
 using NPA_Health_Components;
+using NPA_PlayerPrefab.Scripts;
 
 namespace AAA_FallenFate.Scripts.PlayerScripts
 {
     public class ParryBlock : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private BeatComboCounter rhythmCounter;
         [SerializeField] private Health playerHealth;
         [SerializeField] private Renderer playerRenderer;
+        [SerializeField] private PlayerCombat playerAttack; // disable attacks while blocking
 
         [Header("Materials")]
         [SerializeField] private Material normalMaterial;
         [SerializeField] private Material blockingMaterial;
+        [SerializeField] private Material parryMaterial;
 
-        [Header("Block Settings")]
+        [Header("Block / Parry Settings")]
         [SerializeField] private KeyCode blockKey = KeyCode.Mouse1;
-        [SerializeField] private float blockCooldown = 0.5f;
-        [SerializeField] private float maxBlockDuration = 1f;
-
-        [Header("Damage Multipliers")]
-        [SerializeField] private float normalBlockMultiplier = 0.5f;
-        [SerializeField] private float parryMultiplier = 0.1f;
+        [SerializeField] private float parryWindow = 0.25f;       // how long after pressing is considered a parry
+        [SerializeField] private float blockMaxDuration = 1.5f;   // how long you can hold block
+        [SerializeField] private float blockCooldown = 0.75f;     // cooldown starts on release
+        [SerializeField] private float blockDamageMultiplier = 0.5f;
+        [SerializeField] private float parryDamageMultiplier = 0f;
+        [SerializeField] private float enemyStunDuration = 0.5f;
 
         private bool isBlocking = false;
-        private float blockStartTime = 0f;
-        private float lastBlockTime = -10f;
-        private RhythmBonusJudge.RhythmTier lastBlockTier = RhythmBonusJudge.RhythmTier.Miss;
+        private float blockStartTime = -10f;
+        private float lastBlockReleaseTime = -10f;
+        private float parryStartTime = -10f;
 
         void Update()
         {
-            // Trigger block only on key down
-            if (Input.GetKeyDown(blockKey))
+            bool onCooldown = Time.time - lastBlockReleaseTime < blockCooldown;
+
+            // --- Block / Parry input ---
+            if (!onCooldown)
             {
-                if (Time.time - lastBlockTime >= blockCooldown)
+                if (Input.GetKeyDown(blockKey))
                 {
-                    // Start block
-                    isBlocking = true;
-                    blockStartTime = Time.time;
+                    // Press = Parry Timing
+                    parryStartTime = Time.time;
+                    StartBlock();
+                }
 
-                    // Evaluate rhythm immediately
-                    lastBlockTier = rhythmCounter.EvaluateBeat();
-
-                    if (lastBlockTier == RhythmBonusJudge.RhythmTier.Miss)
+                if (isBlocking)
+                {
+                    // Check max duration
+                    if (Time.time - blockStartTime > blockMaxDuration)
                     {
-                        Debug.Log("Block Missed! Bad Timing");
-                        isBlocking = false; // cancel block
-                    }
-                    else if (lastBlockTier == RhythmBonusJudge.RhythmTier.Good)
-                    {
-                        Debug.Log("Normal Block!");
-                    }
-                    else if (lastBlockTier == RhythmBonusJudge.RhythmTier.Perfect)
-                    {
-                        Debug.Log("Perfect Parry!");
+                        EndBlock(false);
                     }
                 }
-            }
 
-            // End block if max duration exceeded
-            if (isBlocking && Time.time - blockStartTime >= maxBlockDuration)
+                if (Input.GetKeyUp(blockKey) && isBlocking)
+                {
+                    EndBlock(true); // releasing starts cooldown
+                }
+            }
+            else
             {
                 isBlocking = false;
-                lastBlockTime = Time.time; // start cooldown
             }
 
-            // Optional: stop block on key release
-            if (Input.GetKeyUp(blockKey) && isBlocking)
-            {
-                isBlocking = false;
-                lastBlockTime = Time.time; // start cooldown
-            }
+            // --- Disable attacking while blocking ---
+            if (playerAttack != null)
+                playerAttack.enabled = !isBlocking;
 
-            // Update material
+            // --- Material feedback ---
             if (playerRenderer != null)
-                playerRenderer.material = isBlocking ? blockingMaterial : normalMaterial;
+            {
+                if (onCooldown)
+                {
+                    playerRenderer.material = normalMaterial;
+                }
+                else if (IsInParryWindow())
+                {
+                    playerRenderer.material = parryMaterial;
+                }
+                else if (isBlocking)
+                {
+                    playerRenderer.material = blockingMaterial;
+                }
+                else
+                {
+                    playerRenderer.material = normalMaterial;
+                }
+            }
+        }
+
+        private void StartBlock()
+        {
+            isBlocking = true;
+            blockStartTime = Time.time;
+        }
+
+        private void EndBlock(bool releasedNormally)
+        {
+            isBlocking = false;
+            if (releasedNormally)
+            {
+                lastBlockReleaseTime = Time.time; // cooldown starts on release
+            }
         }
 
         public void TakeIncomingDamage(int incomingDamage, GameObject attacker)
         {
-            int damageToApply = incomingDamage;
+            int finalDamage = incomingDamage;
 
-            if (isBlocking)
+            if (IsInParryWindow())
             {
-                // Apply damage reduction based on the block tier evaluated at key press
-                switch (lastBlockTier)
+                // ✅ Parry happens if damage comes right after press
+                finalDamage = Mathf.RoundToInt(incomingDamage * parryDamageMultiplier);
+                Debug.Log("Parry!");
+
+                if (attacker != null)
                 {
-                    case RhythmBonusJudge.RhythmTier.Perfect:
-                        damageToApply = Mathf.RoundToInt(incomingDamage * parryMultiplier);
-                        break;
-
-                    case RhythmBonusJudge.RhythmTier.Good:
-                        damageToApply = Mathf.RoundToInt(incomingDamage * normalBlockMultiplier);
-                        break;
-
-                    case RhythmBonusJudge.RhythmTier.Miss:
-                        // Shouldn't happen while isBlocking, but safe fallback
-                        break;
+                    var stun = attacker.GetComponent<Hitstun>();
+                    if (stun != null)
+                        stun.ApplyHitstun(enemyStunDuration);
                 }
             }
+            else if (isBlocking)
+            {
+                // Normal block
+                finalDamage = Mathf.RoundToInt(incomingDamage * blockDamageMultiplier);
+                Debug.Log("Blocked!");
+            }
 
-            // Apply final damage
-            playerHealth.TakeDamage(damageToApply);
+            playerHealth.TakeDamage(finalDamage);
+        }
+
+        private bool IsInParryWindow()
+        {
+            return Time.time - parryStartTime <= parryWindow;
         }
     }
 }
