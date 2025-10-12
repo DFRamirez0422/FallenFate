@@ -14,10 +14,8 @@ public class ElenaAI : MonoBehaviour
     public GameObject[] objects;
     
     [Header("Throw_PowerUp")]
-    [SerializeField] private GameObject HPowerUP;
     [SerializeField] private GameObject HealthPower;
     public int HealthPackHold = 0;
-
     [SerializeField]private GameObject[] HealthPowerInGame;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -28,7 +26,7 @@ public class ElenaAI : MonoBehaviour
 
         Elena = GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();
-        
+
     }
     void Start()
     {
@@ -135,9 +133,8 @@ public class ElenaAI : MonoBehaviour
         
         int speed = 2;
         Vector3 SpawnHpower = new Vector3(Elena.transform.position.x, Elena.transform.position.y + 0.5f, Elena.transform.position.z + 0.5f);        
-        HPowerUP = Instantiate(HealthPower, SpawnHpower, Quaternion.identity);
-
+        Instantiate(HealthPower, SpawnHpower, Quaternion.identity);
         Vector3 Targetdirection = (player.position - SpawnHpower).normalized;
-        HPowerUP.GetComponent<Rigidbody>().MovePosition(player.position + Targetdirection * speed * Time.deltaTime);
+        HealthPower.GetComponent<Rigidbody>().MovePosition(player.position + Targetdirection * speed * Time.deltaTime);
     }
 }

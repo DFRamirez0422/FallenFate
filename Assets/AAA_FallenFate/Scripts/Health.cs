@@ -7,32 +7,48 @@ namespace NPA_Health_Components
         [SerializeField] private int maxHealth = 100;
         public int currentHealth;
 
+        [Header("InfoForRespawn")]
+        public GameObject PLAYER;
+        [SerializeField] private bool IsDead;
+        private Player_Respawn RespawnPoint;
+
         //GetHealth from Elena
         private ElenaAI Elena;
 
         private void Start()
         {
             currentHealth = 50;
+            PLAYER = this.gameObject;
+            RespawnPoint = GameObject.FindGameObjectWithTag("Respawn").GetComponent<Player_Respawn>();
             Elena = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
         }
 
         private void FixedUpdate()
         {
-            if (Elena.CombatToggle && currentHealth < 100/3
+            if (Elena.CombatToggle && currentHealth < 30
                        && Input.GetKeyDown(KeyCode.Z) && Elena.HealthPackHold == 1)
             {
                 Elena.ThrowHealthPowerUP();
                 Elena.HealthPackHold = 0;
             }
+
+            if (IsDead)
+            {
+                DieAndRespawn();
+                IsDead = false;
+                currentHealth = 100;
+            }
         }
 
         public void TakeDamage(int damage)
         {
-            if(currentHealth <= maxHealth && currentHealth > 0)
+            if(currentHealth <= maxHealth && currentHealth >= 0)
                 currentHealth -= damage;
-            else { }
 
-                Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
+            if(currentHealth <= 0)
+            {
+                IsDead = true;
+            }
         }
 
         //Change Made by AngelR
@@ -46,9 +62,13 @@ namespace NPA_Health_Components
             else { }
         }
 
-
-
-
-
+        public void DieAndRespawn()
+        {
+            Debug.Log($"{gameObject.name} has died!");
+            if (IsDead)
+            {
+                this.transform.localPosition = RespawnPoint.CurrentRespawnPoint.position;
+            }
+        }
     }
 }
