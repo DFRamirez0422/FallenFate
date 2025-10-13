@@ -141,6 +141,7 @@ namespace NPA_PlayerPrefab.Scripts
             Quaternion facingRot = Quaternion.LookRotation(facing, Vector3.up)
                                    * Quaternion.Euler(attackData.rotationOffset);
             Vector3 spawnPos = transform.position + facingRot * attackData.hitboxOffset;
+            playerController.SetAttackSpeed(attackData.forwardOffset);
 
             // Delay hitbox spawn until after startup
             StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot, facing));

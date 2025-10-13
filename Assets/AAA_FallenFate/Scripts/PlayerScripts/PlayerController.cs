@@ -50,11 +50,13 @@ namespace NPA_PlayerPrefab.Scripts
         private Vector3 moveDirectionWorld;      // Final movement direction in world space
         private Vector3 lastFacingDirection = Vector3.right; // Default idle facing direction
         private Vector3 velocity;                // Current velocity applied
-        public Vector3 FacingDirection => 
+        public Vector3 FacingDirection =>
             moveDirectionWorld != Vector3.zero ? moveDirectionWorld : lastFacingDirection;
+        private float attackForwardSpeed;       // Forward speed during attack
         
         private bool attackLocked = false;       // Locks movement when true
         public void SetAttackLock(bool value) => attackLocked = value;
+        public void SetAttackSpeed(float value) => attackForwardSpeed = value;
 
         void Awake()
         {
@@ -132,6 +134,8 @@ namespace NPA_PlayerPrefab.Scripts
             else
             {
                 velocity = moveDirectionWorld * moveSpeed * movementSlowOnAttack;
+                // Apply the attack forward speed to movement.
+                velocity += lastFacingDirection.normalized * attackForwardSpeed;
 
             }
         }

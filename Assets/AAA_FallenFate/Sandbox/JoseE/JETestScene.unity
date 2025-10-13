@@ -184,6 +184,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 960927758886071179, guid: 2383fa59d02783d41978bfcfafa76165, type: 3}
+      propertyPath: m_SongName
+      value: Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331072885507830705, guid: 2383fa59d02783d41978bfcfafa76165, type: 3}
+      propertyPath: m_MusicEntries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331072885507830705, guid: 2383fa59d02783d41978bfcfafa76165, type: 3}
+      propertyPath: m_MusicEntries.Array.data[0].m_Name
+      value: Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331072885507830705, guid: 2383fa59d02783d41978bfcfafa76165, type: 3}
+      propertyPath: m_MusicEntries.Array.data[0].m_Tempo
+      value: 133
+      objectReference: {fileID: 0}
+    - target: {fileID: 1331072885507830705, guid: 2383fa59d02783d41978bfcfafa76165, type: 3}
+      propertyPath: m_MusicEntries.Array.data[0].m_MusicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 35c82f299784c424082ef364e5a74130, type: 3}
     - target: {fileID: 1720273291332485245, guid: 2383fa59d02783d41978bfcfafa76165, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.306
@@ -233,6 +253,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2383fa59d02783d41978bfcfafa76165, type: 3}
+--- !u!1001 &1201775805
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286301134397390104, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8177231709719722947, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
+      propertyPath: m_Name
+      value: Meele
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1d99d7f48892ad4facb59f371f761aa, type: 3}
 --- !u!1001 &1624006915
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -398,7 +475,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -696,3 +773,4 @@ SceneRoots:
   - {fileID: 13852006}
   - {fileID: 2067298293}
   - {fileID: 585416294}
+  - {fileID: 1201775805}
