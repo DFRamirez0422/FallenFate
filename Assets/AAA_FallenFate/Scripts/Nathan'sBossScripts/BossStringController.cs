@@ -32,23 +32,12 @@ public class BossStringController : MonoBehaviour
 
     private void BeginCombos()
     {
-        while (ComboCount < AmountOfCombos)
-        {
-            if (!alreadyAttacked)
+            for (int i = 0; i < AmountOfCombos; i++)
             {
-                for (ComboCount = 0; ComboCount < AmountOfCombos;)
-                {
-                    if (!alreadyAttacked)
-                    {
-                        StringAttack();
-                        alreadyAttacked = true;
-                        ComboCount++;
-                        Invoke(nameof(ResetAttack), timeBetweenAttacks);
-                    }
-
-                }
+                Invoke(nameof(StringAttack), i * timeBetweenAttacks);
+                print("Attack number" + i);
             }
-        }
+        
     }
 
     private void ResetAttack()
