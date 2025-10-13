@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BossStringController : MonoBehaviour
 {
-    bool alreadyAttacked;
+    //bool alreadyAttacked;
     public int timeBetweenAttacks = 2;
 
     public GameObject String1;
@@ -34,16 +34,17 @@ public class BossStringController : MonoBehaviour
     {
             for (int i = 0; i < AmountOfCombos; i++)
             {
+
                 Invoke(nameof(StringAttack), i * timeBetweenAttacks);
                 print("Attack number" + i);
             }
         
     }
 
-    private void ResetAttack()
-    {
-        alreadyAttacked = false; //Sets alreadyAttacked to false allowing the enemy to attack again 
-    }
+    //private void ResetAttack() // not used right now.
+    //{
+    //    alreadyAttacked = false; //Sets alreadyAttacked to false allowing the enemy to attack again 
+    //}
 
     public void StringAttack()
     { 
@@ -55,19 +56,19 @@ public class BossStringController : MonoBehaviour
         }
         if (RandomAttack == 1)
         {
-            String2.SetActive(true);
+            Combo2();
         }
         if (RandomAttack == 2)
         {
-            Combo5();
+            Combo3();
         }
         if (RandomAttack == 3)
         {
-            Combo5();
+            Combo4();
         }
         if (RandomAttack == 4)
         {
-            String5.SetActive(true);
+            Combo5();
         }
         if (RandomAttack == 5)
         {
