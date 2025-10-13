@@ -7,6 +7,9 @@ namespace NPA_Health_Components
         [Tooltip("Maximum HP")]
         [SerializeField] private int maxHealth = 100;
         private int currentHealth; // Current HP runtime
+        public int CurrentHealth => currentHealth;
+        public int MaxHealth => maxHealth;
+
         private void Awake()
         {
             currentHealth = maxHealth; // Initialize health on spawn
