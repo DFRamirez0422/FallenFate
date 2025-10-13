@@ -12,6 +12,9 @@ public class BossStringController : MonoBehaviour
     public GameObject String5;
     public GameObject String6;
 
+    public int AmountOfCombos = 3;
+    public int ComboCount;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,12 +24,30 @@ public class BossStringController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!alreadyAttacked)
+        if (Input.GetKeyDown("e"))
         {
-            StringAttack();
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-            
+            BeginCombos();
+        }
+    }
+
+    private void BeginCombos()
+    {
+        while (ComboCount < AmountOfCombos)
+        {
+            if (!alreadyAttacked)
+            {
+                for (ComboCount = 0; ComboCount < AmountOfCombos;)
+                {
+                    if (!alreadyAttacked)
+                    {
+                        StringAttack();
+                        alreadyAttacked = true;
+                        ComboCount++;
+                        Invoke(nameof(ResetAttack), timeBetweenAttacks);
+                    }
+
+                }
+            }
         }
     }
 
@@ -41,7 +62,7 @@ public class BossStringController : MonoBehaviour
 
         if (RandomAttack == 0)
         {
-            String1.SetActive(true);
+            Combo1();
         }
         if (RandomAttack == 1)
         {
@@ -49,11 +70,11 @@ public class BossStringController : MonoBehaviour
         }
         if (RandomAttack == 2)
         {
-            String3.SetActive(true);
+            Combo5();
         }
         if (RandomAttack == 3)
         {
-            String4.SetActive(true);
+            Combo5();
         }
         if (RandomAttack == 4)
         {
@@ -61,7 +82,7 @@ public class BossStringController : MonoBehaviour
         }
         if (RandomAttack == 5)
         {
-            String6.SetActive(true);
+            Combo5();
         }
     }
 

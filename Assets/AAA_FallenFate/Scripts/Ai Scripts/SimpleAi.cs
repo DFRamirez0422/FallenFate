@@ -95,7 +95,7 @@ public class SimpleAi : MonoBehaviour
             walkPointSet = true;
     }
 
-    //Script for Chasing the playe
+    //Script for Chasing the player
     private void ChasePlayer()
     {
         combatManager.CombatFuntion(); // Tells the Combat Manager to set combat to active
