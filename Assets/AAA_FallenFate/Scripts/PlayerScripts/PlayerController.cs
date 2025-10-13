@@ -30,6 +30,10 @@ namespace NPA_PlayerPrefab.Scripts
         [Header("Dash Attack Settings")] 
         [Tooltip("Timing window to perform dash attack")] 
         [SerializeField] private float dashAttackWindow = .5f;
+
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
         
         // Internal dash state
         private bool isDashing = false;
@@ -126,6 +130,7 @@ namespace NPA_PlayerPrefab.Scripts
             if (isDashing)
             {
                 velocity = dashDirection * dashSpeed;
+                m_DebugUI.SetDebugPlayerState("Dashing");
             }
             else if (!attackLocked) // Only move if not attacking
             {
@@ -136,6 +141,7 @@ namespace NPA_PlayerPrefab.Scripts
                 velocity = moveDirectionWorld * moveSpeed * movementSlowOnAttack;
                 // Apply the attack forward speed to movement.
                 velocity += lastFacingDirection.normalized * attackForwardSpeed;
+                m_DebugUI.SetDebugPlayerState("Attacking");
 
             }
         }
@@ -158,6 +164,10 @@ namespace NPA_PlayerPrefab.Scripts
             
             // Reduce timers
             if (dashCooldownTimer > 0f) dashCooldownTimer -= dt;
+
+            // TODO: DEBUGGING HERE - remove when finished
+            if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
+            else m_DebugUI.SetDebugPlayerState("Moving");
 
             if (isDashing)
             {
@@ -204,6 +214,7 @@ namespace NPA_PlayerPrefab.Scripts
 
         void StopDash()
         {
+            m_DebugUI.SetDebugPlayerState("Stop Dash");
             isDashing = false;
             dashDirection = Vector3.zero; // Clear direction
         }
@@ -211,6 +222,7 @@ namespace NPA_PlayerPrefab.Scripts
         // Called by PlayerCombat once dash attack is executed
         public void ConsumeDashAttack()
         {
+            m_DebugUI.SetDebugPlayerState("Dash Attack!");
             dashAttackConsumed = true; // Mark that player used dash attack
             canDashAttack = false;     // Immediately close the window
         }

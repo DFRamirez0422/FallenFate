@@ -19,8 +19,8 @@ public class BeatCounterUI : MonoBehaviour
 
     [SerializeField] private MusicBarUI m_MusicStaff;
 
-    // UI text field that displays the song tempo in BPM.
-    [SerializeField] private TMPro.TextMeshProUGUI m_TempoUI;
+    // UI text field that displays the current player state.
+    [SerializeField] private TMPro.TextMeshProUGUI m_PlayerStateUI;
 
     // UI text field that counts the number of perfect hits.
     [SerializeField] private TMPro.TextMeshProUGUI m_NumHitsPerfectUI;
@@ -92,7 +92,7 @@ public class BeatCounterUI : MonoBehaviour
         }
 
         // Below section added by Jose E.
-            UpdateUI();
+        UpdateUI();
     }
 
     // Added by Jose E.
@@ -102,12 +102,20 @@ public class BeatCounterUI : MonoBehaviour
     private void UpdateUI()
     {
         // If the UI doesn't exist, return immediately.
-        if (!m_TempoUI) return;
+        if (!m_PlayerStateUI) return;
 
         m_NumHitsPerfectUI.text = m_ComboCounter.GetNumberOfPerfects().ToString();
         m_NumMissesUI.text = m_ComboCounter.GetNumberOfMisses().ToString();
         m_StreakUI.text = m_ComboCounter.GetCurrentCombo().ToString();
         m_GradeUI.text = $"{m_ComboCounter.GetTimingGrade() * 100.0f:0.}%";
         m_MaxComboUI.text = m_ComboCounter.GetMaxEverCombo().ToString();
+    }
+
+    // ===== ONLY FOR TESTING =====
+    // 
+    // Sets the text to be displayed on screen about the current player state,
+    public void SetDebugPlayerState(string value)
+    {
+        m_PlayerStateUI.text = value;
     }
 }

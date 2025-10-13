@@ -48,13 +48,24 @@ namespace NPA_PlayerPrefab.Scripts
         public bool finisher6Unlocked = false;
         public bool finisher9Unlocked = false;
 
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
+
         private void UpdateFinisherUnlocks()
         {
             int currentCombo = rhythmCombo.GetCurrentCombo();
-            
+
             if (currentCombo >= 3) finisher3Unlocked = true;
             if (currentCombo >= 6) finisher6Unlocked = true;
             if (currentCombo >= 9) finisher9Unlocked = true;
+
+            // TODO: ONLY FOR TESTING - remove when finished.
+            m_DebugUI.SetDebugBeatStreak(currentCombo.ToString());
+            if (currentCombo >= 9) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 9");
+            else if (currentCombo >= 6) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 6");
+            else if (currentCombo >= 3) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 3");
+            else m_DebugUI.SetDebugSpecialMoveUnlock("None");
         }
 
 
