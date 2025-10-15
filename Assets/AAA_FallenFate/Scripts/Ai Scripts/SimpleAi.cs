@@ -12,25 +12,26 @@ public class SimpleAi : MonoBehaviour
     public CombatManager combatManager;
 
     public LayerMask whatIsGround, whatIsPlayer;
-    
-    // Shooting
+
+    [Header("Shooting")]
     public Transform attackPoint;
     public GameObject ShotPrefab;
+    public bool RangedToogle = false;
 
-    //Patroling
+    [Header("Patroling")] //Patroling
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
     public Waypoint WaypointScript;
+    public bool RandomMovementToogle = false;
 
-    //Attacking 
+    [Header("Attacking")]//Attacking 
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-    public bool RangedToogle = false;
     public GameObject MeleePrefab; // This is just a representation for now
     public GameObject MarkPrefab; //In enemies folder
 
-    //States 
+    [Header("States")]//States 
     public float sightRange, attackRange;
     public bool PlayerInSightRange, PlayerInAttackRange;
 
@@ -51,8 +52,9 @@ public class SimpleAi : MonoBehaviour
         //check for sight and attack range
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if (!PlayerInSightRange && !PlayerInAttackRange) Waypoints(); //When player is not in range follow waypoints;
+        
+        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == false) Waypoints(); //When player is not in range follow waypoints;
+        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == true) Patrolling(); //When player is not in range enemy will move randomly;
         if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();//When player is in sight range chase them down!
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();//Attack when player is in attack range
 
