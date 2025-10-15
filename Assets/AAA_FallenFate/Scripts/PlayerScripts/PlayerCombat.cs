@@ -1,3 +1,4 @@
+using NPA_RhythmBonusPrefabs;
 using System.Collections;
 using UnityEngine;
 
@@ -19,9 +20,14 @@ namespace NPA_PlayerPrefab.Scripts
         [SerializeField] private AttackData[] comboAttacks; // assign 1–4 moves
         [SerializeField] private float attackCooldown = 0.25f;
         [SerializeField] private float comboResetDelay = 1f;
-        
+
+        [Header("Finisher Input Buttons")]
+        [SerializeField] private KeyCode finisher3Key = KeyCode.Alpha1;
+        [SerializeField] private KeyCode finisher6Key = KeyCode.Alpha2;
+        [SerializeField] private KeyCode finisher9Key = KeyCode.Alpha3;
+
         // --- Combo Finisher System ---
-        [SerializeField] private KeyCode finisherKey = KeyCode.Mouse1; // Finisher button
+
         [SerializeField] private AttackData finisher3Hit;
         [SerializeField] private AttackData finisher6Hit;
         [SerializeField] private AttackData finisher9Hit;
@@ -34,9 +40,38 @@ namespace NPA_PlayerPrefab.Scripts
         private float lastAttackTime = 0f;
 
         private bool isAttacking = false; // Prevents attack spamming
-        
+
+        [SerializeField] private BeatComboCounter rhythmCombo;
+
+        // Finisher unlock states
+        public bool finisher3Unlocked = false;
+        public bool finisher6Unlocked = false;
+        public bool finisher9Unlocked = false;
+
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
+
+        private void UpdateFinisherUnlocks()
+        {
+            int currentCombo = rhythmCombo.GetCurrentCombo();
+
+            if (currentCombo >= 3) finisher3Unlocked = true;
+            if (currentCombo >= 6) finisher6Unlocked = true;
+            if (currentCombo >= 9) finisher9Unlocked = true;
+
+            // TODO: ONLY FOR TESTING - remove when finished.
+            m_DebugUI.SetDebugBeatStreak(currentCombo.ToString());
+            if (currentCombo >= 9) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 9");
+            else if (currentCombo >= 6) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 6");
+            else if (currentCombo >= 3) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 3");
+            else m_DebugUI.SetDebugSpecialMoveUnlock("None");
+        }
+
+
         void Update()
         {
+            UpdateFinisherUnlocks();
             HandleAttackInput();
             HandleFinisherInput();
         }// Check for player input each frame
@@ -84,28 +119,35 @@ namespace NPA_PlayerPrefab.Scripts
 
         private void HandleFinisherInput()
         {
-            if (Input.GetKeyDown(finisherKey) && !isAttacking)
+            if (!isAttacking && Time.time >= nextAttackTime)
             {
-                AttackData chosenFinisher = null;
-
-                if (currentHitCount >= 9) chosenFinisher = finisher9Hit;
-                else if (currentHitCount >= 6) chosenFinisher = finisher6Hit;
-                else if (currentHitCount >= 3) chosenFinisher = finisher3Hit;
-
-                if (chosenFinisher != null)
+                if (finisher3Unlocked && Input.GetKeyDown(finisher3Key))
                 {
-                    Attack(chosenFinisher);
-
-                    // Reset hit counter after using finisher
-                    currentHitCount = 0;
+                    Attack(finisher3Hit);
+                    finisher3Unlocked = false;
+                    rhythmCombo.ResetCombo();
+                }
+                if (finisher6Unlocked && Input.GetKeyDown(finisher6Key))
+                {
+                    Attack(finisher6Hit);
+                    finisher6Unlocked = false;
+                    rhythmCombo.ResetCombo();
+                }
+                if (finisher9Unlocked && Input.GetKeyDown(finisher9Key))
+                {
+                    Attack(finisher9Hit);
+                    finisher9Unlocked = false;
+                    rhythmCombo.ResetCombo();
                 }
             }
+
         }
-        
+
         private void Attack(AttackData attackData)
         {
             if (attackData == null || hitBoxPrefab == null) return;
 
+            var tier = rhythmCombo.EvaluateBeat();
             isAttacking = true;
             playerController.SetAttackLock(true); // Freeze or slow movement
 
@@ -113,6 +155,7 @@ namespace NPA_PlayerPrefab.Scripts
             Quaternion facingRot = Quaternion.LookRotation(facing, Vector3.up)
                                    * Quaternion.Euler(attackData.rotationOffset);
             Vector3 spawnPos = transform.position + facingRot * attackData.hitboxOffset;
+            playerController.SetAttackSpeed(attackData.forwardOffset);
 
             // Delay hitbox spawn until after startup
             StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot, facing));

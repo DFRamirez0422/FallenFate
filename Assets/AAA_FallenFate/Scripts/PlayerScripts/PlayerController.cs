@@ -30,6 +30,10 @@ namespace NPA_PlayerPrefab.Scripts
         [Header("Dash Attack Settings")] 
         [Tooltip("Timing window to perform dash attack")] 
         [SerializeField] private float dashAttackWindow = .5f;
+
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
         
         // Internal dash state
         private bool isDashing = false;
@@ -50,11 +54,13 @@ namespace NPA_PlayerPrefab.Scripts
         private Vector3 moveDirectionWorld;      // Final movement direction in world space
         private Vector3 lastFacingDirection = Vector3.right; // Default idle facing direction
         private Vector3 velocity;                // Current velocity applied
-        public Vector3 FacingDirection => 
+        public Vector3 FacingDirection =>
             moveDirectionWorld != Vector3.zero ? moveDirectionWorld : lastFacingDirection;
+        private float attackForwardSpeed;       // Forward speed during attack
         
         private bool attackLocked = false;       // Locks movement when true
         public void SetAttackLock(bool value) => attackLocked = value;
+        public void SetAttackSpeed(float value) => attackForwardSpeed = value;
 
         void Awake()
         {
@@ -124,6 +130,7 @@ namespace NPA_PlayerPrefab.Scripts
             if (isDashing)
             {
                 velocity = dashDirection * dashSpeed;
+                m_DebugUI.SetDebugPlayerState("Dashing");
             }
             else if (!attackLocked) // Only move if not attacking
             {
@@ -132,6 +139,9 @@ namespace NPA_PlayerPrefab.Scripts
             else
             {
                 velocity = moveDirectionWorld * moveSpeed * movementSlowOnAttack;
+                // Apply the attack forward speed to movement.
+                velocity += lastFacingDirection.normalized * attackForwardSpeed;
+                m_DebugUI.SetDebugPlayerState("Attacking");
 
             }
         }
@@ -150,10 +160,16 @@ namespace NPA_PlayerPrefab.Scripts
         {
             // Check if dash was pressed this frame (SPACE/B)
             bool dashPressed = Input.GetKeyDown(KeyCode.Space) || 
-                               Input.GetKeyDown(KeyCode.Joystick1Button1); 
-            
+                               Input.GetKeyDown(KeyCode.Joystick1Button1);
+
             // Reduce timers
             if (dashCooldownTimer > 0f) dashCooldownTimer -= dt;
+
+            // TODO: DEBUGGING HERE - remove when finished
+            m_DebugUI.SetDebugPlayerSpeed($"{velocity:f2}m/s");
+            if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
+            else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
+            else m_DebugUI.SetDebugPlayerState("Idle");
 
             if (isDashing)
             {
@@ -200,6 +216,7 @@ namespace NPA_PlayerPrefab.Scripts
 
         void StopDash()
         {
+            m_DebugUI.SetDebugPlayerState("Stop Dash");
             isDashing = false;
             dashDirection = Vector3.zero; // Clear direction
         }
@@ -207,6 +224,7 @@ namespace NPA_PlayerPrefab.Scripts
         // Called by PlayerCombat once dash attack is executed
         public void ConsumeDashAttack()
         {
+            m_DebugUI.SetDebugPlayerState("Dash Attack!");
             dashAttackConsumed = true; // Mark that player used dash attack
             canDashAttack = false;     // Immediately close the window
         }
