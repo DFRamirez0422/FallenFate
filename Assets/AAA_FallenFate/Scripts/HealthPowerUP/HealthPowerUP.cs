@@ -24,7 +24,7 @@ public class HealthPowerUP : MonoBehaviour
 
             if (OrbPower != null)
             {
-                OrbPower.GetHealth(15);
+                OrbPower.Heal(15);
                 Debug.Log("Player got Health");
                 var copy = this.gameObject;
                 Destroy(copy);

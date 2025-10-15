@@ -7,7 +7,6 @@ public class SimpleAi : MonoBehaviour
     public NavMeshAgent agent;
 
     public Transform player;
-    public GameObject Manager;
 
     public Health PlayerHealth;
     public CombatManager combatManager;
@@ -15,7 +14,7 @@ public class SimpleAi : MonoBehaviour
     public LayerMask whatIsGround, whatIsPlayer;
     
     // Shooting
-    public Transform bulletPoint;
+    public Transform attackPoint;
     public GameObject ShotPrefab;
 
     //Patroling
@@ -27,9 +26,8 @@ public class SimpleAi : MonoBehaviour
     //Attacking 
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-    public GameObject fist;
     public bool RangedToogle = false;
-    private float fistTimer = 1;
+    public GameObject MeleePrefab; // This is just a representation for now
 
     //States 
     public float sightRange, attackRange;
@@ -39,9 +37,7 @@ public class SimpleAi : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-
-        Manager = GameObject.FindGameObjectWithTag("Manager");
-        combatManager = Manager.GetComponent<CombatManager>();
+        combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>();
     }
 
     private void Update()
@@ -58,15 +54,6 @@ public class SimpleAi : MonoBehaviour
         if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();
 
-        if (fist == true)
-        {
-            fistTimer = fistTimer - Time.deltaTime;
-        }
-        if (fistTimer <= 0)
-        {
-            fist.SetActive(false);
-            fistTimer = 1;
-        }
     }
 
     private void Patrolling()
@@ -102,8 +89,7 @@ public class SimpleAi : MonoBehaviour
     }
     private void ChasePlayer()
     {
-        combatManager.InCombat = true;
-
+        combatManager.CombatFuntion();
         if ( player != null)
         {
             agent.SetDestination(player.position);
@@ -117,21 +103,20 @@ public class SimpleAi : MonoBehaviour
             //Make sure enemy doesn't move
             agent.SetDestination(transform.position);
 
-            transform.LookAt(player);
+            Vector3 lookPos = player.position;
+            lookPos.y = transform.position.y;
+            transform.LookAt(lookPos);
 
             if (!alreadyAttacked)
             {
                 //Attack code
                 if (RangedToogle == true)
                 {
-                    GameObject projecttille;
-                    projecttille = Instantiate(ShotPrefab, bulletPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
-                    var copy = projecttille;
-                    Destroy(copy, 2);
+                    Instantiate(ShotPrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
                 }
                 else
                 {
-                    fist.SetActive(true);
+                    Instantiate(MeleePrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up));
                     PlayerHealth.TakeDamage(10);
                 }
 
@@ -139,7 +124,7 @@ public class SimpleAi : MonoBehaviour
                 
                 
 
-                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what attacks
             }
         }
     }
@@ -147,7 +132,6 @@ public class SimpleAi : MonoBehaviour
     private void ResetAttack()
     {
         alreadyAttacked = false;
-        
     }
 
     private void OnDrawGizmosSelected()
