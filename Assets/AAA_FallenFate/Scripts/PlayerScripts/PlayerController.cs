@@ -166,7 +166,7 @@ namespace NPA_PlayerPrefab.Scripts
             if (dashCooldownTimer > 0f) dashCooldownTimer -= dt;
 
             // TODO: DEBUGGING HERE - remove when finished
-            m_DebugUI.SetDebugPlayerSpeed($"{velocity:f2}m/s");
+            m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
             if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
             else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
             else m_DebugUI.SetDebugPlayerState("Idle");
