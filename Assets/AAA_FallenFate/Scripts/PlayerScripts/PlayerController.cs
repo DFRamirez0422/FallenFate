@@ -160,14 +160,16 @@ namespace NPA_PlayerPrefab.Scripts
         {
             // Check if dash was pressed this frame (SPACE/B)
             bool dashPressed = Input.GetKeyDown(KeyCode.Space) || 
-                               Input.GetKeyDown(KeyCode.Joystick1Button1); 
-            
+                               Input.GetKeyDown(KeyCode.Joystick1Button1);
+
             // Reduce timers
             if (dashCooldownTimer > 0f) dashCooldownTimer -= dt;
 
             // TODO: DEBUGGING HERE - remove when finished
+            m_DebugUI.SetDebugPlayerSpeed($"{velocity:f2}m/s");
             if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
-            else m_DebugUI.SetDebugPlayerState("Moving");
+            else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
+            else m_DebugUI.SetDebugPlayerState("Idle");
 
             if (isDashing)
             {

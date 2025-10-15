@@ -125,16 +125,19 @@ namespace NPA_PlayerPrefab.Scripts
                 {
                     Attack(finisher3Hit);
                     finisher3Unlocked = false;
+                    rhythmCombo.ResetCombo();
                 }
                 if (finisher6Unlocked && Input.GetKeyDown(finisher6Key))
                 {
                     Attack(finisher6Hit);
                     finisher6Unlocked = false;
+                    rhythmCombo.ResetCombo();
                 }
                 if (finisher9Unlocked && Input.GetKeyDown(finisher9Key))
                 {
                     Attack(finisher9Hit);
                     finisher9Unlocked = false;
+                    rhythmCombo.ResetCombo();
                 }
             }
 

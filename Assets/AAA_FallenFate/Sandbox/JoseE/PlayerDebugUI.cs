@@ -5,6 +5,9 @@ public class PlayerDebugUI : MonoBehaviour
     // UI text field that displays the current player state.
     [SerializeField] private TMPro.TextMeshProUGUI m_PlayerStateUI;
 
+    // UI text field that displays the current player speed.
+    [SerializeField] private TMPro.TextMeshProUGUI m_PlayerSpeedUI;
+
     // UI text field that displays the current unlocked special move.
     [SerializeField] private TMPro.TextMeshProUGUI m_AttackUnlockedUI;
 
@@ -13,6 +16,9 @@ public class PlayerDebugUI : MonoBehaviour
 
     // Sets the text to be displayed on screen about the current player state,
     public void SetDebugPlayerState(string value) => m_PlayerStateUI.text = value;
+
+    // Sets the text to be displayed on screen about the current player speed,
+    public void SetDebugPlayerSpeed(string value) => m_PlayerSpeedUI.text = value;
 
     // Sets the text to be displayed on screen about the current unlocked special move.
     public void SetDebugSpecialMoveUnlock(string value) => m_AttackUnlockedUI.text = value;
