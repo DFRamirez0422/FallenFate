@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Melee : MonoBehaviour
+public class LifeTime : MonoBehaviour
 {
     public float lifeTimer = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -12,7 +12,7 @@ public class Melee : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lifeTimer = lifeTimer - Time.deltaTime;
+        lifeTimer = lifeTimer - Time.deltaTime * 4;
 
         if (lifeTimer <= 0 )
         {
