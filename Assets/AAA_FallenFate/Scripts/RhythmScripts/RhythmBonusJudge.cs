@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player.RhythmBonusPrefabs
+namespace NPA_RhythmBonusPrefabs
 {
     /// <summary>
     /// Judges attack timing against the music grid
@@ -28,9 +28,20 @@ namespace Player.RhythmBonusPrefabs
         [Tooltip("Positive = judge later; Negative = earlier")]
         [SerializeField] private float latencyOffsetSec = 0f;   // Offset to compensate for device/controller lag
 
-        public (string tier, float multiplier) EvaluateNow()
+        // Enumeration to be returned by EvaluateNow() to determine how well the beat was hit to the rhythm.
+        // If there are more multiplier bonuses planned, PLEASE write them in the enum to ensure they are
+        // evluated correctly!
+        public enum RhythmTier
         {
-            if (music == null) return ("Miss", missMult);
+            Perfect,
+            Good,
+            Miss
+        }
+
+        public (RhythmTier tier, float multiplier) EvaluateNow()
+        {
+            if (music == null) return (RhythmTier.Miss, missMult);
+            if (!music.IsPlaying) return (RhythmTier.Miss, missMult);
             
             // Get current elapsed song time in seconds (DSP-accurate) 
             double elapsedSec = music.GetElapsedSec() + latencyOffsetSec;
@@ -38,10 +49,10 @@ namespace Player.RhythmBonusPrefabs
             float bestDistSec = float.MaxValue; // Closest to any grid
             float bestIntervalSec = 0f;         // the interval that won
 
-            for (int i = 0; i < stepsOptions.Length; i++)
+            foreach (var option in stepsOptions)
             {
-                float steps = Mathf.Max(1f, stepsOptions[i]); // Avoid 0/negative
-                float intervalSec = music.BeatSec / steps;    // SNote length for this grid
+                float steps = Mathf.Max(1f, option); // Avoid 0/negative
+                float intervalSec = music.BeatSec / steps;    // Note length for this grid
                 double idx = elapsedSec / intervalSec;        // Fractional index into that grid 
                 double nearestIdx = System.Math.Round(idx);   // Nearest gridline
                 float distSec = (float)(System.Math.Abs(      // Distance (sec)
@@ -59,9 +70,9 @@ namespace Player.RhythmBonusPrefabs
             float good    = goodQuarterSec    * (bestIntervalSec / music.BeatSec);
             
             // Compare distance to thresholds → return tier + multiplier
-            if (bestDistSec <= perfect) return ("Perfect", perfectMult);
-            if (bestDistSec <= good)    return ("Good",    goodMult);
-            return ("Miss", missMult);
+            if (bestDistSec <= perfect) return (RhythmTier.Perfect, perfectMult);
+            if (bestDistSec <= good)    return (RhythmTier.Good,    goodMult);
+            return (RhythmTier.Miss, missMult);
         }
     }
 }

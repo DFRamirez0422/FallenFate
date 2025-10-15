@@ -1,2 +1,17 @@
+# Route Unity YAML assets through Unity Smart Merge (UnityYAMLMerge)
+# Keep these files as text so Git can diff/merge them properly
+
+*.unity merge=unityyamlmerge text eol=lf
+*.prefab merge=unityyamlmerge text eol=lf
+*.asset merge=unityyamlmerge text eol=lf
+*.mat merge=unityyamlmerge text eol=lf
+*.anim merge=unityyamlmerge text eol=lf
+*.controller merge=unityyamlmerge text eol=lf
+*.overrideController merge=unityyamlmerge text eol=lf
+*.guiskin merge=unityyamlmerge text eol=lf
+
+# Meta files are plain text; default merge is fine
+*.meta text eol=lf
+
 # Auto detect text files and perform LF normalization
 * text=auto
