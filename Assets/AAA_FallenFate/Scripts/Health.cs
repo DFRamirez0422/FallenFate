@@ -25,18 +25,9 @@ namespace NPA_Health_Components
 
         private void FixedUpdate()
         {
-            if (Elena.CombatToggle && currentHealth < 30
-                       && Input.GetKeyDown(KeyCode.Z) && Elena.HealthPackHold == 1)
-            {
-                Elena.ThrowHealthPowerUP();
-                Elena.HealthPackHold = 0;
-            }
-
             if (IsDead)
             {
                 DieAndRespawn();
-                IsDead = false;
-                currentHealth = 100;
             }
         }
 
@@ -59,7 +50,6 @@ namespace NPA_Health_Components
             {
                 currentHealth += GiveHealth;
             }
-            else { }
         }
 
         public void DieAndRespawn()
@@ -68,6 +58,8 @@ namespace NPA_Health_Components
             if (IsDead)
             {
                 this.transform.localPosition = RespawnPoint.CurrentRespawnPoint.position;
+                IsDead = false;
+                currentHealth = 100;
             }
         }
     }

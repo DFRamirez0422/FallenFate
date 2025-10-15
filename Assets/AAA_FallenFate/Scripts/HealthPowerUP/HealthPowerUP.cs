@@ -7,7 +7,12 @@ public class HealthPowerUP : MonoBehaviour
     private void Update()
     {
         var copy = this.gameObject;
-        Destroy(copy, 10);
+        Destroy(copy, 10);      
+    }
+
+    private void FixedUpdate()
+    {
+        this.transform.Translate(GameObject.FindGameObjectWithTag("Player").transform.position * Time.deltaTime, Space.World);
     }
 
 

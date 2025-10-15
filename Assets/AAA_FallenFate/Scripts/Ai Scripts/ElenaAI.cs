@@ -17,12 +17,13 @@ public class ElenaAI : MonoBehaviour
     [SerializeField] private GameObject HealthPower;
     public int HealthPackHold = 0;
     [SerializeField]private GameObject[] HealthPowerInGame;
+    [SerializeField] private NPA_Health_Components.Health DHealth;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;;
-
+        DHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<NPA_Health_Components.Health>();
 
         Elena = GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();
@@ -45,8 +46,17 @@ public class ElenaAI : MonoBehaviour
         else if (CombatToggle && HealthPackHold == 1 || CombatToggle && HealthPowerInGame == null || 
             HealthPowerInGame != null && HealthPackHold == 1 && CombatToggle) { TakeCover(); }
 
+        if (Input.GetKeyDown(KeyCode.Z) && !CombatToggle
+        && HealthPackHold == 1 && DHealth.currentHealth < 50 || Input.GetKeyDown(KeyCode.Z) && CombatToggle
+        && HealthPackHold == 1 && DHealth.currentHealth < 50)
+        {
+            ThrowHealthPowerUP();
+            HealthPackHold = 0;
+        }
 
     }
+
+
 
 
     private void FollowPlayer()
@@ -130,11 +140,10 @@ public class ElenaAI : MonoBehaviour
 
     public void ThrowHealthPowerUP()
     {
-        
         int speed = 2;
         Vector3 SpawnHpower = new Vector3(Elena.transform.position.x, Elena.transform.position.y + 0.5f, Elena.transform.position.z + 0.5f);        
-        Instantiate(HealthPower, SpawnHpower, Quaternion.identity);
+         var copy = Instantiate(HealthPower, SpawnHpower, Quaternion.identity);
         Vector3 Targetdirection = (player.position - SpawnHpower).normalized;
-        HealthPower.GetComponent<Rigidbody>().MovePosition(player.position + Targetdirection * speed * Time.deltaTime);
+        copy.GetComponent<Rigidbody>().MovePosition(player.position + Targetdirection * speed * Time.deltaTime);
     }
 }
