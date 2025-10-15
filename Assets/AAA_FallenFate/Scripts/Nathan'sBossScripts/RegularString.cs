@@ -9,7 +9,7 @@ public class RegularString : MonoBehaviour
 
     private void Start()
     {
-        lifeTimer = bossController.timeBetweenAttacks;
+        lifeTimer = bossController.ShadowUptime;
     }
     // Update is called once per frame
     void Update()

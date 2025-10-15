@@ -10,7 +10,7 @@ public class ShadowString : MonoBehaviour
 
     void OnEnable()
     {
-        Invoke(nameof(AttackWithString), bossController.timeBetweenAttacks);
+        Invoke(nameof(AttackWithString), bossController.ShadowUptime);
     }
 
     public void AttackWithString()
