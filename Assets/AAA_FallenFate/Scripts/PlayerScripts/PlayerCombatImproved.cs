@@ -43,6 +43,10 @@ namespace NPA_PlayerPrefab.Scripts
         private bool attackBuffered = false;
         private bool finisherBuffered = false;
         private float bufferTimeStamp = 0f;
+
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
         
         void Update()
         {
