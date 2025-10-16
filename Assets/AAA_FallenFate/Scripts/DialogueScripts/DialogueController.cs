@@ -6,132 +6,159 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
+public class DialogueLine
+{
+    public string speakerName;
+    [TextArea(2, 5)]
+    public string sentence;
+    public Sprite characterSprite;
+}
+
+[System.Serializable]
 public class Dialogue
 {
-    public string[] sentences;
-    public Sprite[] characterSprites;
+    public DialogueLine[] lines;
 }
 
 public class DialogueController : MonoBehaviour
 {
+    [Header("UI References")]
     public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI speakerNameText;
     public Image characterImage;
     public GameObject dialogueBox;
 
     [Header("References")]
-    public PlayerController playerController;  // assign in Inspector
+    public PlayerController playerController;
 
-    private Queue<string> sentences;
-    private Queue<Sprite> characterSprites;
+    [Header("Typing Settings")]
+    public float typingSpeed = 0.05f;
 
-    private bool canAdvance = false;  // now used properly
-    private bool isTyping = false;    // track if sentence is being typed
-    private float inputDelay = 0.2f;  // small buffer to prevent skipping
+    private Queue<DialogueLine> dialogueQueue = new Queue<DialogueLine>();
+    private DialogueLine currentLine;
+
+    private bool isTyping = false;
+    private bool canAdvance = false;
+    private float inputDelay = 0.2f;
     private float nextInputTime = 0f;
+
+    private bool dialogueActive = false;
+
+    public delegate void DialogueEndedHandler();
+    public event DialogueEndedHandler OnDialogueEnded;
 
     void Start()
     {
-        sentences = new Queue<string>();
-        characterSprites = new Queue<Sprite>();
         dialogueBox.SetActive(false);
 
         if (playerController == null)
-        {
-            Debug.LogError("DialogueController: PlayerController is not assigned in the Inspector!");
-        }
+            Debug.LogWarning("DialogueController: PlayerController is not assigned.");
+        if (dialogueText == null)
+            Debug.LogError("DialogueController: Missing dialogueText reference!");
+        if (speakerNameText == null)
+            Debug.LogError("DialogueController: Missing speakerNameText reference!");
     }
 
     void Update()
     {
-        if (dialogueBox.activeSelf && Time.time >= nextInputTime)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (isTyping)
-                {
-                    // Instantly finish current sentence
-                    StopAllCoroutines();
-                    dialogueText.text = sentences.Peek(); // show full current sentence
-                    isTyping = false;
-                    canAdvance = true;
-                }
-                else if (canAdvance)
-                {
-                    DisplayNextSentence();
-                }
+        if (!dialogueBox.activeSelf || Time.time < nextInputTime)
+            return;
 
-                nextInputTime = Time.time + inputDelay;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isTyping)
+            {
+                StopAllCoroutines();
+                dialogueText.text = currentLine.sentence;
+                isTyping = false;
+                canAdvance = true;
             }
+            else if (canAdvance)
+            {
+                DisplayNextLine();
+            }
+
+            nextInputTime = Time.time + inputDelay;
         }
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
+        if (dialogue == null || dialogue.lines.Length == 0)
+        {
+            Debug.LogWarning("DialogueController: Tried to start an empty dialogue.");
+            return;
+        }
+
         dialogueBox.SetActive(true);
         LockPlayerControls(true);
+        dialogueActive = true;
 
-        sentences.Clear();
-        characterSprites.Clear();
+        dialogueQueue.Clear();
+        foreach (DialogueLine line in dialogue.lines)
+            dialogueQueue.Enqueue(line);
 
-        foreach (string sentence in dialogue.sentences)
-        {
-            sentences.Enqueue(sentence);
-        }
-
-        foreach (Sprite sprite in dialogue.characterSprites)
-        {
-            characterSprites.Enqueue(sprite);
-        }
-
-        // show first sentence
-        DisplayNextSentence();
+        DisplayNextLine();
         nextInputTime = Time.time + inputDelay;
     }
 
-    public void DisplayNextSentence()
+    private void DisplayNextLine()
     {
-        if (sentences.Count == 0)
+        if (dialogueQueue.Count == 0)
         {
             EndDialogue();
             return;
         }
 
-        string sentence = sentences.Dequeue();
-        Sprite sprite = characterSprites.Count > 0 ? characterSprites.Dequeue() : null;
+        currentLine = dialogueQueue.Dequeue();
+
+        if (speakerNameText != null)
+            speakerNameText.text = string.IsNullOrEmpty(currentLine.speakerName) ? "???" : currentLine.speakerName;
+
+        if (characterImage != null)
+            characterImage.sprite = currentLine.characterSprite != null ? currentLine.characterSprite : null;
 
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
-        if (sprite != null) characterImage.sprite = sprite;
+        StartCoroutine(TypeSentence(currentLine.sentence));
     }
 
-    IEnumerator TypeSentence(string sentence)
+    private IEnumerator TypeSentence(string sentence)
     {
         dialogueText.text = "";
         isTyping = true;
         canAdvance = false;
 
-        foreach (char letter in sentence.ToCharArray())
+        foreach (char letter in sentence)
         {
             dialogueText.text += letter;
-            yield return null;
+            yield return new WaitForSeconds(typingSpeed);
         }
 
         isTyping = false;
         canAdvance = true;
     }
 
-    void EndDialogue()
+    private void EndDialogue()
     {
         dialogueBox.SetActive(false);
         LockPlayerControls(false);
+        dialogueQueue.Clear();
+        dialogueActive = false;
+
+        OnDialogueEnded?.Invoke();
     }
 
-    void LockPlayerControls(bool state)
+    private void LockPlayerControls(bool state)
     {
         if (playerController != null)
             playerController.enabled = !state;
 
         Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = state;
+    }
+
+    public bool IsDialogueActive()
+    {
+        return dialogueActive;
     }
 }
