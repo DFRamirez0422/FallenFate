@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 5778687536435984335}
   - component: {fileID: 4073894061389066475}
   m_Layer: 0
-  m_Name: Meele
+  m_Name: Template Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,11 +255,12 @@ MonoBehaviour:
     m_Bits: 128
   attackPoint: {fileID: 2762423635255604536}
   ShotPrefab: {fileID: 7515566745852492346, guid: c1837438bb64e524fa248e7188bf7c25, type: 3}
+  RangedToogle: 0
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   WaypointScript: {fileID: 4073894061389066475}
+  RandomMovementToogle: 0
   timeBetweenAttacks: 2
-  RangedToogle: 1
   MeleePrefab: {fileID: 4994702237395164113, guid: cd4b8e214d303a443b11239e91559bc3, type: 3}
   MarkPrefab: {fileID: 4573719873115348079, guid: d775c34715729184da0df78803a9a9a9, type: 3}
   sightRange: 10
@@ -397,7 +398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6190614601063564735}
   m_Layer: 0
-  m_Name: Melee Waypoints
+  m_Name: Template Enemy Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
