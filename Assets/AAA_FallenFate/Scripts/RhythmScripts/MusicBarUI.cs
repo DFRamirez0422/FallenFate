@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Timeline;
 
 namespace NPA_RhythmBonusPrefabs
 {
@@ -47,6 +48,28 @@ namespace NPA_RhythmBonusPrefabs
     */
     public class MusicBarUI : MonoBehaviour
     {
+        // ========================= Public Fields =========================//
+
+        /*
+            Tells the music staff to start animating and appear on screen. To be used when the
+            music staff will be needed to show on screen.
+        */
+        public void Activate()
+        {
+            onActivate();
+        }
+
+        /*
+            Tells the music staff to hide from the screen and stop processing. To be used when
+            the music staff is no longer needed to be on screen.
+        */
+        public void Deactivate()
+        {
+            onDeactivate();
+        }
+
+        // ========================= Private Fields =========================//
+
         [Tooltip("The instance of the rhythm music player.")]
         [SerializeField] private RhythmMusicPlayer music;  // Music clock
 
@@ -56,8 +79,14 @@ namespace NPA_RhythmBonusPrefabs
         [Tooltip("Prefab for the beat marker object.")]
         [SerializeField] private GameObject m_BeatMarkerPrefab;
 
+        [Tooltip("UI element fader instance from the staff center image.")]
+        [SerializeField] private UIElementFader m_StaffCenterUI;
+
         [Tooltip("Speed to fade in the beats from the ends of the staff.")]
-        [SerializeField] private float m_BeatFadeSpeed = 2.0f;
+        [SerializeField] private float m_BeatAppearanceSpeed = 2.0f;
+
+        [Tooltip("Speed for the music staff to pop in and pop out when activate() or deactivate() are called.")]
+        [SerializeField] private float m_StaffPopInOutSpeed = 2.0f;
 
         /*
             How do we implement the moving beat makers?
@@ -94,8 +123,23 @@ namespace NPA_RhythmBonusPrefabs
         // Current index within the queue to the tail, aka where the farthest away markers are located.
         private int m_CurrentTailIndex = 0;
 
+        // Flag to be set only when deactivate() was called but the UI is still visible on screen.
+        public bool m_IsFading = false;
+
+        // Active flag. The music staff will only work when this flag is set.
+        public bool m_IsActive = false;
+
         private void Start()
         {
+            m_IsActive = false;
+            m_IsFading = false;
+        }
+
+        // Called when the UI is activated via activate()
+        private void onActivate()
+        {
+            m_StaffCenterUI.activate(m_StaffPopInOutSpeed);
+
             // As stated in the note above, we initialize all the needed markers right away and make them inactive
             // immediately to only be made active when needed.
             Vector3[] staff_corners = new Vector3[4];
@@ -126,6 +170,22 @@ namespace NPA_RhythmBonusPrefabs
             // Update: September 29, 2025 13:13
             // Might be fixed with this line and with a little experimenting with the offset in PulseToBeat.cs
             m_ElapsedTime -= (float)Time.realtimeSinceStartupAsDouble % music.BeatSec;
+
+            m_IsActive = true;
+            m_IsFading = false;
+        }
+
+        // Called when the UI is stopped via deactivate()
+        private void onDeactivate()
+        {
+            m_IsActive = false;
+            m_IsFading = true;
+            m_StaffCenterUI.deactivate(music.BeatSec);
+
+            foreach (GameObject marker in m_BeatMarkersList)
+            {
+                marker.GetComponent<UIElementFader>().deactivate(m_StaffPopInOutSpeed);
+            }
         }
 
         // Helper function for initializating new beat markers.
@@ -151,10 +211,74 @@ namespace NPA_RhythmBonusPrefabs
 
         private void Update()
         {
-            handleBeatAppearance();
-            updateMarkerMovement();
-            handleBeatOnCenter();
-            m_ElapsedTime += Time.deltaTime;
+            // If the UI is either active or in the process of fading out in deactivation,
+            // update all movement variables. Otherwise, destroy the entire list.
+            if (m_IsActive)
+            {
+                handleBeatAppearance();
+                updateMarkerMovement();
+                handleBeatOnCenter();
+                m_ElapsedTime += Time.deltaTime;
+            }
+            else if (m_IsFading)
+            {
+                updateMarkerMovement();
+                handleBeatOnCenter();
+                handleBeatDeactivate();
+                m_ElapsedTime += Time.deltaTime;
+            }
+        }
+
+        // Handles disappearing the beat markers when deactivate() was called.
+        // Should only be called when m_IsFading is true and m_IsActive is false!
+        private void handleBeatDeactivate()
+        {
+            if (m_IsActive) return;
+            if (!m_IsFading) return;
+
+            // Check only the first beat since chances are if one is finished, the
+            // rest are finished as well. If it is finished, destroy the entire list
+            // reset the entire object as new, ready for activation.
+            if (getBeatMarkerOnLeft(1).GetComponent<UIElementFader>().isDoneDeactivate())
+            {
+                m_IsActive = false;
+                m_IsFading = false;
+
+                foreach (GameObject marker in m_BeatMarkersList)
+                {
+                    Destroy(marker);
+                }
+
+                m_BeatMarkersList = new List<GameObject>();
+                m_ElapsedTime = 0.0f;
+                m_CurrentHeadIndex = 0;
+                m_CurrentTailIndex = 0;
+            }
+
+/*
+            for (int i = 0; i < m_BeatMarkersList.Count; i++)
+            {
+                var marker_fader = m_BeatMarkersList[i].GetComponent<UIElementFader>();
+                if (marker_fader.isDoneDeactivate())
+                {
+                    Destroy(m_BeatMarkersList[i]);
+                    m_BeatMarkersList[i] = null;
+                }
+            }
+
+            // Walk over the list again and count down any dead entries.
+            m_BeatMarkersList.RemoveAll(marker => marker == null);
+
+            // If no beat markers remain, we're no longer fading.
+            if (m_BeatMarkersList.Count == 0)
+            {
+                m_IsFading = false;
+                m_ElapsedTime = 0.0f;
+                m_CurrentHeadIndex = 0;
+                m_CurrentTailIndex = 0;
+                m_BeatMarkersList = new List<GameObject>();
+            }
+            */
         }
 
         // Handles the general cycle for beats in terms of appearance, not related to their actual movement.
@@ -163,7 +287,7 @@ namespace NPA_RhythmBonusPrefabs
             if (m_ElapsedTime > music.BeatSec)
             {
                 // For the first couple of beats, we have to activate them manually.
-                if (m_CurrentTailIndex < s_NumBeatMarkers)
+                if (!m_IsFading && m_CurrentTailIndex < s_NumBeatMarkers)
                 {
                     var marker_left_script = getBeatMarkerOnLeft(m_CurrentTailIndex).GetComponent<UIElementFader>();
                     var marker_right_script = getBeatMarkerOnRight(m_CurrentTailIndex).GetComponent<UIElementFader>();
@@ -197,11 +321,14 @@ namespace NPA_RhythmBonusPrefabs
                 marker_left_script.deactivate(0.0f);
                 marker_right_script.deactivate(0.0f);
 
-                marker_left.transform.localPosition = m_LeftmostEnd;
-                marker_right.transform.localPosition = m_RightmostEnd;
+                if (!m_IsFading)
+                {
+                    marker_left.transform.localPosition = m_LeftmostEnd;
+                    marker_right.transform.localPosition = m_RightmostEnd;
 
-                marker_left_script.activate(music.BeatSec * m_BeatFadeSpeed);
-                marker_right_script.activate(music.BeatSec * m_BeatFadeSpeed);
+                    marker_left_script.activate(music.BeatSec * m_BeatAppearanceSpeed);
+                    marker_right_script.activate(music.BeatSec * m_BeatAppearanceSpeed);
+                }
 
                 m_CurrentHeadIndex++;
             }

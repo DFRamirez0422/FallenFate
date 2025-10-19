@@ -150,6 +150,11 @@ MonoBehaviour:
   music: {fileID: 0}
   m_StaffObject: {fileID: 6927964999191930100}
   m_BeatMarkerPrefab: {fileID: 6994171447976184497, guid: ba8cd2dd086c2c748bdbfd92ec6978c7, type: 3}
+  m_StaffCenterUI: {fileID: 5515501157791040804}
+  m_BeatAppearanceSpeed: 2
+  m_StaffPopInOutSpeed: 0.3
+  m_IsFading: 0
+  m_IsActive: 0
 --- !u!1 &7547572762648102385
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +166,7 @@ GameObject:
   - component: {fileID: 1331881857094833857}
   - component: {fileID: 1487137516324991641}
   - component: {fileID: 7843350571731625038}
+  - component: {fileID: 5515501157791040804}
   m_Layer: 5
   m_Name: MusicStaffPulser
   m_TagString: Untagged
@@ -225,6 +231,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5515501157791040804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7547572762648102385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4a3858b8baa6046868964c1d0eca94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIElement: {fileID: 7843350571731625038}
 --- !u!1 &8911855948883104786
 GameObject:
   m_ObjectHideFlags: 0

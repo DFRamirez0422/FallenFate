@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8596491186330163862}
   - component: {fileID: 8124579764967152555}
   - component: {fileID: 690584299586236812}
-  - component: {fileID: 8817590645405639043}
   - component: {fileID: 3228787942003087301}
+  - component: {fileID: 534986497874460571}
   m_Layer: 5
   m_Name: MusicStaffBeatMarker
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8817590645405639043
+--- !u!114 &3228787942003087301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIElement: {fileID: 690584299586236812}
---- !u!114 &3228787942003087301
+--- !u!114 &534986497874460571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,9 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7a5e0e9724f844b9abe0c025dea909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 0}
-  pulseSize: 1
+  music: {fileID: 5459910020880218184, guid: 1d8a2bba8bfbc4f4e86796326240908f, type: 3}
+  pulseSize: 1.15
   returnSpeed: 5
   subdivision: 1
   autoPlay: 1
-  pulseOffsetSec: 0.2
+  pulseOffsetSec: 0

@@ -50,7 +50,9 @@ namespace NPA_PlayerPrefab.Scripts
         
         [Header("Offsets")]
         public Vector3 hitboxOffset;
-        public Vector3 rotationOffset = new Vector3(0f, -90f, 0f);
+        public Vector3 rotationOffset = new Vector3(0f, -90f, 0f); 
+        [Tooltip("Amount to move forward during attacks.")]
+        public float forwardOffset;
         
         [Header("Cooldown")]
         public float cooldown = 0.5f;
