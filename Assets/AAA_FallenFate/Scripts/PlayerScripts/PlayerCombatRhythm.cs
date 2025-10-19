@@ -68,6 +68,10 @@ namespace NPA_PlayerPrefab.Scripts
         private bool attackBuffered = false;
         private bool finisherBuffered = false;
         private float bufferTimeStamp = 0f;
+
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
         
         void Update()
         {
@@ -351,6 +355,13 @@ namespace NPA_PlayerPrefab.Scripts
                     Debug.Log("<color=orange>6-Hit Finisher unlocked!</color>");
                 else if (currentHitCount == 9)
                     Debug.Log("<color=purple>9-Hit Finisher unlocked!</color>");
+
+                // TODO: ONLY FOR TESTING - remove when finished.
+                m_DebugUI.SetDebugBeatStreak(currentHitCount.ToString());
+                if (currentHitCount >= 9) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 9");
+                else if (currentHitCount >= 6) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 6");
+                else if (currentHitCount >= 3) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 3");
+                else m_DebugUI.SetDebugSpecialMoveUnlock("None");
             }
         }
     }
