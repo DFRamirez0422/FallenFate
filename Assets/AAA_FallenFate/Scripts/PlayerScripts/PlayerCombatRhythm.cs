@@ -78,6 +78,7 @@ namespace NPA_PlayerPrefab.Scripts
             HandleAttackInput();
             HandleFinisherInput();
             ProcessBufferedInputs();
+            UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
         private void HandleAttackInput()
@@ -363,6 +364,14 @@ namespace NPA_PlayerPrefab.Scripts
                 else if (currentHitCount >= 3) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 3");
                 else m_DebugUI.SetDebugSpecialMoveUnlock("None");
             }
+        }
+        
+        //
+        // ========================= DEBUG FUNCTIONS =========================
+        //
+        private void UpdateDebugUi()
+        {
+            ;
         }
     }
 }
