@@ -24,6 +24,8 @@ public class PauseScript : MonoBehaviour
     {
         Container.SetActive(true);
         Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         isPaused = true;
     }
 
@@ -31,6 +33,8 @@ public class PauseScript : MonoBehaviour
     {
         Container.SetActive(false);
         Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
         isPaused = false;
     }
 }

@@ -20,7 +20,10 @@ public class ObjectInteraction
     public string[] floatingLines;
 
     [Header("Interaction Settings")]
+    [Tooltip("Determines whether One-Time dialogue or Floating dialogue is prioritized for this object.")]
     public PostOneTimePriority postOneTimePriority = PostOneTimePriority.OneTimeFirst;
+
+    [Tooltip("If enabled, the object's floating dialogue lines will play sequentially instead of randomly.")]
     public bool playFloatingInOrder = false;
 
     [HideInInspector] public int nextOneTimeIndex = 0;
@@ -34,8 +37,8 @@ public class ObjectInteraction
 [RequireComponent(typeof(BoxCollider))]
 public class NPCDialogueTrigger : MonoBehaviour
 {
-    [Header("Assign NPC")]
-    public GameObject targetNPC;
+    [Header("NPC Trigger Collider")]
+    [Tooltip("The BoxCollider trigger of the NPC (must be 'Is Trigger'). This is used for player interaction detection.")]
     public BoxCollider npcTriggerCollider;
 
     [Header("NPC Dialogue Content")]
@@ -45,7 +48,10 @@ public class NPCDialogueTrigger : MonoBehaviour
     public string[] npcFloatingLines;
 
     [Header("Dialogue Priority Settings")]
+    [Tooltip("Determines whether One-Time dialogue or Floating dialogue is prioritized for this NPC.")]
     public PostOneTimePriority postOneTimePriority = PostOneTimePriority.OneTimeFirst;
+
+    [Tooltip("If enabled, the NPC's floating dialogue lines will play sequentially instead of randomly.")]
     public bool npcPlayFloatingInOrder = false;
 
     [Header("References")]
@@ -79,7 +85,7 @@ public class NPCDialogueTrigger : MonoBehaviour
             foreach (var obj in objectInteractions)
             {
                 if (obj.interactTrigger == null) continue;
-                if (IsPlayerInTrigger(obj.interactTrigger, obj.interactTrigger.gameObject))
+                if (IsPlayerInTrigger(obj.interactTrigger))
                 {
                     TriggerObjectDialogue(obj);
                     return;
@@ -87,16 +93,16 @@ public class NPCDialogueTrigger : MonoBehaviour
             }
 
             // Then check NPC collider
-            if (npcTriggerCollider != null && IsPlayerInTrigger(npcTriggerCollider, targetNPC))
+            if (npcTriggerCollider != null && IsPlayerInTrigger(npcTriggerCollider))
             {
                 TriggerNPCDialogue();
             }
         }
     }
 
-    private bool IsPlayerInTrigger(BoxCollider trigger, GameObject target)
+    private bool IsPlayerInTrigger(BoxCollider trigger)
     {
-        if (trigger == null || target == null) return false;
+        if (trigger == null) return false;
         Collider[] hits = Physics.OverlapBox(trigger.bounds.center, trigger.bounds.extents, trigger.transform.rotation);
         foreach (var hit in hits)
         {
@@ -239,7 +245,7 @@ public class NPCDialogueTrigger : MonoBehaviour
             {
                 if (line == null) continue;
                 string speaker = string.IsNullOrEmpty(line.speakerName) ? "???" : line.speakerName;
-                Debug.Log($"{targetNPC.name} ({speaker}): {line.sentence}");
+                Debug.Log($"NPC ({speaker}): {line.sentence}");
             }
         }
     }

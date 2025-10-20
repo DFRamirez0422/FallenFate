@@ -21,21 +21,21 @@ public class Dialogue
 }
 
 public class DialogueController : MonoBehaviour
-{
-    [Header("UI References")]
-    public TextMeshProUGUI dialogueText;
-    public TextMeshProUGUI speakerNameText;
-    public Image characterImage;
-    public GameObject dialogueBox;
+    {
+        [Header("UI References")]
+        public TextMeshProUGUI dialogueText;
+        public TextMeshProUGUI speakerNameText;
+        public Image characterImage;
+        public GameObject dialogueBox;
 
-    [Header("References")]
-    public PlayerController playerController;
+        [Header("References")]
+        public PlayerController playerController;
 
-    [Header("Typing Settings")]
-    public float typingSpeed = 0.05f;
+        [Header("Typing Settings")]
+        public float typingSpeed = 0.05f;
 
-    private Queue<DialogueLine> dialogueQueue = new Queue<DialogueLine>();
-    private DialogueLine currentLine;
+        private Queue<DialogueLine> dialogueQueue = new Queue<DialogueLine>();
+        private DialogueLine currentLine;
 
     private bool isTyping = false;
     private bool canAdvance = false;
