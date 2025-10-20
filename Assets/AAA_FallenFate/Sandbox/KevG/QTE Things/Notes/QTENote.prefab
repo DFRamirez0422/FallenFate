@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 587031065156119347}
   - component: {fileID: 8145028255639838580}
   - component: {fileID: 8215252505788283808}
-  - component: {fileID: 2136322469832119972}
+  - component: {fileID: 2133163335186805261}
   m_Layer: 5
   m_Name: QTENote
   m_TagString: Untagged
@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 1132664238547035242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.064895116, y: 0.064895116, z: 0.064895116}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -294.8, y: 83.306}
-  m_SizeDelta: {x: 73.4867, y: 66.6128}
+  m_SizeDelta: {x: 1482, y: 1482}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8145028255639838580
 CanvasRenderer:
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -649443545, guid: df47df1404ece6e4e85de4a669685897, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2136322469832119972
+--- !u!114 &2133163335186805261
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,13 +88,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f115f3b05962b514bab4146a1d1b347e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetHolder: {fileID: 0}
-  fallSpeed: 500
+  targetLane: {fileID: 0}
+  manager: {fileID: 0}
   useUnscaledTime: 1
   body: {fileID: 8215252505788283808}
-  normalColor: {r: 0, g: 0.94470406, b: 1, a: 1}
-  hitColor: {r: 0.19384456, g: 1, b: 0, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  perfectColor: {r: 0, g: 1, b: 0, a: 1}
+  partialColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   missColor: {r: 1, g: 0, b: 0, a: 1}
   popScale: 1.25
-  popDuration: 0.12
-  shrinkDuration: 0.1
+  popTime: 0.12
+  shrinkTime: 0.1
