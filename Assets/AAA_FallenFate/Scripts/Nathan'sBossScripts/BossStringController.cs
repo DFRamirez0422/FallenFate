@@ -4,8 +4,8 @@ using UnityEngine;
 public class BossStringController : MonoBehaviour
 {
     //bool alreadyAttacked;
-    public int ShadowUptime = 2;
-    public int DelayBetweenAttacks = 2;
+    public float ShadowUptime = 2;
+    public float DelayBetweenAttacks = 2;
 
     public GameObject String1;
     public GameObject String2;

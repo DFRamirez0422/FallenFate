@@ -141,15 +141,15 @@ namespace NPA_PlayerPrefab.Scripts
                 velocity = moveDirectionWorld * moveSpeed * movementSlowOnAttack;
                 // Apply the attack forward speed to movement.
                 velocity += lastFacingDirection.normalized * attackForwardSpeed;
-                m_DebugUI.SetDebugPlayerState("Attacking");
+               // m_DebugUI.SetDebugPlayerState("Attacking");
 
             }
 
             // TODO: DEBUGGING HERE - remove when finished
-            m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
-            if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
+           // m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
+           /* if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
             else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
-            else m_DebugUI.SetDebugPlayerState("Idle");
+            else m_DebugUI.SetDebugPlayerState("Idle"); */
         }
 
         // Applies velocity to the CharacterController (plus a small downward snap)
