@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerControllerNPA : MonoBehaviour
     {
         [Header("Movement Settings")] 
         [Tooltip("How fast the player moves")]

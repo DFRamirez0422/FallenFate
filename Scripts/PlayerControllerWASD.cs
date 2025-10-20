@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem; // new system
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerWASD : MonoBehaviour
 {
     public float moveSpeed = 5f;
     private Rigidbody rb;
