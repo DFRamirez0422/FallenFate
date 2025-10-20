@@ -6,35 +6,39 @@ public class ComboCounter : MonoBehaviour
 {
     private int comboCount = 0;
     private int finisherStage = 0;
+    private int maxCombo;
 
     [Header("UI References")]
     public TextMeshProUGUI comboText;
     public Image finisherBar;
-    public TextMeshProUGUI finisherStageText;
+
+    [Header("Stage Texts")]
+    public TextMeshProUGUI stage1Text; // Light Finisher
+    public TextMeshProUGUI stage2Text; // Heavy Finisher
+    public TextMeshProUGUI stage3Text; // Ultimate Finisher
 
     [Header("Finisher Settings")]
-    public int hitsPerStage = 3;    // Every X hits fills one stage
-    public int maxStages = 3;       // Total stages (e.g., 3 = 9 hits for full bar)
-
-    private int maxCombo; // Will be calculated in Start()
+    public int hitsPerStage = 3;    // hits needed per stage
+    public int maxStages = 3;       // total stages (3 = 9 hits for full bar)
 
     void Start()
     {
-        maxCombo = hitsPerStage * maxStages;  // e.g., 3 × 3 = 9
+        maxCombo = hitsPerStage * maxStages;
+
+        ResetStageTexts();
         UpdateComboUI();
         UpdateFinisherBar();
-        UpdateFinisherStageText();
     }
 
     void Update()
     {
-        // Click or tap to add combo hits
+        // Click or tap to build combo
         if (Input.GetMouseButtonDown(0))
         {
             AddHit();
         }
 
-        // Space key to use finisher
+        // Spacebar to use finisher
         if (Input.GetKeyDown(KeyCode.Space))
         {
             UseFinisher();
@@ -43,19 +47,18 @@ public class ComboCounter : MonoBehaviour
 
     public void AddHit()
     {
-        // Prevent going over max combo
         if (comboCount >= maxCombo)
-            return;
+            return; // stop counting at max combo
 
         comboCount++;
         UpdateComboUI();
         UpdateFinisherBar();
 
-        // Increase stage at thresholds
+        // Check if we reached a new stage
         if (comboCount % hitsPerStage == 0 && finisherStage < maxStages)
         {
             finisherStage++;
-            UpdateFinisherStageText();
+            UpdateStageTexts();
         }
     }
 
@@ -65,19 +68,22 @@ public class ComboCounter : MonoBehaviour
         {
             Debug.Log("Finisher used at stage " + finisherStage);
 
-            // Reset for refill
+            // Reset everything for refill
             comboCount = 0;
             finisherStage = 0;
+
+            ResetStageTexts();
             UpdateComboUI();
             UpdateFinisherBar();
-            UpdateFinisherStageText();
         }
     }
 
     private void UpdateComboUI()
     {
         if (comboText != null)
-            comboText.text = "" + comboCount ;
+        {
+            comboText.text = "" + comboCount;
+        }
     }
 
     private void UpdateFinisherBar()
@@ -90,9 +96,21 @@ public class ComboCounter : MonoBehaviour
         }
     }
 
-    private void UpdateFinisherStageText()
+    private void ResetStageTexts()
     {
-        if (finisherStageText != null)
-            finisherStageText.text = "Stage " + finisherStage + " / " + maxStages;
+        if (stage1Text != null) stage1Text.gameObject.SetActive(false);
+        if (stage2Text != null) stage2Text.gameObject.SetActive(false);
+        if (stage3Text != null) stage3Text.gameObject.SetActive(false);
+    }
+
+    private void UpdateStageTexts()
+    {
+        // Turn them all off first
+        ResetStageTexts();
+
+        // Enable the one that matches the current stage
+        if (finisherStage == 1 && stage1Text != null) stage1Text.gameObject.SetActive(true);
+        if (finisherStage == 2 && stage2Text != null) stage2Text.gameObject.SetActive(true);
+        if (finisherStage == 3 && stage3Text != null) stage3Text.gameObject.SetActive(true);
     }
 }
