@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class BossStringController : MonoBehaviour
 {
     //bool alreadyAttacked;
-    public int timeBetweenAttacks = 2;
+    public int ShadowUptime = 2;
+    public int DelayBetweenAttacks = 2;
 
     public GameObject String1;
     public GameObject String2;
@@ -26,18 +28,18 @@ public class BossStringController : MonoBehaviour
     {
         if (Input.GetKeyDown("e"))
         {
-            BeginCombos();
+            StartCoroutine(BeginCombos());
         }
     }
 
-    private void BeginCombos()
+    IEnumerator BeginCombos()
     {
-            for (int i = 0; i < AmountOfCombos; i++)
-            {
-
-                Invoke(nameof(StringAttack), i * timeBetweenAttacks);
-                print("Attack number" + i);
-            }
+        for (int i = 0; i < AmountOfCombos; i++)
+        {
+            StringAttack();
+            print("Attack number" + i);
+            yield return new WaitForSeconds(ShadowUptime + DelayBetweenAttacks);
+        }
         
     }
 
