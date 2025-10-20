@@ -237,12 +237,12 @@ namespace NPA_PlayerPrefab.Scripts
         }
 
 
-        
+
         private void ResetAttack()
         {
             isAttacking = false;
             playerController.SetAttackLock(false); // Unlock movement after attack ends
-            
+
             nextAttackTime = Time.time + attackCooldown;
 
             // Reset combo if finished
