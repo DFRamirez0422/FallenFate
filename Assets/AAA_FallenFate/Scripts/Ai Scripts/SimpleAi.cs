@@ -100,7 +100,11 @@ public class SimpleAi : MonoBehaviour
     //Script for Chasing the player
     private void ChasePlayer()
     {
-        combatManager.CombatFuntion(); // Tells the Combat Manager to set combat to active
+        if ( combatManager != null)
+        {
+            combatManager.CombatFuntion(); // Tells the Combat Manager to set combat to active
+        }
+        
         if ( player != null)
         {
             agent.SetDestination(player.position); // Set the enimes destination to the player. (How it chases the player)

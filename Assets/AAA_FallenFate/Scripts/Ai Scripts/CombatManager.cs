@@ -16,19 +16,22 @@ public class CombatManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (InCombat)
+        if (elenaAI != null)
         {
-            elenaAI.CombatToggle = true;
-            CombatTimer = CombatTimer - Time.deltaTime;
-        }
-        else
-        {
-            elenaAI.CombatToggle = false;
-        }
+            if (InCombat)
+            {
+                elenaAI.CombatToggle = true;
+                CombatTimer = CombatTimer - Time.deltaTime;
+            }
+            else
+            {
+                elenaAI.CombatToggle = false;
+            }
 
-        if (CombatTimer < 0)
-        {
-            InCombat = false;
+            if (CombatTimer < 0)
+            {
+                InCombat = false;
+            }
         }
     }
 
