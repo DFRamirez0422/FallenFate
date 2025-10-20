@@ -1,37 +1,15 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using NPA_Health_Components;
 
 public class Player_Respawn : MonoBehaviour
 {
-    [SerializeField] private GameObject CurrentRespawnPoint;
-    public GameObject CurrentCheckPoint;
+    public Transform CurrentRespawnPoint;
+    public Transform CurrentCheckPoint = null;
 
-    [SerializeField] private bool IsDead;
-    [SerializeField] private GameObject Player;
-
-    private void Awake()
+    private void Update()
     {
-        IsDead = false;
-        SpawnPlayer PLAYER = GameObject.FindGameObjectWithTag("StartingSpawnPoint").GetComponent<SpawnPlayer>();
-        Player = PLAYER.playerclone;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-            CurrentRespawnPoint = CurrentCheckPoint;
-
-        if (IsDead)
-        {
-            Player.transform.position = CurrentRespawnPoint.transform.position;
-            Health Health = Player.gameObject.GetComponent<Health>();
-        }
-    }
-
-    public void DieAndRespawn(bool Dead)
-    {
-        Debug.Log($"{gameObject.name} has died!");
-        IsDead = Dead;
+        if (CurrentCheckPoint != null)
+        CurrentRespawnPoint = CurrentCheckPoint;
     }
 
 }

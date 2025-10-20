@@ -4,11 +4,63 @@ using System;
 
 public class UIElementFader : MonoBehaviour
 {
+<<<<<<< HEAD
+=======
+    // ========================= Public Fields =========================//
+
+    // Deactivates the object, which makes the UI element fade out over time, expressed in seconds.
+    public void deactivate(float time)
+    {
+        m_FadeInTime = 0.0f;
+        m_FadeOutTime = time;
+        m_FadeTimeRemaining = time;
+        m_IsFadingIn = false;
+        m_IsFadingOut = true;
+    }
+
+    // Activates this object, which makes the UI element fade in over time, expressed in seconds.
+    public void activate(float time)
+    {
+        m_FadeInTime = time;
+        m_FadeOutTime = 0.0f;
+        m_FadeTimeRemaining = time;
+        m_IsFadingIn = true;
+        m_IsFadingOut = false;
+    }
+
+    // Returns true if the UI element is finished fading in.
+    public bool isDoneActivate()
+    {
+        return m_IsFadingIn && (m_FadeTimeRemaining <= 0.0f);
+    }
+
+    // Returns true if the UI element is finished fading out.
+    public bool isDoneDeactivate()
+    {
+        return m_IsFadingOut && (m_FadeTimeRemaining <= 0.0f);
+    }
+
+    // Helper function for the song and dance involving changing the alpha value of an Image component.
+    private void setImageOpacity(float opacity)
+    {
+        var color = m_UIElement.color;
+        color.a = opacity;
+        m_UIElement.color = color;
+    }
+    
+    // ========================= Private Fields =========================//
+
+>>>>>>> origin/JoseE_1015_PlayerCombat3
     [Tooltip("Image component of the UI element with which to modify over time.")]
     [SerializeField] private Image m_UIElement;
     private float m_FadeInTime = 0.0f;
     private float m_FadeOutTime = 0.0f;
     private float m_FadeTimeRemaining = 0.0f;
+<<<<<<< HEAD
+=======
+    private bool m_IsFadingIn = false;
+    private bool m_IsFadingOut = false;
+>>>>>>> origin/JoseE_1015_PlayerCombat3
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,12 +80,19 @@ public class UIElementFader : MonoBehaviour
         //
         // Opacity changing code from:
         // https://discussions.unity.com/t/having-some-serious-trouble-changing-image-alpha/690952
+<<<<<<< HEAD
+=======
+        m_FadeTimeRemaining -= Time.deltaTime;
+>>>>>>> origin/JoseE_1015_PlayerCombat3
 
         if (m_FadeOutTime > 0.0f)
         {
             if (m_FadeTimeRemaining > 0.0f)
             {
+<<<<<<< HEAD
                 m_FadeTimeRemaining -= Time.deltaTime;
+=======
+>>>>>>> origin/JoseE_1015_PlayerCombat3
 
                 m_UIElement.enabled = true;
                 setImageOpacity(m_FadeTimeRemaining / m_FadeOutTime);
@@ -49,11 +108,15 @@ public class UIElementFader : MonoBehaviour
 
             if (m_FadeTimeRemaining > 0.0f)
             {
+<<<<<<< HEAD
                 m_FadeTimeRemaining -= Time.deltaTime;
+=======
+>>>>>>> origin/JoseE_1015_PlayerCombat3
                 setImageOpacity((m_FadeInTime - m_FadeTimeRemaining) / m_FadeInTime);
             }
         }
     }
+<<<<<<< HEAD
 
     // Deactivates the object, which makes the UI element fade out over time, expressed in seconds.
     public void deactivate(float time)
@@ -99,4 +162,6 @@ public class UIElementFader : MonoBehaviour
         color.a = opacity;
         m_UIElement.color = color;
     }
+=======
+>>>>>>> origin/JoseE_1015_PlayerCombat3
 }
