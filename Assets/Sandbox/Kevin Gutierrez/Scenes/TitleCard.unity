@@ -332,15 +332,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 187d8ddc3824d6b449da6dcf1286e3c2, type: 2}
-  m_sharedMaterial: {fileID: -4823583276010360441, guid: 187d8ddc3824d6b449da6dcf1286e3c2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8105016687592461f977c054a80ce2f2, type: 2}
+  m_sharedMaterial: {fileID: -4823583276010360441, guid: 8105016687592461f977c054a80ce2f2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291677645
-  m_fontColor: {r: 0.8050314, g: 0.80249983, b: 0.80249983, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -421,16 +421,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b350d575fc32345b04f1e54e29a1e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMeshPro: {fileID: 533553170}
-  scaleDuration: 1
-  maxScale: 1.2
-  maxLetterSpacing: 0.7
-  minLetterSpacing: 0.2
+  textMeshPro: {fileID: 0}
+  scaleDuration: 0.6
+  maxScale: 1.15
+  maxLetterSpacing: 2
+  minLetterSpacing: 0
   easing:
-    serializedVersion: 2
     m_Curve:
-    - serializedVersion: 3
-      time: 0
+    - time: 0
       value: 0
       inSlope: 0
       outSlope: 0
@@ -438,8 +436,7 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    - serializedVersion: 3
-      time: 1
+    - time: 1
       value: 1
       inSlope: 0
       outSlope: 0
@@ -450,6 +447,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  baseFontSize: 0
 --- !u!1001 &579246616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1053,7 +1051,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: -151}
+  m_AnchoredPosition: {x: -70.7, y: -145}
   m_SizeDelta: {x: 82.81, y: 35.831}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1230540733
@@ -1184,9 +1182,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dcfc4596caccfc43a48d3d6655937d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalScale: {x: 0, y: 0, z: 0}
   hoverScaleMultiplier: 1.2
   clickScaleMultiplier: 1.4
   scaleSpeed: 10
+  objectScale: {x: 0, y: 0, z: 0}
+  isHovered: 0
 --- !u!1 &1260854077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,7 +1308,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: 
-  audioSource: {fileID: 0}
 --- !u!1 &1438690295
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,7 +1574,7 @@ Transform:
   m_GameObject: {fileID: 2029800770}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.6338, y: -121, z: 0}
+  m_LocalPosition: {x: -8.6338, y: -121, z: -58}
   m_LocalScale: {x: 1.7605695, y: 1.7605695, z: 1.7605695}
   m_ConstrainProportionsScale: 0
   m_Children:
