@@ -73,17 +73,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2344414788718996121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de9e110f3f503484aadfedd838c78c50, type: 3}
+  m_Script: {fileID: 11500000, guid: fd0995913e698af42a30a363d61a5e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 5
   movementSlowOnAttack: 0.01
   groundSnap: 2
   mainCamera: {fileID: 0}
-  dashSpeed: 12
-  dashDuration: 0.25
-  dashCooldown: 1.5
+  dashSpeed: 15
+  dashDuration: 0.5
+  dashCooldown: 1
   dashAttackWindow: 0.5
+  m_DebugUI: {fileID: 0}
 --- !u!114 &6235680588838002235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2344414788718996121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d3f09d8a31f00478096e344380c14b, type: 3}
+  m_Script: {fileID: 11500000, guid: e6a10ec182a79404eaa55178235de75c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
@@ -127,14 +128,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2344414788718996121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2c3d4e5f6789012345678901234abcd, type: 3}
+  m_Script: {fileID: 11500000, guid: 9786b4ba02363514792f7755e9baee7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxPrefab: {fileID: 4975051620370011707, guid: 0da87ef69d4fa8d47bda59492be5c3bf, type: 3}
   defaultAttack: {fileID: 11400000, guid: 39739baa0e5222a439a1f66d987ee76c, type: 2}
   playerController: {fileID: 0}
   dashAttackData: {fileID: 11400000, guid: 0d2976b0410e62246816d8307a9f9624, type: 2}
-  rhythmJudge: {fileID: 0}
   attackKey: 323
   comboAttacks:
   - {fileID: 11400000, guid: d0b23bf3eade95c469d58b6a04346162, type: 2}
@@ -142,25 +142,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c4ab0cdd4d8054b4380c16acdbd70bbf, type: 2}
   attackCooldown: 0.25
   comboResetDelay: 1
-  perfectRecoveryMult: 0.5
-  goodRecoveryMult: 0.75
-  missRecoveryMult: 1.5
-  rhythmCancelEnabled: 1
-  showRhythmFeedback: 1
-  enableBeatSnapping: 1
-  maxSnapDelay: 0.3
-  alwaysSnapToBeats: 1
-  preventSnapOnSpam: 1
-  spamThreshold: 0.15
-  spamInputCount: 3
-  spamCooldown: 1
-  enableAttackCanceling: 1
-  enableInputBuffering: 1
-  bufferWindow: 0.2
-  finisherKey: 324
+  finisher3Key: 49
+  finisher6Key: 50
+  finisher9Key: 51
   finisher3Hit: {fileID: 11400000, guid: 0bd4834ca7e002a4eb7ce5a3873621e1, type: 2}
   finisher6Hit: {fileID: 11400000, guid: 71037ac999b491443ac3ea206c5b106b, type: 2}
   finisher9Hit: {fileID: 11400000, guid: e6ac866a786eebc44b29983243d9350b, type: 2}
+  rhythmCombo: {fileID: 0}
+  finisher3Unlocked: 0
+  finisher6Unlocked: 0
+  finisher9Unlocked: 0
+  m_DebugUI: {fileID: 0}
 --- !u!1 &3533410122699017750
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +269,7 @@ SpriteRenderer:
   m_Size: {x: 20, y: 14.14}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4159492885716612089
@@ -289,7 +281,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5588295643322836190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7a5e0e9724f844b9abe0c025dea909, type: 3}
+  m_Script: {fileID: 11500000, guid: 60fa3ba9c4cda324791260637e87af13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   music: {fileID: 0}
