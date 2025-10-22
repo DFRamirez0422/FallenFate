@@ -74,6 +74,7 @@ namespace NPA_PlayerPrefab.Scripts
             HandleAttackInput();
             HandleFinisherInput();
             ProcessBufferedInputs();
+            UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
         private void HandleAttackInput()
@@ -352,6 +353,14 @@ namespace NPA_PlayerPrefab.Scripts
                 else if (currentHitCount == 9)
                     Debug.Log("<color=purple>9-Hit Finisher unlocked!</color>");
             }
+        }
+        
+        //
+        // ========================= DEBUG FUNCTIONS =========================
+        //
+        private void UpdateDebugUi()
+        {
+            ;
         }
     }
 }
