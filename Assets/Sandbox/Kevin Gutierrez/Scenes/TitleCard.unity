@@ -421,33 +421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b350d575fc32345b04f1e54e29a1e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMeshPro: {fileID: 0}
-  scaleDuration: 0.6
-  maxScale: 1.15
-  maxLetterSpacing: 2
-  minLetterSpacing: 0
-  easing:
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  baseFontSize: 0
 --- !u!1001 &579246616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1025,6 +998,7 @@ GameObject:
   - component: {fileID: 1230540735}
   - component: {fileID: 1230540734}
   - component: {fileID: 1230540733}
+  - component: {fileID: 1230540738}
   - component: {fileID: 1230540736}
   - component: {fileID: 1230540737}
   m_Layer: 5
@@ -1098,10 +1072,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1370134723}
-        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+      - m_Target: {fileID: 1370134724}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadMainMenu
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1182,12 +1156,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dcfc4596caccfc43a48d3d6655937d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalScale: {x: 0, y: 0, z: 0}
+--- !u!114 &1230540738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230540731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95edaf373e903f46b4dd04ef777238c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   hoverScaleMultiplier: 1.2
   clickScaleMultiplier: 1.4
   scaleSpeed: 10
-  objectScale: {x: 0, y: 0, z: 0}
-  isHovered: 0
 --- !u!1 &1260854077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,6 +1256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1370134722}
   - component: {fileID: 1370134723}
+  - component: {fileID: 1370134724}
   m_Layer: 0
   m_Name: SceneController12
   m_TagString: Untagged
@@ -1307,7 +1291,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d78f498243788499256f5ddab2980d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
+--- !u!114 &1370134724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370134720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbcbe8eef28fff43a7f28115815cc1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1438690295
 GameObject:
   m_ObjectHideFlags: 0
