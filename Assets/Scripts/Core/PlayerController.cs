@@ -130,7 +130,7 @@ namespace NPA_PlayerPrefab.Scripts
             if (isDashing)
             {
                 velocity = dashDirection * dashSpeed;
-                m_DebugUI.SetDebugPlayerState("Dashing");
+                if (m_DebugUI != null) m_DebugUI.SetDebugPlayerState("Dashing");
             }
             else if (!attackLocked) // Only move if not attacking
             {
@@ -141,15 +141,18 @@ namespace NPA_PlayerPrefab.Scripts
                 velocity = moveDirectionWorld * moveSpeed * movementSlowOnAttack;
                 // Apply the attack forward speed to movement.
                 velocity += lastFacingDirection.normalized * attackForwardSpeed;
-                m_DebugUI.SetDebugPlayerState("Attacking");
+                if (m_DebugUI != null) m_DebugUI.SetDebugPlayerState("Attacking");
 
             }
 
             // TODO: DEBUGGING HERE - remove when finished
-            m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
-            if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
-            else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
-            else m_DebugUI.SetDebugPlayerState("Idle");
+            if (m_DebugUI != null)
+            {
+                m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
+                if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
+                else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
+                else m_DebugUI.SetDebugPlayerState("Idle");
+            }
         }
 
         // Applies velocity to the CharacterController (plus a small downward snap)
@@ -216,7 +219,7 @@ namespace NPA_PlayerPrefab.Scripts
 
         void StopDash()
         {
-            m_DebugUI.SetDebugPlayerState("Stop Dash");
+            if (m_DebugUI != null) m_DebugUI.SetDebugPlayerState("Stop Dash");
             isDashing = false;
             dashDirection = Vector3.zero; // Clear direction
         }
@@ -224,7 +227,7 @@ namespace NPA_PlayerPrefab.Scripts
         // Called by PlayerCombat once dash attack is executed
         public void ConsumeDashAttack()
         {
-            m_DebugUI.SetDebugPlayerState("Dash Attack!");
+            if (m_DebugUI != null) m_DebugUI.SetDebugPlayerState("Dash Attack!");
             dashAttackConsumed = true; // Mark that player used dash attack
             canDashAttack = false;     // Immediately close the window
         }
