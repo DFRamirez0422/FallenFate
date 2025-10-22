@@ -67,9 +67,9 @@ namespace NPA_PlayerPrefab.Scripts
         
         }
         
-        private IPlayerCombat ownerCombat;
+        private PlayerCombat ownerCombat;
 
-        public void SetOwnerCombat(IPlayerCombat combat)
+        public void SetOwnerCombat(PlayerCombat combat)
         {
             ownerCombat = combat;
         }
