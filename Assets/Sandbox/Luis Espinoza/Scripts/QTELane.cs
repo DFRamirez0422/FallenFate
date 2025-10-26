@@ -10,7 +10,7 @@ public class QTELane : MonoBehaviour
 {
     public KeyCode assignedKey = KeyCode.W; // key that triggers this lane
 
-    RectTransform rt; // stores the lane’s position and size
+    RectTransform rt; // stores the lane's position and size
     public RectTransform Rect => rt; // allows other scripts to read rect
 
     [HideInInspector] public List<QTENote> activeNotes = new List<QTENote>(); // keeps track of all notes in this lane
@@ -27,7 +27,7 @@ public class QTELane : MonoBehaviour
     void Awake()
     {
         rt = GetComponent<RectTransform>(); // gets the RectTransform of the lane
-        baseScale = rt.localScale; // saves the lane’s normal size
+        baseScale = rt.localScale; // saves the lane's normal size
     }
 
     void Update()

@@ -19,7 +19,7 @@ public class QTENote : MonoBehaviour
     private float fallSpeed; // assigned by manager when spawned
 
     [Header("Colors")]
-    public Image body; // note’s image component
+    public Image body; // note's image component
     public Color normalColor = Color.white; // default color
     public Color perfectColor = Color.green; // perfect hit color
     public Color partialColor = Color.yellow; // near miss color
@@ -56,7 +56,7 @@ public class QTENote : MonoBehaviour
         }
     }
 
-    public RectTransform Rect => rt; // get note’s rect
+    public RectTransform Rect => rt; // get note's rect
 
     public void SetTargetLane(QTELane lane)
     {

@@ -9,9 +9,7 @@ public class QTECallTesting : MonoBehaviour
         // Press T to call the QTE 
         if (Input.GetKeyDown(KeyCode.T))
         {
-QTEManager.Instance.StartQTE();
-
-            }
+            QTEManager.Instance.StartQTE();
         }
     }
-
+}
