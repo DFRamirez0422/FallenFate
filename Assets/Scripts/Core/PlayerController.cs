@@ -231,35 +231,35 @@ namespace NPA_PlayerPrefab.Scripts
             // else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
             // else m_DebugUI.SetDebugPlayerState("Idle");
 
-            m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
+            // m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
 
             // Update debug UI based on movement and timer state.
-            if (dashCooldownTimer > 0f)
-            {
-                m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
-            }
-            else if (moveDirectionWorld != Vector3.zero)
-            {
-                m_DebugUI.SetDebugPlayerState("Moving");
-            }
-            else
-            {
-                m_DebugUI.SetDebugPlayerState("Idle");
-            }
+            // if (dashCooldownTimer > 0f)
+            // {
+            //     m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
+            // }
+            // else if (moveDirectionWorld != Vector3.zero)
+            // {
+            //     m_DebugUI.SetDebugPlayerState("Moving");
+            // }
+            // else
+            // {
+            //     m_DebugUI.SetDebugPlayerState("Idle");
+            // }
 
             // Update debug UI based on boolean flags.
-            if (dashAttackConsumed)
-            {
-                m_DebugUI.SetDebugPlayerState("Dash Attack!");
-            }
-            else if (isDashing)
-            {
-                m_DebugUI.SetDebugPlayerState("Dashing");
-            }
-            else if (attackLocked)
-            {
-                m_DebugUI.SetDebugPlayerState("Attacking");
-            }
+            // if (dashAttackConsumed)
+            // {
+            //     m_DebugUI.SetDebugPlayerState("Dash Attack!");
+            // }
+            // else if (isDashing)
+            // {
+            //     m_DebugUI.SetDebugPlayerState("Dashing");
+            // }
+            // else if (attackLocked)
+            // {
+            //     m_DebugUI.SetDebugPlayerState("Attacking");
+            // }
         }
     }
 }
