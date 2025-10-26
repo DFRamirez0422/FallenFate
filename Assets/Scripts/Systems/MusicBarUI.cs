@@ -139,7 +139,7 @@ namespace NPA_RhythmBonusPrefabs
         private void onActivate()
         {
             m_StaffCenterUI.activate(m_StaffPopInOutSpeed);
-
+            
             // As stated in the note above, we initialize all the needed markers right away and make them inactive
             // immediately to only be made active when needed.
             Vector3[] staff_corners = new Vector3[4];

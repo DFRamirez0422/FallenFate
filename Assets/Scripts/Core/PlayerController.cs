@@ -82,6 +82,8 @@ namespace NPA_PlayerPrefab.Scripts
             HandleDash(Time.deltaTime);
             HandleMovement(Time.deltaTime);        // Step 3: Calculate velocity
             ApplyMovement(Time.deltaTime);         // Step 4: Apply movement to CharacterController
+
+            UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
         // Reads raw WASD input
@@ -130,7 +132,6 @@ namespace NPA_PlayerPrefab.Scripts
             if (isDashing)
             {
                 velocity = dashDirection * dashSpeed;
-                if (m_DebugUI != null) m_DebugUI.SetDebugPlayerState("Dashing");
             }
             else if (!attackLocked) // Only move if not attacking
             {
@@ -141,17 +142,7 @@ namespace NPA_PlayerPrefab.Scripts
                 velocity = moveDirectionWorld * moveSpeed * movementSlowOnAttack;
                 // Apply the attack forward speed to movement.
                 velocity += lastFacingDirection.normalized * attackForwardSpeed;
-                if (m_DebugUI != null) m_DebugUI.SetDebugPlayerState("Attacking");
 
-            }
-
-            // TODO: DEBUGGING HERE - remove when finished
-            if (m_DebugUI != null)
-            {
-                m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
-                if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
-                else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
-                else m_DebugUI.SetDebugPlayerState("Idle");
             }
         }
 
@@ -219,7 +210,6 @@ namespace NPA_PlayerPrefab.Scripts
 
         void StopDash()
         {
-            if (m_DebugUI != null) m_DebugUI.SetDebugPlayerState("Stop Dash");
             isDashing = false;
             dashDirection = Vector3.zero; // Clear direction
         }
@@ -227,9 +217,49 @@ namespace NPA_PlayerPrefab.Scripts
         // Called by PlayerCombat once dash attack is executed
         public void ConsumeDashAttack()
         {
-            if (m_DebugUI != null) m_DebugUI.SetDebugPlayerState("Dash Attack!");
             dashAttackConsumed = true; // Mark that player used dash attack
             canDashAttack = false;     // Immediately close the window
+        }
+        
+        //
+        // ========================= DEBUG FUNCTIONS =========================
+        //
+        private void UpdateDebugUi()
+        {
+            // m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
+            // if (dashCooldownTimer > 0f) m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
+            // else if (moveDirectionWorld != Vector3.zero) m_DebugUI.SetDebugPlayerState("Moving");
+            // else m_DebugUI.SetDebugPlayerState("Idle");
+
+            m_DebugUI.SetDebugPlayerSpeed($"{velocity.magnitude:f2}m/s");
+
+            // Update debug UI based on movement and timer state.
+            if (dashCooldownTimer > 0f)
+            {
+                m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
+            }
+            else if (moveDirectionWorld != Vector3.zero)
+            {
+                m_DebugUI.SetDebugPlayerState("Moving");
+            }
+            else
+            {
+                m_DebugUI.SetDebugPlayerState("Idle");
+            }
+
+            // Update debug UI based on boolean flags.
+            if (dashAttackConsumed)
+            {
+                m_DebugUI.SetDebugPlayerState("Dash Attack!");
+            }
+            else if (isDashing)
+            {
+                m_DebugUI.SetDebugPlayerState("Dashing");
+            }
+            else if (attackLocked)
+            {
+                m_DebugUI.SetDebugPlayerState("Attacking");
+            }
         }
     }
 }
