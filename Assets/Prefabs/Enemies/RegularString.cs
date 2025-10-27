@@ -7,6 +7,7 @@ public class RegularString : MonoBehaviour
     public BossStringController bossController;
     public float lifeTimer = 1;
 
+
     private void Start()
     {
         lifeTimer = bossController.ShadowUptime;
