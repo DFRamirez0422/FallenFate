@@ -67,9 +67,9 @@ namespace NPA_PlayerPrefab.Scripts
         
         }
         
-        private PlayerCombat ownerCombat;
+        private PlayerCombatRhythm ownerCombat;
 
-        public void SetOwnerCombat(PlayerCombat combat)
+        public void SetOwnerCombat(PlayerCombatRhythm combat)
         {
             ownerCombat = combat;
         }
