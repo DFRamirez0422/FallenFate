@@ -5,10 +5,11 @@ using UnityEngine.Rendering;
 public class ShadowString : MonoBehaviour
 {
     //Make Sure to tag the boss with a Boss tag.
+    [Header("Make Sure to tag the boss with a Boss tag.")]
     public GameObject Self;
-    public GameObject String;
+    public GameObject AttackingString;
     private GameObject Boss;
-    public BossStringController bossController;
+    private BossStringController bossController;
 
     private void Start()
     {
@@ -23,7 +24,7 @@ public class ShadowString : MonoBehaviour
 
     public void AttackWithString()
     {
-        Instantiate (String, transform.position, Quaternion.identity);
+        Instantiate (AttackingString, transform.position, Quaternion.identity);
         Self.SetActive(false);
     }
 }
