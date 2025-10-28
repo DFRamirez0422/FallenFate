@@ -127,6 +127,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4073894061389066475, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+      propertyPath: waypoint.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4073894061389066475, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+      propertyPath: 'waypoint.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4073894061389066475, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+      propertyPath: 'waypoint.Array.data[1]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4073894061389066475, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+      propertyPath: 'waypoint.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6026146156432847194, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
       propertyPath: player
       value: 
@@ -143,6 +159,10 @@ PrefabInstance:
       propertyPath: combatManager
       value: 
       objectReference: {fileID: 1867048903}
+    - target: {fileID: 6026146156432847194, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+      propertyPath: walkPointRange
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6026146156432847194, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
       propertyPath: whatIsGround.m_Bits
       value: 8
@@ -204,7 +224,11 @@ PrefabInstance:
       value: -2.73
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4464392663454596359, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+    - {fileID: 1454439007912974613, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+    - {fileID: 6132575880266708354, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+    - {fileID: 6200351569337003328, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5954879032852959840, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
@@ -1088,7 +1112,7 @@ GameObject:
   - component: {fileID: 1867048903}
   m_Layer: 0
   m_Name: CombatManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

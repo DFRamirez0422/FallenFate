@@ -27,13 +27,11 @@ namespace NPA_PlayerPrefab.Scripts
         [SerializeField] private KeyCode finisher9Key = KeyCode.Alpha3;
 
         // --- Combo Finisher System ---
-
         [SerializeField] private AttackData finisher3Hit;
         [SerializeField] private AttackData finisher6Hit;
         [SerializeField] private AttackData finisher9Hit;
 
         private int currentHitCount = 0; // Tracks consecutive successful hits
-
 
         private int currentComboStep = 0; 
         private float nextAttackTime = 0f;
@@ -52,6 +50,23 @@ namespace NPA_PlayerPrefab.Scripts
         [Tooltip("Text object to display the current player state.")]
         [SerializeField] private PlayerDebugUI m_DebugUI;
 
+        // =================== Beat 'em up L/R facing support ===================
+        // Remember last horizontal facing so idle attacks still face correctly.
+        private int lastLRSign = 1; // 1 = right, -1 = left
+
+        private Vector3 GetTwoDirFacing()
+        {
+            // Fallback to +X if controller missing
+            Vector3 f = playerController != null ? playerController.FacingDirection : Vector3.right;
+
+            // Consider only X; update sign when there is horizontal input
+            if (Mathf.Abs(f.x) >= 0.01f)
+                lastLRSign = f.x >= 0f ? 1 : -1;
+
+            return lastLRSign == 1 ? Vector3.right : Vector3.left;
+        }
+        // =====================================================================
+
         private void UpdateFinisherUnlocks()
         {
             int currentCombo = rhythmCombo.GetCurrentCombo();
@@ -60,7 +75,6 @@ namespace NPA_PlayerPrefab.Scripts
             if (currentCombo >= 6) finisher6Unlocked = true;
             if (currentCombo >= 9) finisher9Unlocked = true;
         }
-
 
         void Update()
         {
@@ -133,7 +147,6 @@ namespace NPA_PlayerPrefab.Scripts
                     rhythmCombo.ResetCombo();
                 }
             }
-
         }
 
         private void Attack(AttackData attackData)
@@ -144,16 +157,19 @@ namespace NPA_PlayerPrefab.Scripts
             isAttacking = true;
             playerController.SetAttackLock(true); // Freeze or slow movement
 
-            Vector3 facing = playerController.FacingDirection;
-            Quaternion facingRot = Quaternion.LookRotation(facing, Vector3.up)
+            // ********** LEFT/RIGHT ONLY FACING HERE **********
+            Vector3 lrFacing = GetTwoDirFacing();
+            Quaternion facingRot = Quaternion.LookRotation(lrFacing, Vector3.up)
                                    * Quaternion.Euler(attackData.rotationOffset);
             Vector3 spawnPos = transform.position + facingRot * attackData.hitboxOffset;
             playerController.SetAttackSpeed(attackData.forwardOffset);
 
             // Delay hitbox spawn until after startup
-            StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot, facing));
+            StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot, lrFacing));
         }
-        private IEnumerator HandleAttackPhases(AttackData attackData, Vector3 spawnPos, Quaternion rot, Vector3 facing)
+
+        // NOTE: the 4th param is now lrFacing (quantized to ±X)
+        private IEnumerator HandleAttackPhases(AttackData attackData, Vector3 spawnPos, Quaternion rot, Vector3 lrFacing)
         {
             // STARTUP
             yield return new WaitForSeconds(attackData.startupTime);
@@ -187,11 +203,11 @@ namespace NPA_PlayerPrefab.Scripts
 
                 if (hbProj.TryGetComponent<ProjectileMover>(out ProjectileMover mover))
                 {
-                    mover.direction = facing.normalized;
+                    // ********** PROJECTILES ARE L/R ONLY TOO **********
+                    mover.direction = lrFacing; // already normalized
                     mover.speed = attackData.projectileSpeed;
                     
-                    hbProj.transform.rotation = Quaternion.LookRotation(facing, Vector3.up);
-
+                    hbProj.transform.rotation = Quaternion.LookRotation(lrFacing, Vector3.up);
                 }
             }
 
@@ -215,7 +231,6 @@ namespace NPA_PlayerPrefab.Scripts
                 currentComboStep = 0;
         }
 
-        
         public void RegisterHit()
         {
             currentHitCount++;
@@ -230,8 +245,6 @@ namespace NPA_PlayerPrefab.Scripts
             else if (currentHitCount == 9)
                 Debug.Log("9-Hit Finisher unlocked!");
         }
-
-
         
         private void ResetAttack()
         {
@@ -243,7 +256,6 @@ namespace NPA_PlayerPrefab.Scripts
             // Reset combo if finished
             if (currentComboStep >= comboAttacks.Length)
                 currentComboStep = 0;
-
         }
     }
 }
