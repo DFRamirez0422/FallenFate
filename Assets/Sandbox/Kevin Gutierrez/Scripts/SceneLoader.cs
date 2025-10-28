@@ -13,6 +13,6 @@ public void LoadMainMenu()
 
     public void LoadLevel1()
     {
-        SceneManager.LoadScene("")
+     // COMPILATION ERROR   SceneManager.LoadScene("")
     }
 }
