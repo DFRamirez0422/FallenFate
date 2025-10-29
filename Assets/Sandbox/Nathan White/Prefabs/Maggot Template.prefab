@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3009641487572504023}
   - component: {fileID: -2661869140893827326}
   - component: {fileID: 1400943522344998081}
+  - component: {fileID: 4959384071837862933}
   m_Layer: 0
   m_Name: Maggot Template
   m_TagString: Untagged
@@ -71,7 +72,7 @@ MonoBehaviour:
   RandomMovementToogle: 1
   timeBetweenAttacks: 2
   MeleePrefab: {fileID: 4994702237395164113, guid: cd4b8e214d303a443b11239e91559bc3, type: 3}
-  MarkPrefab: {fileID: 4573719873115348079, guid: d775c34715729184da0df78803a9a9a9, type: 3}
+  MarkPrefab: {fileID: 6178890189646588379}
   sightRange: 10
   attackRange: 2
   PlayerInSightRange: 0
@@ -153,6 +154,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4959384071837862933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513678295693836734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98de0c985a4dd6488a26736368381c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitboxData: {fileID: 11400000, guid: 46836bce635d45e4d87f371fe4cf0661, type: 2}
+  attackPoint: {fileID: 8510740097202989724}
+  testKey: 104
 --- !u!1 &4003354069973434848
 GameObject:
   m_ObjectHideFlags: 0
