@@ -40,7 +40,10 @@ public class SimpleAi : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform; //Sets anything with the tag "Player" to player.
         agent = GetComponent<NavMeshAgent>(); // Gets its own navMeshAgent
-        combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automaticlly gets the CombatManager for Elenna 
+        if (GameObject.FindGameObjectWithTag("Manager"))
+        {
+            combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automatically gets the CombatManager for Elenna 
+        } 
         hitboxController = GetComponent<EnemyHitboxController>(); // Get enemy hitbox system
     }
 
@@ -159,7 +162,7 @@ public class SimpleAi : MonoBehaviour
         {
             if (hitboxController != null)
             {
-                hitboxController.ActivateHitbox("MeleeSlash"); // 🔹 matches ID in EnemyHitboxData
+                hitboxController.ActivateHitbox("MeleeSlash"); // Matches ID in EnemyHitboxData
             }
             else
             {
