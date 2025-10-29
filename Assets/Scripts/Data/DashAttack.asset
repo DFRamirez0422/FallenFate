@@ -12,9 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14604d8312564b1449a919e5eb11b832, type: 3}
   m_Name: DashAttack
   m_EditorClassIdentifier: 
-  attackName: Basic Attack
+  attackName: Dash Attackwdaahh
   damage: 25
-  attackDuration: 0.3
+  startupTime: 0.1
+  activeTime: 0.15
+  recoveryTime: 0.2
+  finisherTier: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 12
+  grantsLifestealBuff: 0
+  lifestealDuration: 0
+  lifestealPercent: 0
   hitboxSize: {x: 1, y: 1, z: 3}
   hitboxOffset: {x: 1.5, y: 1, z: 0}
   rotationOffset: {x: 0, y: -90, z: 0}
+  forwardOffset: 0
+  cooldown: 0.5

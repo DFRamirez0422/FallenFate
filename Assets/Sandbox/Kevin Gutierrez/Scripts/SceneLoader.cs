@@ -13,6 +13,6 @@ public void LoadMainMenu()
 
     public void LoadLevel1()
     {
-     // COMPILATION ERROR   SceneManager.LoadScene("")
+        SceneManager.LoadScene("L3_Bargaining_Infirmary");
     }
 }
