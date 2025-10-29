@@ -247,11 +247,6 @@ namespace NPA_PlayerPrefab.Scripts
             {
                 m_Animator.SetPlayerIsDashing();
             }
-            else if (attackLocked)
-            {
-                //TODO: the player controller has no notion of attacks
-                //m_Animator.SetPlayerIsAttacking(attackData);
-            }
             else
             {
                 m_Animator.SetAnimBasedOnSpeed(velocity);

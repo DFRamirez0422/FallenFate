@@ -862,6 +862,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6921406909890271120, guid: f41b982ec817a084cae2d97f06d8a374, type: 3}
+      propertyPath: m_MusicEntries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921406909890271120, guid: f41b982ec817a084cae2d97f06d8a374, type: 3}
+      propertyPath: m_MusicEntries.Array.data[0].m_Name
+      value: Catchy Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921406909890271120, guid: f41b982ec817a084cae2d97f06d8a374, type: 3}
+      propertyPath: m_MusicEntries.Array.data[0].m_Tempo
+      value: 133
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921406909890271120, guid: f41b982ec817a084cae2d97f06d8a374, type: 3}
+      propertyPath: m_MusicEntries.Array.data[0].m_MusicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 42e394dbd960c0442aef2791ba69868a, type: 3}
+    - target: {fileID: 6973572319709909096, guid: f41b982ec817a084cae2d97f06d8a374, type: 3}
+      propertyPath: m_SongName
+      value: Catchy Test
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1072,6 +1092,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 798a82bd649bc3f41868fe7c96e3db0f, type: 2}
     - target: {fileID: 4128674936518080592, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
+      propertyPath: m_BeatCounter
+      value: 
+      objectReference: {fileID: 1146198288}
+    - target: {fileID: 4128674936518080592, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
       propertyPath: dashAttackData
       value: 
       objectReference: {fileID: 11400000, guid: 804c9236914580744936b055e7b9fef5, type: 2}
@@ -1086,15 +1110,15 @@ PrefabInstance:
     - target: {fileID: 4128674936518080592, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
       propertyPath: 'comboAttacks.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 798a82bd649bc3f41868fe7c96e3db0f, type: 2}
+      objectReference: {fileID: 11400000, guid: 6dbfd3c1addd891419f8027b63232f03, type: 2}
     - target: {fileID: 4128674936518080592, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
       propertyPath: 'comboAttacks.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 357ed8be2ff514f4e907a7092340ef24, type: 2}
+      objectReference: {fileID: 11400000, guid: 798a82bd649bc3f41868fe7c96e3db0f, type: 2}
     - target: {fileID: 4128674936518080592, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
       propertyPath: 'comboAttacks.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 6dbfd3c1addd891419f8027b63232f03, type: 2}
+      objectReference: {fileID: 11400000, guid: 357ed8be2ff514f4e907a7092340ef24, type: 2}
     - target: {fileID: 5727177107550828939, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1166,6 +1190,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c6b7bceb90d3e94ba248027e2719ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1146198288 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2018939471762593853, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
+  m_PrefabInstance: {fileID: 1146198284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170164224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f193fffed0d795846b4b951e9ed93b9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1245859379 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6981469966743289125, guid: 6956813cd0805564c984078d4f65c8ba, type: 3}
+  m_PrefabInstance: {fileID: 1269321939}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d582a5c9b11b14ebfbd44d5f9f3090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1269321939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1218,6 +1264,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6981469966743289125, guid: 6956813cd0805564c984078d4f65c8ba, type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 659723060}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1615,6 +1665,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RhythmBonusJudge
       objectReference: {fileID: 0}
+    - target: {fileID: 2340839409254425529, guid: a6dfc285bf5da7149aac2e40bd804da4, type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 659723060}
     - target: {fileID: 2724248350064397713, guid: a6dfc285bf5da7149aac2e40bd804da4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.21378
@@ -2287,8 +2341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b4047d40985b2c409345bd3bd183613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MusicStaff: {fileID: 0}
-  m_ComboCounter: {fileID: 0}
+  m_MusicStaff: {fileID: 1245859379}
+  m_ComboCounter: {fileID: 1146198288}
   m_ResetKey: 96
   m_StaffAppearKey: 9
 --- !u!4 &1975723316

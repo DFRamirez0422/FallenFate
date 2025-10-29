@@ -23,6 +23,7 @@ namespace NPA_PlayerPrefab.Scripts
         [SerializeField] private PlayerControllerAnimatorAndDebug playerController; // CHANGED: Jose E.
         [SerializeField] private AttackData dashAttackData;
         [SerializeField] private RhythmBonusJudge rhythmJudge; // Rhythm system reference
+        [SerializeField] private BeatComboCounter m_BeatCounter; //CHANGED BY: Jose E.
         
         [Header("Input Settings")]
         [SerializeField] private KeyCode attackKey = KeyCode.Mouse0;
@@ -224,19 +225,27 @@ namespace NPA_PlayerPrefab.Scripts
             }
 
             // Get rhythm evaluation
-            var (tier, multiplier) = rhythmJudge.EvaluateNow();
+            // FIXME: This is not working at all. Why is the older method still in use rather than the newer method?
+            //var (tier, multiplier) = rhythmJudge.EvaluateNow();
+            //lastRhythmTier = tier;
+
+            // BLOCK CHANGED BY: Jose E.
+            var tier = m_BeatCounter.EvaluateBeat();
             lastRhythmTier = tier;
+            //
 
             // Set recovery modifier based on timing
             switch (tier)
             {
                 case RhythmBonusJudge.RhythmTier.Perfect:
+                    RegisterHit(); //CHANGED BY: Jose E.
                     currentRecoveryModifier = perfectRecoveryMult;
                     if (showRhythmFeedback)
                         Debug.Log($"<color=cyan>PERFECT!</color> Recovery: {perfectRecoveryMult * 100}%");
                     break;
                     
                 case RhythmBonusJudge.RhythmTier.Good:
+                    RegisterHit(); //CHANGED BY: Jose E.
                     currentRecoveryModifier = goodRecoveryMult;
                     if (showRhythmFeedback)
                         Debug.Log($"<color=green>Good!</color> Recovery: {goodRecoveryMult * 100}%");
