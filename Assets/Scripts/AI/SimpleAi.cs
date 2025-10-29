@@ -42,9 +42,8 @@ public class SimpleAi : MonoBehaviour
         agent = GetComponent<NavMeshAgent>(); // Gets its own navMeshAgent
         if (GameObject.FindGameObjectWithTag("Manager"))
         {
-            combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automatically gets the CombatManager for Elenna 
-        } 
-        hitboxController = GetComponent<EnemyHitboxController>(); // Get enemy hitbox system
+            combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automaticlly gets the CombatManager for Elenna 
+        }
     }
 
     private void Update()
@@ -105,7 +104,10 @@ public class SimpleAi : MonoBehaviour
     //Script for Chasing the player
     private void ChasePlayer()
     {
-        combatManager.CombatFuntion(); // Tells the Combat Manager to set combat to active
+        if (combatManager != null)
+        {
+            combatManager.CombatFuntion(); // Tells the Combat Manager to set combat to active
+        }
         if ( player != null)
         {
             agent.SetDestination(player.position); // Set the enimes destination to the player. (How it chases the player)
