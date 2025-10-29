@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237e9759bb2ccfd48a6faab77f922990, type: 3}
+  m_Name: DA_DecomposedPatient
+  m_EditorClassIdentifier: 
+  enemyName: Decomposed Patient
+  hitboxes:
+  - id: Slash
+    shape: 0
+    offset: {x: 0, y: 0, z: 1.5}
+    rotation: {x: 0, y: 0, z: 0}
+    size: {x: 2, y: 1, z: 2}
+    radius: 0
+    angle: 0
+    activeTime: 3
+    damage: 1
+    depthTolerance: 0.5
+    targetMask:
+      serializedVersion: 2
+      m_Bits: 64
+    bDebugDraw: 1
+    debugColor: {r: 1, g: 0, b: 0, a: 0}
