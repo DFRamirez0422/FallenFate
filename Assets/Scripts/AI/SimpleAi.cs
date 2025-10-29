@@ -44,6 +44,7 @@ public class SimpleAi : MonoBehaviour
         {
             combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automaticlly gets the CombatManager for Elenna 
         }
+        hitboxController = GetComponent<EnemyHitboxController>();
     }
 
     private void Update()
