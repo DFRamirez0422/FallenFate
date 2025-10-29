@@ -609,27 +609,66 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 487506933670836924, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2344414788718996121, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1952223203}
   m_SourcePrefab: {fileID: 100100000, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
 --- !u!114 &1952223197 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2357863302574831891, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
   m_PrefabInstance: {fileID: 1952223196}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1952223198}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd0995913e698af42a30a363d61a5e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1952223198 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2344414788718996121, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
+  m_PrefabInstance: {fileID: 1952223196}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1952223202 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5727177107550828939, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
   m_PrefabInstance: {fileID: 1952223196}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1952223203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952223198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d163f1401c666429a3f7c45ac57ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBoxPrefab: {fileID: 0}
+  defaultAttack: {fileID: 0}
+  playerController: {fileID: 0}
+  dashAttackData: {fileID: 0}
+  attackKey: 323
+  comboAttacks: []
+  attackCooldown: 0.25
+  comboResetDelay: 1
+  finisher3Key: 49
+  finisher6Key: 50
+  finisher9Key: 51
+  rhythmCombo: {fileID: 0}
+  finisher3Hit: {fileID: 0}
+  finisher6Hit: {fileID: 0}
+  finisher9Hit: {fileID: 0}
+  finisher3Unlocked: 0
+  finisher6Unlocked: 0
+  finisher9Unlocked: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
