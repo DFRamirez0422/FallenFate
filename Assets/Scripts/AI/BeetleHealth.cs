@@ -1,3 +1,4 @@
+using UnityEngine.AI;
 using UnityEngine;
 
 public class BeetleHealth : MonoBehaviour
@@ -28,6 +29,9 @@ public class BeetleHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
 
+        Debug.Log("=== BEETLE HEALTH START ===");
+        Debug.Log("Starting health: " + currentHealth);
+
         // Get renderer for damage flash
         if (beetleRenderer == null)
         {
@@ -41,6 +45,8 @@ public class BeetleHealth : MonoBehaviour
 
         // Setup hitbox collider
         SetupHitbox();
+
+        Debug.Log("Beetle setup complete. Current health: " + currentHealth);
     }
 
     private void SetupHitbox()
@@ -61,6 +67,10 @@ public class BeetleHealth : MonoBehaviour
                 {
                     sphereCol.radius = hitboxRadius;
                 }
+
+                if (showDebugLogs)
+                    Debug.Log("Hitbox collider found and configured");
+
                 break;
             }
         }
@@ -75,6 +85,12 @@ public class BeetleHealth : MonoBehaviour
             if (showDebugLogs)
                 Debug.Log("Created hitbox collider for beetle");
         }
+
+        // Make sure beetle is tagged as Enemy so it doesn't hit itself
+        if (!gameObject.CompareTag("Enemy"))
+        {
+            Debug.LogWarning("Beetle should be tagged as 'Enemy'!");
+        }
     }
 
     public void TakeDamage(int damage)
@@ -84,10 +100,7 @@ public class BeetleHealth : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Max(0, currentHealth);
 
-        if (showDebugLogs)
-        {
-            Debug.Log($"Beetle took {damage} damage! Health: {currentHealth}/{maxHealth}");
-        }
+        Debug.LogWarning($"BEETLE TOOK DAMAGE: {damage} | Remaining Health: {currentHealth}/{maxHealth}");
 
         // Flash damage color
         if (!isFlashing && beetleRenderer != null)
@@ -118,10 +131,8 @@ public class BeetleHealth : MonoBehaviour
 
     private void Die()
     {
-        if (showDebugLogs)
-        {
-            Debug.Log("Beetle died!");
-        }
+        Debug.LogError("=== BEETLE DIED! ===");
+        Debug.LogError("Final health: " + currentHealth);
 
         // Spawn death effect
         if (deathEffectPrefab != null)
@@ -130,14 +141,14 @@ public class BeetleHealth : MonoBehaviour
         }
 
         // Disable AI
-        AcidSprayBeetleAi ai = GetComponent<AcidSprayBeetleAi>();
+        AcidSprayBeetleAI ai = GetComponent<AcidSprayBeetleAI>();
         if (ai != null)
         {
             ai.enabled = false;
         }
 
         // Disable movement
-        UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
             agent.enabled = false;
