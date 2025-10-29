@@ -85,7 +85,7 @@ SpriteRenderer:
   m_Size: {x: 20, y: 14.14}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &351708721331728609
@@ -432,6 +432,10 @@ MonoBehaviour:
   followDistance: 2
   CombatToggle: 0
   objects: []
+  HPowerUP: {fileID: 0}
+  HealthPower: {fileID: 0}
+  HealthPackHold: 0
+  HealthPowerInGame: []
 --- !u!195 &4837246098971771290
 NavMeshAgent:
   m_ObjectHideFlags: 0

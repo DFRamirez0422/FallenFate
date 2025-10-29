@@ -15,9 +15,8 @@ public class ElenaAI : MonoBehaviour
     
     [Header("Throw_PowerUp")]
     [SerializeField] private GameObject HPowerUP;
-    [SerializeField] private GameObject HealthPower;
+    private GameObject HealthPower;
     public int HealthPackHold = 0;
-
     [SerializeField]private GameObject[] HealthPowerInGame;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 

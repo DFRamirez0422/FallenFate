@@ -10,23 +10,31 @@ namespace NPA_Health_Components
         public int CurrentHealth => currentHealth;
         public int MaxHealth => maxHealth;
 
+        [Header("Respawn")]
+        bool isdead;
+        Player_Respawn _Respawn;
+
         private void Awake()
         {
             currentHealth = maxHealth; // Initialize health on spawn
+            _Respawn =  GameObject.FindGameObjectWithTag("RespawnManager").GetComponent<Player_Respawn>();
         }
-        
-        public void TakeDamage(int damage)
-        {
-            // Subtract incoming damage from current health
-            currentHealth -= damage;
-            Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
 
-            // If health drops to 0 or below, kill the object
+        private void FixedUpdate()
+        {
             if (currentHealth <= 0)
             {
                 Die();
             }
         }
+
+        public void TakeDamage(int damage)
+        {
+            // Subtract incoming damage from current health
+            currentHealth -= damage;
+            Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
+        }
+
         public void Heal(int amount)
         {
             currentHealth += amount;
@@ -34,10 +42,15 @@ namespace NPA_Health_Components
             Debug.Log($"Healed {amount}. Health now {currentHealth}");
         }
 
+
+        //Respawn Player when health is zero
+        //Change made by Angel Rodriguez
         private void Die()
         {
-            Debug.Log($"{gameObject.name} has died!");
-            Destroy(gameObject);
+            transform.position = _Respawn.CurrentCheckPoint.transform.position;
+            currentHealth = 100;
+            Debug.Log($"Player has died");
+            Debug.Log($"Respawning...");
         }
     }
 }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2357863302574831891}
   - component: {fileID: 6235680588838002235}
   - component: {fileID: 7567627252805986299}
-  - component: {fileID: 487506933670836924}
   m_Layer: 7
   m_Name: PlayerRoot
   m_TagString: Player
@@ -119,40 +118,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6106672, y: 1.5938833, z: 0.7049421}
   m_Center: {x: -0.0044646263, y: 0.8006817, z: -0.006629765}
---- !u!114 &487506933670836924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2344414788718996121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9786b4ba02363514792f7755e9baee7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitBoxPrefab: {fileID: 4975051620370011707, guid: 0da87ef69d4fa8d47bda59492be5c3bf, type: 3}
-  defaultAttack: {fileID: 11400000, guid: 39739baa0e5222a439a1f66d987ee76c, type: 2}
-  playerController: {fileID: 0}
-  dashAttackData: {fileID: 11400000, guid: 0d2976b0410e62246816d8307a9f9624, type: 2}
-  attackKey: 323
-  comboAttacks:
-  - {fileID: 11400000, guid: d0b23bf3eade95c469d58b6a04346162, type: 2}
-  - {fileID: 11400000, guid: 9964ef9692e72354a9d9b8cb50898e65, type: 2}
-  - {fileID: 11400000, guid: c4ab0cdd4d8054b4380c16acdbd70bbf, type: 2}
-  attackCooldown: 0.25
-  comboResetDelay: 1
-  finisher3Key: 49
-  finisher6Key: 50
-  finisher9Key: 51
-  finisher3Hit: {fileID: 11400000, guid: 0bd4834ca7e002a4eb7ce5a3873621e1, type: 2}
-  finisher6Hit: {fileID: 11400000, guid: 71037ac999b491443ac3ea206c5b106b, type: 2}
-  finisher9Hit: {fileID: 11400000, guid: e6ac866a786eebc44b29983243d9350b, type: 2}
-  rhythmCombo: {fileID: 0}
-  finisher3Unlocked: 0
-  finisher6Unlocked: 0
-  finisher9Unlocked: 0
-  m_DebugUI: {fileID: 0}
 --- !u!1 &3533410122699017750
 GameObject:
   m_ObjectHideFlags: 0
