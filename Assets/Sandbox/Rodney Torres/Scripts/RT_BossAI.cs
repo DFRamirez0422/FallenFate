@@ -1,7 +1,216 @@
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class RT_BossAI : MonoBehaviour
 {
+    [Header("Arena Setup")]
+    public float bossCutsceneTimer = 8f;
+    public BoxCollider arenaTrigger; // (unused if you use a trigger proxy)
+
+    private bool playerEnteredArena = false;
+
+    private SpriteRenderer bossSprite;
+    private Color originalColor;
+
+    [Header("Music Setup")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip bossSong;
+    [SerializeField, Range(0f, 1f)] private float songVolume = 0.8f;
+    [SerializeField] private bool loopSong = true;
+
+    [Header("Boss Health Setup")]
+    private RT_BossHealth bossHealth;
+    private bool phase1Active = false;
+    private bool isInvulnerablePhase = false;
+    [SerializeField] private int qteThreshold = 66;
+    [SerializeField] private bool qteSuccessAlways = true; // testing toggle
+
+    void Awake()
+    {
+        if (!audioSource) audioSource = GetComponent<AudioSource>();
+        if (!audioSource) audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+    }
+
+    void Start()
+    {
+        bossSprite = GetComponent<SpriteRenderer>();
+        bossHealth = GetComponent<RT_BossHealth>();
+        if (bossSprite != null) originalColor = bossSprite.color;
+        if (!bossHealth) Debug.LogWarning("RT_BossHealth missing on Boss.");
+    }
+
+    public void StartCutscene()
+    {
+        if (!playerEnteredArena)
+        {
+            playerEnteredArena = true;
+            Debug.Log("Player entered arena. Starting boss cutscene timer...");
+            StartCoroutine(BossCutsceneSequence());
+        }
+    }
+
+    private void PlayBossSong()
+    {
+        if (!bossSong) { Debug.LogWarning("Assign bossSong in Inspector"); return; }
+        audioSource.clip = bossSong;
+        audioSource.volume = songVolume;
+        audioSource.loop = loopSong;
+        audioSource.Play();
+    }
+
+    private IEnumerator BossCutsceneSequence()
+    {
+        if (bossSprite) bossSprite.color = Color.magenta;
+        yield return new WaitForSeconds(bossCutsceneTimer);
+        if (bossSprite) bossSprite.color = originalColor;
+
+        Debug.Log("Boss cutscene ended.");
+        PlayBossSong();
+        yield return Phase1AttackPattern();
+    }
+
+    #region Boss Attack Pattern Placeholders
+
+    private IEnumerator PlayIdleAnimation()
+    {
+        Debug.Log("Playing Idle Animation...");
+        yield return new WaitForSeconds(2f);
+    }
+
+    private IEnumerator DoFlySummonAttack()
+    {
+        Debug.Log("Performing Fly Summon Attack...");
+        yield return new WaitForSeconds(1f);
+    }
+
+    private IEnumerator DoBeetleSummonAttack()
+    {
+        Debug.Log("Performing Beetle Summon Attack...");
+        yield return new WaitForSeconds(1f);
+    }
+
+    private IEnumerator DoMachineGunRiff()
+    {
+        Debug.Log("Performing Machine Gun Riff...");
+        yield return new WaitForSeconds(1f);
+    }
+
+    private IEnumerator DoLongRangeAttack()
+    {
+        Debug.Log("Performing Long Range Attack...");
+        yield return new WaitForSeconds(1f);
+    }
+
+    private IEnumerator DoShortSwipe()
+    {
+        Debug.Log("Short Range: Guitar Swipe");
+        yield return new WaitForSeconds(1f);
+    }
+
+    private IEnumerator DoBigAoE()
+    {
+        Debug.Log("Short Range: Big AoE (projected position)");
+        yield return new WaitForSeconds(1f);
+    }
+
+    private IEnumerator DoSmallAoE()
+    {
+        Debug.Log("Short Range: Small AoE (lingering puddle)");
+        yield return new WaitForSeconds(1f);
+    }
+
+    private void FreezePlayer() { Debug.Log("Player frozen (placeholder)"); }
+    private void UnfreezePlayer() { Debug.Log("Player unfrozen (placeholder)"); }
+    private void TransitionToPhase2() { Debug.Log("Phase 2 start (placeholder)"); }
+    private void ResetToPhase1() { Debug.Log("Reset to Phase 1 (placeholder)"); }
+    #endregion
+
+    private IEnumerator Phase1AttackPattern()
+    {
+        phase1Active = true;
+        isInvulnerablePhase = true;
+
+        if (bossHealth) bossHealth.SetInvulnerable(true);
+        if (bossSprite) bossSprite.color = Color.blue;
+
+        Debug.Log("Phase 1 started - Boss is invulnerable.");
+
+        // --- Start Pattern ---
+        yield return PlayIdleAnimation();
+        yield return DoFlySummonAttack();
+
+        yield return PlayIdleAnimation();
+        yield return DoMachineGunRiff();
+
+        yield return PlayIdleAnimation();
+        yield return DoLongRangeAttack();
+
+        yield return PlayIdleAnimation();
+        yield return DoMachineGunRiff();
+
+        yield return PlayIdleAnimation();
+        // --- End Pattern ---
+
+        if (bossHealth) bossHealth.SetInvulnerable(false);
+        if (bossSprite) bossSprite.color = originalColor;
+        isInvulnerablePhase = false;
+
+        // Short-range random loop until HP <= threshold, then QTE
+        yield return Phase1ShortRangeLoop();
+
+        phase1Active = false;
+        Debug.Log("Invulnerability phase is over - Boss can now take damage. Starting Close Range Attacks");
+    }
+
+    private IEnumerator Phase1ShortRangeLoop()
+    {
+        if (!bossHealth) yield break;
+
+        Debug.Log("Phase 1: Short-range loop started (boss is vulnerable).");
+
+        while (bossHealth.CurrentHealth > qteThreshold)
+        {
+            yield return PlayIdleAnimation();
+
+            int pick = Random.Range(0, 3); // 0,1,2
+            switch (pick)
+            {
+                case 0: yield return DoShortSwipe(); break;
+                case 1: yield return DoBigAoE(); break;
+                case 2: yield return DoSmallAoE(); break;
+            }
+        }
+
+        // Hit threshold -> QTE
+        yield return StartQTESequence();
+    }
+
+    private IEnumerator StartQTESequence()
+    {
+        Debug.Log("QTE: Player frozen. Begin combo...");
+        FreezePlayer();
+        yield return new WaitForSeconds(2f); // placeholder QTE duration
+
+        bool success = qteSuccessAlways; // testing
+        if (success)
+        {
+            Debug.Log("QTE success -> Transition to Phase 2");
+            UnfreezePlayer();
+            TransitionToPhase2();
+        }
+        else
+        {
+            Debug.Log("QTE failed -> Reset to Phase 1");
+            UnfreezePlayer();
+            ResetToPhase1();
+        }
+    }
+
+
+
+
+
     //When the player enters the boss arena close the door behind them and play a cutscene
     //When the cutscene ends start phase 1
 
