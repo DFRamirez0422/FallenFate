@@ -72,7 +72,7 @@ public class SimpleAi : MonoBehaviour
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();//Attack when player is in attack range
         
         // Debug to check if player is in sight and/or attack range - can be removed when not needed
-        Debug.Log($"Sight={PlayerInSightRange}, Attack={PlayerInAttackRange}");
+        //Debug.Log($"Sight={PlayerInSightRange}, Attack={PlayerInAttackRange}");
     }
 
     //Script in case you want the enemy to move randomly instead of following the waypoints.
@@ -182,6 +182,7 @@ public class SimpleAi : MonoBehaviour
                 {
                     hitboxController.ActivateHitbox(attackID);
                     Debug.Log($"{name} triggered FlashAttackMelee() → {attackID}");
+                    
                 }
                 else
                 {

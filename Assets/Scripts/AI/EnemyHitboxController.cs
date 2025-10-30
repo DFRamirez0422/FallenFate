@@ -103,12 +103,25 @@ public class EnemyHitboxController : MonoBehaviour
             if (Mathf.Abs(hit.transform.position.z - transform.position.z) > currentHitbox.depthTolerance) continue;
 
             // Apply damage to valid targets with Health component
-            var health = hit.GetComponent<Health>();
-            if (health != null)
+            // --- NEW LOGIC ---
+            var parryBlock = hit.GetComponent<AAA_FallenFate.Scripts.PlayerScripts.ParryBlock>();
+            if (parryBlock != null)
             {
-                health.TakeDamage(currentHitbox.damage);
+                // Pass the hitbox’s own damage to ParryBlock
+                parryBlock.TakeIncomingDamage(currentHitbox.damage, gameObject);
                 alreadyHit.Add(hit);
             }
+            else
+            {
+                // fallback to plain health damage if no parry system
+                var health = hit.GetComponent<NPA_Health_Components.Health>();
+                if (health != null)
+                {
+                    health.TakeDamage(currentHitbox.damage);
+                    alreadyHit.Add(hit);
+                }
+            }
+
         }
     }
 
