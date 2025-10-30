@@ -127,7 +127,10 @@ namespace NPA_PlayerPrefab.Scripts
         {
             if (attackData == null || hitBoxPrefab == null) return;
 
-            var tier = rhythmCombo.EvaluateBeat();
+            // Judge on press (per your preference)
+            var tier = rhythmCombo != null ? rhythmCombo.EvaluateBeat() : RhythmBonusJudge.RhythmTier.Good;
+            Debug.Log($"[Rhythm] Tier={tier} Combo={rhythmCombo?.GetCurrentCombo()} Active={rhythmCombo?.m_IsActive}");
+
             isAttacking = true;
             playerController.SetAttackLock(true);
 
