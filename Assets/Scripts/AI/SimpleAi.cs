@@ -10,6 +10,7 @@ public class SimpleAi : MonoBehaviour
 
     public Health PlayerHealth;
     public CombatManager combatManager;
+    private EnemyHitboxController hitboxController;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -39,7 +40,11 @@ public class SimpleAi : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform; //Sets anything with the tag "Player" to player.
         agent = GetComponent<NavMeshAgent>(); // Gets its own navMeshAgent
-        combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automaticlly gets the CombatManager for Elenna 
+        if (GameObject.FindGameObjectWithTag("Manager"))
+        {
+            combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automaticlly gets the CombatManager for Elenna 
+        }
+        hitboxController = GetComponent<EnemyHitboxController>();
     }
 
     private void Update()
@@ -100,7 +105,10 @@ public class SimpleAi : MonoBehaviour
     //Script for Chasing the player
     private void ChasePlayer()
     {
-        combatManager.CombatFuntion(); // Tells the Combat Manager to set combat to active
+        if (combatManager != null)
+        {
+            combatManager.CombatFuntion(); // Tells the Combat Manager to set combat to active
+        }
         if ( player != null)
         {
             agent.SetDestination(player.position); // Set the enimes destination to the player. (How it chases the player)
@@ -152,14 +160,17 @@ public class SimpleAi : MonoBehaviour
     {
         Vector3 lookPos = player.position;
         lookPos.y = transform.position.y;
-        if (PlayerInSightRange && PlayerInAttackRange) //An extra check for when the attack comes out to make sure your in range
+        // Only trigger if player is still within valid attack range
+        if (PlayerInSightRange && PlayerInAttackRange)
         {
-            Instantiate(MeleePrefab, lookPos, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the Melee placeholder. Replace with a cool animation once we have them.
-            PlayerHealth.TakeDamage(10); // Deals damage if your in range
-        }
-        else
-        {
-            Instantiate(MeleePrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the Melee placeholder. Replace with a cool animation once we have them.
+            if (hitboxController != null)
+            {
+                hitboxController.ActivateHitbox("MeleeSlash"); // Matches ID in EnemyHitboxData
+            }
+            else
+            {
+                Debug.LogWarning($"{name} has no EnemyHitboxController attached!");
+            }
         }
     }
 

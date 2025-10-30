@@ -3,22 +3,21 @@ using NPA_PlayerPrefab.Scripts;
 using NPA_RhythmBonusPrefabs;
 using UnityEngine;
 
-namespace Core
+namespace NPA_PlayerPrefab.Scripts
 {
     public class PlayerCombat : MonoBehaviour
     {
         [Header("References")]
-        // [SerializeField] private Transform attackSpawnPoint; // Where hitbox spawns
-        [SerializeField] private GameObject hitBoxPrefab;           // Hitbox prefab
-        [SerializeField] private AttackData defaultAttack;          // Attack stats
-        [SerializeField] private PlayerController playerController; // Reads facing & dash state
-        [SerializeField] private AttackData dashAttackData;         // Special dash attack data
-        
+        [SerializeField] private GameObject hitBoxPrefab;
+        [SerializeField] private AttackData defaultAttack;
+        [SerializeField] private PlayerController playerController;
+        [SerializeField] private AttackData dashAttackData;
+
         [Header("Input Settings")]
-        [SerializeField] private KeyCode attackKey = KeyCode.Mouse0; // Basic attack button
-        
+        [SerializeField] private KeyCode attackKey = KeyCode.Mouse0;
+
         [Header("Combo Settings")]
-        [SerializeField] private AttackData[] comboAttacks; // assign 1–4 moves
+        [SerializeField] private AttackData[] comboAttacks;
         [SerializeField] private float attackCooldown = 0.25f;
         [SerializeField] private float comboResetDelay = 1f;
 
@@ -27,100 +26,68 @@ namespace Core
         [SerializeField] private KeyCode finisher6Key = KeyCode.Alpha2;
         [SerializeField] private KeyCode finisher9Key = KeyCode.Alpha3;
 
-        // --- Combo Finisher System ---
+        [SerializeField] private BeatComboCounter rhythmCombo;
+
         [SerializeField] private AttackData finisher3Hit;
         [SerializeField] private AttackData finisher6Hit;
         [SerializeField] private AttackData finisher9Hit;
 
-        private int currentHitCount = 0; // Tracks consecutive successful hits
-
-        private int currentComboStep = 0; 
+        private int currentHitCount = 0;
+        private int currentComboStep = 0;
         private float nextAttackTime = 0f;
         private float lastAttackTime = 0f;
+        private bool isAttacking = false;
 
-        private bool isAttacking = false; // Prevents attack spamming
-
-        [SerializeField] private BeatComboCounter rhythmCombo;
-
-        // Finisher unlock states
-        public bool finisher3Unlocked = false;
-        public bool finisher6Unlocked = false;
-        public bool finisher9Unlocked = false;
-
-        [Header("Debug (ONLY FOR TESTING)")]
-        [Tooltip("Text object to display the current player state.")]
-        [SerializeField] private PlayerDebugUI m_DebugUI;
-
-        // =================== Beat 'em up L/R facing support ===================
-        // Remember last horizontal facing so idle attacks still face correctly.
-        private int lastLRSign = 1; // 1 = right, -1 = left
+        private int lastLRSign = 1;
 
         private Vector3 GetTwoDirFacing()
         {
-            // Fallback to +X if controller missing
             Vector3 f = playerController != null ? playerController.FacingDirection : Vector3.right;
-
-            // Consider only X; update sign when there is horizontal input
             if (Mathf.Abs(f.x) >= 0.01f)
                 lastLRSign = f.x >= 0f ? 1 : -1;
-
             return lastLRSign == 1 ? Vector3.right : Vector3.left;
         }
-        // =====================================================================
 
         private void UpdateFinisherUnlocks()
         {
             int currentCombo = rhythmCombo.GetCurrentCombo();
-
             if (currentCombo >= 3) finisher3Unlocked = true;
             if (currentCombo >= 6) finisher6Unlocked = true;
             if (currentCombo >= 9) finisher9Unlocked = true;
         }
+
+        public bool finisher3Unlocked = false;
+        public bool finisher6Unlocked = false;
+        public bool finisher9Unlocked = false;
 
         void Update()
         {
             UpdateFinisherUnlocks();
             HandleAttackInput();
             HandleFinisherInput();
-        }// Check for player input each frame
-        
+        }
 
         private void HandleAttackInput()
         {
-            // Check if player pressed attack, is not already attacking, 
-            // and cooldown has passed (per-attack)
             if (Input.GetKeyDown(attackKey) && !isAttacking && Time.time >= nextAttackTime)
             {
-                AttackData attackData; // This will hold the attack we perform
-
-                //  DASH ATTACK LOGIC 
+                AttackData attackData;
                 if (playerController.DashAttackWindowActive)
                 {
-                    attackData = dashAttackData;            // Use dash attack data
-                    playerController.ConsumeDashAttack();   // Consume the dash attack "window"
+                    attackData = dashAttackData;
+                    playerController.ConsumeDashAttack();
                 }
                 else
                 {
-                    //  COMBO ATTACK LOGIC 
-                    // If too much time has passed since last combo attack, reset to first combo step
                     if (Time.time - lastAttackTime > comboResetDelay)
                         currentComboStep = 0;
 
-                    // Pick the attack in the combo sequence based on current step
                     attackData = comboAttacks[Mathf.Clamp(currentComboStep, 0, comboAttacks.Length - 1)];
-
-                    // Advance combo step for next attack
                     currentComboStep++;
-
-                    // Track time of this attack for combo reset logic
                     lastAttackTime = Time.time;
                 }
 
-                //  PERFORM ATTACK 
-                Attack(attackData); // Call your attack function
-
-                //  SET COOLDOWN 
-                // Each attack can have its own cooldown to control pacing
+                Attack(attackData);
                 nextAttackTime = Time.time + attackData.cooldown;
             }
         }
@@ -156,32 +123,26 @@ namespace Core
 
             var tier = rhythmCombo.EvaluateBeat();
             isAttacking = true;
-            playerController.SetAttackLock(true); // Freeze or slow movement
+            playerController.SetAttackLock(true);
 
-            // ********** LEFT/RIGHT ONLY FACING HERE **********
             Vector3 lrFacing = GetTwoDirFacing();
             Quaternion facingRot = Quaternion.LookRotation(lrFacing, Vector3.up)
                                    * Quaternion.Euler(attackData.rotationOffset);
             Vector3 spawnPos = transform.position + facingRot * attackData.hitboxOffset;
             playerController.SetAttackSpeed(attackData.forwardOffset);
 
-            // Delay hitbox spawn until after startup
             StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot, lrFacing));
         }
 
-        // NOTE: the 4th param is now lrFacing (quantized to ±X)
         private IEnumerator HandleAttackPhases(AttackData attackData, Vector3 spawnPos, Quaternion rot, Vector3 lrFacing)
         {
-            // STARTUP
             yield return new WaitForSeconds(attackData.startupTime);
 
             GameObject hb = null;
             GameObject hbProj = null;
 
-            // ACTIVE
             if (attackData.projectilePrefab == null)
             {
-                // Only spawn hitbox
                 hb = Instantiate(hitBoxPrefab, spawnPos, rot, transform);
                 if (hb.TryGetComponent<Hitbox>(out Hitbox hbComp))
                 {
@@ -191,7 +152,6 @@ namespace Core
             }
             else
             {
-                // Only spawn projectile
                 hbProj = Instantiate(attackData.projectilePrefab, spawnPos, rot);
 
                 if (hbProj.TryGetComponent<Hitbox>(out Hitbox hbProjComp))
@@ -202,30 +162,24 @@ namespace Core
 
                 if (hbProj.TryGetComponent<ProjectileMover>(out ProjectileMover mover))
                 {
-                    // ********** PROJECTILES ARE L/R ONLY TOO **********
-                    mover.direction = lrFacing; // already normalized
+                    mover.direction = lrFacing;
                     mover.speed = attackData.projectileSpeed;
-                    
                     hbProj.transform.rotation = Quaternion.LookRotation(lrFacing, Vector3.up);
                 }
             }
 
-            // Keep hitbox alive for activeTime
             yield return new WaitForSeconds(attackData.activeTime);
 
             if (hb != null) Destroy(hb);
             if (hbProj != null) Destroy(hbProj);
 
-            // RECOVERY
             yield return new WaitForSeconds(attackData.recoveryTime);
 
-            // Unlock player movement
             isAttacking = false;
             playerController.SetAttackLock(false);
 
-            // Set cooldown for next attack
             nextAttackTime = Time.time + attackData.cooldown;
-            // reset Combo
+
             if (currentComboStep >= comboAttacks.Length)
                 currentComboStep = 0;
         }
