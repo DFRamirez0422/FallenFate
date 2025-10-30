@@ -9,11 +9,16 @@ public class SimpleAi : MonoBehaviour
 
     public Transform player;
 
+    [Header("References")]
     public Health PlayerHealth;
     public CombatManager combatManager;
     private EnemyHitboxController hitboxController;
     private ParryBlock damageHandle;
-    public LayerMask whatIsGround, whatIsPlayer;
+    
+
+    [Header("Layers")] 
+    public LayerMask whatIsGround;
+    public LayerMask whatIsPlayer;
 
     [Header("Shooting")]
     public Transform attackPoint;
@@ -32,6 +37,8 @@ public class SimpleAi : MonoBehaviour
     bool alreadyAttacked;
     public GameObject MeleePrefab; // This is just a representation for now
     public GameObject MarkPrefab; //In enemies folder
+    [SerializeField, Tooltip("Delay before attacking/after the mark appears")]
+    private float attackDelay = 1.0f;
 
     [Header("States")]//States 
     public float sightRange, attackRange;
@@ -43,7 +50,7 @@ public class SimpleAi : MonoBehaviour
         agent = GetComponent<NavMeshAgent>(); // Gets its own navMeshAgent
         if (GameObject.FindGameObjectWithTag("Manager"))
         {
-            combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automaticlly gets the CombatManager for Elenna 
+            combatManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CombatManager>(); //Automatically gets the CombatManager for Elenna 
         }
         hitboxController = GetComponent<EnemyHitboxController>();
     }
@@ -52,7 +59,7 @@ public class SimpleAi : MonoBehaviour
     {
         if (player != null)
         {
-            PlayerHealth = player.GetComponent<Health>();//Automaticlly gets the players health.
+            PlayerHealth = player.GetComponent<Health>();//Automatically gets the players health.
         }
 
         //check for sight and attack range
@@ -63,7 +70,9 @@ public class SimpleAi : MonoBehaviour
         if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == true) Patrolling(); //When player is not in range enemy will move randomly;
         if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();//When player is in sight range chase them down!
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();//Attack when player is in attack range
-
+        
+        // Debug to check if player is in sight and/or attack range - can be removed when not needed
+        Debug.Log($"Sight={PlayerInSightRange}, Attack={PlayerInAttackRange}");
     }
 
     //Script in case you want the enemy to move randomly instead of following the waypoints.
@@ -112,7 +121,7 @@ public class SimpleAi : MonoBehaviour
         }
         if ( player != null)
         {
-            agent.SetDestination(player.position); // Set the enimes destination to the player. (How it chases the player)
+            agent.SetDestination(player.position); // Set the enemies destination to the player. (How it chases the player)
         }
     }
 
@@ -139,14 +148,14 @@ public class SimpleAi : MonoBehaviour
                 else // If range toggle is off, melee
                 {
                     Instantiate(MarkPrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark
-                    Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - 1.5f); //Deley so the attack comes out after the mark;
+                    Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - attackDelay); // Delay so the attack comes out after the mark;
                 }
 
                 alreadyAttacked = true;
                 
+                Debug.Log($"{name} is attacking player.");
                 
-
-                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks //timeBetweenAttacks is what adds a delay on the attacks.
+                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
             }
         }
     }
@@ -161,13 +170,23 @@ public class SimpleAi : MonoBehaviour
     {
         Vector3 lookPos = player.position;
         lookPos.y = transform.position.y;
+        
         // Only trigger if player is still within valid attack range
         if (PlayerInSightRange && PlayerInAttackRange)
         {
             if (hitboxController != null)
             {
-                hitboxController.ActivateHitbox("MeleeSlash"); // Matches ID in EnemyHitboxData
-                damageHandle.TakeIncomingDamage(10,this.gameObject);
+                // Pull the first available hitbox ID from the assigned data asset
+                string attackID = hitboxController.GetHitboxIDByName("");
+                if (!string.IsNullOrEmpty(attackID))
+                {
+                    hitboxController.ActivateHitbox(attackID);
+                    Debug.Log($"{name} triggered FlashAttackMelee() → {attackID}");
+                }
+                else
+                {
+                    Debug.LogWarning($"{name} has EnemyHitboxController but no valid hitboxes in its data asset!");
+                }
             }
             else
             {
