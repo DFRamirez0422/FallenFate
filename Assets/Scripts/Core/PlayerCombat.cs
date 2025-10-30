@@ -60,6 +60,12 @@ namespace NPA_PlayerPrefab.Scripts
         public bool finisher6Unlocked = false;
         public bool finisher9Unlocked = false;
 
+        private void Start()
+        {
+            if (rhythmCombo != null)
+                rhythmCombo.Activate();  // ensure counting is live
+        }
+
         void Update()
         {
             UpdateFinisherUnlocks();

@@ -1,3 +1,4 @@
+using AAA_FallenFate.Scripts.PlayerScripts;
 using NPA_Health_Components;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,7 +12,7 @@ public class SimpleAi : MonoBehaviour
     public Health PlayerHealth;
     public CombatManager combatManager;
     private EnemyHitboxController hitboxController;
-
+    private ParryBlock damageHandle;
     public LayerMask whatIsGround, whatIsPlayer;
 
     [Header("Shooting")]
@@ -166,6 +167,7 @@ public class SimpleAi : MonoBehaviour
             if (hitboxController != null)
             {
                 hitboxController.ActivateHitbox("MeleeSlash"); // Matches ID in EnemyHitboxData
+                damageHandle.TakeIncomingDamage(10,this.gameObject);
             }
             else
             {
