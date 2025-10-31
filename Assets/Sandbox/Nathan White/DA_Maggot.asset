@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 237e9759bb2ccfd48a6faab77f922990, type: 3}
-  m_Name: DA_DecomposedPatient
+  m_Name: DA_Maggot
   m_EditorClassIdentifier: 
-  enemyName: Decomposed Patient
+  enemyName: Maggot
   hitboxes:
-  - attackId: MeleeSlash
+  - id: lll
     shape: 0
-    offset: {x: 0, y: 0, z: 1.5}
+    offset: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
-    size: {x: 2, y: 1, z: 2}
+    size: {x: 3, y: 3, z: 3}
     radius: 0
     angle: 0
-    activeTime: 0.3
-    damage: 5
+    activeTime: 1
+    damage: 10
     depthTolerance: 1
     targetMask:
       serializedVersion: 2
       m_Bits: 64
     bDebugDraw: 1
-    debugColor: {r: 1, g: 0.09860484, b: 0, a: 0}
+    debugColor: {r: 0.8962264, g: 0.7928522, b: 0.1986917, a: 0}
