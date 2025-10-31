@@ -815,7 +815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1331072885507830705, guid: a065dbc71781f5d4aa18eb7bff8fc3e9, type: 3}
       propertyPath: m_MusicEntries.Array.data[0].m_Tempo
-      value: 1
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 1331072885507830705, guid: a065dbc71781f5d4aa18eb7bff8fc3e9, type: 3}
       propertyPath: m_MusicEntries.Array.data[1].m_Tempo
@@ -945,12 +945,13 @@ MonoBehaviour:
   stepsOptions:
   - 1
   - 2
-  perfectQuarterSec: 0.08
-  goodQuarterSec: 0.15
+  - 4
+  perfectQuarterSec: 0.1
+  goodQuarterSec: 0.25
   perfectMult: 1.5
   goodMult: 1.25
   missMult: 1
-  latencyOffsetSec: 0
+  latencyOffsetSec: 0.1
 --- !u!1 &1770545968
 GameObject:
   m_ObjectHideFlags: 0
