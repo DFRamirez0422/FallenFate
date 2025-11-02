@@ -22,7 +22,7 @@ public class RT_BossAI : MonoBehaviour
     private RT_BossHealth bossHealth;
     private bool phase1Active = false;
     private bool isInvulnerablePhase = false;
-    [SerializeField] private int qteThreshold = 66;
+    [SerializeField] private int qteThreshold = 60;
     [SerializeField] private bool qteSuccessAlways = true; // testing toggle
 
     [Header("AttackSetup")]
@@ -43,6 +43,21 @@ public class RT_BossAI : MonoBehaviour
 
     [SerializeField] private GameObject swipeHitbox;
     [SerializeField] private float swipeActiveTime = 0.5f; // how long it’s active
+
+ 
+    [SerializeField] private Transform player;
+    [SerializeField] private MonoBehaviour playerController; // your movement script
+    [SerializeField] private Transform qteStartPoint; // X
+    [SerializeField] private Transform qteEndPoint;   // Y
+
+
+
+    void Update()
+    {
+        //For testing QTE system
+        if (Input.GetKeyDown(KeyCode.O) && bossHealth)
+            bossHealth.TakeDamage(10); // press O to damage boss
+    }
 
 
     void Awake()
@@ -236,9 +251,24 @@ public class RT_BossAI : MonoBehaviour
         bossSprite.color = previousColor;
     }
 
+    private IEnumerator MovePlayerTo(Transform destination, float duration)
+    {
+        if (!player || !destination) yield break;
 
-    private void FreezePlayer() { Debug.Log("Player frozen (placeholder)"); }
-    private void UnfreezePlayer() { Debug.Log("Player unfrozen (placeholder)"); }
+        Vector3 start = player.position;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            player.position = Vector3.Lerp(start, destination.position, t);
+            yield return null;
+        }
+
+        player.position = destination.position; // snap to exact end
+    }
+
     private void TransitionToPhase2() { Debug.Log("Phase 2 start (placeholder)"); }
     private void ResetToPhase1() { Debug.Log("Reset to Phase 1 (placeholder)"); }
     #endregion
@@ -281,13 +311,13 @@ public class RT_BossAI : MonoBehaviour
         isInvulnerablePhase = false;
 
         // Short-range random loop until HP <= threshold, then QTE
-        yield return Phase1ShortRangeLoop();
+        yield return ShortRangeAttackLoop();
 
         phase1Active = false;
         Debug.Log("Invulnerability phase is over - Boss can now take damage. Starting Close Range Attacks");
     }
 
-    private IEnumerator Phase1ShortRangeLoop()
+    private IEnumerator ShortRangeAttackLoop()
     {
         //Function to randomly pick and execute a short range attack
         if (!bossHealth) yield break;
@@ -313,23 +343,43 @@ public class RT_BossAI : MonoBehaviour
     private IEnumerator StartQTESequence()
     {
         Debug.Log("QTE: Player frozen. Begin combo...");
-        FreezePlayer();
-        yield return new WaitForSeconds(2f); // placeholder QTE duration
 
-        bool success = qteSuccessAlways; // testing
+        // Freeze player controller and move to QTE start point
+        if (playerController) playerController.enabled = false;
+        if (player && qteStartPoint)
+            yield return StartCoroutine(MovePlayerTo(qteStartPoint, 1.5f)); 
+
+        // Start a 4-note QTE this was done by limiting the array to only 4. I didnt want to change the other script since it picks a random set from the array
+        if (QTEManager.Instance != null)
+        {
+            QTEManager.Instance.StartQTE();
+            yield return new WaitUntil(() => !QTEManager.Instance.IsActive);
+        }
+        else
+        {
+            Debug.LogWarning("QTEManager.Instance not found.");
+            yield break;
+        }
+
+        //Move to arena start and unfreeze player controller
+        if (player && qteEndPoint)
+            yield return StartCoroutine(MovePlayerTo(qteEndPoint, 1.5f)); 
+        if (playerController) playerController.enabled = true;
+
+        // For now, use your testing flag to branch
+        bool success = qteSuccessAlways;
         if (success)
         {
-            Debug.Log("QTE success -> Transition to Phase 2");
-            UnfreezePlayer();
+            Debug.Log("QTE success → Transition to Phase 2");
             TransitionToPhase2();
         }
         else
         {
-            Debug.Log("QTE failed -> Reset to Phase 1");
-            UnfreezePlayer();
+            Debug.Log("QTE failed → Reset to Phase 1");
             ResetToPhase1();
         }
     }
+
 
 
 
