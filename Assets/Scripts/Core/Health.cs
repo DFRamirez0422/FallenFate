@@ -1,3 +1,4 @@
+using Unity.Burst;
 using UnityEngine;
 
 namespace NPA_Health_Components
@@ -22,6 +23,10 @@ namespace NPA_Health_Components
 
         private void FixedUpdate()
         {
+            if(currentHealth > MaxHealth)
+            {
+                currentHealth = MaxHealth;
+            }
             if (currentHealth <= 0)
             {
                 Die();
@@ -35,11 +40,51 @@ namespace NPA_Health_Components
             Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
         }
 
-        public void Heal(int amount)
+
+
+        //Diffrenet Types of healing
+        //Change Made by AngelRodriguez
+        public void Heal(float amount)
         {
-            currentHealth += amount;
-            currentHealth = Mathf.Min(currentHealth, maxHealth);
-            Debug.Log($"Healed {amount}. Health now {currentHealth}");
+            float HealthGotten = maxHealth * amount;
+            currentHealth += (int)HealthGotten; 
+            
+            if(currentHealth > MaxHealth)
+            {
+                Debug.Log($"Healed {(int)HealthGotten}. Health now {MaxHealth}/{MaxHealth}");
+            }
+            else
+            {
+                Debug.Log($"Healed {(int)HealthGotten}. Health now {currentHealth}/{MaxHealth}");
+            }
+        }
+
+        public void HalfHeal(float amount)
+        {
+            float HealthGotten = maxHealth * amount;
+            currentHealth += (int)HealthGotten;
+            if (currentHealth > MaxHealth)
+            {
+                Debug.Log($"Healed {(int)HealthGotten}. Health now {MaxHealth}/{MaxHealth}");
+            }
+            else
+            {
+                Debug.Log($"Healed {(int)HealthGotten}. Health now {currentHealth}/{MaxHealth}");
+            }
+        }
+
+        public void FullHeal()
+        {
+            int HealthGotten = maxHealth - currentHealth;
+            currentHealth += maxHealth - currentHealth;
+            if (currentHealth > MaxHealth)
+            {
+                Debug.Log($"Healed {HealthGotten}. Health now {MaxHealth}/{MaxHealth}");
+            }
+            else
+            {
+                Debug.Log($"Healed {HealthGotten}. Health now {currentHealth}/{MaxHealth}");
+            }
         }
 
 

@@ -1,9 +1,9 @@
 using UnityEngine;
 using NUnit.Framework;
 
-public class HealthPowerUP : MonoBehaviour
+public class HealMin : MonoBehaviour
 {
-    private NPA_Health_Components.Health OrbPower;
+    private NPA_Health_Components.Health HealPowerMin;
     private void Update()
     {
         var copy = this.gameObject;
@@ -15,12 +15,11 @@ public class HealthPowerUP : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            OrbPower = other.gameObject.GetComponent<NPA_Health_Components.Health>();
+            HealPowerMin = other.gameObject.GetComponent<NPA_Health_Components.Health>();
 
-            if (OrbPower != null)
+            if (HealPowerMin != null)
             {
-                OrbPower.Heal(15);
-                Debug.Log("Player got Health");
+                HealPowerMin.Heal(0.10f);
                 var copy = this.gameObject;
                 Destroy(copy);
             }
