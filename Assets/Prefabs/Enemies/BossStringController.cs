@@ -32,7 +32,7 @@ public class BossStringController : MonoBehaviour
         }
     }
 
-    IEnumerator BeginCombos()
+    public IEnumerator BeginCombos()
     {
         for (int i = 0; i < AmountOfCombos; i++)
         {

@@ -49,7 +49,7 @@ public class BossAoEThrower : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnProjectileAndWarning()
+    public IEnumerator SpawnProjectileAndWarning()
     {
         int type = Random.Range(0, 3); // 0 = puddle, 1 = explosive, 2 = big explosive
 

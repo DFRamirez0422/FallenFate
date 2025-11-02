@@ -6,9 +6,9 @@ public class RT_BossAI : MonoBehaviour
     [Header("Arena Setup")]
     public float bossCutsceneTimer = 8f;
     public BoxCollider arenaTrigger; // (unused if you use a trigger proxy)
-
     private bool playerEnteredArena = false;
 
+    [Header("BossSetup")]
     private SpriteRenderer bossSprite;
     private Color originalColor;
 
@@ -24,6 +24,26 @@ public class RT_BossAI : MonoBehaviour
     private bool isInvulnerablePhase = false;
     [SerializeField] private int qteThreshold = 66;
     [SerializeField] private bool qteSuccessAlways = true; // testing toggle
+
+    [Header("AttackSetup")]
+    [SerializeField] private float flashDuration = 1f; // how long to flash total
+    [SerializeField] private float flashInterval = 0.2f;    // how fast the color changes back and forth
+
+    [SerializeField] private GameObject flyEnemyPrefabA;
+    [SerializeField] private GameObject flyEnemyPrefabB;
+    [SerializeField] private Transform spawnA;
+    [SerializeField] private Transform spawnB;
+
+    [SerializeField] private ChartLoaderExample chartLoader; //Chart loader script
+    [SerializeField] private float machineGunRiffDuration = 6f; // how long to play before stopping
+
+    [SerializeField] private BossStringController bossStrings;
+
+    [SerializeField] private BossAoEThrower aoeThrower;
+
+    [SerializeField] private GameObject swipeHitbox;
+    [SerializeField] private float swipeActiveTime = 0.5f; // how long it’s active
+
 
     void Awake()
     {
@@ -59,6 +79,7 @@ public class RT_BossAI : MonoBehaviour
         audioSource.Play();
     }
 
+    //Placholder boss cutscene
     private IEnumerator BossCutsceneSequence()
     {
         if (bossSprite) bossSprite.color = Color.magenta;
@@ -70,18 +91,36 @@ public class RT_BossAI : MonoBehaviour
         yield return Phase1AttackPattern();
     }
 
+
+
     #region Boss Attack Pattern Placeholders
 
     private IEnumerator PlayIdleAnimation()
     {
+        //Placeholder idle animation
         Debug.Log("Playing Idle Animation...");
         yield return new WaitForSeconds(2f);
     }
 
     private IEnumerator DoFlySummonAttack()
     {
-        Debug.Log("Performing Fly Summon Attack...");
-        yield return new WaitForSeconds(1f);
+        //Summon 2 fly enemies and preset locations
+        Debug.Log("Preparing Fly Summon...");
+
+        // Flash red (attack warning)
+        yield return FlashRed(flashDuration, flashInterval);
+
+        // Summon both fly enemies
+        if (flyEnemyPrefabA && spawnA)
+            Instantiate(flyEnemyPrefabA, spawnA.position, spawnA.rotation);
+
+        if (flyEnemyPrefabB && spawnB)
+            Instantiate(flyEnemyPrefabB, spawnB.position, spawnB.rotation);
+
+        Debug.Log("Two flies summoned!");
+
+        // Restore boss to invulnerability color
+        if (bossSprite) bossSprite.color = Color.blue;
     }
 
     private IEnumerator DoBeetleSummonAttack()
@@ -92,33 +131,111 @@ public class RT_BossAI : MonoBehaviour
 
     private IEnumerator DoMachineGunRiff()
     {
-        Debug.Log("Performing Machine Gun Riff...");
+        //This is placeholder until discussion of what song to put and if we should rework MGR to be something a different in this case.
+        Debug.Log("Machine Gun Riff starting...");
+
+        if (chartLoader == null)
+        {
+            Debug.LogWarning("ChartLoaderExample not assigned to boss!");
+            yield break;
+        }
+
+        // Start the chart sequence
+        chartLoader.enabled = true;
+
+        // Let it run for the desired time
+        yield return new WaitForSeconds(machineGunRiffDuration);
+
+        // Stop it
+        chartLoader.enabled = false;
+        Debug.Log("Machine Gun Riff ended.");
+    }
+
+    private IEnumerator DoLaneAttack()
+    {
+        Debug.Log("Starting Lane Attack...");
+
+        if (bossStrings != null)
+        {
+            // Correct way: directly call BeginCombos from the other script
+            yield return StartCoroutine(bossStrings.BeginCombos());
+        }
+        else
+        {
+            Debug.LogWarning("BossStringController not assigned!");
+        }
+
+        Debug.Log("Lane Attack complete!");
         yield return new WaitForSeconds(1f);
     }
 
+    /* Need the potion throw scatter shot but for now we will just do only the lane attacks for the long range attacks one instead
     private IEnumerator DoLongRangeAttack()
     {
+        //Function to randomly pick and execute a long range attack
         Debug.Log("Performing Long Range Attack...");
         yield return new WaitForSeconds(1f);
     }
-
+    */
     private IEnumerator DoShortSwipe()
     {
-        Debug.Log("Short Range: Guitar Swipe");
-        yield return new WaitForSeconds(1f);
+        Debug.Log("Boss performing short-range swipe...");
+
+        // Flash red warning before activating the hitbox
+        yield return FlashRed(flashDuration, flashInterval);
+
+        // Instantly enable the hitbox
+        if (swipeHitbox != null)
+        {
+            swipeHitbox.SetActive(true);
+            Debug.Log("Swipe hitbox active!");
+            yield return new WaitForSeconds(swipeActiveTime);
+            swipeHitbox.SetActive(false);
+            Debug.Log("Swipe hitbox disabled!");
+        }
     }
 
-    private IEnumerator DoBigAoE()
+    private IEnumerator DoPotionThrow()
     {
-        Debug.Log("Short Range: Big AoE (projected position)");
-        yield return new WaitForSeconds(1f);
+        Debug.Log("Boss is preparing to throw potions...");
+
+        PlayIdleAnimation();
+
+        if (aoeThrower != null)
+        {
+            // Manually trigger the AoE throw sequence once
+            yield return StartCoroutine(aoeThrower.SpawnProjectileAndWarning());
+        }
+        else
+        {
+            Debug.LogWarning("BossAoEThrower not assigned to boss.");
+        }
+
+        Debug.Log("Potion throw complete!");
+        yield return new WaitForSeconds(1f); // small delay for rhythm
     }
 
-    private IEnumerator DoSmallAoE()
+    private IEnumerator FlashRed(float duration, float interval)
     {
-        Debug.Log("Short Range: Small AoE (lingering puddle)");
-        yield return new WaitForSeconds(1f);
+        if (!bossSprite) yield break;
+
+        // Save whatever color the boss currently has
+        Color previousColor = bossSprite.color;
+        float startTime = Time.time;
+
+        // Alternate between red and the previous color
+        while (Time.time - startTime < duration)
+        {
+            bossSprite.color = Color.red;
+            yield return new WaitForSeconds(interval);
+            bossSprite.color = previousColor;
+            yield return new WaitForSeconds(interval);
+        }
+
+        // End on the original color
+        bossSprite.color = previousColor;
     }
+
 
     private void FreezePlayer() { Debug.Log("Player frozen (placeholder)"); }
     private void UnfreezePlayer() { Debug.Log("Player unfrozen (placeholder)"); }
@@ -143,8 +260,15 @@ public class RT_BossAI : MonoBehaviour
         yield return PlayIdleAnimation();
         yield return DoMachineGunRiff();
 
+        //Placeholder until I can get the random LongRangeAttack Implemented
+        yield return PlayIdleAnimation();
+        yield return DoLaneAttack();
+        //Placeholder until I can get the random LongRangeAttack Implemented
+
+        /*
         yield return PlayIdleAnimation();
         yield return DoLongRangeAttack();
+        */
 
         yield return PlayIdleAnimation();
         yield return DoMachineGunRiff();
@@ -165,6 +289,7 @@ public class RT_BossAI : MonoBehaviour
 
     private IEnumerator Phase1ShortRangeLoop()
     {
+        //Function to randomly pick and execute a short range attack
         if (!bossHealth) yield break;
 
         Debug.Log("Phase 1: Short-range loop started (boss is vulnerable).");
@@ -173,12 +298,11 @@ public class RT_BossAI : MonoBehaviour
         {
             yield return PlayIdleAnimation();
 
-            int pick = Random.Range(0, 3); // 0,1,2
+            int pick = Random.Range(0, 2);
             switch (pick)
             {
                 case 0: yield return DoShortSwipe(); break;
-                case 1: yield return DoBigAoE(); break;
-                case 2: yield return DoSmallAoE(); break;
+                case 1: yield return DoPotionThrow(); break;
             }
         }
 
