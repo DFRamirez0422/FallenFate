@@ -1,3 +1,4 @@
+using AAA_FallenFate.Scripts.PlayerScripts;
 using NPA_Health_Components;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,6 +13,8 @@ public class SimpleAi : MonoBehaviour
     public Health PlayerHealth;
     public CombatManager combatManager;
     private EnemyHitboxController hitboxController;
+    private ParryBlock damageHandle;
+    
 
     [Header("Layers")] 
     public LayerMask whatIsGround;
@@ -69,7 +72,7 @@ public class SimpleAi : MonoBehaviour
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();//Attack when player is in attack range
         
         // Debug to check if player is in sight and/or attack range - can be removed when not needed
-        Debug.Log($"Sight={PlayerInSightRange}, Attack={PlayerInAttackRange}");
+        //Debug.Log($"Sight={PlayerInSightRange}, Attack={PlayerInAttackRange}");
     }
 
     //Script in case you want the enemy to move randomly instead of following the waypoints.
@@ -179,6 +182,7 @@ public class SimpleAi : MonoBehaviour
                 {
                     hitboxController.ActivateHitbox(attackID);
                     Debug.Log($"{name} triggered FlashAttackMelee() → {attackID}");
+                    
                 }
                 else
                 {
