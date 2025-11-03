@@ -45,12 +45,13 @@ public class PlayerAnimator : MonoBehaviour
     public void SetPlayerIsAttacking(AttackData attackData)
     {
         m_Animator.SetTrigger("isAttacking");
+        m_Animator.SetTrigger($"used_{attackData.attackName}");
     }
 
     /// <summary>
-    /// Called once when the player was hit by anything.
+    /// Called each frame when the player was hit and not able to move due to knockback.
     /// </summary>
-    public void OnPlayerHit()
+    public void SetPlayerIsHit()
     {
         m_Animator.SetTrigger("isHit");
     }
