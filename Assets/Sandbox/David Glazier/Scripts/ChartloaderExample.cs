@@ -82,11 +82,30 @@ public class ChartLoaderExample : MonoBehaviour
     [Tooltip("Multiplier for movement direction. Use -1 to reverse direction (toward player instead of away).")]
     public float movementDirectionMultiplier = -1f; // Default: move toward player/enemy
 
+    [Header("Despawn Settings")]
+    [Tooltip("Time in seconds before spawned notes are destroyed. Set to 0 to disable auto-despawn.")]
+    [SerializeField] private float noteDespawnTime = 10f;
+
     // Chart timing
     private Note[] _notes = new Note[0];
     private int _nextNoteIdx = 0;
     private float _songStartTime;
     private float _rotation360CurrentAngle; // Current angle for 360 rotation mode
+    
+    // Despawn tracking
+    private System.Collections.Generic.List<NoteDespawnInfo> _activeNotes = new System.Collections.Generic.List<NoteDespawnInfo>();
+    
+    private class NoteDespawnInfo
+    {
+        public GameObject noteObject;
+        public float spawnTime;
+        
+        public NoteDespawnInfo(GameObject obj, float time)
+        {
+            noteObject = obj;
+            spawnTime = time;
+        }
+    }
     
     // Continuous following
     private Vector3 _cachedPlayerDirection = Vector3.forward;
@@ -189,6 +208,40 @@ public class ChartLoaderExample : MonoBehaviour
 
             _nextNoteIdx++;
         }
+        
+        // Handle despawn logic
+        if (noteDespawnTime > 0f)
+        {
+            UpdateDespawnNotes();
+        }
+    }
+    
+    /// <summary>
+    /// Updates and destroys notes that have exceeded their despawn time
+    /// </summary>
+    private void UpdateDespawnNotes()
+    {
+        float currentTime = Time.time;
+        
+        // Iterate backwards so we can safely remove items while iterating
+        for (int i = _activeNotes.Count - 1; i >= 0; i--)
+        {
+            NoteDespawnInfo info = _activeNotes[i];
+            
+            // Check if note was already destroyed externally
+            if (info.noteObject == null)
+            {
+                _activeNotes.RemoveAt(i);
+                continue;
+            }
+            
+            // Check if despawn time has elapsed
+            if (currentTime - info.spawnTime >= noteDespawnTime)
+            {
+                Destroy(info.noteObject);
+                _activeNotes.RemoveAt(i);
+            }
+        }
     }
 
     public void SetSongPath(string folder, string fileName, string section = "ExpertSingle")
@@ -227,6 +280,10 @@ public class ChartLoaderExample : MonoBehaviour
 
         _nextNoteIdx = 0;
         _songStartTime = Time.time;
+        
+        // Clear existing notes when reloading chart
+        ClearAllActiveNotes();
+        
         Debug.Log($"[Spawner] Loaded: {fullPath} (section: {section}), notes: {_notes.Length}");
     }
 
@@ -235,6 +292,21 @@ public class ChartLoaderExample : MonoBehaviour
         bool isAbsolute = Path.IsPathRooted(folder);
         string basePath = isAbsolute ? folder : Path.Combine(Application.dataPath.Replace("/Assets", ""), folder);
         return Path.Combine(basePath, fileName);
+    }
+    
+    /// <summary>
+    /// Clears all active spawned notes (useful when reloading charts or resetting)
+    /// </summary>
+    private void ClearAllActiveNotes()
+    {
+        foreach (var info in _activeNotes)
+        {
+            if (info.noteObject != null)
+            {
+                Destroy(info.noteObject);
+            }
+        }
+        _activeNotes.Clear();
     }
 
     // === Randomized spawn per note ===
@@ -282,6 +354,12 @@ public class ChartLoaderExample : MonoBehaviour
         if (mover != null)
         {
             mover.SetInjectedDirection(movementDirection);
+        }
+        
+        // Track note for despawn if despawn is enabled
+        if (noteDespawnTime > 0f)
+        {
+            _activeNotes.Add(new NoteDespawnInfo(spawnedNote, Time.time));
         }
     }
 

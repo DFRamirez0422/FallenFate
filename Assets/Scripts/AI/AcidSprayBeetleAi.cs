@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AcidSprayBeetleAi : MonoBehaviour
+// ============================================
+// BEETLE AI - Movement, Patrol, Chase, Attack
+// ============================================
+public class AcidSprayBeetleAI : MonoBehaviour
 {
     [Header("References")]
     public NavMeshAgent agent;
@@ -28,9 +31,8 @@ public class AcidSprayBeetleAi : MonoBehaviour
     private Vector3 walkPoint;
     private bool walkPointSet;
 
-    // Internal State Variables
-    private enum State { Patrol, Chase, Attacking, Recharging }
-    private State currentState = State.Patrol;
+    private enum BeetleState { Patrol, Chase, Attacking, Recharging }
+    private BeetleState currentState = BeetleState.Patrol;
     private float stateTimer;
     private bool playerInSightRange;
 
@@ -42,7 +44,6 @@ public class AcidSprayBeetleAi : MonoBehaviour
         if (player == null)
             Debug.LogWarning("Player not found! Make sure player has 'Player' tag.");
 
-        // Prevent NavMesh rotation conflicts
         if (agent != null)
         {
             agent.updateRotation = false;
@@ -52,62 +53,58 @@ public class AcidSprayBeetleAi : MonoBehaviour
 
     private void Update()
     {
-        if (player == null)
-        {
-            Debug.LogWarning("Player is NULL! Make sure player has 'Player' tag.");
-            return;
-        }
+        if (player == null) return;
 
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
 
         switch (currentState)
         {
-            case State.Patrol:
+            case BeetleState.Patrol:
                 Patrol();
                 if (playerInSightRange)
                 {
-                    ChangeState(State.Chase);
+                    ChangeState(BeetleState.Chase);
                 }
                 break;
 
-            case State.Chase:
+            case BeetleState.Chase:
                 ChasePlayer();
                 stateTimer += Time.deltaTime;
 
                 if (!playerInSightRange)
                 {
-                    ChangeState(State.Patrol);
+                    ChangeState(BeetleState.Patrol);
                 }
                 else if (stateTimer >= attackCooldown)
                 {
-                    ChangeState(State.Attacking);
+                    ChangeState(BeetleState.Attacking);
                 }
                 break;
 
-            case State.Attacking:
+            case BeetleState.Attacking:
                 AttackPlayer();
                 stateTimer += Time.deltaTime;
 
                 if (stateTimer >= attackDuration)
                 {
                     ShootAcidCone();
-                    ChangeState(State.Recharging);
+                    ChangeState(BeetleState.Recharging);
                 }
                 break;
 
-            case State.Recharging:
-                Recharge();
+            case BeetleState.Recharging:
+                RechargeWhileMoving();
                 stateTimer += Time.deltaTime;
 
                 if (stateTimer >= rechargeDuration)
                 {
                     if (playerInSightRange)
                     {
-                        ChangeState(State.Chase);
+                        ChangeState(BeetleState.Chase);
                     }
                     else
                     {
-                        ChangeState(State.Patrol);
+                        ChangeState(BeetleState.Patrol);
                     }
                 }
                 break;
@@ -125,7 +122,6 @@ public class AcidSprayBeetleAi : MonoBehaviour
         if (walkPointSet)
             agent.SetDestination(walkPoint);
 
-        // Smoothly rotate to face movement direction
         if (agent.velocity.sqrMagnitude > 0.1f)
         {
             Vector3 direction = agent.velocity.normalized;
@@ -154,13 +150,11 @@ public class AcidSprayBeetleAi : MonoBehaviour
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            // Stop if too close to player
             if (distanceToPlayer > stoppingDistance)
             {
                 agent.isStopped = false;
                 agent.SetDestination(player.position);
 
-                // Smoothly rotate to face movement direction
                 if (agent.velocity.sqrMagnitude > 0.1f)
                 {
                     Vector3 direction = agent.velocity.normalized;
@@ -170,10 +164,8 @@ public class AcidSprayBeetleAi : MonoBehaviour
             }
             else
             {
-                // Stop moving when close enough
                 agent.isStopped = true;
 
-                // Face the player
                 Vector3 lookDirection = (player.position - transform.position).normalized;
                 Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
@@ -183,43 +175,62 @@ public class AcidSprayBeetleAi : MonoBehaviour
 
     private void AttackPlayer()
     {
-        agent.isStopped = true;
-
-        if (player != null)
+        if (player != null && agent != null)
         {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+            if (distanceToPlayer > stoppingDistance)
+            {
+                agent.isStopped = false;
+                agent.SetDestination(player.position);
+            }
+            else
+            {
+                agent.isStopped = true;
+            }
+
             Vector3 lookDirection = new Vector3(player.position.x, transform.position.y, player.position.z);
             transform.LookAt(lookDirection);
         }
     }
 
-    private void Recharge()
+    private void RechargeWhileMoving()
     {
-        agent.isStopped = true;
+        if (player != null && agent != null)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+            if (distanceToPlayer > stoppingDistance)
+            {
+                agent.isStopped = false;
+                agent.SetDestination(player.position);
+
+                if (agent.velocity.sqrMagnitude > 0.1f)
+                {
+                    Vector3 direction = agent.velocity.normalized;
+                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+                }
+            }
+            else
+            {
+                agent.isStopped = true;
+
+                Vector3 lookDirection = (player.position - transform.position).normalized;
+                Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            }
+        }
     }
 
     private void ShootAcidCone()
     {
-        Debug.Log("ShootAcidCone called!");
-
-        if (projectilePrefab == null)
+        if (projectilePrefab == null || attackPoint == null || player == null)
         {
-            Debug.LogError("Projectile Prefab is not assigned!");
+            Debug.LogWarning("Missing references for acid spray attack!");
             return;
         }
 
-        if (attackPoint == null)
-        {
-            Debug.LogError("Attack Point is not assigned!");
-            return;
-        }
-
-        if (player == null)
-        {
-            Debug.LogError("Player is null!");
-            return;
-        }
-
-        Debug.Log("Shooting " + projectileCount + " projectiles!");
         Vector3 directionToPlayer = (player.position - attackPoint.position).normalized;
 
         for (int i = 0; i < projectileCount; i++)
@@ -227,7 +238,6 @@ public class AcidSprayBeetleAi : MonoBehaviour
             float angle = -coneAngle / 2 + (coneAngle / (projectileCount - 1)) * i;
             Vector3 shootDirection = Quaternion.Euler(0, angle, 0) * directionToPlayer;
 
-            // Calculate rotation so cone points in shoot direction
             Quaternion projectileRotation = Quaternion.LookRotation(shootDirection);
 
             GameObject projectile = Instantiate(projectilePrefab, attackPoint.position, projectileRotation);
@@ -242,7 +252,7 @@ public class AcidSprayBeetleAi : MonoBehaviour
         }
     }
 
-    private void ChangeState(State newState)
+    private void ChangeState(BeetleState newState)
     {
         currentState = newState;
         stateTimer = 0f;

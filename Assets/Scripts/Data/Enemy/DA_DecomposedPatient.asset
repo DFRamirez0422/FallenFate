@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Decomposed Patient
   hitboxes:
-  - id: MeleeSlash
+  - attackId: MeleeSlash
     shape: 0
-    offset: {x: 0, y: 0, z: 1.5}
+    offset: {x: 0, y: 0, z: 0.5}
     rotation: {x: 0, y: 0, z: 0}
     size: {x: 2, y: 1, z: 2}
     radius: 0
     angle: 0
-    activeTime: 3
-    damage: 1
-    depthTolerance: 0.5
+    activeTime: 0.3
+    damage: 10
+    depthTolerance: 1
     targetMask:
       serializedVersion: 2
       m_Bits: 64
     bDebugDraw: 1
-    debugColor: {r: 1, g: 0, b: 0, a: 0}
+    debugColor: {r: 1, g: 0.09860484, b: 0, a: 0}
