@@ -147,7 +147,10 @@ public class SimpleAi : MonoBehaviour
                 }
                 else // If range toggle is off, melee
                 {
-                    Instantiate(MarkPrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark
+                    if (MarkPrefab != null)
+                    {
+                        Instantiate(MarkPrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark
+                    }
                     Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - attackDelay); // Delay so the attack comes out after the mark;
                 }
 
