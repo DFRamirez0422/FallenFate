@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LifeTime : MonoBehaviour
 {
-    public float lifeTimer = 1;
+    public float lifeTimer = 0.25f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,7 +12,7 @@ public class LifeTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lifeTimer = lifeTimer - Time.deltaTime * 4;
+        lifeTimer = lifeTimer - Time.deltaTime;
 
         if (lifeTimer <= 0)
         {
