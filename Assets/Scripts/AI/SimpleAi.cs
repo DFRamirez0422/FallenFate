@@ -66,9 +66,9 @@ public class SimpleAi : MonoBehaviour
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
         
-        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == false) Waypoints(); //When player is not in range follow waypoints;
-        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == true) Patrolling(); //When player is not in range enemy will move randomly;
-        if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();//When player is in sight range chase them down!
+        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == false && !alreadyAttacked) Waypoints(); //When player is not in range follow waypoints;
+        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == true && !alreadyAttacked) Patrolling(); //When player is not in range enemy will move randomly;
+        if (PlayerInSightRange && !PlayerInAttackRange && !alreadyAttacked) ChasePlayer();//When player is in sight range chase them down!
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();//Attack when player is in attack range
         
         // Debug to check if player is in sight and/or attack range - can be removed when not needed
@@ -170,13 +170,11 @@ public class SimpleAi : MonoBehaviour
     }
 
     private void FlashAttackMelee()
-    {
+    { 
         Vector3 lookPos = player.position;
         lookPos.y = transform.position.y;
-        
-        // Only trigger if player is still within valid attack range
-        if (PlayerInSightRange && PlayerInAttackRange)
-        {
+
+
             if (hitboxController != null)
             {
                 // Pull the first available hitbox ID from the assigned data asset
@@ -196,7 +194,6 @@ public class SimpleAi : MonoBehaviour
             {
                 Debug.LogWarning($"{name} has no EnemyHitboxController attached!");
             }
-        }
     }
 
     //Just for developers to see attack and sight range
