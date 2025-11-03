@@ -14,8 +14,8 @@ public struct HitboxDefinition
 {
     [FormerlySerializedAs("ID")]
     [Header("Identification")]
-    [Tooltip("Unique name ID to reference this hitbox (e.g., 'MeleeSwing', 'RoarAOE').")]
-    public string id;
+    [Tooltip("Unique name ID to reference this attack/hitbox (e.g., 'MeleeSwing', 'RoarAOE').")]
+    public string attackId;
 
     [Header("Shape Settings")]
     [Tooltip("Shape type of this hitbox: Box, Sphere, or Cone.")]

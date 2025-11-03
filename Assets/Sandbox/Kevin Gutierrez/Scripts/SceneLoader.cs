@@ -6,7 +6,7 @@ public class SceneLoader : MonoBehaviour
 {
 public void LoadMainMenu()
     {
-        SceneManager.LoadScene("MainMenu1");
+        SceneManager.LoadSceneAsync("MainMenu1");
 
     }
 
