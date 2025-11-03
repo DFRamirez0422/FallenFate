@@ -44,7 +44,10 @@ public class PlayerAnimator : MonoBehaviour
     /// <param name="attackData">Attack data that decides what animation to enable based on internal values.</param>
     public void SetPlayerIsAttacking(AttackData attackData)
     {
-        m_Animator.SetTrigger("isAttacking");
+        // Apparently there is some sort of bug of this triggering longer than it has to.
+        // Commenting this line out makes everything work despite the trigger being a requirement.
+        //m_Animator.SetTrigger("isAttacking");
+        
         m_Animator.SetTrigger($"used_{attackData.attackName}");
     }
 

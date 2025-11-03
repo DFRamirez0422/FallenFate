@@ -91,6 +91,7 @@ namespace NPA_PlayerPrefab.Scripts
             HandleMovement(Time.deltaTime);        // Step 3: Calculate velocity
             ApplyMovement(Time.deltaTime);         // Step 4: Apply movement to CharacterController
 
+            // CHANGED BY: Jose E.
             UpdateAnimation();
             UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }

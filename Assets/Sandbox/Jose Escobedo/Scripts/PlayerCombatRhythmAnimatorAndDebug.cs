@@ -1,7 +1,6 @@
+using NPA_RhythmBonusPrefabs;
 using System.Collections;
 using UnityEngine;
-using NPA_RhythmBonusPrefabs;
-using UnityEditor.EditorTools;
 
 namespace NPA_PlayerPrefab.Scripts
 {
@@ -20,42 +19,24 @@ namespace NPA_PlayerPrefab.Scripts
         [Header("References")]
         [SerializeField] private GameObject hitBoxPrefab;
         [SerializeField] private AttackData defaultAttack;
-        [SerializeField] private PlayerControllerAnimatorAndDebug playerController; // CHANGED: Jose E.
+        [SerializeField] private PlayerControllerAnimatorAndDebug playerController; //<--- CHANGED BY: Jose E.
         [SerializeField] private AttackData dashAttackData;
-        [SerializeField] private RhythmBonusJudge rhythmJudge; // Rhythm system reference
-        [SerializeField] private BeatComboCounter m_BeatCounter; //CHANGED BY: Jose E.
-        
+
         [Header("Input Settings")]
         [SerializeField] private KeyCode attackKey = KeyCode.Mouse0;
-        
+
         [Header("Combo Settings")]
         [SerializeField] private AttackData[] comboAttacks;
         [SerializeField] private float attackCooldown = 0.25f;
         [SerializeField] private float comboResetDelay = 1f;
-        
-        [Header("Rhythm Timing Modifiers")]
-        [Tooltip("Recovery time multiplier on Perfect hit")]
-        [SerializeField] private float perfectRecoveryMult = 0.5f;  // 50% faster recovery
-        
-        [Tooltip("Recovery time multiplier on Good hit")]
-        [SerializeField] private float goodRecoveryMult = 0.75f;    // 25% faster recovery
-        
-        [Tooltip("Recovery time multiplier on Miss")]
-        [SerializeField] private float missRecoveryMult = 1.5f;     // 50% slower recovery
-        
-        [Tooltip("Can cancel recovery early on Perfect/Good hits")]
-        [SerializeField] private bool rhythmCancelEnabled = true;
-        
-        [Tooltip("Visual feedback for rhythm hits")]
-        [SerializeField] private bool showRhythmFeedback = true;
-        
-        [Header("Attack Flow Settings")]
-        [SerializeField] private bool enableAttackCanceling = true;
-        [SerializeField] private bool enableInputBuffering = true;
-        [SerializeField] private float bufferWindow = 0.2f;
-        
-        [Header("Combo Finisher System")]
-        [SerializeField] private KeyCode finisherKey = KeyCode.Mouse1;
+
+        [Header("Finisher Input Buttons")]
+        [SerializeField] private KeyCode finisher3Key = KeyCode.Alpha1;
+        [SerializeField] private KeyCode finisher6Key = KeyCode.Alpha2;
+        [SerializeField] private KeyCode finisher9Key = KeyCode.Alpha3;
+
+        [SerializeField] private BeatComboCounter rhythmCombo;
+
         [SerializeField] private AttackData finisher3Hit;
         [SerializeField] private AttackData finisher6Hit;
         [SerializeField] private AttackData finisher9Hit;
@@ -64,18 +45,11 @@ namespace NPA_PlayerPrefab.Scripts
         private int currentComboStep = 0;
         private float nextAttackTime = 0f;
         private float lastAttackTime = 0f;
-        
         private bool isAttacking = false;
-        private bool isInRecovery = false;
-        
-        // Rhythm state
-        private RhythmBonusJudge.RhythmTier lastRhythmTier = RhythmBonusJudge.RhythmTier.Miss;
-        private float currentRecoveryModifier = 1f;
-        
-        // Input buffering
-        private bool attackBuffered = false;
-        private bool finisherBuffered = false;
-        private float bufferTimeStamp = 0f;
+
+        private int lastLRSign = 1;
+
+        //---- Added by Jose E. from original file. -----//
 
         [Header("Debug (ONLY FOR TESTING)")]
         [Tooltip("Text object to display the current player state.")]
@@ -83,246 +57,121 @@ namespace NPA_PlayerPrefab.Scripts
         [Tooltip("Animator controller used for testing. NOT YET READY!")]
         [SerializeField] private PlayerAnimator m_Animator;
         private AttackData m_LastUsedAttack;
-        
+
+        private Vector3 GetTwoDirFacing()
+        {
+            Vector3 f = playerController != null ? playerController.FacingDirection : Vector3.right;
+            if (Mathf.Abs(f.x) >= 0.01f)
+                lastLRSign = f.x >= 0f ? 1 : -1;
+            return lastLRSign == 1 ? Vector3.right : Vector3.left;
+        }
+
+        private void UpdateFinisherUnlocks()
+        {
+            int currentCombo = rhythmCombo.GetCurrentCombo();
+            if (currentCombo >= 3) finisher3Unlocked = true;
+            if (currentCombo >= 6) finisher6Unlocked = true;
+            if (currentCombo >= 9) finisher9Unlocked = true;
+        }
+
+        public bool finisher3Unlocked = false;
+        public bool finisher6Unlocked = false;
+        public bool finisher9Unlocked = false;
+
         void Update()
         {
+            UpdateFinisherUnlocks();
             HandleAttackInput();
             HandleFinisherInput();
-            ProcessBufferedInputs();
 
+            // CHANGED BY: Jose E.
             UpdateAnimation();
             UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
         private void HandleAttackInput()
         {
-            if (Input.GetKeyDown(attackKey))
+            if (Input.GetKeyDown(attackKey) && !isAttacking && Time.time >= nextAttackTime)
             {
-                // Can attack immediately if not attacking or cooldown passed
-                if (!isAttacking && Time.time >= nextAttackTime)
+                AttackData attackData;
+                if (playerController.DashAttackWindowActive)
                 {
-                    PerformAttack();
+                    attackData = dashAttackData;
+                    playerController.ConsumeDashAttack();
                 }
-                // Can cancel recovery with next combo attack (rhythm-based)
-                else if (enableAttackCanceling && isInRecovery && CanRhythmCancel())
+                else
                 {
-                    PerformAttack();
+                    if (Time.time - lastAttackTime > comboResetDelay)
+                        currentComboStep = 0;
+
+                    attackData = comboAttacks[Mathf.Clamp(currentComboStep, 0, comboAttacks.Length - 1)];
+                    currentComboStep++;
+                    lastAttackTime = Time.time;
                 }
-                // Buffer the input if buffering is enabled
-                else if (enableInputBuffering && isAttacking && !attackBuffered)
-                {
-                    attackBuffered = true;
-                    bufferTimeStamp = Time.time;
-                }
+
+                Attack(attackData);
+                nextAttackTime = Time.time + attackData.cooldown;
             }
         }
 
         private void HandleFinisherInput()
         {
-            if (Input.GetKeyDown(finisherKey))
+            if (!isAttacking && Time.time >= nextAttackTime)
             {
-                // Try to use finisher immediately
-                if (!isAttacking && TryUseFinisher())
+                if (finisher3Unlocked && Input.GetKeyDown(finisher3Key))
                 {
-                    return;
+                    Attack(finisher3Hit);
+                    finisher3Unlocked = false;
+                    rhythmCombo.ResetCombo();
                 }
-                // Buffer finisher input
-                else if (enableInputBuffering && isAttacking && !finisherBuffered)
+                if (finisher6Unlocked && Input.GetKeyDown(finisher6Key))
                 {
-                    finisherBuffered = true;
-                    bufferTimeStamp = Time.time;
+                    Attack(finisher6Hit);
+                    finisher6Unlocked = false;
+                    rhythmCombo.ResetCombo();
                 }
-            }
-        }
-
-        private void ProcessBufferedInputs()
-        {
-            // Only process if not currently attacking and within buffer window
-            if (isAttacking || Time.time - bufferTimeStamp > bufferWindow)
-            {
-                // Clear expired buffers
-                if (Time.time - bufferTimeStamp > bufferWindow)
+                if (finisher9Unlocked && Input.GetKeyDown(finisher9Key))
                 {
-                    attackBuffered = false;
-                    finisherBuffered = false;
-                }
-                return;
-            }
-
-            // Process finisher first (higher priority)
-            if (finisherBuffered)
-            {
-                finisherBuffered = false;
-                if (TryUseFinisher())
-                {
-                    attackBuffered = false;
-                    return;
+                    Attack(finisher9Hit);
+                    finisher9Unlocked = false;
+                    rhythmCombo.ResetCombo();
                 }
             }
-
-            // Process attack buffer
-            if (attackBuffered)
-            {
-                attackBuffered = false;
-                PerformAttack();
-            }
         }
 
-        /// <summary>
-        /// Checks if the player can cancel recovery based on rhythm performance
-        /// </summary>
-        private bool CanRhythmCancel()
-        {
-            if (!rhythmCancelEnabled) return true; // Default behavior
-            
-            // Only allow cancel on Good or Perfect hits
-            return lastRhythmTier == RhythmBonusJudge.RhythmTier.Perfect || 
-                   lastRhythmTier == RhythmBonusJudge.RhythmTier.Good;
-        }
-
-        private void PerformAttack()
-        {
-            AttackData attackData;
-
-            // DASH ATTACK LOGIC
-            if (playerController.DashAttackWindowActive)
-            {
-                attackData = dashAttackData;
-                playerController.ConsumeDashAttack();
-            }
-            else
-            {
-                // COMBO ATTACK LOGIC
-                if (Time.time - lastAttackTime > comboResetDelay)
-                    currentComboStep = 0;
-
-                attackData = comboAttacks[Mathf.Clamp(currentComboStep, 0, comboAttacks.Length - 1)];
-                currentComboStep++;
-                lastAttackTime = Time.time;
-            }
-
-            // EVALUATE RHYTHM TIMING
-            EvaluateRhythmTiming();
-
-            // PERFORM ATTACK
-            Attack(attackData);
-
-            // SET COOLDOWN (modified by rhythm)
-            float modifiedCooldown = attackData.cooldown * currentRecoveryModifier;
-            nextAttackTime = Time.time + modifiedCooldown;
-        }
-
-        /// <summary>
-        /// Evaluates the current attack timing against the rhythm and sets modifiers
-        /// </summary>
-        private void EvaluateRhythmTiming()
-        {
-            if (rhythmJudge == null)
-            {
-                lastRhythmTier = RhythmBonusJudge.RhythmTier.Miss;
-                currentRecoveryModifier = 1f;
-                return;
-            }
-
-            // Get rhythm evaluation
-            // FIXME: This is not working at all. Why is the older method still in use rather than the newer method?
-            //var (tier, multiplier) = rhythmJudge.EvaluateNow();
-            //lastRhythmTier = tier;
-
-            // BLOCK CHANGED BY: Jose E.
-            var tier = m_BeatCounter.EvaluateBeat();
-            lastRhythmTier = tier;
-            //
-
-            // Set recovery modifier based on timing
-            switch (tier)
-            {
-                case RhythmBonusJudge.RhythmTier.Perfect:
-                    RegisterHit(); //CHANGED BY: Jose E.
-                    currentRecoveryModifier = perfectRecoveryMult;
-                    if (showRhythmFeedback)
-                        Debug.Log($"<color=cyan>PERFECT!</color> Recovery: {perfectRecoveryMult * 100}%");
-                    break;
-                    
-                case RhythmBonusJudge.RhythmTier.Good:
-                    RegisterHit(); //CHANGED BY: Jose E.
-                    currentRecoveryModifier = goodRecoveryMult;
-                    if (showRhythmFeedback)
-                        Debug.Log($"<color=green>Good!</color> Recovery: {goodRecoveryMult * 100}%");
-                    break;
-                    
-                case RhythmBonusJudge.RhythmTier.Miss:
-                    currentRecoveryModifier = missRecoveryMult;
-                    if (showRhythmFeedback)
-                        Debug.Log($"<color=red>Miss...</color> Recovery: {missRecoveryMult * 100}%");
-                    break;
-            }
-        }
-
-        private bool TryUseFinisher()
-        {
-            AttackData chosenFinisher = null;
-
-            if (currentHitCount >= 9) chosenFinisher = finisher9Hit;
-            else if (currentHitCount >= 6) chosenFinisher = finisher6Hit;
-            else if (currentHitCount >= 3) chosenFinisher = finisher3Hit;
-            Debug.Log($"Selected {chosenFinisher.attackName} because {currentHitCount}");
-
-            if (chosenFinisher != null)
-            {
-                // Evaluate rhythm for finisher too
-                EvaluateRhythmTiming();
-                Attack(chosenFinisher);
-                currentHitCount = 0;
-                return true;
-            }
-
-            return false;
-        }
-        
         private void Attack(AttackData attackData)
         {
-            Debug.Log($"Attack {attackData.attackName}");
             m_LastUsedAttack = attackData; // CHANGED: Jose E.
 
             if (attackData == null || hitBoxPrefab == null) return;
 
-            // If we're canceling recovery, stop the current coroutine
-            if (isInRecovery)
-            {
-                StopAllCoroutines();
-                playerController.SetAttackLock(false);
-            }
-
+            var tier = rhythmCombo.EvaluateBeat();
             isAttacking = true;
-            isInRecovery = false;
             playerController.SetAttackLock(true);
 
-            Vector3 facing = playerController.FacingDirection;
-            Quaternion facingRot = Quaternion.LookRotation(facing, Vector3.up)
+            Vector3 lrFacing = GetTwoDirFacing();
+            Quaternion facingRot = Quaternion.LookRotation(lrFacing, Vector3.up)
                                    * Quaternion.Euler(attackData.rotationOffset);
             Vector3 spawnPos = transform.position + facingRot * attackData.hitboxOffset;
+            playerController.SetAttackSpeed(attackData.forwardOffset);
 
-            // Start attack phases with rhythm-modified timing
-            StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot, facing));
+            StartCoroutine(HandleAttackPhases(attackData, spawnPos, facingRot, lrFacing));
         }
 
-        private IEnumerator HandleAttackPhases(AttackData attackData, Vector3 spawnPos, Quaternion rot, Vector3 facing)
+        private IEnumerator HandleAttackPhases(AttackData attackData, Vector3 spawnPos, Quaternion rot, Vector3 lrFacing)
         {
-            // STARTUP (not affected by rhythm)
             yield return new WaitForSeconds(attackData.startupTime);
 
             GameObject hb = null;
             GameObject hbProj = null;
 
-            // ACTIVE
             if (attackData.projectilePrefab == null)
             {
                 hb = Instantiate(hitBoxPrefab, spawnPos, rot, transform);
                 if (hb.TryGetComponent<Hitbox>(out Hitbox hbComp))
                 {
                     hbComp.Initialize(attackData, this.gameObject);
-                    //hbComp.SetOwnerCombat(this); // CHANGED: Jose E.
+                    //hbComp.SetOwnerCombat(this); // CHANGED: Jose E.; does not compile
                 }
             }
             else
@@ -332,56 +181,58 @@ namespace NPA_PlayerPrefab.Scripts
                 if (hbProj.TryGetComponent<Hitbox>(out Hitbox hbProjComp))
                 {
                     hbProjComp.Initialize(attackData, this.gameObject);
-                    //hbProjComp.SetOwnerCombat(this); // CHANGED: Jose E.
+                    //hbProjComp.SetOwnerCombat(this); // CHANGED: Jose E.; does not compile
                 }
 
                 if (hbProj.TryGetComponent<ProjectileMover>(out ProjectileMover mover))
                 {
-                    mover.direction = facing.normalized;
+                    mover.direction = lrFacing;
                     mover.speed = attackData.projectileSpeed;
-                    hbProj.transform.rotation = Quaternion.LookRotation(facing, Vector3.up);
+                    hbProj.transform.rotation = Quaternion.LookRotation(lrFacing, Vector3.up);
                 }
             }
 
-            // Keep hitbox alive for activeTime (not affected by rhythm)
             yield return new WaitForSeconds(attackData.activeTime);
 
             if (hb != null) Destroy(hb);
             if (hbProj != null) Destroy(hbProj);
 
-            // RECOVERY - RHYTHM-MODIFIED TIMING
-            isInRecovery = true;
-            float modifiedRecovery = attackData.recoveryTime * currentRecoveryModifier;
-            yield return new WaitForSeconds(modifiedRecovery);
+            yield return new WaitForSeconds(attackData.recoveryTime);
 
-            // Only unlock if we weren't canceled
-            if (isInRecovery)
-            {
-                isAttacking = false;
-                isInRecovery = false;
-                playerController.SetAttackLock(false);
+            isAttacking = false;
+            playerController.SetAttackLock(false);
 
-                // Reset Combo
-                if (currentComboStep >= comboAttacks.Length)
-                    currentComboStep = 0;
-            }
+            nextAttackTime = Time.time + attackData.cooldown;
+
+            if (currentComboStep >= comboAttacks.Length)
+                currentComboStep = 0;
         }
-        
+
         public void RegisterHit()
         {
             currentHitCount++;
 
-            if (showRhythmFeedback)
-            {
-                Debug.Log($"Hit Count: {currentHitCount}");
+            Debug.Log($"Hit Count: {currentHitCount}");
 
-                if (currentHitCount == 3)
-                    Debug.Log("<color=yellow>3-Hit Finisher unlocked!</color>");
-                else if (currentHitCount == 6)
-                    Debug.Log("<color=orange>6-Hit Finisher unlocked!</color>");
-                else if (currentHitCount == 9)
-                    Debug.Log("<color=purple>9-Hit Finisher unlocked!</color>");
-            }
+            // Example: unlock finishers
+            if (currentHitCount == 3)
+                Debug.Log("3-Hit Finisher unlocked!");
+            else if (currentHitCount == 6)
+                Debug.Log("6-Hit Finisher unlocked!");
+            else if (currentHitCount == 9)
+                Debug.Log("9-Hit Finisher unlocked!");
+        }
+        
+        private void ResetAttack()
+        {
+            isAttacking = false;
+            playerController.SetAttackLock(false); // Unlock movement after attack ends
+            
+            nextAttackTime = Time.time + attackCooldown;
+
+            // Reset combo if finished
+            if (currentComboStep >= comboAttacks.Length)
+                currentComboStep = 0;
         }
         
         //
@@ -398,11 +249,14 @@ namespace NPA_PlayerPrefab.Scripts
         private void UpdateDebugUi()
         {
             // TODO: ONLY FOR TESTING - remove when finished.
-            m_DebugUI.SetDebugBeatStreak(currentHitCount.ToString());
-            if (currentHitCount >= 9) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 9");
-            else if (currentHitCount >= 6) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 6");
-            else if (currentHitCount >= 3) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 3");
+            int current_combo = rhythmCombo.GetCurrentCombo();
+            m_DebugUI.SetDebugBeatStreak(current_combo.ToString());
+            m_DebugUI.SetDebugComboStep(currentComboStep.ToString());
+            if (current_combo >= 9) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 9");
+            else if (current_combo >= 6) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 6");
+            else if (current_combo >= 3) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 3");
             else m_DebugUI.SetDebugSpecialMoveUnlock("None");
         }
     }
 }
+
