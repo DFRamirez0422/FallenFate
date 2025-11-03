@@ -10,8 +10,8 @@ public class SimpleAi : MonoBehaviour
     public Transform player;
 
     [Header("References")]
-    public Health PlayerHealth;
-    public CombatManager combatManager;
+    private Health PlayerHealth;
+    private CombatManager combatManager;
     private EnemyHitboxController hitboxController;
     private ParryBlock damageHandle;
     
@@ -22,6 +22,7 @@ public class SimpleAi : MonoBehaviour
 
     [Header("Shooting")]
     public Transform attackPoint;
+    public Vector3 attackPointOffset = new Vector3(0, 0, 0); // For now this is only for the fly cause its a buggy bitch. (I mean this in both ways) - Nathan
     public GameObject ShotPrefab;
     public bool RangedToogle = false;
 
@@ -128,6 +129,7 @@ public class SimpleAi : MonoBehaviour
     //Script for Attacking the player
     private void AttackPlayer()
     {
+
         if (player != null)
         {
             //Make sure enemy doesn't move
@@ -149,7 +151,7 @@ public class SimpleAi : MonoBehaviour
                 {
                     if (MarkPrefab != null)
                     {
-                        Instantiate(MarkPrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark
+                        Instantiate(MarkPrefab, attackPoint.position + attackPointOffset, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark 
                     }
                     Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - attackDelay); // Delay so the attack comes out after the mark;
                 }
