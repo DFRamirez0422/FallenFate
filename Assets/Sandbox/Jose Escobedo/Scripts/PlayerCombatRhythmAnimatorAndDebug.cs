@@ -266,6 +266,7 @@ namespace NPA_PlayerPrefab.Scripts
             if (currentHitCount >= 9) chosenFinisher = finisher9Hit;
             else if (currentHitCount >= 6) chosenFinisher = finisher6Hit;
             else if (currentHitCount >= 3) chosenFinisher = finisher3Hit;
+            Debug.Log($"Selected {chosenFinisher.attackName} because {currentHitCount}");
 
             if (chosenFinisher != null)
             {
@@ -281,6 +282,7 @@ namespace NPA_PlayerPrefab.Scripts
         
         private void Attack(AttackData attackData)
         {
+            Debug.Log($"Attack {attackData.attackName}");
             m_LastUsedAttack = attackData; // CHANGED: Jose E.
 
             if (attackData == null || hitBoxPrefab == null) return;
