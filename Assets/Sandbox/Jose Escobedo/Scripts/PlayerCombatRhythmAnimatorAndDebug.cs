@@ -49,6 +49,20 @@ namespace NPA_PlayerPrefab.Scripts
 
         private int lastLRSign = 1;
 
+        // vvvvv Added by Jose E. from original file. vvvvv //
+
+        /// <summary>
+        /// Expoed public variable to tell exactly what attack the player just used.
+        /// </summary>
+        public AttackData CurrentAttack => m_LastUsedAttack;
+
+        /// <summary>
+        /// Exposed public variable to tell whether or not the player is currently attacking.
+        /// </summary>
+        public bool IsAttacking => isAttacking && m_LastUsedAttack;
+
+        // ^^^^^ Added by Jose E. from original file. ^^^^^ //
+
         //---- Added by Jose E. from original file. -----//
 
         [Header("Debug (ONLY FOR TESTING)")]
@@ -85,7 +99,7 @@ namespace NPA_PlayerPrefab.Scripts
             HandleFinisherInput();
 
             // CHANGED BY: Jose E.
-            UpdateAnimation();
+            //UpdateAnimation();
             UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
@@ -222,12 +236,12 @@ namespace NPA_PlayerPrefab.Scripts
             else if (currentHitCount == 9)
                 Debug.Log("9-Hit Finisher unlocked!");
         }
-        
+
         private void ResetAttack()
         {
             isAttacking = false;
             playerController.SetAttackLock(false); // Unlock movement after attack ends
-            
+
             nextAttackTime = Time.time + attackCooldown;
 
             // Reset combo if finished
@@ -238,6 +252,14 @@ namespace NPA_PlayerPrefab.Scripts
         //
         // ========================= DEBUG FUNCTIONS =========================
         //
+        
+        /// <summary>
+        /// Updates the current animation state by sending messages to the animator controller.
+        /// 
+        /// Side note: I would like to split this to a different script or integrate this in a
+        /// better way but there's not many public fields in either PlayerController or PlayerCombat
+        /// that are usable for my purpose.
+        /// </summary>
         private void UpdateAnimation()
         {
             if (isAttacking && m_LastUsedAttack)

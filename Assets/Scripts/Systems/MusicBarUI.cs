@@ -73,6 +73,9 @@ namespace NPA_RhythmBonusPrefabs
         [Tooltip("The instance of the rhythm music player.")]
         [SerializeField] private RhythmMusicPlayer music;  // Music clock
 
+        [Tooltip("The key to press to make the music staff appear or disappear from view.")]
+        [SerializeField] private KeyCode m_StaffAppearKey = KeyCode.Tab;
+
         [Tooltip("Music staff boundary box.")]
         [SerializeField] private RectTransform m_StaffObject;
 
@@ -211,6 +214,19 @@ namespace NPA_RhythmBonusPrefabs
 
         private void Update()
         {
+            // Update on 2025-11-03 13:54: Requested to have the music staff key check on this script/prefab.
+            if (Input.GetKeyDown(m_StaffAppearKey))
+            {
+                if (m_IsActive)
+                {
+                    Deactivate();
+                }
+                else
+                {
+                    Activate();
+                }
+            }
+
             // If the UI is either active or in the process of fading out in deactivation,
             // update all movement variables. Otherwise, destroy the entire list.
             if (m_IsActive)
