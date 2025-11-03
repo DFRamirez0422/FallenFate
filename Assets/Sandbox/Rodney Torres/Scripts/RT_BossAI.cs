@@ -21,6 +21,7 @@ public class RT_BossAI : MonoBehaviour
     [Header("Boss Health Setup")]
     private RT_BossHealth bossHealth;
     private bool phase1Active = false;
+    private bool phase2Active = false;
     private bool isInvulnerablePhase = false;
     [SerializeField] private int qteThreshold = 60;
     [SerializeField] private bool qteSuccessAlways = true; // testing toggle
@@ -31,8 +32,13 @@ public class RT_BossAI : MonoBehaviour
 
     [SerializeField] private GameObject flyEnemyPrefabA;
     [SerializeField] private GameObject flyEnemyPrefabB;
+    [SerializeField] private GameObject beetleEnemyPrefabA;
+    [SerializeField] private GameObject beetleEnemyPrefabB;
+
     [SerializeField] private Transform spawnA;
     [SerializeField] private Transform spawnB;
+    [SerializeField] private Transform spawnC;
+    [SerializeField] private Transform spawnD;
 
     [SerializeField] private ChartLoaderExample chartLoader; //Chart loader script
     [SerializeField] private float machineGunRiffDuration = 6f; // how long to play before stopping
@@ -50,7 +56,7 @@ public class RT_BossAI : MonoBehaviour
     [SerializeField] private Transform qteStartPoint; // X
     [SerializeField] private Transform qteEndPoint;   // Y
 
-
+    [SerializeField] private float idleAnimationDuration = 1f;
 
     void Update()
     {
@@ -103,19 +109,19 @@ public class RT_BossAI : MonoBehaviour
 
         Debug.Log("Boss cutscene ended.");
         PlayBossSong();
-        yield return Phase1AttackPattern();
+        yield return TransitionToPhase1();
     }
 
 
 
-    #region Boss Attack Pattern Placeholders
+    #region BOSS ATTACK PATTERN PLACEHOLDER
 
     private IEnumerator PlayIdleAnimation()
     {
-        //Placeholder idle animation
         Debug.Log("Playing Idle Animation...");
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(idleAnimationDuration);
     }
+
 
     private IEnumerator DoFlySummonAttack()
     {
@@ -140,8 +146,23 @@ public class RT_BossAI : MonoBehaviour
 
     private IEnumerator DoBeetleSummonAttack()
     {
-        Debug.Log("Performing Beetle Summon Attack...");
-        yield return new WaitForSeconds(1f);
+        //Summon 2 beetle enemies at preset locations
+        Debug.Log("Preparing Beetle Summon...");
+
+        // Flash red (attack warning)
+        yield return FlashRed(flashDuration, flashInterval);
+
+        // Summon both fly enemies
+        if (beetleEnemyPrefabA && spawnC)
+            Instantiate(beetleEnemyPrefabA, spawnC.position, spawnC.rotation);
+
+        if (beetleEnemyPrefabB && spawnD)
+            Instantiate(beetleEnemyPrefabB, spawnD.position, spawnD.rotation);
+
+        Debug.Log("Two beetles summoned!");
+
+        // Restore boss to invulnerability color
+        if (bossSprite) bossSprite.color = Color.blue;
     }
 
     private IEnumerator DoMachineGunRiff()
@@ -269,11 +290,14 @@ public class RT_BossAI : MonoBehaviour
         player.position = destination.position; // snap to exact end
     }
 
-    private void TransitionToPhase2() { Debug.Log("Phase 2 start (placeholder)"); }
-    private void ResetToPhase1() { Debug.Log("Reset to Phase 1 (placeholder)"); }
+    private void ResetToPhase1() 
+    { 
+        Debug.Log("Reset to Phase 1 (placeholder)"); 
+    }
+
     #endregion
 
-    private IEnumerator Phase1AttackPattern()
+    private IEnumerator TransitionToPhase1()
     {
         phase1Active = true;
         isInvulnerablePhase = true;
@@ -313,7 +337,55 @@ public class RT_BossAI : MonoBehaviour
         // Short-range random loop until HP <= threshold, then QTE
         yield return ShortRangeAttackLoop();
 
+        // if Phase 2 started inside StartQTESequence, stop Phase 1 here
+        if (phase2Active) yield break;
+
         phase1Active = false;
+        Debug.Log("Invulnerability phase is over - Boss can now take damage. Starting Close Range Attacks");
+
+    }
+
+    private IEnumerator TransitionToPhase2()
+    {
+        phase2Active = true;
+        isInvulnerablePhase = true;
+
+        if (bossHealth) bossHealth.SetInvulnerable(true);
+        if (bossSprite) bossSprite.color = Color.blue;
+
+        Debug.Log("Phase 2 started - Boss is invulnerable.");
+
+        // --- Start Pattern ---
+        yield return PlayIdleAnimation();
+        yield return DoBeetleSummonAttack();
+
+        yield return PlayIdleAnimation();
+        yield return DoMachineGunRiff();
+
+        //Placeholder until I can get the random LongRangeAttack Implemented
+        yield return PlayIdleAnimation();
+        yield return DoLaneAttack();
+        //Placeholder until I can get the random LongRangeAttack Implemented
+
+        /*
+        yield return PlayIdleAnimation();
+        yield return DoLongRangeAttack();
+        */
+
+        yield return PlayIdleAnimation();
+        yield return DoMachineGunRiff();
+
+        yield return PlayIdleAnimation();
+        // --- End Pattern ---
+
+        if (bossHealth) bossHealth.SetInvulnerable(false);
+        if (bossSprite) bossSprite.color = originalColor;
+        isInvulnerablePhase = false;
+
+        // Short-range random loop until HP <= threshold, then QTE
+        yield return ShortRangeAttackLoop();
+
+        phase2Active = false;
         Debug.Log("Invulnerability phase is over - Boss can now take damage. Starting Close Range Attacks");
     }
 
@@ -331,6 +403,7 @@ public class RT_BossAI : MonoBehaviour
             int pick = Random.Range(0, 2);
             switch (pick)
             {
+                //TODO: If check this short swipe to see if they are in a close range
                 case 0: yield return DoShortSwipe(); break;
                 case 1: yield return DoPotionThrow(); break;
             }
@@ -366,19 +439,26 @@ public class RT_BossAI : MonoBehaviour
             yield return StartCoroutine(MovePlayerTo(qteEndPoint, 1.5f)); 
         if (playerController) playerController.enabled = true;
 
-        // For now, use your testing flag to branch
+        // TODO: swap this when you wire real success
         bool success = qteSuccessAlways;
+
         if (success)
         {
+            // reset HP to full (assumes MaxHealth is 100; Heal clamps to Max)
+            if (bossHealth) bossHealth.Heal(bossHealth.MaxHealth);
+
             Debug.Log("QTE success → Transition to Phase 2");
-            TransitionToPhase2();
+            yield return StartCoroutine(TransitionToPhase2()); // run phase 2 now
+            yield break;                                       // STOP returning to Phase 1
         }
         else
         {
             Debug.Log("QTE failed → Reset to Phase 1");
             ResetToPhase1();
+            yield break;
         }
     }
+
 
 
 
