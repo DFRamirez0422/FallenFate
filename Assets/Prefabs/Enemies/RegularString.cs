@@ -8,6 +8,7 @@ public class RegularString : MonoBehaviour
     private BossStringController bossController;
     public float lifeTimer = 1;
 
+
     private void Start()
     {
         Boss = GameObject.FindGameObjectWithTag("Boss");
