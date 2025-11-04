@@ -48,6 +48,11 @@ public class BossAoEThrower : MonoBehaviour
         }
     }
 
+    public IEnumerator SpawnProjectileAndWarning()
+    {
+        return SpawnWarningAndThrow();
+    }
+
     IEnumerator SpawnWarningAndThrow()
     {
         bool usePuddle = Random.value > 0.5f;
