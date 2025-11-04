@@ -10,8 +10,8 @@ public class SimpleAi : MonoBehaviour
     public Transform player;
 
     [Header("References")]
-    public Health PlayerHealth;
-    public CombatManager combatManager;
+    private Health PlayerHealth;
+    private CombatManager combatManager;
     private EnemyHitboxController hitboxController;
     private ParryBlock damageHandle;
     
@@ -22,6 +22,7 @@ public class SimpleAi : MonoBehaviour
 
     [Header("Shooting")]
     public Transform attackPoint;
+    public Vector3 attackPointOffset = new Vector3(0, 0, 0); // For now this is only for the fly cause its a buggy bitch. (I mean this in both ways) - Nathan
     public GameObject ShotPrefab;
     public bool RangedToogle = false;
 
@@ -66,9 +67,9 @@ public class SimpleAi : MonoBehaviour
         PlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
         
-        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == false) Waypoints(); //When player is not in range follow waypoints;
-        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == true) Patrolling(); //When player is not in range enemy will move randomly;
-        if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();//When player is in sight range chase them down!
+        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == false && !alreadyAttacked) Waypoints(); //When player is not in range follow waypoints;
+        if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == true && !alreadyAttacked) Patrolling(); //When player is not in range enemy will move randomly;
+        if (PlayerInSightRange && !PlayerInAttackRange && !alreadyAttacked) ChasePlayer();//When player is in sight range chase them down!
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();//Attack when player is in attack range
         
         // Debug to check if player is in sight and/or attack range - can be removed when not needed
@@ -128,6 +129,7 @@ public class SimpleAi : MonoBehaviour
     //Script for Attacking the player
     private void AttackPlayer()
     {
+
         if (player != null)
         {
             //Make sure enemy doesn't move
@@ -147,7 +149,10 @@ public class SimpleAi : MonoBehaviour
                 }
                 else // If range toggle is off, melee
                 {
-                    Instantiate(MarkPrefab, attackPoint.position, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark
+                    if (MarkPrefab != null)
+                    {
+                        Instantiate(MarkPrefab, attackPoint.position + attackPointOffset, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark 
+                    }
                     Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - attackDelay); // Delay so the attack comes out after the mark;
                 }
 
@@ -167,13 +172,11 @@ public class SimpleAi : MonoBehaviour
     }
 
     private void FlashAttackMelee()
-    {
+    { 
         Vector3 lookPos = player.position;
         lookPos.y = transform.position.y;
-        
-        // Only trigger if player is still within valid attack range
-        if (PlayerInSightRange && PlayerInAttackRange)
-        {
+
+
             if (hitboxController != null)
             {
                 // Pull the first available hitbox ID from the assigned data asset
@@ -193,7 +196,6 @@ public class SimpleAi : MonoBehaviour
             {
                 Debug.LogWarning($"{name} has no EnemyHitboxController attached!");
             }
-        }
     }
 
     //Just for developers to see attack and sight range
