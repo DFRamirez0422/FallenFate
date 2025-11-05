@@ -42,11 +42,11 @@ public class PlayerAnimator : MonoBehaviour
         
         if (!m_PlayerController)
         {
-            TryGetComponent<PlayerControllerAnimatorAndDebug>(out m_PlayerController);
+            TryGetComponent(out m_PlayerController);
         }
         if (!m_PlayerCombat)
         {
-            TryGetComponent<PlayerCombatRhythmAnimatorAndDebug>(out m_PlayerCombat);
+            TryGetComponent(out m_PlayerCombat);
         }
     }
 
