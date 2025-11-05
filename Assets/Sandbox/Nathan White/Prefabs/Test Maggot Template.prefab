@@ -46,6 +46,8 @@ GameObject:
   - component: {fileID: -2661869140893827326}
   - component: {fileID: 1400943522344998081}
   - component: {fileID: 4959384071837862933}
+  - component: {fileID: 3772565053383904874}
+  - component: {fileID: -2011616313939187154}
   m_Layer: 0
   m_Name: Test Maggot Template
   m_TagString: Untagged
@@ -84,8 +86,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   player: {fileID: 0}
-  PlayerHealth: {fileID: 0}
-  combatManager: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -93,6 +93,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   attackPoint: {fileID: 2903394397997412723}
+  attackPointOffset: {x: 0, y: 0, z: 0}
   ShotPrefab: {fileID: 7515566745852492346, guid: c1837438bb64e524fa248e7188bf7c25, type: 3}
   RangedToogle: 0
   walkPoint: {x: 0, y: 0, z: 0}
@@ -199,6 +200,64 @@ MonoBehaviour:
   hitboxData: {fileID: 11400000, guid: 46836bce635d45e4d87f371fe4cf0661, type: 2}
   attackPoint: {fileID: 2903394397997412723}
   testKey: 104
+--- !u!23 &3772565053383904874
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513678295693836734}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-2011616313939187154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513678295693836734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9624d2f554c7814d8d60861e1170835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultStunDuration: 3
 --- !u!1 &4003354069973434848
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +270,7 @@ GameObject:
   - component: {fileID: 1780922255148545837}
   - component: {fileID: 1822438203074648694}
   - component: {fileID: 8615427921128143308}
+  - component: {fileID: 3147240165168417329}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -307,6 +367,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3147240165168417329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4003354069973434848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9624d2f554c7814d8d60861e1170835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultStunDuration: 0.3
 --- !u!1 &6178890189646588379
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +392,7 @@ GameObject:
   - component: {fileID: 3785879816202374105}
   - component: {fileID: 4414865629547278521}
   - component: {fileID: 5295573081901134812}
+  - component: {fileID: 6123702158468733254}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -415,6 +489,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6123702158468733254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178890189646588379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9624d2f554c7814d8d60861e1170835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultStunDuration: 0.3
 --- !u!1 &6284494058351543347
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,6 +549,7 @@ GameObject:
   - component: {fileID: 7761303844252686553}
   - component: {fileID: 8550443143993541264}
   - component: {fileID: 8907730750678243990}
+  - component: {fileID: 2368606828343593076}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -558,6 +646,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2368606828343593076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6739182276143770581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9624d2f554c7814d8d60861e1170835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultStunDuration: 0.3
 --- !u!1 &8582518335817551947
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,6 +671,7 @@ GameObject:
   - component: {fileID: 3973433917636119423}
   - component: {fileID: 8524542043609999257}
   - component: {fileID: 5348563250577012923}
+  - component: {fileID: 7588831964543815283}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -666,3 +768,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7588831964543815283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8582518335817551947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9624d2f554c7814d8d60861e1170835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultStunDuration: 0.3

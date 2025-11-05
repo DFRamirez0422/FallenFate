@@ -30,12 +30,18 @@ public class Hitstun : MonoBehaviour
 
     public void ApplyHitstun(float duration)
     {
+        Debug.Log("Got HitStun");
         isStunned = true;
         stunTimer = duration > 0 ? duration : defaultStunDuration;
 
         // Flash red
         if (rend != null)
+        {
+            Debug.Log("Renderer not null");
             rend.material.color = Color.red;
+        }
+        else
+            Debug.Log("Renderer Null");
 
         // Disable enemy attacking (AI can check IsStunned)
         // Example: enemyAI.SetCanAttack(false);
@@ -48,6 +54,7 @@ public class Hitstun : MonoBehaviour
         // Restore visuals
         if (rend != null)
             rend.material.color = originalColor;
+        Debug.Log("Not Stunned and changing color");
 
         // Re-enable AI attacking
         // Example: enemyAI.SetCanAttack(true);
