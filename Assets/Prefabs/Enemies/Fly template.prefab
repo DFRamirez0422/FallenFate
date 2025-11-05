@@ -533,7 +533,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3163735405532571396}
   - component: {fileID: 123900050134636556}
-  - component: {fileID: -3929460854910554364}
   - component: {fileID: 8967735850506600098}
   - component: {fileID: -5345503051685539411}
   - component: {fileID: 4704889686610687593}
@@ -557,7 +556,7 @@ Transform:
   m_GameObject: {fileID: 4865858747938109400}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.16653, y: 1.085, z: 6.63947}
+  m_LocalPosition: {x: -3.4686327, y: 0.446, z: -3.895946}
   m_LocalScale: {x: 0.25754, y: 0.25754, z: 0.5757307}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -577,20 +576,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1c704a4ae71554c931678f9dc5e00b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-3929460854910554364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4865858747938109400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7c6bd127e9e46d4a9c81d6df3e09033, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   agent: {fileID: 0}
   player: {fileID: 0}
+  hitboxController: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -599,20 +587,21 @@ MonoBehaviour:
     m_Bits: 64
   attackPoint: {fileID: 5941587547462596862}
   attackPointOffset: {x: 0, y: 0, z: 0}
-  ShotPrefab: {fileID: 7515566745852492346, guid: c1837438bb64e524fa248e7188bf7c25, type: 3}
+  ShotPrefab: {fileID: 0}
   RangedToogle: 0
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 5
+  walkPointRange: 3
   WaypointScript: {fileID: 0}
   RandomMovementToogle: 1
   timeBetweenAttacks: 2
-  MeleePrefab: {fileID: 4994702237395164113, guid: cd4b8e214d303a443b11239e91559bc3, type: 3}
+  MeleePrefab: {fileID: 0}
   MarkPrefab: {fileID: 7302877682249792024, guid: 75f58ce333ab3014bac7ac5f4c4488d2, type: 3}
   attackDelay: 1
   sightRange: 10
   attackRange: 2
   PlayerInSightRange: 0
   PlayerInAttackRange: 0
+  ChargeDistance: 10
 --- !u!114 &8967735850506600098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -685,7 +674,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 4

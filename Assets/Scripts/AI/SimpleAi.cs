@@ -12,7 +12,7 @@ public class SimpleAi : MonoBehaviour
     [Header("References")]
     private Health PlayerHealth;
     private CombatManager combatManager;
-    private EnemyHitboxController hitboxController;
+    public EnemyHitboxController hitboxController;
     private ParryBlock damageHandle;
     
 
@@ -35,11 +35,11 @@ public class SimpleAi : MonoBehaviour
 
     [Header("Attacking")]//Attacking 
     public float timeBetweenAttacks;
-    bool alreadyAttacked;
+    protected bool alreadyAttacked;
     public GameObject MeleePrefab; // This is just a representation for now
     public GameObject MarkPrefab; //In enemies folder
     [SerializeField, Tooltip("Delay before attacking/after the mark appears")]
-    private float attackDelay = 1.0f;
+    protected float attackDelay = 1.0f;
 
     [Header("States")]//States 
     public float sightRange, attackRange;
@@ -56,7 +56,7 @@ public class SimpleAi : MonoBehaviour
         hitboxController = GetComponent<EnemyHitboxController>();
     }
 
-    private void Update()
+    public virtual void Update()
     {
         if (player != null)
         {
@@ -71,7 +71,7 @@ public class SimpleAi : MonoBehaviour
         if (!PlayerInSightRange && !PlayerInAttackRange && RandomMovementToogle == true && !alreadyAttacked) Patrolling(); //When player is not in range enemy will move randomly;
         if (PlayerInSightRange && !PlayerInAttackRange && !alreadyAttacked) ChasePlayer();//When player is in sight range chase them down!
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();//Attack when player is in attack range
-        
+
         // Debug to check if player is in sight and/or attack range - can be removed when not needed
         //Debug.Log($"Sight={PlayerInSightRange}, Attack={PlayerInAttackRange}");
     }
@@ -127,7 +127,7 @@ public class SimpleAi : MonoBehaviour
     }
 
     //Script for Attacking the player
-    private void AttackPlayer()
+    public virtual void AttackPlayer()
     {
 
         if (player != null)
@@ -166,12 +166,12 @@ public class SimpleAi : MonoBehaviour
     }
 
     
-    private void ResetAttack()
+    public virtual void ResetAttack()
     {
         alreadyAttacked = false; //Sets alreadyAttacked to false allowing the enemy to attack again 
     }
 
-    private void FlashAttackMelee()
+    public virtual void FlashAttackMelee()
     { 
         Vector3 lookPos = player.position;
         lookPos.y = transform.position.y;
