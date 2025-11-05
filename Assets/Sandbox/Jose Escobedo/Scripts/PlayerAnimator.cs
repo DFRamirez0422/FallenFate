@@ -58,6 +58,8 @@ public class PlayerAnimator : MonoBehaviour
         }
 
         // Currently missing the following items to incorporate. However, they're not in the codebase I have.
+        // TODO: if the missing features are present on the player prefab used for the final game, please let me know!
+        //
         // missing : isHit
         // missing : isDead
         // missing : isPerryBlock

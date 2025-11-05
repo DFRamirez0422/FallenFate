@@ -91,6 +91,9 @@ namespace NPA_RhythmBonusPrefabs
         [Tooltip("Speed for the music staff to pop in and pop out when activate() or deactivate() are called.")]
         [SerializeField] private float m_StaffPopInOutSpeed = 2.0f;
 
+        [Tooltip("Flag on whether or not to start the music staff as soon as it is initialized.")]
+        [SerializeField] private bool m_IsActiveImmediately = false;
+
         /*
             How do we implement the moving beat makers?
             Well, we keep a list of all the instances of the prefab that we initialize on Start(). This list
@@ -127,15 +130,20 @@ namespace NPA_RhythmBonusPrefabs
         private int m_CurrentTailIndex = 0;
 
         // Flag to be set only when deactivate() was called but the UI is still visible on screen.
-        public bool m_IsFading = false;
+        private bool m_IsFading = false;
 
         // Active flag. The music staff will only work when this flag is set.
-        public bool m_IsActive = false;
+        private bool m_IsActive = false;
 
         private void Start()
         {
             m_IsActive = false;
             m_IsFading = false;
+
+            if (m_IsActiveImmediately)
+            {
+                Activate();
+            }
         }
 
         // Called when the UI is activated via activate()
