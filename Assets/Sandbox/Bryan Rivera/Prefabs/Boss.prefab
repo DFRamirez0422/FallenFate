@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1993434932418347209}
   - component: {fileID: 3914664810221876977}
   - component: {fileID: 911849978063362114}
-  - component: {fileID: 5084229564983420308}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -123,21 +122,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 951927488384376303}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 187290a51ae808c4294de2e975634ad3, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d39fadffe967e24da4baddfc8b9d4f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puddleWarningPrefab: {fileID: 5117715781321685839, guid: 6f7814adbcba566409e1108cd0634109, type: 3}
-  explosiveWarningPrefab: {fileID: 5117715781321685839, guid: 6f7814adbcba566409e1108cd0634109, type: 3}
-  bigExplosiveWarningPrefab: {fileID: 5117715781321685839, guid: 6f7814adbcba566409e1108cd0634109, type: 3}
-  puddleProjectilePrefab: {fileID: 9012529606320760178, guid: b7465547d3bea8e45a4f9b1ed2be9327, type: 3}
-  explosiveProjectilePrefab: {fileID: 3102944418209512301, guid: 59701a279467ecf40aeaacc13bfada69, type: 3}
-  bigExplosiveProjectilePrefab: {fileID: 3102944418209512301, guid: 2cf37b9420a56594094f4cd5c5feb2fe, type: 3}
+  puddleWarningPrefab: {fileID: 5117715781321685839, guid: b171d049f53df7b4ca8cc4efef9d796b, type: 3}
+  explosiveWarningPrefab: {fileID: 5117715781321685839, guid: b171d049f53df7b4ca8cc4efef9d796b, type: 3}
+  puddleProjectilePrefab: {fileID: 9012529606320760178, guid: de5c0dfbab592f64ebb7d03e65075682, type: 3}
+  explosiveProjectilePrefab: {fileID: 3102944418209512301, guid: 14e543784f433fb4aad43ab4f2d5a8e4, type: 3}
   throwPoint: {fileID: 4770609741715366465}
-  player: {fileID: 6792255812246797011, guid: 2cf37b9420a56594094f4cd5c5feb2fe, type: 3}
+  player: {fileID: 0}
   throwInterval: 3
   arcHeight: 5
-  projectileSpeed: 12
-  warningLifetime: 2.5
+  desiredTimeToImpact: 1
+  maxPredictionDistance: 5
+  warningYOffset: 0.02
 --- !u!114 &911849978063362114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,36 +145,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 951927488384376303}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba6ab6a83479c274e85daf95eb49a175, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ff767dc64881e149827f66d5ba275b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalPrefab: {fileID: 8400692623031587287, guid: 9dd9f260b2cdc7c47969d8e61e59a3d3, type: 3}
-  potionPrefab: {fileID: 9012529606320760178, guid: b7465547d3bea8e45a4f9b1ed2be9327, type: 3}
+  portalPrefab: {fileID: 8400692623031587287, guid: 02f1df2814b7511429b559061799f1e4, type: 3}
+  potionPrefab: {fileID: 9012529606320760178, guid: de5c0dfbab592f64ebb7d03e65075682, type: 3}
   player: {fileID: 0}
-  attackInterval: 30
+  attackInterval: 10
   numberOfPortals: 5
   scatterRadius: 5
   portalHeight: 10
   portalLifetime: 2
---- !u!114 &5084229564983420308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 951927488384376303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0314c195421c207479c5113d5a434027, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosiveProjectilePrefab: {fileID: 3102944418209512301, guid: 59701a279467ecf40aeaacc13bfada69, type: 3}
-  throwPoint: {fileID: 4770609741715366465}
-  attackInterval: 30
-  projectileCount: 1
-  scatterRadius: 5
-  arcHeight: 5
-  player: {fileID: 0}
+  minDistanceFromPlayer: 2
 --- !u!1 &4092166801838514974
 GameObject:
   m_ObjectHideFlags: 0

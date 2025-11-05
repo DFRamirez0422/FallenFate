@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 40000225213162423}
   - component: {fileID: 4264828142003661215}
   - component: {fileID: 1195177439941119922}
+  - component: {fileID: 3824184665216151053}
   m_Layer: 10
   m_Name: ExplosiveProjectile
   m_TagString: Untagged
@@ -146,8 +147,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3102944418209512301}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39d416e16e655a442b1c73bdcbae1dca, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bf08cdcae29ccb45a741f91835e1bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosivePrefab: {fileID: 2301289121463649087, guid: b672b07cbdcda754da170c4c5fa6827a, type: 3}
+  explosivePrefab: {fileID: 2301289121463649087, guid: f7e0c9a31ac8cea4387d33f960d000ea, type: 3}
   destroyDelay: 0.1
+--- !u!114 &3824184665216151053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3102944418209512301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2cbc2273b978841b21a41759053dde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
