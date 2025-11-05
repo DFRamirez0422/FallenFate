@@ -220,7 +220,7 @@ namespace NPA_RhythmBonusPrefabs
             m_BeatMarkersList.Add(new_marker);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             // Update on 2025-11-03 13:54: Requested to have the music staff key check on this script/prefab.
             if (Input.GetKeyDown(m_StaffAppearKey))

@@ -38,13 +38,23 @@ public class PlayerAnimator : MonoBehaviour
 
     void Start()
     {
-        if (!m_Animator) m_Animator  = GetComponent<Animator>();
-        if (!m_PlayerController) m_PlayerController  = GetComponent<PlayerControllerAnimatorAndDebug>();
-        if (!m_PlayerCombat) m_PlayerCombat  = GetComponent<PlayerCombatRhythmAnimatorAndDebug>();
+        if (!m_Animator) m_Animator = GetComponent<Animator>();
+        
+        if (!m_PlayerController)
+        {
+            TryGetComponent<PlayerControllerAnimatorAndDebug>(out m_PlayerController);
+        }
+        if (!m_PlayerCombat)
+        {
+            TryGetComponent<PlayerCombatRhythmAnimatorAndDebug>(out m_PlayerCombat);
+        }
     }
 
     void Update()
     {
+        if (!m_PlayerController) return;
+        if (!m_PlayerCombat) return;
+
         SetAnimBasedOnSpeed(m_PlayerController.Velocity);
 
         if (m_PlayerController.IsDashing)
