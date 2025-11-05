@@ -12,8 +12,9 @@ public class BossScatterShot : MonoBehaviour
     public float attackInterval = 10f;
     public int numberOfPortals = 5;
     public float scatterRadius = 5f;
-    public float portalHeight = 10f; // Height above ground to spawn portals
+    public float portalHeight = 10f;
     public float portalLifetime = 2f;
+    public float minDistanceFromPlayer = 2f; // New: minimum safe distance
 
     private float timer;
 
@@ -34,21 +35,42 @@ public class BossScatterShot : MonoBehaviour
     {
         for (int i = 0; i < numberOfPortals; i++)
         {
-            // Get random position around player
-            Vector3 randomOffset = Random.insideUnitSphere * scatterRadius;
-            randomOffset.y = 0f; // Keep offset on horizontal plane only
+            Vector3 spawnPos;
+            int maxAttempts = 10;
+            int attempts = 0;
 
-            Vector3 spawnPos = player.position + randomOffset;
-            spawnPos.y = portalHeight; // Set height AFTER offset is applied
+            // Try finding a spawn position outside the safe zone
+            do
+            {
+                Vector3 randomOffset = Random.insideUnitSphere * scatterRadius;
+                randomOffset.y = 0f;
+                spawnPos = player.position + randomOffset;
+                attempts++;
+            }
+            while (Vector3.Distance(spawnPos, player.position) < minDistanceFromPlayer && attempts < maxAttempts);
 
-            // Spawn portal
+            spawnPos.y = portalHeight;
+
             GameObject portal = Instantiate(portalPrefab, spawnPos, Quaternion.identity);
             Destroy(portal, portalLifetime);
 
-            // Spawn potion from portal position
             Instantiate(potionPrefab, spawnPos, Quaternion.identity);
 
-            yield return new WaitForSeconds(0.1f); // Small delay between each
+            yield return new WaitForSeconds(0.1f);
         }
     }
+
+#if UNITY_EDITOR
+    // Optional: Draw gizmos in the editor for scatter + safe zone
+    void OnDrawGizmosSelected()
+    {
+        if (player == null) return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(player.position, minDistanceFromPlayer); // Safe zone
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(player.position, scatterRadius); // Max range
+    }
+#endif
 }
