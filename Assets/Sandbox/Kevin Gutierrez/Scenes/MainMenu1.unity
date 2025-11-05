@@ -253,8 +253,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Start
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e1f9b5ef0082504f8c8f578598ca541, type: 2}
-  m_sharedMaterial: {fileID: 1093121967386580821, guid: 2e1f9b5ef0082504f8c8f578598ca541, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1523039688d909b4eab9ee91d77e272f, type: 2}
+  m_sharedMaterial: {fileID: 1093121967386580821, guid: 1523039688d909b4eab9ee91d77e272f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -371,11 +371,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 157556509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48d78f498243788499256f5ddab2980d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cbcbe8eef28fff43a7f28115815cc1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
-  audioSource: {fileID: 0}
 --- !u!1 &159945852
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,7 +652,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 47.306267, y: 38.612514}
+  m_AnchoredPosition: {x: 41.7, y: 25.3}
   m_SizeDelta: {x: 31.1329, y: 10.7782}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &454631791
@@ -666,7 +664,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 454631789}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dcfc4596caccfc43a48d3d6655937d1, type: 3}
+  m_Script: {fileID: 11500000, guid: b95edaf373e903f46b4dd04ef777238c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hoverScaleMultiplier: 1.2
@@ -717,15 +715,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 157556512}
-        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadLevel1
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Systems-Merge-DG
+          m_StringArgument: L3_Bargaining_Infirmary
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &454631793
@@ -766,6 +764,135 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454631789}
   m_CullTransparentMesh: 1
+--- !u!1 &569828666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 569828668}
+  - component: {fileID: 569828667}
+  m_Layer: 0
+  m_Name: Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &569828667
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569828666}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 79ce426b06434ba41a606f41a3f3118e, type: 3}
+  m_Resource: {fileID: 8300000, guid: 79ce426b06434ba41a606f41a3f3118e, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &569828668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569828666}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 868.3993, y: 545.9962, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1090785917
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,7 +1052,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21.8137, y: -5.5127}
+  m_AnchoredPosition: {x: 18.5, y: -7.7}
   m_SizeDelta: {x: 44.073, y: 9.1135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1214308106
@@ -940,9 +1067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dcfc4596caccfc43a48d3d6655937d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverScaleMultiplier: 1.2
-  clickScaleMultiplier: 1.4
-  scaleSpeed: 10
 --- !u!114 &1214308107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,7 +1076,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1214308104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dcfc4596caccfc43a48d3d6655937d1, type: 3}
+  m_Script: {fileID: 11500000, guid: b95edaf373e903f46b4dd04ef777238c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hoverScaleMultiplier: 1.2
@@ -1002,9 +1126,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 157556512}
+      - m_Target: {fileID: 11500000, guid: 3cbcbe8eef28fff43a7f28115815cc1b, type: 3}
         m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_MethodName: 
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1090,7 +1214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.80623, y: -51.55007}
+  m_AnchoredPosition: {x: 33.80623, y: -56.6}
   m_SizeDelta: {x: 44.237, y: 10.386}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1229646186
@@ -1105,9 +1229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dcfc4596caccfc43a48d3d6655937d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverScaleMultiplier: 1.2
-  clickScaleMultiplier: 1.4
-  scaleSpeed: 10
 --- !u!114 &1229646187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,7 +1238,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1229646184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dcfc4596caccfc43a48d3d6655937d1, type: 3}
+  m_Script: {fileID: 11500000, guid: b95edaf373e903f46b4dd04ef777238c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hoverScaleMultiplier: 1.2
@@ -1521,3 +1642,4 @@ SceneRoots:
   - {fileID: 398655175}
   - {fileID: 1246530450}
   - {fileID: 157556511}
+  - {fileID: 569828668}

@@ -3,12 +3,16 @@ using UnityEngine;
 
 public class RegularString : MonoBehaviour
 {
-    public Health PlayerHealth;
-    public BossStringController bossController;
+    private GameObject Boss;
+    private Health PlayerHealth;
+    private BossStringController bossController;
     public float lifeTimer = 1;
+
 
     private void Start()
     {
+        Boss = GameObject.FindGameObjectWithTag("Boss");
+        bossController = Boss.GetComponent<BossStringController>();
         lifeTimer = bossController.ShadowUptime;
     }
     // Update is called once per frame

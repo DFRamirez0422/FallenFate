@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using NPA_Health_Components;
 using NPA_PlayerPrefab.Scripts;
@@ -9,7 +10,7 @@ namespace AAA_FallenFate.Scripts.PlayerScripts
         [Header("References")]
         [SerializeField] private Health playerHealth;
         [SerializeField] private Renderer playerRenderer;
-        [SerializeField] private PlayerCombatRhythm playerAttack; // disable attacks while blocking
+        [SerializeField] private PlayerCombat playerAttack; // disable attacks while blocking
 
         [Header("Materials")]
         [SerializeField] private Material normalMaterial;
