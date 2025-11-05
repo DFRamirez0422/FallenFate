@@ -1,3 +1,4 @@
+using Unity.Burst;
 using UnityEngine;
 
 namespace NPA_Health_Components
@@ -11,7 +12,6 @@ namespace NPA_Health_Components
         public int MaxHealth => maxHealth;
 
         [Header("Respawn")]
-        bool isdead;
         Player_Respawn _Respawn;
 
         private void Awake()
@@ -20,6 +20,13 @@ namespace NPA_Health_Components
             _Respawn =  GameObject.FindGameObjectWithTag("RespawnManager").GetComponent<Player_Respawn>();
         }
 
+        private void Update()
+        {
+            if (currentHealth > MaxHealth)
+            {
+                currentHealth = MaxHealth;
+            }
+        }
         private void FixedUpdate()
         {
             if (currentHealth <= 0)
@@ -35,11 +42,62 @@ namespace NPA_Health_Components
             Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
         }
 
-        public void Heal(int amount)
+
+
+        //Diffrenet Types of healing
+        //Change Made by AngelRodriguez
+
+        //Heals 10% of player health
+        public void Heal(float amount)
         {
-            currentHealth += amount;
-            currentHealth = Mathf.Min(currentHealth, maxHealth);
-            Debug.Log($"Healed {amount}. Health now {currentHealth}");
+            if (this.gameObject.tag == "Player")
+            {
+                float HealthGotten = maxHealth * amount;
+                currentHealth += (int)HealthGotten;
+
+                if (currentHealth > MaxHealth)
+                {
+                    Debug.Log($"Healed {(int)HealthGotten}. Health now {MaxHealth}/{MaxHealth}");
+                }
+                else
+                {
+                    Debug.Log($"Healed {(int)HealthGotten}. Health now {currentHealth}/{MaxHealth}");
+                }
+            }
+        }
+
+        //Heals 50% percent of player Health
+        public void HalfHeal(float amount)
+        {
+            if (this.gameObject.tag == "Player") {
+                float HealthGotten = maxHealth * amount;
+                currentHealth += (int)HealthGotten;
+                if (currentHealth > MaxHealth)
+                {
+                    Debug.Log($"Healed {(int)HealthGotten}. Health now {MaxHealth}/{MaxHealth}");
+                }
+                else
+                {
+                    Debug.Log($"Healed {(int)HealthGotten}. Health now {currentHealth}/{MaxHealth}");
+                }
+            }
+        }
+
+        //Heals to max health
+        public void FullHeal()
+        {
+            if (this.gameObject.tag == "Player") {
+                int HealthGotten = maxHealth - currentHealth;
+                currentHealth += maxHealth - currentHealth;
+                if (currentHealth > MaxHealth)
+                {
+                    Debug.Log($"Healed {HealthGotten}. Health now {MaxHealth}/{MaxHealth}");
+                }
+                else
+                {
+                    Debug.Log($"Healed {HealthGotten}. Health now {currentHealth}/{MaxHealth}");
+                }
+            }
         }
 
 
@@ -47,10 +105,18 @@ namespace NPA_Health_Components
         //Change made by Angel Rodriguez
         private void Die()
         {
-            transform.position = _Respawn.CurrentCheckPoint.transform.position;
-            currentHealth = 100;
-            Debug.Log($"Player has died");
-            Debug.Log($"Respawning...");
+            if (this.gameObject.tag == "Player")
+            {
+                transform.position = _Respawn.CurrentCheckPoint.transform.position;
+                currentHealth = 100;
+                Debug.Log($"Player has died");
+                Debug.Log($"Respawning...");
+            }
+            else
+            {
+                var copy = this.gameObject;
+              Destroy(copy);  
+            }
         }
     }
 }
