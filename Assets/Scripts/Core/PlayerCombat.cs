@@ -1,5 +1,6 @@
-using NPA_RhythmBonusPrefabs;
 using System.Collections;
+using NPA_PlayerPrefab.Scripts;
+using NPA_RhythmBonusPrefabs;
 using UnityEngine;
 
 namespace NPA_PlayerPrefab.Scripts
@@ -58,6 +59,12 @@ namespace NPA_PlayerPrefab.Scripts
         public bool finisher3Unlocked = false;
         public bool finisher6Unlocked = false;
         public bool finisher9Unlocked = false;
+
+        private void Start()
+        {
+            if (rhythmCombo != null)
+                rhythmCombo.Activate();  // ensure counting is live
+        }
 
         void Update()
         {
@@ -120,7 +127,10 @@ namespace NPA_PlayerPrefab.Scripts
         {
             if (attackData == null || hitBoxPrefab == null) return;
 
-            var tier = rhythmCombo.EvaluateBeat();
+            // Judge on press (per your preference)
+            var tier = rhythmCombo != null ? rhythmCombo.EvaluateBeat() : RhythmBonusJudge.RhythmTier.Good;
+            Debug.Log($"[Rhythm] Tier={tier} Combo={rhythmCombo?.GetCurrentCombo()} Active={rhythmCombo?.m_IsActive}");
+
             isAttacking = true;
             playerController.SetAttackLock(true);
 

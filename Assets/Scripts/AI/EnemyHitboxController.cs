@@ -24,7 +24,11 @@ public class EnemyHitboxController : MonoBehaviour
 
         // Manual test trigger (used until animations are ready)
         if (Input.GetKeyDown(testKey))
-            ActivateHitbox("Slash");
+        {
+            string selectedID = GetHitboxIDByName(""); // this should fallback to first
+            Debug.Log($"[DEBUG KEY] Trying to activate: {selectedID}");
+            ActivateHitbox(selectedID);
+        }
 
         // When a hitbox is active, update its lifetime and perform collision checks
         if (isActive)
@@ -38,15 +42,15 @@ public class EnemyHitboxController : MonoBehaviour
     }
 
     // Activates a hitbox by its ID name from the data asset
-    public void ActivateHitbox(string id)
+    public void ActivateHitbox(string attackId)
     {
-        Debug.Log($"Attempting to activate hitbox: {id}");
+        Debug.Log($"Attempting to activate hitbox: {attackId}");
         if (hitboxData == null) return;
 
-        var def = hitboxData.hitboxes.Find(h => h.id == id);
-        if (def.id == null)
+        var def = hitboxData.hitboxes.Find(h => h.attackId == attackId);
+        if (string.IsNullOrEmpty(def.attackId))
         {
-            Debug.LogWarning($"Hitbox ID {id} was not found in {hitboxData.name}.");
+            Debug.LogWarning($"Hitbox ID {attackId} was not found in {hitboxData.name}.");
             return;
         }
 
@@ -54,19 +58,20 @@ public class EnemyHitboxController : MonoBehaviour
         isActive = true;
         activeTimer = def.activeTime;
         alreadyHit.Clear(); // reset hit list for this activation
+        
+        Invoke(nameof(DeactivateHitbox), def.activeTime);
 
         if (def.bDebugDraw)
-            Debug.Log($"Hitbox ID {def.id} is activated.");
+            Debug.Log($"Hitbox ID {def.attackId} is activated.");
     }
 
     // Deactivates the hitbox and clears any stored hits
     private void DeactivateHitbox()
     {
         isActive = false;
-        alreadyHit.Clear();
 
         if (currentHitbox.bDebugDraw)
-            Debug.Log($"Hitbox ID {currentHitbox.id} is deactivated.");
+            Debug.Log($"Hitbox ID {currentHitbox.attackId} is deactivated.");
     }
 
     // Performs overlap checks depending on hitbox shape
@@ -98,12 +103,25 @@ public class EnemyHitboxController : MonoBehaviour
             if (Mathf.Abs(hit.transform.position.z - transform.position.z) > currentHitbox.depthTolerance) continue;
 
             // Apply damage to valid targets with Health component
-            var health = hit.GetComponent<Health>();
-            if (health != null)
+            // --- NEW LOGIC ---
+            var parryBlock = hit.GetComponent<AAA_FallenFate.Scripts.PlayerScripts.ParryBlock>();
+            if (parryBlock != null)
             {
-                health.TakeDamage(currentHitbox.damage);
+                // Pass the hitbox’s own damage to ParryBlock
+                parryBlock.TakeIncomingDamage(currentHitbox.damage, gameObject);
                 alreadyHit.Add(hit);
             }
+            else
+            {
+                // fallback to plain health damage if no parry system
+                var health = hit.GetComponent<NPA_Health_Components.Health>();
+                if (health != null)
+                {
+                    health.TakeDamage(currentHitbox.damage);
+                    alreadyHit.Add(hit);
+                }
+            }
+
         }
     }
 
@@ -122,6 +140,26 @@ public class EnemyHitboxController : MonoBehaviour
         }
 
         return filtered.ToArray();
+    }
+    
+    // Retrieves hitbox ID by name, returns empty string if not found
+    public string GetHitboxIDByName(string attackId)
+    {
+        // Guard clause: no data
+        if (hitboxData == null || hitboxData.hitboxes.Count == 0)
+            return string.Empty;
+
+        // No name provided → return first entry (default)
+        if (string.IsNullOrEmpty(attackId))
+            return hitboxData.hitboxes[0].attackId;
+
+        // Try to find the requested attack
+        HitboxDefinition found = hitboxData.hitboxes.Find(h => h.attackId == attackId);
+
+        // Return found or fallback to first
+        return !string.IsNullOrEmpty(found.attackId)
+            ? found.attackId
+            : hitboxData.hitboxes[0].attackId;
     }
 
     // Draws hitbox gizmos in editor when selected (for debugging)
