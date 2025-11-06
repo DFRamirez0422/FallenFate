@@ -54,23 +54,20 @@ namespace NPA_RhythmBonusPrefabs
             {
                 case RhythmTier.Perfect:
                     m_NumPerfectHits += 1;
-                    m_ComboCounter += 1;     // Perfect advances combo
-                    break;
-
-                case RhythmTier.Good:
-                    // Less punishing: Good also advances combo
                     m_ComboCounter += 1;
                     break;
-
+                case RhythmTier.Good:
                 case RhythmTier.Miss:
                 default:
                     m_NumMisses += 1;
-                    m_ComboCounter = 0;      // Only Miss breaks combo
+                    m_ComboCounter = 0;
                     break;
             }
 
             if (m_ComboCounter > m_MaxCombos)
+            {
                 m_MaxCombos = m_ComboCounter;
+            }
 
             return tier;
         }
@@ -129,11 +126,14 @@ namespace NPA_RhythmBonusPrefabs
         // Returns how many perfect hits were done as a percentage between zero and one.
         public float GetTimingGrade()
         {
-            int total = m_NumPerfectHits + m_NumMisses;
-            if (total == 0) return 1.0f; // no samples yet => neutral 1.0
-            return (float)m_NumPerfectHits / total;
-        }
+            // Special case to avoid a division by zero.
+            if (m_NumPerfectHits == 0 || m_NumMisses == 0)
+            {
+                return 1.0f;
+            }
 
+            return (float)m_NumPerfectHits / ((float)m_NumPerfectHits + (float)m_NumMisses);
+        }
 
         // ========================= Private Fields =========================//
 

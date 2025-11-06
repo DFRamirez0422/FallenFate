@@ -33,7 +33,7 @@ public class HealthUI : MonoBehaviour
 
     private void UpdateHearts()
     {
-        // Convert player health (0ï¿½100) to heart health (0ï¿½heartsCount*2)
+        // Convert player health (0–100) to heart health (0–heartsCount*2)
         int heartHealthValue = Mathf.RoundToInt(
             (float)playerHealth.CurrentHealth / playerHealth.MaxHealth * (heartsCount * 2)
         );

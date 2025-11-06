@@ -17,7 +17,6 @@ public class ShadowString : MonoBehaviour
         bossController = Boss.GetComponent<BossStringController>();
         Self.SetActive(false);
     }
-
     void OnEnable()
     {
         Invoke(nameof(AttackWithString), bossController.ShadowUptime);
@@ -25,7 +24,7 @@ public class ShadowString : MonoBehaviour
 
     public void AttackWithString()
     {
-        Instantiate(AttackingString, transform.position, Quaternion.identity);
+        Instantiate (AttackingString, transform.position, Quaternion.identity);
         Self.SetActive(false);
     }
 }

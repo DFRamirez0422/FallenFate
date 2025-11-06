@@ -47,10 +47,8 @@ public class QTEManager : MonoBehaviour
 
     void Update()
     {
-        /* Commenting this out to test calling this only from the BossAI script
         if (Input.GetKeyDown(KeyCode.Space)) // space to test
             StartQTE(); // start QTE manually
-        */
     }
 
     public void StartQTE()

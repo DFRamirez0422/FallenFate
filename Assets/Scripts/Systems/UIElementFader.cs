@@ -19,6 +19,7 @@ public class UIElementFader : MonoBehaviour
     // Activates this object, which makes the UI element fade in over time, expressed in seconds.
     public void activate(float time)
     {
+        Debug.Log("activate()");
         m_FadeInTime = time;
         m_FadeOutTime = 0.0f;
         m_FadeTimeRemaining = time;
