@@ -1,34 +1,24 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneTransition : MonoBehaviour
 {
-    [Header("Settings")]
-    public Animator transition;      
-    public float transitionTime = 1f;
-    public string nextScene;         
+    public Animator transition;      // Animator on TransitionMask
+    public string nextScene;
+    public float closeTime = 1f;   // EXACT length of TransitionClose clip
 
-    void Update()
+    public void PlayClose()          // hook this to the Button OnClick
     {
-        
-        if (Input.GetMouseButtonDown(0))
-        {
-            LoadNextScene();
-        }
+        StartCoroutine(DoTransition());
     }
 
-    public void LoadNextScene()
+    IEnumerator DoTransition()
     {
-        StartCoroutine(LoadScene(nextScene));
-    }
+        // Play the state immediately on Base Layer (0), at normalized time 0
+        transition.Play("TransitionClose", 0, 0f);
 
-    System.Collections.IEnumerator LoadScene(string sceneName)
-    {
-        if (transition != null)
-            transition.SetTrigger("Start");
-
-        yield return new WaitForSeconds(transitionTime);
-
-        SceneManager.LoadScene(sceneName); 
+        yield return new WaitForSecondsRealtime(closeTime);
+        SceneManager.LoadScene(nextScene);
     }
 }
