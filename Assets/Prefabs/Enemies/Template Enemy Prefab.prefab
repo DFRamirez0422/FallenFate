@@ -244,16 +244,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 3535854180868840773}
-  player: {fileID: 0}
-  PlayerHealth: {fileID: 0}
-  combatManager: {fileID: 0}
+  player: {fileID: 5727177107550828939, guid: 20e66e9b16c0ae243b331bd3135636d1, type: 3}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  attackPoint: {fileID: 2762423635255604536}
+  attackPoint: {fileID: 5727177107550828939, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
+  attackPointOffset: {x: 0, y: 0, z: 0}
   ShotPrefab: {fileID: 7515566745852492346, guid: c1837438bb64e524fa248e7188bf7c25, type: 3}
   RangedToogle: 0
   walkPoint: {x: 0, y: 0, z: 0}
@@ -263,6 +262,7 @@ MonoBehaviour:
   timeBetweenAttacks: 2
   MeleePrefab: {fileID: 4994702237395164113, guid: cd4b8e214d303a443b11239e91559bc3, type: 3}
   MarkPrefab: {fileID: 4573719873115348079, guid: d775c34715729184da0df78803a9a9a9, type: 3}
+  attackDelay: 1
   sightRange: 10
   attackRange: 2
   PlayerInSightRange: 0
@@ -280,6 +280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
+  _Respawn: {fileID: 0}
 --- !u!54 &5778687536435984335
 Rigidbody:
   m_ObjectHideFlags: 0
