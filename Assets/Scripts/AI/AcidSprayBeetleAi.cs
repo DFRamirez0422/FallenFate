@@ -167,8 +167,11 @@ public class AcidSprayBeetleAI : MonoBehaviour
                 agent.isStopped = true;
 
                 Vector3 lookDirection = (player.position - transform.position).normalized;
+                lookDirection.y = transform.position.y;
+                transform.LookAt(lookDirection);
+
                 Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+               // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
         }
     }
@@ -189,7 +192,8 @@ public class AcidSprayBeetleAI : MonoBehaviour
                 agent.isStopped = true;
             }
 
-            Vector3 lookDirection = new Vector3(player.position.x, transform.position.y, player.position.z);
+            Vector3 lookDirection = (player.position);
+            lookDirection.y = transform.position.y;
             transform.LookAt(lookDirection);
         }
     }
@@ -217,8 +221,10 @@ public class AcidSprayBeetleAI : MonoBehaviour
                 agent.isStopped = true;
 
                 Vector3 lookDirection = (player.position - transform.position).normalized;
+                transform.LookAt(lookDirection);
+                lookDirection.y = transform.position.y;
                 Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+               // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
         }
     }

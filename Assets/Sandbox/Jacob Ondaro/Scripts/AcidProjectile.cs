@@ -111,7 +111,7 @@ public class AcidProjectile : MonoBehaviour
             Destroy(trailEffect.gameObject, 2f);
         }
 
-        Destroy(gameObject);
+        
     }
 }
 
