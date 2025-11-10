@@ -11,7 +11,7 @@ public class SimpleAi : MonoBehaviour
 
     [Header("References")]
     private Health PlayerHealth;
-    private CombatManager combatManager;
+    protected CombatManager combatManager;
     public EnemyHitboxController hitboxController;
     private ParryBlock damageHandle;
     
@@ -95,7 +95,7 @@ public class SimpleAi : MonoBehaviour
     //Makes the enemy follow waypoints
     private void Waypoints()
     {
-            WaypointScript.Walking();
+        WaypointScript.Walking();
         agent.SetDestination(WaypointScript.waypoint[WaypointScript.currentWaypointIndex].position);
     }
 
@@ -114,7 +114,7 @@ public class SimpleAi : MonoBehaviour
     }
 
     //Script for Chasing the player
-    private void ChasePlayer()
+    public virtual void ChasePlayer()
     {
         if (combatManager != null)
         {
