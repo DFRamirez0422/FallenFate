@@ -14,12 +14,12 @@ namespace NPA_PlayerPrefab.Scripts
     /// window.
     /// </summary>
     [RequireComponent(typeof(PlayerAnimator))]
-    public class PlayerCombatRhythmAnimatorAndDebug : MonoBehaviour
+    public class PlayerCombat_JoseE : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private GameObject hitBoxPrefab;
         [SerializeField] private AttackData defaultAttack;
-        [SerializeField] private PlayerControllerAnimatorAndDebug playerController; //<--- CHANGED BY: Jose E.
+        [SerializeField] private PlayerController_JoseE playerController; //<--- CHANGED BY: Jose E.
         [SerializeField] private AttackData dashAttackData;
 
         [Header("Input Settings")]

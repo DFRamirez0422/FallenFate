@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using AAA_FallenFate.Scripts.PlayerScripts;
 using NPA_PlayerPrefab.Scripts;
 using UnityEditor.EditorTools;
 using UnityEngine;
@@ -30,9 +31,13 @@ public class PlayerAnimator : MonoBehaviour
 
     [Header("Player Components")]
     [Tooltip("Player controller component.")]
-    [SerializeField] private PlayerControllerAnimatorAndDebug m_PlayerController;
+    [SerializeField] private PlayerController_JoseE m_PlayerController;
     [Tooltip("Player combat component.")]
-    [SerializeField] private PlayerCombatRhythmAnimatorAndDebug m_PlayerCombat;
+    [SerializeField] private PlayerCombat_JoseE m_PlayerCombat;
+    [Tooltip("Player hit stun component.")]
+    [SerializeField] private Hitstun_JoseE m_PlayerHitstun;
+    [Tooltip("Player parry block component.")]
+    [SerializeField] private ParryBlock_JoseE m_PlayerParryBlock;
 
     private Animator m_Animator;
 
@@ -53,16 +58,22 @@ public class PlayerAnimator : MonoBehaviour
     void Update()
     {
         if (!m_PlayerController) return;
-        if (!m_PlayerCombat) return;
 
         SetAnimBasedOnSpeed(m_PlayerController.Velocity);
 
-        if (m_PlayerController.IsDashing)
+        if (m_PlayerHitstun && m_PlayerHitstun.IsStunned)
+        {
+            SetPlayerIsHit();
+        }
+        else if (m_PlayerParryBlock && m_PlayerParryBlock.IsParryBlocking)
+        {
+            SetPlayerParryBlock();
+        }
+        else if (m_PlayerController.IsDashing)
         {
             SetPlayerIsDashing();
         }
-
-        if (m_PlayerCombat.IsAttacking)
+        else if (m_PlayerCombat && m_PlayerCombat.IsAttacking)
         {
             SetPlayerIsAttacking(m_PlayerCombat.CurrentAttack);
         }
@@ -70,9 +81,7 @@ public class PlayerAnimator : MonoBehaviour
         // Currently missing the following items to incorporate. However, they're not in the codebase I have.
         // TODO: if the missing features are present on the player prefab used for the final game, please let me know!
         //
-        // missing : isHit
         // missing : isDead
-        // missing : isPerryBlock
     }
 
     /// <summary>

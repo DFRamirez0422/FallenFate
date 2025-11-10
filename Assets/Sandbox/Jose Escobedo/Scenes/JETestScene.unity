@@ -1187,6 +1187,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: DummyPlayerPrefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2350564016462702388, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
+      propertyPath: m_PlayerCombat
+      value: 
+      objectReference: {fileID: 1146198289}
+    - target: {fileID: 2350564016462702388, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
+      propertyPath: m_PlayerHitstun
+      value: 
+      objectReference: {fileID: 1146198292}
+    - target: {fileID: 2350564016462702388, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
+      propertyPath: m_PlayerController
+      value: 
+      objectReference: {fileID: 1146198285}
     - target: {fileID: 2353721054891887226, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
       propertyPath: testKey
       value: 32
@@ -1311,6 +1323,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2344414788718996121, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
       insertIndex: -1
       addedObject: {fileID: 170164231}
+    - targetCorrespondingSourceObject: {fileID: 2344414788718996121, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1146198292}
   m_SourcePrefab: {fileID: 100100000, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
 --- !u!114 &1146198285 stripped
 MonoBehaviour:
@@ -1345,6 +1360,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f193fffed0d795846b4b951e9ed93b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1146198289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4128674936518080592, guid: a5d1fc5ceba05f247a809a14f78c1864, type: 3}
+  m_PrefabInstance: {fileID: 1146198284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170164224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51b61868a2b3fa54b8f93a75bb5f5932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1146198292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170164224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f2c584afc77464984b7dd8883a5914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultStunDuration: 0.3
 --- !u!114 &1245859379 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6981469966743289125, guid: 6956813cd0805564c984078d4f65c8ba, type: 3}

@@ -8,7 +8,7 @@ namespace NPA_PlayerPrefab.Scripts
     /// AUTHOR: Jose E.
     /// </summary>
     [RequireComponent(typeof(PlayerAnimator))]
-    public class PlayerControllerAnimatorAndDebug : MonoBehaviour
+    public class PlayerController_JoseE : MonoBehaviour
     {
         [Header("Movement Settings")] 
         [Tooltip("How fast the player moves")]
