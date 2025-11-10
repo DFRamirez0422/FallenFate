@@ -4,13 +4,13 @@ using NPA_Health_Components;
 
 public class CheckPointTrigger : MonoBehaviour
 {
-    Player_Respawn Player;
+    Player_Respawn RespawnManager;
     SphereCollider SphereC;
 
 
     private void Awake()
     {
-        Player = GameObject.FindGameObjectWithTag("Respawn").GetComponent<Player_Respawn>();
+        RespawnManager = GameObject.FindGameObjectWithTag("RespawnManager").GetComponent<Player_Respawn>();
         SphereC = GetComponent<SphereCollider>();
     }
 
@@ -18,7 +18,7 @@ public class CheckPointTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Player.CurrentCheckPoint = this.gameObject;
+            RespawnManager.CurrentCheckPoint = this.gameObject;
             if(SphereC != null)
                 SphereC.enabled = false;
         }

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,11 +15,9 @@ public class ElenaAI : MonoBehaviour
     public GameObject[] objects;
     
     [Header("Throw_PowerUp")]
-    [SerializeField] private GameObject HPowerUP;
-    [SerializeField] private GameObject HealthPower;
-    public int HealthPackHold = 0;
-
-    [SerializeField]private GameObject[] HealthPowerInGame;
+    public int PowerUpHold = 0;
+    public GameObject PowerUp;
+    public List<GameObject> PowerUpsInGame = new List<GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
@@ -38,14 +37,16 @@ public class ElenaAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HealthPowerInGame = GameObject.FindGameObjectsWithTag("HealthPickup");
+        if (PowerUpsInGame.Count != 0 && PowerUpHold == 0 && CombatToggle ||
+            PowerUpsInGame.Count != 0 && PowerUpHold == 0 && !CombatToggle)
+        {
+            RetrivePowerUp();
+        }
 
-        if (!CombatToggle){ FollowPlayer(); }
+        else if (!CombatToggle && PowerUpHold == 1 || PowerUpsInGame.Count == 0 && !CombatToggle){ FollowPlayer(); }
 
-        if(CombatToggle || !CombatToggle && HealthPackHold == 0 && HealthPowerInGame != null) { RetrieveHealthPack(); }
+        else if (CombatToggle && PowerUpHold == 1 || PowerUpsInGame.Count == 0 && CombatToggle) { TakeCover(); }
 
-        else if (CombatToggle && HealthPackHold == 1 || CombatToggle && HealthPowerInGame == null || 
-            HealthPowerInGame != null && HealthPackHold == 1 && CombatToggle) { TakeCover(); }
 
 
     }
@@ -86,58 +87,32 @@ public class ElenaAI : MonoBehaviour
         }
 
         agent.SetDestination(closest.transform.position);
-
-        if(!CombatToggle && HealthPackHold == 1)
-        {
-            FollowPlayer();
-        }
-
-        else if (HealthPackHold == 0 && CombatToggle || !CombatToggle){
-            RetrieveHealthPack();
-        }
-
     }
 
-    private void RetrieveHealthPack()
-    {
-        GameObject closestHealthPack;
+   public void RetrivePowerUp()
+   {
+        GameObject  NearestPowerUp = null;
         float minDistSq = float.MaxValue;
-        Vector3 tPos = Elena.position;
+        Vector3 ElenaPosition = Elena.position;
 
-        foreach (var objH in HealthPowerInGame)
+        foreach (var _PowerUp in PowerUpsInGame)
         {
-            float distSq = (objH.transform.position - tPos).sqrMagnitude;
+            float distSq = (_PowerUp.transform.position - ElenaPosition).sqrMagnitude;
             if (distSq < minDistSq)
             {
                 minDistSq = distSq;
-                closestHealthPack = objH;
-                if (HealthPowerInGame != null && HealthPackHold == 0)
-                {
-                    agent.SetDestination(closestHealthPack.transform.position);
-                }
+                NearestPowerUp = _PowerUp;
             }
         }
 
-        if (HealthPackHold == 1 && CombatToggle)
-        {
-            TakeCover();
-        }
-        else if (HealthPackHold == 1 && !CombatToggle)
-        {
-            FollowPlayer();
-        }
-    }
+        agent.SetDestination(NearestPowerUp.transform.position);
+   }
 
-
-
-    public void ThrowHealthPowerUP()
+    public void ThrowPowerUp()
     {
-        
-        int speed = 2;
-        Vector3 SpawnHpower = new Vector3(Elena.transform.position.x, Elena.transform.position.y + 0.5f, Elena.transform.position.z + 0.5f);        
-        HPowerUP = Instantiate(HealthPower, SpawnHpower, Quaternion.identity);
-
-        Vector3 Targetdirection = (player.position - SpawnHpower).normalized;
-        HPowerUP.GetComponent<Rigidbody>().MovePosition(player.position + Targetdirection * speed * Time.deltaTime);
+        GameObject PowerHealth = null;
+        PowerHealth = Instantiate(PowerUp, transform.position, Quaternion.identity);
+        PowerHealth.GetComponent<Rigidbody>().MovePosition(player.position);
     }
+
 }
