@@ -107,9 +107,9 @@ GameObject:
   - component: {fileID: 6676703407321594882}
   - component: {fileID: 3535854180868840773}
   - component: {fileID: 6026146156432847194}
-  - component: {fileID: 7235365292139473371}
   - component: {fileID: 5778687536435984335}
   - component: {fileID: 4073894061389066475}
+  - component: {fileID: 328270741816519201}
   m_Layer: 0
   m_Name: Template Enemy
   m_TagString: Untagged
@@ -245,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 3535854180868840773}
   player: {fileID: 5727177107550828939, guid: 20e66e9b16c0ae243b331bd3135636d1, type: 3}
+  hitboxController: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -267,21 +268,6 @@ MonoBehaviour:
   attackRange: 2
   PlayerInSightRange: 0
   PlayerInAttackRange: 0
---- !u!114 &7235365292139473371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5954879032852959840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6a10ec182a79404eaa55178235de75c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
-  _Respawn: {fileID: 0}
 --- !u!54 &5778687536435984335
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -328,6 +314,19 @@ MonoBehaviour:
   - {fileID: 8135522959922218378}
   self: {fileID: 7682480061025098587}
   currentWaypointIndex: 0
+--- !u!114 &328270741816519201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5954879032852959840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7715cbc6c32584991ee214868d74e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
 --- !u!1 &6132575880266708354
 GameObject:
   m_ObjectHideFlags: 0
