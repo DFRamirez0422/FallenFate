@@ -76,7 +76,7 @@ public class UIElementFader : MonoBehaviour
         // https://discussions.unity.com/t/having-some-serious-trouble-changing-image-alpha/690952
         m_FadeTimeRemaining -= Time.deltaTime;
 
-        if (m_FadeOutTime > 0.0f)
+        if (m_IsFadingOut)
         {
             if (m_FadeTimeRemaining > 0.0f)
             {
@@ -89,7 +89,7 @@ public class UIElementFader : MonoBehaviour
                 m_UIElement.enabled = false;
             }
         }
-        else if (m_FadeInTime > 0.0f)
+        else if (m_IsFadingIn)
         {
             m_UIElement.enabled = true;
 

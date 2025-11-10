@@ -1,4 +1,7 @@
+using System.ComponentModel;
+using AAA_FallenFate.Scripts.PlayerScripts;
 using NPA_PlayerPrefab.Scripts;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -12,22 +15,82 @@ public class PlayerAnimator : MonoBehaviour
     /// that requires animation to be changed. Callers are required to pass in data pertinent for
     /// the animation to be judged if any arguments are present.
     /// 
+    /// Ideally, I would like for this class to refer to outside classes in a sort of:
+    /// Animator (Observer) --> PlayerCombat/PlayerRhythm (Subject)
+    /// ...manner for better modularity. However, neither of these two classes have any usable public
+    /// fields that make this relationship workable. Even a classic decorator pattern wouldn't work
+    /// because of the private access. For now, outside code has to call into the Animator and manually
+    /// call methods. Bit intrusive, wouldn't you say?
+    /// 
+    /// I suppose if I have full control over my own sandbox, I can just make certain details public.
+    /// 
+    /// UPDATE: 2025-11-03 13:47 : Made my sandbox copies have public fields. Should be better.
+    /// 
     /// AUTHOR: Jose Escobedo
     /// </summary>
+
+    [Header("Player Components")]
+    [Tooltip("Player controller component.")]
+    [SerializeField] private PlayerController_JoseE m_PlayerController;
+    [Tooltip("Player combat component.")]
+    [SerializeField] private PlayerCombat_JoseE m_PlayerCombat;
+    [Tooltip("Player hit stun component.")]
+    [SerializeField] private Hitstun_JoseE m_PlayerHitstun;
+    [Tooltip("Player parry block component.")]
+    [SerializeField] private ParryBlock_JoseE m_PlayerParryBlock;
+
     private Animator m_Animator;
 
     void Start()
     {
-        m_Animator = GetComponent<Animator>();
+        if (!m_Animator) m_Animator = GetComponent<Animator>();
+        
+        if (!m_PlayerController)
+        {
+            TryGetComponent(out m_PlayerController);
+        }
+        if (!m_PlayerCombat)
+        {
+            TryGetComponent(out m_PlayerCombat);
+        }
+    }
+
+    void Update()
+    {
+        if (!m_PlayerController) return;
+
+        SetAnimBasedOnSpeed(m_PlayerController.Velocity);
+
+        if (m_PlayerHitstun && m_PlayerHitstun.IsStunned)
+        {
+            SetPlayerIsHit();
+        }
+        else if (m_PlayerParryBlock && m_PlayerParryBlock.IsParryBlocking)
+        {
+            SetPlayerParryBlock();
+        }
+        else if (m_PlayerController.IsDashing)
+        {
+            SetPlayerIsDashing();
+        }
+        else if (m_PlayerCombat && m_PlayerCombat.IsAttacking)
+        {
+            SetPlayerIsAttacking(m_PlayerCombat.CurrentAttack);
+        }
+
+        // Currently missing the following items to incorporate. However, they're not in the codebase I have.
+        // TODO: if the missing features are present on the player prefab used for the final game, please let me know!
+        //
+        // missing : isDead
     }
 
     /// <summary>
     /// Sets the appropriate base animation depending on the incoming velocity.
     /// </summary>
-    /// <param name="velocity">Caller object's velocity.</param>
-    public void SetAnimBasedOnSpeed(Vector3 velocity)
+    /// <param name="velocity">Caller object's velocity in ms/s.</param>
+    public void SetAnimBasedOnSpeed(float velocity)
     {
-        m_Animator.SetFloat("velocity", velocity.magnitude);
+        m_Animator.SetFloat("velocity", velocity);
     }
 
     /// <summary>
@@ -44,7 +107,12 @@ public class PlayerAnimator : MonoBehaviour
     /// <param name="attackData">Attack data that decides what animation to enable based on internal values.</param>
     public void SetPlayerIsAttacking(AttackData attackData)
     {
-        m_Animator.SetTrigger("isAttacking");
+        // Apparently there is some sort of bug of this triggering longer than it has to.
+        // Commenting this line out makes everything work despite the trigger being a requirement.
+        //m_Animator.SetTrigger("isAttacking");
+
+        // Side note: is the naming convention any good? It's a set of triggers for all possible attacks,
+        // but the naming looks a bit funny. It is a low-level detail anyway.
         m_Animator.SetTrigger($"used_{attackData.attackName}");
     }
 
@@ -54,6 +122,14 @@ public class PlayerAnimator : MonoBehaviour
     public void SetPlayerIsHit()
     {
         m_Animator.SetTrigger("isHit");
+    }
+
+    /// <summary>
+    /// Called each frame when the player is currently in a perry block.
+    /// </summary>
+    public void SetPlayerParryBlock()
+    {
+        m_Animator.SetTrigger("isPerryBlock");
     }
 
     /// <summary>

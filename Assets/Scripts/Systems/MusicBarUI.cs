@@ -73,6 +73,9 @@ namespace NPA_RhythmBonusPrefabs
         [Tooltip("The instance of the rhythm music player.")]
         [SerializeField] private RhythmMusicPlayer music;  // Music clock
 
+        [Tooltip("The key to press to make the music staff appear or disappear from view.")]
+        [SerializeField] private KeyCode m_StaffAppearKey = KeyCode.Tab;
+
         [Tooltip("Music staff boundary box.")]
         [SerializeField] private RectTransform m_StaffObject;
 
@@ -87,6 +90,9 @@ namespace NPA_RhythmBonusPrefabs
 
         [Tooltip("Speed for the music staff to pop in and pop out when activate() or deactivate() are called.")]
         [SerializeField] private float m_StaffPopInOutSpeed = 2.0f;
+
+        [Tooltip("Flag on whether or not to start the music staff as soon as it is initialized.")]
+        [SerializeField] private bool m_IsActiveImmediately = false;
 
         /*
             How do we implement the moving beat makers?
@@ -124,15 +130,20 @@ namespace NPA_RhythmBonusPrefabs
         private int m_CurrentTailIndex = 0;
 
         // Flag to be set only when deactivate() was called but the UI is still visible on screen.
-        public bool m_IsFading = false;
+        private bool m_IsFading = false;
 
         // Active flag. The music staff will only work when this flag is set.
-        public bool m_IsActive = false;
+        private bool m_IsActive = false;
 
         private void Start()
         {
             m_IsActive = false;
             m_IsFading = false;
+
+            if (m_IsActiveImmediately)
+            {
+                Activate();
+            }
         }
 
         // Called when the UI is activated via activate()
@@ -209,8 +220,21 @@ namespace NPA_RhythmBonusPrefabs
             m_BeatMarkersList.Add(new_marker);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
+            // Update on 2025-11-03 13:54: Requested to have the music staff key check on this script/prefab.
+            if (Input.GetKeyDown(m_StaffAppearKey))
+            {
+                if (m_IsActive)
+                {
+                    Deactivate();
+                }
+                else
+                {
+                    Activate();
+                }
+            }
+
             // If the UI is either active or in the process of fading out in deactivation,
             // update all movement variables. Otherwise, destroy the entire list.
             if (m_IsActive)
