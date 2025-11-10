@@ -34,7 +34,7 @@ public class SimpleAi : MonoBehaviour
     public bool RandomMovementToogle = false;
 
     [Header("Attacking")]//Attacking 
-    public float timeBetweenAttacks;
+    public float timeBetweenAttacks; //timeBetweenAttacks is what adds a delay on the attacks.
     protected bool alreadyAttacked;
     public GameObject MeleePrefab; // This is just a representation for now
     public GameObject MarkPrefab; //In enemies folder
@@ -153,7 +153,7 @@ public class SimpleAi : MonoBehaviour
                     {
                         Instantiate(MarkPrefab, attackPoint.position + attackPointOffset, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark 
                     }
-                    Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - attackDelay); // Delay so the attack comes out after the mark;
+                    Invoke(nameof(FlashAttackMelee), attackDelay); // Delay so the attack comes out after the mark;
                 }
 
                 alreadyAttacked = true;

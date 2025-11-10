@@ -48,7 +48,7 @@ public class Fly : SimpleAi
                     {
                         Instantiate(MarkPrefab, attackPoint.position + attackPointOffset, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark 
                     }
-                    Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - attackDelay); // Delay so the attack comes out after the mark;
+                    Invoke(nameof(FlashAttackMelee), attackDelay); // Delay so the attack comes out after the mark;
                     Debug.Log("Attacking");
                 }
 

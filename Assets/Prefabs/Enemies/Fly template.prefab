@@ -594,10 +594,10 @@ MonoBehaviour:
   walkPointRange: 3
   WaypointScript: {fileID: 0}
   RandomMovementToogle: 1
-  timeBetweenAttacks: 2
+  timeBetweenAttacks: 5
   MeleePrefab: {fileID: 0}
   MarkPrefab: {fileID: 7302877682249792024, guid: 75f58ce333ab3014bac7ac5f4c4488d2, type: 3}
-  attackDelay: 1
+  attackDelay: 0.2
   sightRange: 10
   attackRange: 2
   PlayerInSightRange: 0
@@ -773,6 +773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7715cbc6c32584991ee214868d74e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 10
 --- !u!1 &7336512167550353745
 GameObject:
   m_ObjectHideFlags: 0
