@@ -48,6 +48,9 @@ public class BossAI : MonoBehaviour
 
     [SerializeField] private GameObject swipeHitbox;
     [SerializeField] private float swipeActiveTime = 0.5f;
+    [SerializeField] private int swipeDamage = 25;  // damage amount for the swipe
+    [SerializeField] private Collider swipeCollider;
+    [SerializeField] private Health playerHealth;   // cached reference for player health
 
     [SerializeField] private Transform player;
     [SerializeField] private MonoBehaviour playerController;
@@ -55,6 +58,9 @@ public class BossAI : MonoBehaviour
     [SerializeField] private Transform qteEndPoint;
 
     [SerializeField] private float idleAnimationDuration = 1f;
+
+
+
     #endregion
 
     void Start()
@@ -63,6 +69,18 @@ public class BossAI : MonoBehaviour
         bossHealth = GetComponent<Health>(); // ✅ uses unified Health script
         if (bossSprite != null) originalColor = bossSprite.color;
         if (!bossHealth) Debug.LogWarning("Health script missing on Boss.");
+        if (player)
+            player.TryGetComponent(out playerHealth);
+
+        // find player & cache their health - not sure what this does
+        if (!player)
+        {
+            var p = GameObject.FindGameObjectWithTag("Player");
+            if (p) player = p.transform;
+        }
+
+        if (swipeHitbox != null)
+            swipeCollider = swipeHitbox.GetComponent<Collider>();
     }
 
     void Update()
@@ -186,18 +204,55 @@ public class BossAI : MonoBehaviour
         yield return new WaitForSeconds(1f);
     }
 
+    private bool IsPlayerInSwipeRange()
+    {
+        if (swipeCollider == null || player == null) return false;
+
+        // Grab all colliders that overlap this swipe collider’s volume
+        Collider[] hits = Physics.OverlapBox(
+            swipeCollider.bounds.center,
+            swipeCollider.bounds.extents,
+            swipeCollider.transform.rotation);
+
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+                return true;
+        }
+        return false;
+    }
+
+
     private IEnumerator DoShortSwipe()
     {
         Debug.Log("Boss performing short-range swipe...");
         yield return FlashRed(flashDuration, flashInterval);
-        if (swipeHitbox != null)
+
+        if (swipeHitbox == null || swipeCollider == null)
         {
-            swipeHitbox.SetActive(true);
-            Debug.Log("Swipe hitbox active!");
-            yield return new WaitForSeconds(swipeActiveTime);
-            swipeHitbox.SetActive(false);
-            Debug.Log("Swipe hitbox disabled!");
+            Debug.LogWarning("Swipe hitbox or collider not assigned.");
+            yield break;
         }
+
+        swipeHitbox.SetActive(true);
+        Debug.Log("Swipe hitbox active!");
+
+        // Small delay to let physics update
+        yield return new WaitForFixedUpdate();
+
+        // Check for player inside the collider
+        if (IsPlayerInSwipeRange())
+        {
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(swipeDamage);
+                Debug.Log($"Swipe hit! Player took {swipeDamage} damage!");
+            }
+        }
+
+        yield return new WaitForSeconds(swipeActiveTime);
+        swipeHitbox.SetActive(false);
+        Debug.Log("Swipe hitbox disabled!");
     }
 
     private IEnumerator DoPotionThrow()
