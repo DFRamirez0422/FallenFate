@@ -15,4 +15,10 @@ public void LoadMainMenu()
     {
         SceneManager.LoadScene("L3_Bargaining_Infirmary");
     }
+
+
+    public void LoadHelpScene()
+    {
+        SceneManager.LoadScene("Help");
+    }
 }
