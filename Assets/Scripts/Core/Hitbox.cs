@@ -28,7 +28,7 @@ namespace NPA_PlayerPrefab.Scripts
             if (other.gameObject == owner) return; // Ignore self-hits
 
                 // Deal damage
-                if (other.TryGetComponent<Health>(out Health health))
+                if (other.TryGetComponent<EnemyHP>(out EnemyHP health))
                 {
                     health.TakeDamage(attackData.damage);
                     ownerCombat?.RegisterHit();
