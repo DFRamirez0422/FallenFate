@@ -97,11 +97,11 @@ public class PlayerAnimator : MonoBehaviour
         }
         else if (m_PlayerHitstun && m_PlayerHitstun.IsStunned)
         {
-            SetPlayerIsHit();
+            SetPlayerInHitStun();
         }
         else if (m_PlayerParryBlock && m_PlayerParryBlock.IsParryBlocking)
         {
-            SetPlayerParryBlock();
+            SetPlayerInParryBlock();
         }
         else if (m_PlayerController.IsDashing)
         {
@@ -154,15 +154,15 @@ public class PlayerAnimator : MonoBehaviour
     /// <summary>
     /// Called each frame when the player was hit and not able to move due to knockback.
     /// </summary>
-    public void SetPlayerIsHit()
+    public void SetPlayerInHitStun()
     {
-        m_Animator.SetTrigger("isHit");
+        m_Animator.SetTrigger("inHitStun");
     }
 
     /// <summary>
     /// Called each frame when the player is currently in a perry block.
     /// </summary>
-    public void SetPlayerParryBlock()
+    public void SetPlayerInParryBlock()
     {
         m_Animator.SetTrigger("isPerryBlock");
     }
