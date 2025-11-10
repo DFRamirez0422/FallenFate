@@ -534,13 +534,13 @@ GameObject:
   - component: {fileID: 3163735405532571396}
   - component: {fileID: 123900050134636556}
   - component: {fileID: 8967735850506600098}
-  - component: {fileID: -5345503051685539411}
   - component: {fileID: 4704889686610687593}
   - component: {fileID: -8411906910126613009}
   - component: {fileID: -6305697979368001090}
   - component: {fileID: -3340022782455919687}
   - component: {fileID: -1207989653628215955}
   - component: {fileID: 7070294306049946436}
+  - component: {fileID: -7301946914468356137}
   m_Layer: 0
   m_Name: Fly template
   m_TagString: Untagged
@@ -618,21 +618,6 @@ MonoBehaviour:
   waypoint: []
   self: {fileID: 0}
   currentWaypointIndex: 0
---- !u!114 &-5345503051685539411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4865858747938109400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6a10ec182a79404eaa55178235de75c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 1
-  currentHealth: 0
-  _Respawn: {fileID: 0}
 --- !u!195 &4704889686610687593
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -776,6 +761,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultStunDuration: 3
+--- !u!114 &-7301946914468356137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4865858747938109400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7715cbc6c32584991ee214868d74e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7336512167550353745
 GameObject:
   m_ObjectHideFlags: 0
