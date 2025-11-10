@@ -19,7 +19,7 @@ namespace NPA_PlayerPrefab.Scripts
         [Header("References")]
         [SerializeField] private GameObject hitBoxPrefab;
         [SerializeField] private AttackData defaultAttack;
-        [SerializeField] private PlayerController_JoseE playerController; //<--- CHANGED BY: Jose E.
+        [SerializeField] private PlayerController playerController;
         [SerializeField] private AttackData dashAttackData;
 
         [Header("Input Settings")]
@@ -49,29 +49,6 @@ namespace NPA_PlayerPrefab.Scripts
 
         private int lastLRSign = 1;
 
-        // vvvvv Added by Jose E. from original file. vvvvv //
-
-        /// <summary>
-        /// Expoed public variable to tell exactly what attack the player just used.
-        /// </summary>
-        public AttackData CurrentAttack => m_LastUsedAttack;
-
-        /// <summary>
-        /// Exposed public variable to tell whether or not the player is currently attacking.
-        /// </summary>
-        public bool IsAttacking => isAttacking && m_LastUsedAttack;
-
-        // ^^^^^ Added by Jose E. from original file. ^^^^^ //
-
-        //---- Added by Jose E. from original file. -----//
-
-        [Header("Debug (ONLY FOR TESTING)")]
-        [Tooltip("Text object to display the current player state.")]
-        [SerializeField] private PlayerDebugUI m_DebugUI;
-        [Tooltip("Animator controller used for testing. NOT YET READY!")]
-        [SerializeField] private PlayerAnimator m_Animator;
-        private AttackData m_LastUsedAttack;
-
         private Vector3 GetTwoDirFacing()
         {
             Vector3 f = playerController != null ? playerController.FacingDirection : Vector3.right;
@@ -92,15 +69,36 @@ namespace NPA_PlayerPrefab.Scripts
         public bool finisher6Unlocked = false;
         public bool finisher9Unlocked = false;
 
+        // vvvvv Added by Jose E. from original file. vvvvv //
+
+        /// <summary>
+        /// Expoed public variable to tell exactly what attack the player just used.
+        /// </summary>
+        public AttackData CurrentAttack => m_LastUsedAttack;
+
+        /// <summary>
+        /// Exposed public variable to tell whether or not the player is currently attacking.
+        /// </summary>
+        public bool IsAttacking => isAttacking && m_LastUsedAttack;
+
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
+        private AttackData m_LastUsedAttack;
+
+        // ^^^^^ Added by Jose E. from original file. ^^^^^ //
+
+        private void Start()
+        {
+            if (rhythmCombo != null)
+                rhythmCombo.Activate();  // ensure counting is live
+        }
+
         void Update()
         {
             UpdateFinisherUnlocks();
             HandleAttackInput();
             HandleFinisherInput();
-
-            // CHANGED BY: Jose E.
-            //UpdateAnimation();
-            UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
         private void HandleAttackInput()
@@ -155,11 +153,12 @@ namespace NPA_PlayerPrefab.Scripts
 
         private void Attack(AttackData attackData)
         {
-            m_LastUsedAttack = attackData; // CHANGED: Jose E.
-
             if (attackData == null || hitBoxPrefab == null) return;
 
-            var tier = rhythmCombo.EvaluateBeat();
+            // Judge on press (per your preference)
+            var tier = rhythmCombo != null ? rhythmCombo.EvaluateBeat() : RhythmBonusJudge.RhythmTier.Good;
+            Debug.Log($"[Rhythm] Tier={tier} Combo={rhythmCombo?.GetCurrentCombo()} Active={rhythmCombo?.m_IsActive}");
+
             isAttacking = true;
             playerController.SetAttackLock(true);
 
@@ -185,7 +184,7 @@ namespace NPA_PlayerPrefab.Scripts
                 if (hb.TryGetComponent<Hitbox>(out Hitbox hbComp))
                 {
                     hbComp.Initialize(attackData, this.gameObject);
-                    //hbComp.SetOwnerCombat(this); // CHANGED: Jose E.; does not compile
+                    //hbComp.SetOwnerCombat(this); // CHANGED BY: Jose E.
                 }
             }
             else
@@ -195,7 +194,7 @@ namespace NPA_PlayerPrefab.Scripts
                 if (hbProj.TryGetComponent<Hitbox>(out Hitbox hbProjComp))
                 {
                     hbProjComp.Initialize(attackData, this.gameObject);
-                    //hbProjComp.SetOwnerCombat(this); // CHANGED: Jose E.; does not compile
+                    //hbProjComp.SetOwnerCombat(this); // CHANGED BY: Jose E.
                 }
 
                 if (hbProj.TryGetComponent<ProjectileMover>(out ProjectileMover mover))
@@ -236,12 +235,12 @@ namespace NPA_PlayerPrefab.Scripts
             else if (currentHitCount == 9)
                 Debug.Log("9-Hit Finisher unlocked!");
         }
-
+        
         private void ResetAttack()
         {
             isAttacking = false;
             playerController.SetAttackLock(false); // Unlock movement after attack ends
-
+            
             nextAttackTime = Time.time + attackCooldown;
 
             // Reset combo if finished
@@ -260,13 +259,13 @@ namespace NPA_PlayerPrefab.Scripts
         /// better way but there's not many public fields in either PlayerController or PlayerCombat
         /// that are usable for my purpose.
         /// </summary>
-        private void UpdateAnimation()
-        {
-            if (isAttacking && m_LastUsedAttack)
-            {
-                m_Animator.SetPlayerIsAttacking(m_LastUsedAttack);
-            }
-        }
+        // private void UpdateAnimation()
+        // {
+        //     if (isAttacking && m_LastUsedAttack)
+        //     {
+        //         m_Animator.SetPlayerIsAttacking(m_LastUsedAttack);
+        //     }
+        // }
 
         private void UpdateDebugUi()
         {

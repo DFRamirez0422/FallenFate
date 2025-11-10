@@ -16,7 +16,7 @@ public class Hitstun_JoseE : MonoBehaviour
     /// <summary>
     /// Expoed public variable that returns whether or not the current entity is in a hit stun.
     /// </summary>
-    public bool IsStunned => isStunned;
+    //public bool IsStunned => isStunned;
 
     // ^^^^^ Added by Jose E. from original file. ^^^^^ //
 
@@ -62,4 +62,6 @@ public class Hitstun_JoseE : MonoBehaviour
         // Re-enable AI attacking
         // Example: enemyAI.SetCanAttack(true);
     }
+
+    public bool IsStunned => isStunned;
 }

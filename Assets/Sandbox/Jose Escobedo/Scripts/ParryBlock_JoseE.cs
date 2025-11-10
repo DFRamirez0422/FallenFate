@@ -38,7 +38,7 @@ namespace AAA_FallenFate.Scripts.PlayerScripts
         /// </summary>
         public bool IsParryBlocking => isBlocking;
 
-    // ^^^^^ Added by Jose E. from original file. ^^^^^ //
+        // ^^^^^ Added by Jose E. from original file. ^^^^^ //
 
         void Update()
         {
