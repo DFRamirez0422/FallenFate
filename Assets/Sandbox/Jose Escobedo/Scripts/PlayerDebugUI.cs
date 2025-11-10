@@ -14,6 +14,9 @@ public class PlayerDebugUI : MonoBehaviour
     // UI text field that counts the current streak.
     [SerializeField] private TMPro.TextMeshProUGUI m_StreakUI;
 
+    // UI text field that counts the current combo step.
+    [SerializeField] private TMPro.TextMeshProUGUI m_ComboStepUI;
+
     // Sets the text to be displayed on screen about the current player state,
     public void SetDebugPlayerState(string value) => m_PlayerStateUI.text = value;
 
@@ -25,6 +28,8 @@ public class PlayerDebugUI : MonoBehaviour
 
     // Sets the text to be displayed on screen about the current on-beat combo.
     public void SetDebugBeatStreak(string value) => m_StreakUI.text = value;
+
+    public void SetDebugComboStep(string value) => m_ComboStepUI.text = value;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

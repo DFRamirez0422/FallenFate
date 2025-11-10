@@ -8,7 +8,7 @@ namespace NPA_PlayerPrefab.Scripts
     /// AUTHOR: Jose E.
     /// </summary>
     [RequireComponent(typeof(PlayerAnimator))]
-    public class PlayerControllerAnimatorAndDebug : MonoBehaviour
+    public class PlayerController_JoseE : MonoBehaviour
     {
         [Header("Movement Settings")] 
         [Tooltip("How fast the player moves")]
@@ -70,6 +70,20 @@ namespace NPA_PlayerPrefab.Scripts
         public void SetAttackLock(bool value) => attackLocked = value;
         public void SetAttackSpeed(float value) => attackForwardSpeed = value;
 
+        // vvvvv Added by Jose E. from original file. vvvvv //
+
+        /// <summary>
+        /// Exposed public variable to retrieve the current velocity.
+        /// </summary>
+        public float Velocity => velocity.magnitude;
+
+        /// <summary>
+        /// Exposed public variable to tell whether or not the player is currently in a dash.
+        /// </summary>
+        public bool IsDashing => isDashing || dashAttackConsumed;
+
+        // ^^^^^ Added by Jose E. from original file. ^^^^^ //
+
         void Awake()
         {
             controller = GetComponent<CharacterController>();
@@ -91,7 +105,8 @@ namespace NPA_PlayerPrefab.Scripts
             HandleMovement(Time.deltaTime);        // Step 3: Calculate velocity
             ApplyMovement(Time.deltaTime);         // Step 4: Apply movement to CharacterController
 
-            UpdateAnimation();
+            // CHANGED BY: Jose E.
+            //UpdateAnimation();
             UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
@@ -238,7 +253,8 @@ namespace NPA_PlayerPrefab.Scripts
         /// Updates the current animation state by sending messages to the animator controller.
         /// 
         /// Side note: I would like to split this to a different script or integrate this in a
-        /// better way but there's not many public fields.
+        /// better way but there's not many public fields in either PlayerController or PlayerCombat
+        /// that are usable for my purpose.
         /// </summary>
         private void UpdateAnimation()
         {
@@ -249,7 +265,7 @@ namespace NPA_PlayerPrefab.Scripts
             }
             else
             {
-                m_Animator.SetAnimBasedOnSpeed(velocity);
+                m_Animator.SetAnimBasedOnSpeed(velocity.magnitude);
             }
         }
         
