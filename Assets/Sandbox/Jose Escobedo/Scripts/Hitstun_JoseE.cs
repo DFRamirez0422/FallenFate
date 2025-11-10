@@ -18,6 +18,26 @@ public class Hitstun_JoseE : MonoBehaviour
     /// </summary>
     //public bool IsStunned => isStunned;
 
+    /// Simple code to check if hitstun should be applied for animator. I Only wish
+    /// I knew which module or function controlled whether or not the player
+    /// was hit so I could try to integrate into the animator controller.
+    private void ProcessWhenEnemyNear()
+    {
+        if (!IsStunned)
+        {
+            var colliders = Physics.OverlapSphere(transform.position, 1.0f);
+            foreach (Collider collider in colliders)
+            {
+                EnemyHitboxController enemy_hitbox;
+                if (collider.gameObject.TryGetComponent(out enemy_hitbox))
+                {
+                    Debug.Log("Animator::: Hitstune!");
+                    ApplyHitstun(1.0f);
+                }
+            }
+        }
+    }
+
     // ^^^^^ Added by Jose E. from original file. ^^^^^ //
 
     void Awake()
@@ -34,8 +54,11 @@ public class Hitstun_JoseE : MonoBehaviour
             stunTimer -= Time.deltaTime;
             if (stunTimer <= 0f)
                 EndStun();
-            
+
         }
+
+        // ADDED BY: Jose E.
+        ProcessWhenEnemyNear();
     }
 
     public void ApplyHitstun(float duration)

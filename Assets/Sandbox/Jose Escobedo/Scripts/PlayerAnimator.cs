@@ -29,11 +29,33 @@ public class PlayerAnimator : MonoBehaviour
     /// AUTHOR: Jose Escobedo
     /// </summary>
 
+    /// 
+    /// How to properly integrate into the player system!
+    /// 
+    /// Firstly, replace the following class types that are on the sandbox into the ones used in production:
+    /// PlayerController_JoseE -> PlayerController
+    /// PlayerCombat_JoseE -> PlayerCombat
+    /// Hitstun_JoseE -> Hitstun
+    /// ParryBlock_JoseE -> ParryBlock
+    /// Health_JoseE -> Health
+    /// 
+    /// Then, each of these modules must allow public fields to easily query certain wanted properties, such
+    /// as current velocity, attack that was used, and whether or not the player was hit and/or dead.
+    /// Specifically:
+    ///     m_PlayerController.Velocity : current player velocity in m/s
+    ///     m_PlayerHealth.IsDead : whether the player just died
+    ///     m_PlayerHealth.IsTakenDamage : when the player cannot move due to damage hit
+    ///     m_PlayerHitstun.IsStunned : when the player is currently hit stunned
+    ///     m_PlayerController.IsDashing : when the player is currently in a dash 
+    ///     m_PlayerCombat.IsAttacking : when the player is currently in an attack
+    /// 
     [Header("Player Components")]
     [Tooltip("Player controller component.")]
     [SerializeField] private PlayerController_JoseE m_PlayerController;
     [Tooltip("Player combat component.")]
     [SerializeField] private PlayerCombat_JoseE m_PlayerCombat;
+    [Tooltip("Player health component.")]
+    [SerializeField] private NPA_Health_Components.Health_JoseE m_PlayerHealth;
     [Tooltip("Player hit stun component.")]
     [SerializeField] private Hitstun_JoseE m_PlayerHitstun;
     [Tooltip("Player parry block component.")]
@@ -53,6 +75,10 @@ public class PlayerAnimator : MonoBehaviour
         {
             TryGetComponent(out m_PlayerCombat);
         }
+        if (!m_PlayerHealth)
+        {
+            TryGetComponent(out m_PlayerHealth);
+        }
     }
 
     void Update()
@@ -61,7 +87,15 @@ public class PlayerAnimator : MonoBehaviour
 
         SetAnimBasedOnSpeed(m_PlayerController.Velocity);
 
-        if (m_PlayerHitstun && m_PlayerHitstun.IsStunned)
+        if (m_PlayerHealth && m_PlayerHealth.IsDead)
+        {
+            OnPlayerDeath();
+        }
+        else if (m_PlayerHealth && m_PlayerHealth.IsTakenDamage)
+        {
+            ;
+        }
+        else if (m_PlayerHitstun && m_PlayerHitstun.IsStunned)
         {
             SetPlayerIsHit();
         }
@@ -81,7 +115,8 @@ public class PlayerAnimator : MonoBehaviour
         // Currently missing the following items to incorporate. However, they're not in the codebase I have.
         // TODO: if the missing features are present on the player prefab used for the final game, please let me know!
         //
-        // missing : isDead
+        // missing:
+        // OnPlayerSpawn
     }
 
     /// <summary>

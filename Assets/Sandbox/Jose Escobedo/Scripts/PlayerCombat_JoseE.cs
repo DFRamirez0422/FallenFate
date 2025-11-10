@@ -19,7 +19,7 @@ namespace NPA_PlayerPrefab.Scripts
         [Header("References")]
         [SerializeField] private GameObject hitBoxPrefab;
         [SerializeField] private AttackData defaultAttack;
-        [SerializeField] private PlayerController playerController;
+        [SerializeField] private PlayerController_JoseE playerController;
         [SerializeField] private AttackData dashAttackData;
 
         [Header("Input Settings")]
@@ -99,6 +99,10 @@ namespace NPA_PlayerPrefab.Scripts
             UpdateFinisherUnlocks();
             HandleAttackInput();
             HandleFinisherInput();
+
+            /// ADDED BY: Jose E.
+            /// TODO: Remove debug code when finished.
+            UpdateDebugUi();
         }
 
         private void HandleAttackInput()
@@ -153,6 +157,9 @@ namespace NPA_PlayerPrefab.Scripts
 
         private void Attack(AttackData attackData)
         {
+            /// ADDED BY: Jose E.
+            m_LastUsedAttack = attackData;
+
             if (attackData == null || hitBoxPrefab == null) return;
 
             // Judge on press (per your preference)
