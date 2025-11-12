@@ -11,7 +11,7 @@ public class SimpleAi : MonoBehaviour
 
     [Header("References")]
     private Health PlayerHealth;
-    private CombatManager combatManager;
+    protected CombatManager combatManager;
     public EnemyHitboxController hitboxController;
     private ParryBlock damageHandle;
     
@@ -34,7 +34,7 @@ public class SimpleAi : MonoBehaviour
     public bool RandomMovementToogle = false;
 
     [Header("Attacking")]//Attacking 
-    public float timeBetweenAttacks;
+    public float timeBetweenAttacks; //timeBetweenAttacks is what adds a delay on the attacks. It also give most enemies a window to get hit.
     protected bool alreadyAttacked;
     public GameObject MeleePrefab; // This is just a representation for now
     public GameObject MarkPrefab; //In enemies folder
@@ -95,7 +95,7 @@ public class SimpleAi : MonoBehaviour
     //Makes the enemy follow waypoints
     private void Waypoints()
     {
-            WaypointScript.Walking();
+        WaypointScript.Walking();
         agent.SetDestination(WaypointScript.waypoint[WaypointScript.currentWaypointIndex].position);
     }
 
@@ -114,7 +114,7 @@ public class SimpleAi : MonoBehaviour
     }
 
     //Script for Chasing the player
-    private void ChasePlayer()
+    public virtual void ChasePlayer()
     {
         if (combatManager != null)
         {
@@ -153,14 +153,12 @@ public class SimpleAi : MonoBehaviour
                     {
                         Instantiate(MarkPrefab, attackPoint.position + attackPointOffset, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark 
                     }
-                    Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - attackDelay); // Delay so the attack comes out after the mark;
+                    Invoke(nameof(FlashAttackMelee), attackDelay); // Delay so the attack comes out after the mark;
                 }
 
                 alreadyAttacked = true;
                 
                 Debug.Log($"{name} is attacking player.");
-                
-                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
             }
         }
     }
@@ -169,6 +167,7 @@ public class SimpleAi : MonoBehaviour
     public virtual void ResetAttack()
     {
         alreadyAttacked = false; //Sets alreadyAttacked to false allowing the enemy to attack again 
+        Debug.Log("Already attacked = false");
     }
 
     public virtual void FlashAttackMelee()
@@ -196,6 +195,8 @@ public class SimpleAi : MonoBehaviour
             {
                 Debug.LogWarning($"{name} has no EnemyHitboxController attached!");
             }
+
+        Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
     }
 
     //Just for developers to see attack and sight range
