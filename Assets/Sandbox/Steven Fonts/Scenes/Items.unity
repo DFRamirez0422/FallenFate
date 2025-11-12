@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 642643565}
   - component: {fileID: 642643564}
   - component: {fileID: 642643570}
-  - component: {fileID: 642643569}
+  - component: {fileID: 642643571}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -258,23 +258,6 @@ Transform:
   - {fileID: 1249668138}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &642643569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 642643562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3850bad25040240aa114c6d53080bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
-  baseDamage: 10
-  damageMultiplier: 1
-  isShieldActive: 0
 --- !u!114 &642643570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +274,21 @@ MonoBehaviour:
   cameraTransform: {fileID: 1249668138}
   moveSpeed: 5
   gravity: -9.81
+--- !u!114 &642643571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642643562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a10ec182a79404eaa55178235de75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  _Respawn: {fileID: 0}
 --- !u!1 &1228341761
 GameObject:
   m_ObjectHideFlags: 0
