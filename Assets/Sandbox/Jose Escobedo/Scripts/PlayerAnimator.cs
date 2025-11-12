@@ -62,6 +62,7 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private ParryBlock_JoseE m_PlayerParryBlock;
 
     private Animator m_Animator;
+    private bool m_HasTriggeredAttack;
 
     void Start()
     {
@@ -86,61 +87,52 @@ public class PlayerAnimator : MonoBehaviour
         if (!m_PlayerController) return;
 
         SetAnimBasedOnSpeed(m_PlayerController.Velocity);
+        m_Animator.SetBool("isDashing", m_PlayerController.IsDashing);
 
-        if (m_PlayerHealth && m_PlayerHealth.IsDead)
+        if (m_PlayerHealth)
         {
-            OnPlayerDeath();
+            m_Animator.SetBool("isDead", m_PlayerHealth.IsDead);
+            m_Animator.SetBool("inHitStun", m_PlayerHealth.IsTakenDamage);
         }
-        else if (m_PlayerHealth && m_PlayerHealth.IsTakenDamage)
+        if (m_PlayerHitstun)
         {
-            ;
+            m_Animator.SetBool("inHitStun", m_PlayerHitstun.IsStunned);
         }
-        else if (m_PlayerHitstun && m_PlayerHitstun.IsStunned)
+        if (m_PlayerParryBlock)
         {
-            SetPlayerInHitStun();
+            m_Animator.SetBool("isPerryBlock", m_PlayerParryBlock.IsParryBlocking);
         }
-        else if (m_PlayerParryBlock && m_PlayerParryBlock.IsParryBlocking)
-        {
-            SetPlayerInParryBlock();
-        }
-        else if (m_PlayerController.IsDashing)
-        {
-            SetPlayerIsDashing();
-        }
-        else if (m_PlayerCombat && m_PlayerCombat.IsAttacking)
+        if (m_PlayerCombat && m_PlayerCombat.IsAttacking)
         {
             SetPlayerIsAttacking(m_PlayerCombat.CurrentAttack);
+        }
+
+        // Reset the trigger variable if the player is no longer attacking.
+        if (!m_PlayerCombat.IsAttacking && m_HasTriggeredAttack)
+        {
+            m_HasTriggeredAttack = false;
         }
 
         // Currently missing the following items to incorporate. However, they're not in the codebase I have.
         // TODO: if the missing features are present on the player prefab used for the final game, please let me know!
         //
         // missing:
-        // OnPlayerSpawn
     }
 
     /// <summary>
     /// Sets the appropriate base animation depending on the incoming velocity.
     /// </summary>
     /// <param name="velocity">Caller object's velocity in ms/s.</param>
-    public void SetAnimBasedOnSpeed(float velocity)
+    private void SetAnimBasedOnSpeed(float velocity)
     {
         m_Animator.SetFloat("velocity", velocity);
-    }
-
-    /// <summary>
-    /// Called each frame when the player is currently in a dash attack.
-    /// </summary>
-    public void SetPlayerIsDashing()
-    {
-        m_Animator.SetTrigger("isDashing");
     }
 
     /// <summary>
     /// Called each frame when the player is in the middle of an attack or finisher.
     /// </summary>
     /// <param name="attackData">Attack data that decides what animation to enable based on internal values.</param>
-    public void SetPlayerIsAttacking(AttackData attackData)
+    private void SetPlayerIsAttacking(AttackData attackData)
     {
         // Apparently there is some sort of bug of this triggering longer than it has to.
         // Commenting this line out makes everything work despite the trigger being a requirement.
@@ -148,38 +140,10 @@ public class PlayerAnimator : MonoBehaviour
 
         // Side note: is the naming convention any good? It's a set of triggers for all possible attacks,
         // but the naming looks a bit funny. It is a low-level detail anyway.
-        m_Animator.SetTrigger($"used_{attackData.attackName}");
-    }
-
-    /// <summary>
-    /// Called each frame when the player was hit and not able to move due to knockback.
-    /// </summary>
-    public void SetPlayerInHitStun()
-    {
-        m_Animator.SetTrigger("inHitStun");
-    }
-
-    /// <summary>
-    /// Called each frame when the player is currently in a perry block.
-    /// </summary>
-    public void SetPlayerInParryBlock()
-    {
-        m_Animator.SetTrigger("isPerryBlock");
-    }
-
-    /// <summary>
-    /// Called once when the player lost all hit points.
-    /// </summary>
-    public void OnPlayerDeath()
-    {
-        m_Animator.SetBool("isDead", true);
-    }
-    
-    /// <summary>
-    /// Called once when the player spawns into the scene.
-    /// </summary>
-    public void OnPlayerSpawn()
-    {
-        m_Animator.SetBool("isDead", false);
+        if (!m_HasTriggeredAttack)
+        {
+            m_Animator.SetTrigger($"used_{attackData.attackName}");
+            m_HasTriggeredAttack = true;
+        }
     }
 }
