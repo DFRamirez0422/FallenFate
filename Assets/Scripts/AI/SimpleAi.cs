@@ -34,7 +34,7 @@ public class SimpleAi : MonoBehaviour
     public bool RandomMovementToogle = false;
 
     [Header("Attacking")]//Attacking 
-    public float timeBetweenAttacks; //timeBetweenAttacks is what adds a delay on the attacks.
+    public float timeBetweenAttacks; //timeBetweenAttacks is what adds a delay on the attacks. It also give most enemies a window to get hit.
     protected bool alreadyAttacked;
     public GameObject MeleePrefab; // This is just a representation for now
     public GameObject MarkPrefab; //In enemies folder
@@ -159,8 +159,6 @@ public class SimpleAi : MonoBehaviour
                 alreadyAttacked = true;
                 
                 Debug.Log($"{name} is attacking player.");
-                
-                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
             }
         }
     }
@@ -169,6 +167,7 @@ public class SimpleAi : MonoBehaviour
     public virtual void ResetAttack()
     {
         alreadyAttacked = false; //Sets alreadyAttacked to false allowing the enemy to attack again 
+        Debug.Log("Already attacked = false");
     }
 
     public virtual void FlashAttackMelee()
@@ -196,6 +195,8 @@ public class SimpleAi : MonoBehaviour
             {
                 Debug.LogWarning($"{name} has no EnemyHitboxController attached!");
             }
+
+        Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
     }
 
     //Just for developers to see attack and sight range

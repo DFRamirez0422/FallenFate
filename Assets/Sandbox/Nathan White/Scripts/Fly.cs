@@ -57,7 +57,6 @@ public class Fly : SimpleAi
                 Debug.Log($"{name} is attacking player.");
 
                 agent.SetDestination(transform.position);
-                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
             }
         }
     }
@@ -94,6 +93,8 @@ public class Fly : SimpleAi
         {
             Debug.LogWarning($"{name} has no EnemyHitboxController attached!");
         }
+
+        Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
     }
 }
 

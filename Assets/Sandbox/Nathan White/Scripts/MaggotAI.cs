@@ -65,14 +65,12 @@ public class MaggotAI : SimpleAi
                     {
                         Instantiate(MarkPrefab, attackPoint.position + attackPointOffset, Quaternion.LookRotation(transform.forward, Vector3.up)); //Spawns the mark 
                     }
-                    Invoke(nameof(FlashAttackMelee), timeBetweenAttacks - attackDelay); // Delay so the attack comes out after the mark;
+                    Invoke(nameof(FlashAttackMelee), attackDelay); // Delay so the attack comes out after the mark;
+                    alreadyAttacked = true;
+                    Debug.Log("Already attacked = true");
                 }
 
-                alreadyAttacked = true;
-
                 Debug.Log($"{name} is attacking player.");
-
-                Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
             }
         }
     }
