@@ -1,19 +1,36 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-public class PersistentAudio : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
-    private static PersistentAudio instance;
+    public static AudioManager Instance { get; private set; }
+
+    public AudioSource source;      // assign in Inspector
+    public AudioClip[] clips;       // assign SFX clips in Inspector
+
+    Dictionary<string, AudioClip> clipMap;
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance != null && Instance != this)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // Keep this object when loading new scenes
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Destroy(gameObject); // Prevent duplicates if another AudioManager is created
-        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        clipMap = new Dictionary<string, AudioClip>();
+        foreach (var c in clips)
+            if (c != null && !clipMap.ContainsKey(c.name))
+                clipMap[c.name] = c;
+    }
+
+    public static void Play(string clipName, float volume = 1f)
+    {
+        if (Instance == null) return;
+        if (!Instance.clipMap.TryGetValue(clipName, out var clip)) return;
+        if (Instance.source == null) return; // safe-guard
+        Instance.source.PlayOneShot(clip, volume);
     }
 }
