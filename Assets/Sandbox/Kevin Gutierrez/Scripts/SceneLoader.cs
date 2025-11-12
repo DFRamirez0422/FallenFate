@@ -21,4 +21,10 @@ public void LoadMainMenu()
     {
         SceneManager.LoadScene("Help");
     }
+
+
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
 }
