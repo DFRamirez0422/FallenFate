@@ -1,43 +1,48 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using NPA_Health_Components;
 
 [RequireComponent(typeof(Collider))]
 public class ItemPickup : MonoBehaviour
 {
-    public enum ItemType { HealSmall, HealMedium, HealLarge, DamageBoost, ShieldReflect }
+    public enum ItemType { Heal, DamageBoost, ShieldReflect }
+    public enum HealMode { FlatAmount, PercentOfMax }
 
-    [Header("Item")]
-    public ItemType type = ItemType.HealSmall;
+    [Header("Item Settings")]
+    public ItemType type = ItemType.Heal;
 
-    [Tooltip("Used for Heal items")]
-    public float healAmount = 25f;
+    [Header("Heal Settings")]
+    public HealMode healMode = HealMode.FlatAmount;
+    [Tooltip("Flat heal amount or percentage (0–1) depending on mode.")]
+    public float healValue = 25f;
 
-    [Tooltip("Used for DamageBoost items")]
+    [Header("Damage Boost Settings")]
     public float boostMultiplier = 1.5f;
     public float boostDuration = 8f;
 
-    [Tooltip("Used for Shield/Reflect items")]
+    [Header("Shield Settings")]
     public float shieldDuration = 10f;
 
-    [Header("Input (New Input System)")]
-    public InputActionReference interactAction; // Assign your Player/Interact (E / Gamepad West)
+    [Header("Input (Optional)")]
+    [Tooltip("Assign your Player/Interact action if using the new Input System. Otherwise, 'E' will work by default.")]
+    public InputActionReference interactAction;
 
-    [Header("Interaction")]
-    public bool useTrigger = true;        // If true, uses trigger enter/exit; otherwise proximity only
-    public float interactRadius = 1.25f;  // Proximity fallback radius
+    [Header("Interaction Settings")]
+    public bool useTrigger = true;
+    [Range(0.5f, 5f)] public float interactRadius = 2.0f;
     public bool showPrompt = true;
     public string promptText = "Press E to consume";
 
     private bool playerInRange;
-    private PlayerStats cachedPlayer;
+    private Health cachedHealth;
+    private CombatEffects cachedEffects;
     private Camera cam;
 
-    // -------------------- Setup & Lifecycle --------------------
     void Reset()
     {
-        // Ensure we have a trigger collider + kinematic RB for reliable triggers
         var col = GetComponent<Collider>();
-        if (col) col.isTrigger = true;
+        if (!col) col = gameObject.AddComponent<SphereCollider>();
+        col.isTrigger = true;
 
         var rb = GetComponent<Rigidbody>();
         if (!rb) rb = gameObject.AddComponent<Rigidbody>();
@@ -48,133 +53,107 @@ public class ItemPickup : MonoBehaviour
     void Awake()
     {
         cam = Camera.main;
-
-        // Safety: ensure a collider exists
-        var col = GetComponent<Collider>();
-        if (!col) col = gameObject.AddComponent<SphereCollider>();
-
-        if (useTrigger && !col.isTrigger)
+        if (useTrigger)
         {
-            col.isTrigger = true;
-            Debug.LogWarning($"[ItemPickup:{name}] Collider set to Trigger for trigger-based interaction.");
+            var col = GetComponent<Collider>();
+            if (col) col.isTrigger = true;
         }
     }
 
-    void OnEnable()
-    {
-        if (interactAction) interactAction.action.Enable();
-    }
-
-    void OnDisable()
-    {
-        if (interactAction) interactAction.action.Disable();
-    }
-
-    // -------------------- Runtime --------------------
     void Update()
     {
-        // Proximity fallback: if triggers are off OR we don't currently have a cached player, search nearby
-        if (!useTrigger || cachedPlayer == null)
-        {
-            cachedPlayer = FindNearbyPlayer();
-            playerInRange = cachedPlayer != null;
-        }
+        FindNearbyPlayer();
+        if (!playerInRange || cachedHealth == null) return;
 
-        if (!playerInRange || cachedPlayer == null) return;
-
-        // Accept new Input System action, or fall back to E if no action assigned
-        bool pressed =
-            (interactAction != null && interactAction.action.WasPressedThisFrame()) ||
-            (!interactAction && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame);
+        bool pressed = false;
+        if (interactAction != null && interactAction.action != null && interactAction.action.enabled)
+            pressed |= interactAction.action.WasPressedThisFrame();
+        if (Keyboard.current != null)
+            pressed |= Keyboard.current.eKey.wasPressedThisFrame;
 
         if (pressed)
-            Consume(cachedPlayer);
+            Consume();
     }
 
-    // Trigger path (recommended): item has kinematic RB + trigger collider
     void OnTriggerEnter(Collider other)
     {
-        if (!useTrigger) return;
-        if (!other.CompareTag("Player")) return;
-
-        var ps = other.GetComponent<PlayerStats>();
-        if (ps != null)
-        {
-            cachedPlayer = ps;
-            playerInRange = true;
-            // Debug.Log($"[ItemPickup:{name}] Player entered trigger");
-        }
+        if (!useTrigger || !other.CompareTag("Player")) return;
+        CacheTargets(other.gameObject);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (!useTrigger) return;
-        if (!other.CompareTag("Player")) return;
-
-        if (cachedPlayer != null && other.gameObject == cachedPlayer.gameObject)
+        if (!useTrigger || !other.CompareTag("Player")) return;
+        if (cachedHealth && other.gameObject == cachedHealth.gameObject)
         {
-            cachedPlayer = null;
+            cachedHealth = null;
+            cachedEffects = null;
             playerInRange = false;
-            // Debug.Log($"[ItemPickup:{name}] Player exited trigger");
         }
     }
 
-    // -------------------- Helpers --------------------
-    PlayerStats FindNearbyPlayer()
+    void FindNearbyPlayer()
     {
         var players = GameObject.FindGameObjectsWithTag("Player");
-        if (players == null || players.Length == 0) return null;
+        playerInRange = false;
+        cachedHealth = null;
+        cachedEffects = null;
 
-        PlayerStats best = null;
-        float bestD = float.MaxValue;
+        if (players == null || players.Length == 0) return;
+
+        float best = float.MaxValue;
+        GameObject bestGo = null;
         Vector3 p = transform.position;
-
         foreach (var go in players)
         {
-            var ps = go.GetComponent<PlayerStats>();
-            if (!ps) continue;
-
-            float d = Vector3.Distance(p, ps.transform.position);
-            if (d < bestD && d <= interactRadius)
+            float d = Vector3.Distance(p, go.transform.position);
+            if (d < best && d <= interactRadius)
             {
-                bestD = d;
-                best = ps;
+                best = d;
+                bestGo = go;
             }
         }
-        return best;
+        if (bestGo)
+            CacheTargets(bestGo);
     }
 
-    void Consume(PlayerStats player)
+    void CacheTargets(GameObject go)
     {
-        if (!player) return;
+        cachedHealth = go.GetComponent<Health>();
+        cachedEffects = go.GetComponent<CombatEffects>();
+        playerInRange = cachedHealth != null;
+    }
+
+    public void Consume()
+    {
+        if (!cachedHealth) return;
 
         switch (type)
         {
-            case ItemType.HealSmall:
-            case ItemType.HealMedium:
-            case ItemType.HealLarge:
-                player.Heal(healAmount);
-                Debug.Log($"[ItemPickup:{name}] Heal consumed (+{healAmount}).");
+            case ItemType.Heal:
+                if (healMode == HealMode.FlatAmount)
+                    cachedHealth.HealAbsolute(Mathf.RoundToInt(Mathf.Max(0f, healValue)));
+                else
+                    cachedHealth.HealPercent(Mathf.Clamp01(healValue));
                 break;
 
             case ItemType.DamageBoost:
-                player.ApplyDamageBoost(boostMultiplier, boostDuration);
-                Debug.Log($"[ItemPickup:{name}] Damage boost consumed (x{boostMultiplier} for {boostDuration}s).");
+                if (cachedEffects)
+                    cachedEffects.ApplyDamageBoost(boostMultiplier, boostDuration);
                 break;
 
             case ItemType.ShieldReflect:
-                player.ActivateShieldReflect(shieldDuration);
-                Debug.Log($"[ItemPickup:{name}] Shield/Reflect consumed ({shieldDuration}s).");
+                if (cachedEffects)
+                    cachedEffects.ActivateShieldReflect(shieldDuration);
                 break;
         }
 
         Destroy(gameObject);
     }
 
-    // Small world-space prompt without needing UI setup
     void OnGUI()
     {
-        if (!showPrompt || !playerInRange || cachedPlayer == null || cam == null) return;
+        if (!showPrompt || !playerInRange || cachedHealth == null || cam == null) return;
 
         Vector3 screen = cam.WorldToScreenPoint(transform.position + Vector3.up * 0.6f);
         if (screen.z <= 0) return;
@@ -185,7 +164,12 @@ public class ItemPickup : MonoBehaviour
             fontSize = 18,
             normal = { textColor = Color.white }
         };
-        GUI.Label(new Rect(screen.x - 90, Screen.height - screen.y - 20, 180, 40), promptText, style);
+
+        GUI.Label(
+            new Rect(screen.x - 90, Screen.height - screen.y - 20, 180, 40),
+            promptText,
+            style
+        );
     }
 
     void OnDrawGizmosSelected()
