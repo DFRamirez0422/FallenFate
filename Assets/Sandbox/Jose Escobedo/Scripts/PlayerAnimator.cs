@@ -102,15 +102,18 @@ public class PlayerAnimator : MonoBehaviour
         {
             m_Animator.SetBool("isPerryBlock", m_PlayerParryBlock.IsParryBlocking);
         }
-        if (m_PlayerCombat && m_PlayerCombat.IsAttacking)
+        if (m_PlayerCombat)
         {
-            SetPlayerIsAttacking(m_PlayerCombat.CurrentAttack);
-        }
-
-        // Reset the trigger variable if the player is no longer attacking.
-        if (!m_PlayerCombat.IsAttacking && m_HasTriggeredAttack)
-        {
-            m_HasTriggeredAttack = false;
+            // Trigger the code block only once for as long as the player is currently attacking nonstop.
+            if (m_PlayerCombat.IsAttacking && !m_HasTriggeredAttack)
+            {
+                SetPlayerIsAttacking(m_PlayerCombat.CurrentAttack);
+            }
+            // Reset the trigger variable if the player is no longer attacking.
+            else if (!m_PlayerCombat.IsAttacking && m_HasTriggeredAttack)
+            {
+                m_HasTriggeredAttack = false;
+            }
         }
 
         // Currently missing the following items to incorporate. However, they're not in the codebase I have.
