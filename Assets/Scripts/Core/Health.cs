@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEditor.U2D.Aseprite;
 using UnityEditor.UIElements;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 namespace NPA_Health_Components
 {
     public class Health : MonoBehaviour
@@ -98,7 +98,8 @@ namespace NPA_Health_Components
         {
             if (this.gameObject.CompareTag(PlayerTag))
             {
-                this.transform.position = _Respawn.CurrentCheckPoint.transform.position;
+                //this.transform.position = _Respawn.CurrentCheckPoint.transform.position;
+                SceneManager.LoadScene("Death");
                 currentHealth = 100;
                 Debug.Log("Player died");
                 Debug.Log("Respawning Player...");
