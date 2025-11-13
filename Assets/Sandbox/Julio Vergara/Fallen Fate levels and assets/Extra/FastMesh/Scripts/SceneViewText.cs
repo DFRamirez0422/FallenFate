@@ -1,8 +1,11 @@
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace FastMesh_Example
 {
+#if UNITY_EDITOR
     [ExecuteInEditMode]
     public class SceneViewText : MonoBehaviour
     {
@@ -53,6 +56,11 @@ namespace FastMesh_Example
             Handles.EndGUI();
         }
     }
+#else
+    public class SceneViewText : MonoBehaviour
+    {
+    }
+#endif
 }
 
 
