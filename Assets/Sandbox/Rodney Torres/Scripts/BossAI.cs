@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 using NPA_Health_Components;
 
 public class BossAI : MonoBehaviour
@@ -330,6 +331,7 @@ public class BossAI : MonoBehaviour
     private void BossDefeated()
     {
         Debug.Log("Boss defeated!");
+        SceneManager.LoadScene("CreditsScene");
         //Load scene : credits
         // TODO: death anim, loot, disable AI, etc.
     }
@@ -445,8 +447,10 @@ public class BossAI : MonoBehaviour
         isInvulnerablePhase = isInvulnerable = true; // For invulnerability phase
 
         if (bossSprite) bossSprite.color = Color.blue; // Placeholder sprite color change for invunerability immunity indicator
-        // Debug.Log("Phase 1 started - Boss is invulnerable.");
+                                                       // Debug.Log("Phase 1 started - Boss is invulnerable.");
 
+        // yield return StartCoroutine(ChartLoaderAttack()); // For testing since it takes a while to get to phase 3
+        // BossDefeated(); // for testing the scene transition
         yield return PlayIdleAnimation();
         yield return DoFlySummonAttack();
 
