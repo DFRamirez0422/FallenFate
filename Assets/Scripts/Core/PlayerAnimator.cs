@@ -49,15 +49,15 @@ public class PlayerAnimator : MonoBehaviour
     /// 
     [Header("Player Components")]
     [Tooltip("Player controller component.")]
-    [SerializeField] private PlayerController_JoseE m_PlayerController;
+    [SerializeField] private NPA_PlayerPrefab.Scripts.PlayerController m_PlayerController;
     [Tooltip("Player combat component.")]
-    [SerializeField] private PlayerCombat_JoseE m_PlayerCombat;
+    [SerializeField] private NPA_PlayerPrefab.Scripts.PlayerCombat m_PlayerCombat;
     [Tooltip("Player health component.")]
-    [SerializeField] private NPA_Health_Components.Health_JoseE m_PlayerHealth;
+    [SerializeField] private NPA_Health_Components.Health m_PlayerHealth;
     [Tooltip("Player hit stun component.")]
-    [SerializeField] private Hitstun_JoseE m_PlayerHitstun;
+    [SerializeField] private Hitstun m_PlayerHitstun;
     [Tooltip("Player parry block component.")]
-    [SerializeField] private ParryBlock_JoseE m_PlayerParryBlock;
+    [SerializeField] private AAA_FallenFate.Scripts.PlayerScripts.ParryBlock m_PlayerParryBlock;
 
     private Animator m_Animator;
     private bool m_HasTriggeredAttack;
@@ -98,7 +98,7 @@ public class PlayerAnimator : MonoBehaviour
         }
         if (m_PlayerParryBlock)
         {
-            m_Animator.SetBool("isPerryBlock", m_PlayerParryBlock.IsParryBlocking);
+            m_Animator.SetBool("isPerryBlock", m_PlayerParryBlock.IsBlocking);
         }
         if (m_PlayerCombat)
         {
