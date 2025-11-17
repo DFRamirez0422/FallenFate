@@ -1,0 +1,32 @@
+SoundFXManager – Usage Guide
+
+Setup
+- Create an empty GameObject in your scene named 'SoundFXManager'.
+- Attach the SoundFXManager script to the object.
+- Add an AudioSource component (or let the script create one automatically).
+- Assign your AudioClip assets to the 'Clips' array in the inspector.
+- Check 'DontDestroyOnLoad' is enabled by default (persistent across scenes).
+
+Playing Sounds
+- Use the static method `SoundFXManager.Play("ClipName")` to play a sound.
+- Optionally add volume and pitch variation:
+  `SoundFXManager.Play("ClipName", 0.8f, 0.1f)`
+- The clip name must match the AudioClip’s name in the 'Clips' array.
+
+Random Sounds
+- For random variation (e.g., footsteps):
+  `SoundFXManager.PlayRandom(new string[] { "Step1", "Step2", "Step3" })`
+
+3D Sounds
+- To play a sound at a specific world position:
+  `SoundFXManager.PlayAtPosition("Explosion", transform.position)`
+
+Stopping Sounds
+- Stop all currently playing sounds:
+  `SoundFXManager.Stop()`
+
+Notes
+- The manager automatically initializes itself as a singleton.
+- It persists between scenes.
+- Use lowercase or exact matching names for clip lookups.
+- Ensure only one SoundFXManager exists in your project.
