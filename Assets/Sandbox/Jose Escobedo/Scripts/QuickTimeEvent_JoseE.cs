@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Events;
+using UnityEditor.EditorTools;
 
 public class QuickTimeEvent_JoseE : MonoBehaviour
 {
@@ -10,6 +12,12 @@ public class QuickTimeEvent_JoseE : MonoBehaviour
     public KeyCode requiredKey; // The key the player needs to press
 
     // vvvvv Added by Jose E. from original file. vvvvv //
+
+    [Tooltip("List of callbacks to be invoked upon hitting the QTE event on time.")]
+    [SerializeField] private UnityEvent OnSuccessfulHit;
+
+    [Tooltip("List of callbacks to be invoked upon not hitting the QTE on time.")]
+    [SerializeField] private UnityEvent OnFailedHit;
 
     /// <summary>
     /// Exposed public field that returns true if the quick time event was hit on time.
@@ -46,7 +54,12 @@ public class QuickTimeEvent_JoseE : MonoBehaviour
                 Debug.Log("QTE EPIC!");
                 qteActive = false;
                 promptText.text = "EPIC!";
-                IsHitOnTime = true; // ADDED BY: Jose E.
+
+                // ADDED BY: Jose E.
+                Debug.Log("I hit on time!");
+                IsHitOnTime = true; 
+                OnSuccessfulHit.Invoke();
+
                 yield break; // Exit coroutine on success
             }
             yield return null;
@@ -56,6 +69,11 @@ public class QuickTimeEvent_JoseE : MonoBehaviour
         {
             Debug.Log("QTE TO HELL WITH YOU!");
             promptText.text = "TO HELL WITH YOU!";
+
+            // ADDED BY: Jose E.
+            Debug.Log("No, I fail the event...");
+            OnFailedHit.Invoke();
+
             qteActive = false;
         }
     }

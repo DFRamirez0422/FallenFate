@@ -145,7 +145,21 @@ public class ElenaAI_JoseE : MonoBehaviour
         {
             if (m_QTEvent.IsHitOnTime)
             {
-                Debug.Log("I hit on time!");
+                /// FIXME: something about this doesn't seem right, but I don't know where else this piece
+                /// of code should go. I guess Elena is meant to directly add to the player inventory? I don't
+                /// think I was told how this mechanic should work whatsoever. I don't know where the player
+                /// inventory even is for that matter. The instructions below don't quite explain much, sad
+                /// to say.
+                /// 
+                /// INSTRUCTIONS:
+                /// 1. Player kils enemy
+                /// 2. Enemy Drops Item
+                /// 3. Elena Locates Item and walk to it
+                /// 4. QTE Prompt appears this is you
+                ///   A. Player succeds, item is catched
+                ///   B. Player fails, no item is caught
+                /// *make sure to add console debugs that tell us the item was successful or not in being caught.
+                Debug.Log("I hit on time! Adding to the player inventory...");
             }
             else
             {
