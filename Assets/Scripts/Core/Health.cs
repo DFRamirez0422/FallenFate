@@ -1,8 +1,5 @@
-using Unity.VisualScripting;
-using UnityEditor.U2D.Aseprite;
-using UnityEditor.UIElements;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 namespace NPA_Health_Components
 {
     public class Health : MonoBehaviour
@@ -16,12 +13,11 @@ namespace NPA_Health_Components
         [Tooltip("Respawn")]
         //This is only for player
         [SerializeField] private Player_Respawn _Respawn;
-        private TagHandle PlayerTag;
+        private readonly string playerTag = "Player";
         private ElenaAI ElenaThrow;
 
         private void Awake()
         {
-            PlayerTag = TagHandle.GetExistingTag("Player");
             currentHealth = maxHealth; // Initialize health on spawn
             _Respawn = GameObject.FindGameObjectWithTag("RespawnManager").GetComponent<Player_Respawn>();
             ElenaThrow = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
@@ -30,7 +26,7 @@ namespace NPA_Health_Components
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Z) && this.gameObject.CompareTag(PlayerTag))
+            if (Input.GetKeyDown(KeyCode.Z) && this.gameObject.CompareTag(playerTag))
             {
                 if (ElenaThrow != null && ElenaThrow.PowerUpHold == 1)
                 {
@@ -65,7 +61,7 @@ namespace NPA_Health_Components
         //Heal Player for a certain percent
         public void Heal(float amount)
         {
-            if (this.gameObject.CompareTag(PlayerTag))
+            if (this.gameObject.CompareTag(playerTag))
             {
                 if (currentHealth < maxHealth)
                 {
@@ -83,7 +79,7 @@ namespace NPA_Health_Components
         //Heals Player to full Health
         public void FullHeal()
         {
-            if (this.gameObject.CompareTag(PlayerTag))
+            if (this.gameObject.CompareTag(playerTag))
             {
                 int HealthGotten = maxHealth - currentHealth;
                 currentHealth += HealthGotten;
@@ -96,9 +92,10 @@ namespace NPA_Health_Components
         //Anything else is destroyed
         private void Die()
         {
-            if (this.gameObject.CompareTag(PlayerTag))
+            if (this.gameObject.CompareTag(playerTag))
             {
-                this.transform.position = _Respawn.CurrentCheckPoint.transform.position;
+                //this.transform.position = _Respawn.CurrentCheckPoint.transform.position;
+                SceneManager.LoadScene("Death");
                 currentHealth = 100;
                 Debug.Log("Player died");
                 Debug.Log("Respawning Player...");

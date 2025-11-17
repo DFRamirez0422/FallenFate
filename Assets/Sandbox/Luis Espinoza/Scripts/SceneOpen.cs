@@ -12,5 +12,7 @@ public class SceneOpen : MonoBehaviour
         // play the open animation instantly on scene start
         transition.Play("TransitionOpen", 0, 0f); // play the animation from the first frame
         transition.Update(0f); // apply the animation immediately
+
+        Time.timeScale = 1f;
     }
 }
