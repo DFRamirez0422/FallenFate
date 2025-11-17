@@ -16,12 +16,19 @@ namespace NPA_Health_Components
         private readonly string playerTag = "Player";
         private ElenaAI ElenaThrow;
 
+        [Tooltip("Damage indicator")]
+        private Renderer rend;
+        private Color originalColor;
+
         private void Awake()
         {
             currentHealth = maxHealth; // Initialize health on spawn
             _Respawn = GameObject.FindGameObjectWithTag("RespawnManager").GetComponent<Player_Respawn>();
             ElenaThrow = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
 
+            rend = GetComponentInChildren<Renderer>();
+            if (rend != null)
+                originalColor = rend.material.color;
         }
 
         private void Update()
@@ -55,6 +62,17 @@ namespace NPA_Health_Components
             // Subtract incoming damage from current health
             currentHealth -= damage;
             Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
+
+            if (rend != null)
+            {
+                Debug.Log("Renderer not null");
+                rend.material.color = Color.red;
+            }
+            else
+                Debug.Log("Renderer Null");
+
+            Invoke(nameof(RemoveIndicator), 1);
+
         }
 
         //Change By Angel Rodriguez
@@ -104,6 +122,14 @@ namespace NPA_Health_Components
                 var copy = this.gameObject;
                 Destroy(copy);
             }
+        }
+
+        private void RemoveIndicator()
+        {
+            // Restore visuals
+            if (rend != null)
+                rend.material.color = originalColor;
+            Debug.Log("Not Stunned and changing color");
         }
     }
 }
