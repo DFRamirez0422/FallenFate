@@ -55,10 +55,24 @@ namespace NPA_PlayerPrefab.Scripts
         [Tooltip("Stun tint color (temporary visual while stunned)")]
         [SerializeField] private Color stunTint = Color.red;
 
+        // vvvvv Added by Jose E. from original file. vvvvv //
+
         [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
         [SerializeField] private PlayerDebugUI m_DebugUI;
 
-        
+        /// <summary>
+        /// Exposed public variable to retrieve the current velocity.
+        /// </summary>
+        public float Velocity => desiredVelocity.magnitude;
+
+        /// <summary>
+        /// Exposed public variable to tell whether or not the player is currently in a dash.
+        /// </summary>
+        public bool IsDashing => isDashing || dashAttackConsumed;
+
+        // ^^^^^ Added by Jose E. from original file. ^^^^^ //
+
         [Header("Hitstun Reference")]
         [SerializeField] private Hitstun hitstun; // Movement is disabled while stunned
         // Note: ParryBlock is NOT gated here; parry can still run independently.
@@ -163,7 +177,7 @@ namespace NPA_PlayerPrefab.Scripts
 
             if (clampZLane) ClampLaneZ();
 
-            UpdateDebugUi();
+            UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
         // --- Input ---
@@ -386,11 +400,40 @@ namespace NPA_PlayerPrefab.Scripts
         }
 
         // ========================= DEBUG =========================
+        
         private void UpdateDebugUi()
         {
-            // Example:
-            // if (m_DebugUI != null)
-            //     m_DebugUI.SetDebugPlayerSpeed($"{desiredVelocity.magnitude:f2} m/s");
+            if (!m_DebugUI) return;
+
+            m_DebugUI.SetDebugPlayerSpeed($"{Velocity:f2}m/s");
+
+            // Update debug UI based on movement and timer state.
+            if (dashCooldownTimer > 0f)
+            {
+                m_DebugUI.SetDebugPlayerState($"Dash Cooldown : {dashCooldownTimer:f2}");
+            }
+            else if (moveDirectionWorld != Vector3.zero)
+            {
+                m_DebugUI.SetDebugPlayerState("Moving");
+            }
+            else
+            {
+                m_DebugUI.SetDebugPlayerState("Idle");
+            }
+
+            // Update debug UI based on boolean flags.
+            if (dashAttackConsumed)
+            {
+                m_DebugUI.SetDebugPlayerState("Dash Attack!");
+            }
+            else if (isDashing)
+            {
+                m_DebugUI.SetDebugPlayerState("Dashing");
+            }
+            else if (attackLocked)
+            {
+                m_DebugUI.SetDebugPlayerState("Attacking");
+            }
         }
     }
 }
