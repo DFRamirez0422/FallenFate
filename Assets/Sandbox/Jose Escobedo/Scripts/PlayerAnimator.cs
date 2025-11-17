@@ -1,7 +1,5 @@
-using System.ComponentModel;
 using AAA_FallenFate.Scripts.PlayerScripts;
 using NPA_PlayerPrefab.Scripts;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]

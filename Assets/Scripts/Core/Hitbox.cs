@@ -27,14 +27,21 @@ namespace NPA_PlayerPrefab.Scripts
         {
             if (other.gameObject == owner) return; // Ignore self-hits
 
-                // Deal damage
-                if (other.TryGetComponent<EnemyHP>(out EnemyHP health))
+                // Deal damage to EnemyHP component. I changed the parameter health to enemyHealth - Rodney Torres
+                if (other.TryGetComponent<EnemyHP>(out EnemyHP enemyHealth))
                 {
-                    health.TakeDamage(attackData.damage);
+                    enemyHealth.TakeDamage(attackData.damage);
                     ownerCombat?.RegisterHit();
                 }
 
-                if (other.TryGetComponent<Hitstun>(out Hitstun hitstun))
+            // Deal damage to Health component
+            if (other.TryGetComponent<Health>(out Health health))
+            {
+                health.TakeDamage(attackData.damage);
+                ownerCombat?.RegisterHit();
+            }
+
+            if (other.TryGetComponent<Hitstun>(out Hitstun hitstun))
             {
                 // Apply the hitstun
                 hitstun.ApplyHitstun(0.5f); // or replace 2f with attackData.hitstunDuration if you add that
