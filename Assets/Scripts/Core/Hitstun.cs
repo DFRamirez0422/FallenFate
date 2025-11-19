@@ -10,6 +10,15 @@ public class Hitstun : MonoBehaviour
     private Renderer rend;
     private Color originalColor;
 
+    // vvvvv Added by Jose E. from original file. vvvvv //
+
+    /// <summary>
+    /// Expoed public variable that returns whether or not the current entity is in a hit stun.
+    /// </summary>
+    public bool IsStunned => isStunned;
+
+    // ^^^^^ Added by Jose E. from original file. ^^^^^ //
+
     void Awake()
     {
         rend = GetComponentInChildren<Renderer>();
@@ -59,6 +68,4 @@ public class Hitstun : MonoBehaviour
         // Re-enable AI attacking
         // Example: enemyAI.SetCanAttack(true);
     }
-
-    public bool IsStunned => isStunned;
 }
