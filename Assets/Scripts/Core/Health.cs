@@ -7,12 +7,11 @@ namespace NPA_Health_Components
     {
         [Tooltip("Maximum HP")]
         [SerializeField] private int maxHealth = 100;
-        public int currentHealth; // Current HP runtime
+        public int currentHealth;
         public int CurrentHealth => currentHealth;
-        public int MaxHealth => maxHealth;  
+        public int MaxHealth => maxHealth;
 
         [Tooltip("Respawn")]
-        //This is only for player
         [SerializeField] private Player_Respawn _Respawn;
         private readonly string playerTag = "Player";
         private ElenaAI ElenaThrow;
@@ -103,6 +102,7 @@ namespace NPA_Health_Components
             //    iframe = false;
             //}
         }
+
         private void FixedUpdate()
         {
             m_hasTakenDamage = false; // ADDED BY: Jose E.: default state for this variable.
@@ -139,25 +139,24 @@ namespace NPA_Health_Components
             {
                 if (currentHealth < maxHealth)
                 {
-                    float HealthGotten = maxHealth * amount;
-                    currentHealth += (int)HealthGotten;
-                    Debug.Log($"Healed {(int)HealthGotten}. Health now {currentHealth}");
+                    float got = maxHealth * amount;
+                    currentHealth += (int)got;
+                    Debug.Log($"Healed {(int)got}. Health now {currentHealth}");
                 }
-                else {
-                    int HealthGotten = 0;
-                    Debug.Log($"Healed {HealthGotten}. Health now {currentHealth}"); 
+                else
+                {
+                    Debug.Log($"Healed 0. Health now {currentHealth}");
                 }
             }
         }
 
-        //Heals Player to full Health
         public void FullHeal()
         {
             if (this.gameObject.CompareTag(playerTag))
             {
-                int HealthGotten = maxHealth - currentHealth;
-                currentHealth += HealthGotten;
-                Debug.Log($"Healed {HealthGotten}. Health now {currentHealth}");
+                int got = maxHealth - currentHealth;
+                currentHealth += got;
+                Debug.Log($"Healed {got}. Health now {currentHealth}");
             }
         }
 
@@ -179,10 +178,25 @@ namespace NPA_Health_Components
                 Debug.Log("Player died");
                 Debug.Log("Respawning Player...");
             }
-            else {
-                var copy = this.gameObject;
-                Destroy(copy);
+            else
+            {
+                Destroy(this.gameObject);
             }
+        }
+
+        // Convenience overloads used by items
+        public void HealAbsolute(int amount)
+        {
+            int before = currentHealth;
+            currentHealth = Mathf.Min(currentHealth + Mathf.Max(0, amount), maxHealth);
+            Debug.Log($"Healed {currentHealth - before}. HP: {currentHealth}/{maxHealth}");
+        }
+
+        public void HealPercent(float percent01)
+        {
+            percent01 = Mathf.Clamp01(percent01);
+            int add = Mathf.CeilToInt(maxHealth * percent01);
+            HealAbsolute(add);
         }
     }
 }
