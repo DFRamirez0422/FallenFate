@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 namespace NPA_Health_Components
@@ -16,6 +17,13 @@ namespace NPA_Health_Components
         private readonly string playerTag = "Player";
         private ElenaAI ElenaThrow;
 
+        //Nathan's Iframe variables
+        private Renderer rend;
+        private Color originalColor;
+        private bool iframe, single = false;
+        public PlayerController dashScript;
+       
+
         // vvvvv Added by Jose E. from original file. vvvvv //
 
         private bool m_hasTakenDamage = false;
@@ -25,6 +33,7 @@ namespace NPA_Health_Components
         /// Exposed public variable that returns true if the entity was just hit.
         /// </summary>
         public bool IsTakenDamage => m_hasTakenDamage;
+       
 
         /// <summary>
         /// Exposed public variable that returns true if the entity is dead.
@@ -39,6 +48,11 @@ namespace NPA_Health_Components
             _Respawn = GameObject.FindGameObjectWithTag("RespawnManager").GetComponent<Player_Respawn>();
             ElenaThrow = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
 
+            rend = GetComponentInChildren<Renderer>();
+            if (rend != null)
+                originalColor = rend.material.color;
+
+            dashScript = GetComponent<PlayerController>();
         }
 
         private void Update()
@@ -57,6 +71,37 @@ namespace NPA_Health_Components
                 currentHealth = maxHealth;
             }
 
+            if (iframe)
+            {
+                if (single == false)
+                {
+                    single = true;
+                    Invoke(nameof(IFrameTimer), 3);
+                }
+                if (rend != null)
+                {
+                    Debug.Log("Renderer not null");
+                    rend.material.color = Color.blue;
+                }
+                else
+                    Debug.Log("Renderer Null");
+            }
+            else
+            {
+                if (rend != null)
+                    rend.material.color = originalColor;
+                Debug.Log("No iFrame changing color");
+            }
+
+            // Tried to add iframes to the dash. didnt work? Idk y.
+            //if (dashScript.isDashing = true)
+            //{
+            //    iframe = true;
+            //}
+            //else
+            //{
+            //    iframe = false;
+            //}
         }
         private void FixedUpdate()
         {
@@ -71,11 +116,20 @@ namespace NPA_Health_Components
 
         public void TakeDamage(int damage)
         {
-            // Subtract incoming damage from current health
-            currentHealth -= damage;
-            Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
-            m_hasTakenDamage = true; // ADDED BY: Jose E.
+            if (iframe == false)
+            {
+                // Subtract incoming damage from current health
+                currentHealth -= damage;
+                Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
+                m_hasTakenDamage = true; // ADDED BY: Jose E.
+                iframe = true;
+            }
+            else
+            {
+                Debug.Log("Iframe hit");
+            }
         }
+
 
         //Change By Angel Rodriguez
         //Heal Player for a certain percent
@@ -107,7 +161,11 @@ namespace NPA_Health_Components
             }
         }
 
-
+        public void IFrameTimer()
+        {
+            iframe = false;
+            single = false;
+        }
         //Only respawns Player
         //Anything else is destroyed
         private void Die()
