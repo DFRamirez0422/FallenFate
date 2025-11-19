@@ -26,6 +26,15 @@ namespace AAA_FallenFate.Scripts.PlayerScripts
         [SerializeField] private float parryDamageMultiplier = 0f;
         [SerializeField] private float enemyStunDuration = 0.5f;
 
+        // vvvvv Added by Jose E. from original file. vvvvv //
+
+        /// <summary>
+        /// Expoed public variable that returns whether or not the player is currently in a perry block.
+        /// </summary>
+        public bool IsBlocking => isBlocking;
+
+        // ^^^^^ Added by Jose E. from original file. ^^^^^ //
+
         private bool isBlocking = false;
         private float blockStartTime = -10f;
         private float lastBlockReleaseTime = -10f;

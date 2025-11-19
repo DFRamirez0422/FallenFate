@@ -23,7 +23,7 @@ public class PauseScript : MonoBehaviour
     public void PauseGame()
     {
         Container.SetActive(true);
-        Time.timeScale = 0f;
+        Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         isPaused = true;

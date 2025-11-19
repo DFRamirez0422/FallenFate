@@ -10,6 +10,8 @@ public class AcidSprayBeetleAI : MonoBehaviour
     public NavMeshAgent agent;
     public Transform player;
     public LayerMask whatIsGround, whatIsPlayer;
+    public Animator targetAnimator;
+
 
     [Header("Attack Settings")]
     public Transform attackPoint;
@@ -167,8 +169,11 @@ public class AcidSprayBeetleAI : MonoBehaviour
                 agent.isStopped = true;
 
                 Vector3 lookDirection = (player.position - transform.position).normalized;
+                lookDirection.y = transform.position.y;
+                transform.LookAt(lookDirection);
+
                 Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+               // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
         }
     }
@@ -189,7 +194,8 @@ public class AcidSprayBeetleAI : MonoBehaviour
                 agent.isStopped = true;
             }
 
-            Vector3 lookDirection = new Vector3(player.position.x, transform.position.y, player.position.z);
+            Vector3 lookDirection = (player.position);
+            lookDirection.y = transform.position.y;
             transform.LookAt(lookDirection);
         }
     }
@@ -217,8 +223,10 @@ public class AcidSprayBeetleAI : MonoBehaviour
                 agent.isStopped = true;
 
                 Vector3 lookDirection = (player.position - transform.position).normalized;
+                transform.LookAt(lookDirection);
+                lookDirection.y = transform.position.y;
                 Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+               // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             }
         }
     }
@@ -230,6 +238,10 @@ public class AcidSprayBeetleAI : MonoBehaviour
             Debug.LogWarning("Missing references for acid spray attack!");
             return;
         }
+        targetAnimator.SetTrigger("Spit");
+
+       
+
 
         Vector3 directionToPlayer = (player.position - attackPoint.position).normalized;
 
@@ -268,6 +280,10 @@ public class AcidSprayBeetleAI : MonoBehaviour
             Gizmos.color = Color.red;
             Vector3 direction = (player.position - transform.position).normalized;
             Gizmos.DrawRay(attackPoint.position, direction * 5f);
-        }
-    }
+        } }
+
+
+        
+
+
 }
