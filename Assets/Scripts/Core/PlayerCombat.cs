@@ -60,6 +60,25 @@ namespace NPA_PlayerPrefab.Scripts
         public bool finisher6Unlocked = false;
         public bool finisher9Unlocked = false;
 
+        // vvvvv Added by Jose E. from original file. vvvvv //
+
+        /// <summary>
+        /// Expoed public variable to tell exactly what attack the player just used.
+        /// </summary>
+        public AttackData CurrentAttack => m_LastUsedAttack;
+
+        /// <summary>
+        /// Exposed public variable to tell whether or not the player is currently attacking.
+        /// </summary>
+        public bool IsAttacking => isAttacking && m_LastUsedAttack;
+
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
+        private AttackData m_LastUsedAttack;
+
+        // ^^^^^ Added by Jose E. from original file. ^^^^^ //
+
         private void Start()
         {
             if (rhythmCombo != null)
@@ -71,6 +90,10 @@ namespace NPA_PlayerPrefab.Scripts
             UpdateFinisherUnlocks();
             HandleAttackInput();
             HandleFinisherInput();
+
+            /// ADDED BY: Jose E.
+            /// TODO: Remove debug code when finished.
+            UpdateDebugUi();
         }
 
         private void HandleAttackInput()
@@ -125,6 +148,9 @@ namespace NPA_PlayerPrefab.Scripts
 
         private void Attack(AttackData attackData)
         {
+            /// ADDED BY: Jose E.
+            m_LastUsedAttack = attackData;
+
             if (attackData == null || hitBoxPrefab == null) return;
 
             // Judge on press (per your preference)
@@ -218,6 +244,24 @@ namespace NPA_PlayerPrefab.Scripts
             // Reset combo if finished
             if (currentComboStep >= comboAttacks.Length)
                 currentComboStep = 0;
+        }
+        
+        //
+        // ========================= DEBUG FUNCTIONS =========================
+        //
+
+        private void UpdateDebugUi()
+        {
+            if (!m_DebugUI) return;
+
+            // TODO: ONLY FOR TESTING - remove when finished.
+            int current_combo = rhythmCombo.GetCurrentCombo();
+            m_DebugUI.SetDebugBeatStreak(current_combo.ToString());
+            m_DebugUI.SetDebugComboStep(currentComboStep.ToString());
+            if (current_combo >= 9) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 9");
+            else if (current_combo >= 6) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 6");
+            else if (current_combo >= 3) m_DebugUI.SetDebugSpecialMoveUnlock("Finisher 3");
+            else m_DebugUI.SetDebugSpecialMoveUnlock("None");
         }
     }
 }
