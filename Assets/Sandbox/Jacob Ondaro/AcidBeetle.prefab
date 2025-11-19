@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8083998855552874000}
   - component: {fileID: 2057019159068877916}
   - component: {fileID: 2425537295924681538}
+  - component: {fileID: 9221217094132797284}
   m_Layer: 0
   m_Name: AcidBeetle
   m_TagString: Enemy
@@ -237,6 +238,19 @@ MonoBehaviour:
   deathEffectPrefab: {fileID: 0}
   deathDelay: 0.5
   showDebugLogs: 1
+--- !u!114 &9221217094132797284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715150937113732345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7715cbc6c32584991ee214868d74e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
 --- !u!1 &3278054646186207074
 GameObject:
   m_ObjectHideFlags: 0
