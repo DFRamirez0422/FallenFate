@@ -27,7 +27,7 @@ public class QuickTimeEvent_JoseE : MonoBehaviour
     /// <summary>
     /// Exposed public field that returns true if the quick time event is still running.
     /// </summary>
-    public bool IsStillRunning => qteActive; // ADDED BY: Jose E.
+    public bool IsActive => qteActive; // ADDED BY: Jose E.
 
     // ^^^^^ Added by Jose E. from original file. ^^^^^ //
 
