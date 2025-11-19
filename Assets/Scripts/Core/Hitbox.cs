@@ -34,12 +34,29 @@ namespace NPA_PlayerPrefab.Scripts
                     ownerCombat?.RegisterHit();
                 }
 
-            // Deal damage to Health component
             if (other.TryGetComponent<Health>(out Health health))
             {
-                health.TakeDamage(attackData.damage);
-                ownerCombat?.RegisterHit();
+                // Check if this is the boss
+                if (other.TryGetComponent<BossAI>(out BossAI bossAI))
+                {
+                    if (!bossAI.IsInvulnerable)
+                    {
+                        health.TakeDamage(attackData.damage);
+                        ownerCombat?.RegisterHit();
+                    }
+                    else
+                    {
+                        Debug.Log("Hit blocked: Boss is invulnerable.");
+                    }
+                }
+                else
+                {
+                    // Normal enemies get hit normally
+                    health.TakeDamage(attackData.damage);
+                    ownerCombat?.RegisterHit();
+                }
             }
+
 
             if (other.TryGetComponent<Hitstun>(out Hitstun hitstun))
             {

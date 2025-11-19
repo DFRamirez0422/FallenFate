@@ -5,6 +5,7 @@ public class MGRProjectile : MonoBehaviour
 {
     [Header("Projectile")]
     public float speed = 20f;
+    public int damage = 10;
 
     Rigidbody rb;
 
@@ -38,7 +39,7 @@ public class MGRProjectile : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         if (other.TryGetComponent<Health>(out var hp))
-            hp.TakeDamage(20);
+            hp.TakeDamage(damage);
 
         Destroy(gameObject);
     }

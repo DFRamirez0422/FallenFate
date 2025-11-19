@@ -66,8 +66,8 @@ public class BossAI : MonoBehaviour
     [SerializeField] private float phase3QTEPercent = 0.25f; // 25% final phase
     private bool phase1Active = false;
     private bool phase2Active = false;
-    private bool isInvulnerablePhase = false;
     private bool isInvulnerable = false;
+    public bool IsInvulnerable => isInvulnerable; //Encapsalation for other scripts to check if the boss is invulnerable
     [SerializeField] private bool qteSuccessAlways = true;
 
     //Variables for transporting the player to the desired location after QTE's fails or succeeds
@@ -444,7 +444,7 @@ public class BossAI : MonoBehaviour
     {
         phase1Active = true; // for picking pct variable
         phase2Active = false; // for picking pct variable
-        isInvulnerablePhase = isInvulnerable = true; // For invulnerability phase
+        isInvulnerable = true; // For invulnerability phase
 
         if (bossSprite) bossSprite.color = Color.blue; // Placeholder sprite color change for invunerability immunity indicator
                                                        // Debug.Log("Phase 1 started - Boss is invulnerable.");
@@ -466,7 +466,7 @@ public class BossAI : MonoBehaviour
         yield return PlayIdleAnimation();
 
         // Disable invunerability indicator and change to original color to indicate the immunity is off
-        isInvulnerable = isInvulnerablePhase = false;
+        isInvulnerable = false;
         if (bossSprite) bossSprite.color = originalColor;
 
         // Heal + grace frame to avoid instant QTE, then loop
@@ -481,7 +481,7 @@ public class BossAI : MonoBehaviour
     {
         phase1Active = false;
         phase2Active = true;
-        isInvulnerablePhase = isInvulnerable = true;
+        isInvulnerable = true;
 
         if (bossSprite) bossSprite.color = Color.blue;
         Debug.Log("Phase 2 started - Boss is invulnerable.");
@@ -501,7 +501,7 @@ public class BossAI : MonoBehaviour
         yield return PlayIdleAnimation();
 
         // Become vulnerable
-        isInvulnerable = isInvulnerablePhase = false;
+        isInvulnerable = false;
         if (bossSprite) bossSprite.color = originalColor;
 
         if (bossHealth) bossHealth.Heal(bossHealth.MaxHealth);
@@ -516,14 +516,14 @@ public class BossAI : MonoBehaviour
         Debug.Log("Phase 3 starting...");
         phase1Active = false;
         phase2Active = false;
-        isInvulnerablePhase = isInvulnerable = true;
+        isInvulnerable = true;
         if (bossSprite) bossSprite.color = Color.blue;
 
         // Invulnerable chart pattern
         yield return StartCoroutine(ChartLoaderAttack());
 
         // Become vulnerable for the final short window → final QTE
-        isInvulnerable = isInvulnerablePhase = false;
+        isInvulnerable = false;
         if (bossSprite) bossSprite.color = originalColor;
 
         if (bossHealth) bossHealth.Heal(bossHealth.MaxHealth);
