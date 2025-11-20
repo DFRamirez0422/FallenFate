@@ -58,8 +58,8 @@ namespace NPA_RhythmBonusPrefabs
                     break;
 
                 case RhythmTier.Good:
-                    // Less punishing: Good also advances combo
-                   
+                    m_NumMisses += 1;
+                    m_ComboCounter = 0;
                     break;
 
                 case RhythmTier.Miss:
