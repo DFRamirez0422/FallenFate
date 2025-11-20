@@ -55,14 +55,14 @@ public class DG_RythmCombat : MonoBehaviour
     {
         inputUsedThisBeat = true;
         float timeSinceBeat = Time.time - lastBeatTime;
-        Debug.Log($"HIT! Timing: {timeSinceBeat:F3}s after beat");
+        Debug.Log($"HIT! Perfect Hits: {perfectHits} Timing: {timeSinceBeat:F3}s after beat");
         perfectHits++;
     }
     
     private void OnMissedRhythmInput()
     {
         float timeSinceBeat = Time.time - lastBeatTime;
-        Debug.Log($"MISS! Too late: {timeSinceBeat:F3}s after beat");
+        Debug.Log($"MISS! Perfect Hits: {perfectHits} Too late: {timeSinceBeat:F3}s after beat");
         perfectHits = 0;
     }
 }
