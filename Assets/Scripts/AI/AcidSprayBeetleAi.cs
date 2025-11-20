@@ -10,6 +10,8 @@ public class AcidSprayBeetleAI : MonoBehaviour
     public NavMeshAgent agent;
     public Transform player;
     public LayerMask whatIsGround, whatIsPlayer;
+    public Animator targetAnimator;
+
 
     [Header("Attack Settings")]
     public Transform attackPoint;
@@ -236,6 +238,10 @@ public class AcidSprayBeetleAI : MonoBehaviour
             Debug.LogWarning("Missing references for acid spray attack!");
             return;
         }
+        targetAnimator.SetTrigger("Spit");
+
+       
+
 
         Vector3 directionToPlayer = (player.position - attackPoint.position).normalized;
 
@@ -274,6 +280,10 @@ public class AcidSprayBeetleAI : MonoBehaviour
             Gizmos.color = Color.red;
             Vector3 direction = (player.position - transform.position).normalized;
             Gizmos.DrawRay(attackPoint.position, direction * 5f);
-        }
-    }
+        } }
+
+
+        
+
+
 }

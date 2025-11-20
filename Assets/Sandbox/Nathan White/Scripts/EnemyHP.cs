@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyHP : MonoBehaviour
 {
     public int maxHealth = 10;
-    private int currentHealth;
+    public int currentHealth;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -11,10 +11,12 @@ public class EnemyHP : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (currentHealth <= 0)
         {
+            PowerUp_Droprates powerUpDropper = this.GetComponent<PowerUp_Droprates>();
+            powerUpDropper.DropPowerUp();
             Destroy(gameObject);
         }
     }
