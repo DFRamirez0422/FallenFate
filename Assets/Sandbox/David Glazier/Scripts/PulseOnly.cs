@@ -9,15 +9,22 @@ public class PulseOnly : MonoBehaviour
     private void Start()
     {
         startSize = transform.localScale;
-        transform.localScale = Vector3.zero;
+        // Don't set to zero - start at normal size so it's visible
+        // If you need it to start invisible, handle that separately
     }
 
     private void Update()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, startSize, Time.deltaTime * returnSpeed);
+        // Lerp back to startSize if we're currently larger than it (after a pulse)
+        if (transform.localScale.magnitude > startSize.magnitude * 1.01f) // Small threshold to avoid jitter
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, startSize, Time.deltaTime * returnSpeed);
+        }
     }
+    
     public void Pulse()
     {
+        // Set scale to pulse size - Update will lerp it back down
         transform.localScale = startSize * pulseSize;
     }
 }

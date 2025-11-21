@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class DG_RythmCombat : MonoBehaviour
 {
     [SerializeField] private AudioProcessor audioProcessor;
@@ -12,6 +13,10 @@ public class DG_RythmCombat : MonoBehaviour
     private bool inputUsedThisBeat = false;
 
     public int perfectHits = 0;
+    public TextMeshPro perfectHitsText;
+
+    public PulseOnly pulseOnly;
+
 
     [Tooltip("Specify how many hits to qualify for each bonus.")]
     [SerializeField] private int[] hitsTillFinisher = new int[] { 3, 6, 9 };
@@ -19,10 +24,15 @@ public class DG_RythmCombat : MonoBehaviour
     void Start()
     {
         audioProcessor.onBeat.AddListener(OnBeatDetected);
+        if (pulseOnly == null)
+        {
+            Debug.Log("PulseOnly not found");
+        }
     }
 
     void Update()
     {
+        perfectHitsText.text = perfectHits.ToString();
         // Check for input within the timing window
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -57,6 +67,7 @@ public class DG_RythmCombat : MonoBehaviour
         float timeSinceBeat = Time.time - lastBeatTime;
         Debug.Log($"HIT! Perfect Hits: {perfectHits} Timing: {timeSinceBeat:F3}s after beat");
         perfectHits++;
+        PulseText();
     }
     
     private void OnMissedRhythmInput()
@@ -64,5 +75,13 @@ public class DG_RythmCombat : MonoBehaviour
         float timeSinceBeat = Time.time - lastBeatTime;
         Debug.Log($"MISS! Perfect Hits: {perfectHits} Too late: {timeSinceBeat:F3}s after beat");
         perfectHits = 0;
+    }
+
+    public void PulseText()
+    {
+        if (pulseOnly != null)
+        {
+            pulseOnly.Pulse();
+        }
     }
 }
