@@ -731,6 +731,25 @@ RectTransform:
   m_AnchoredPosition: {x: 280, y: -100}
   m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &219084989 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3174867957814601846, guid: f5754f2f6930be04daa99ac7f552e459, type: 3}
+  m_PrefabInstance: {fileID: 1348525112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &219085002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219084989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5041bca188daf84988dc5b5a37d9e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pulseSize: 1.15
+  returnSpeed: 5
 --- !u!1 &244696092
 GameObject:
   m_ObjectHideFlags: 0
@@ -2252,7 +2271,7 @@ MonoBehaviour:
   onBeat:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1335458044}
+      - m_Target: {fileID: 219085002}
         m_TargetAssemblyTypeName: PulseOnly, Assembly-CSharp
         m_MethodName: Pulse
         m_Mode: 1
@@ -5227,7 +5246,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3174867957814601846, guid: f5754f2f6930be04daa99ac7f552e459, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 219085002}
   m_SourcePrefab: {fileID: 100100000, guid: f5754f2f6930be04daa99ac7f552e459, type: 3}
 --- !u!1 &1387818479
 GameObject:
