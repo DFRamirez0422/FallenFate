@@ -17,8 +17,17 @@ public class EnemyHP : MonoBehaviour
         {
             PowerUp_Droprates powerUpDropper = this.GetComponent<PowerUp_Droprates>();
             powerUpDropper.DropPowerUp();
+            // Destroy(gameObject);
+        }
+    }
+
+    public void Update()
+    {
+        if (currentHealth <= 0)
+        {
             Destroy(gameObject);
         }
+        
     }
 
     public void TakeDamage(int damage)

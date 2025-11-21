@@ -4080,6 +4080,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2474761752656822568, guid: d6dbc7b230e42b040893cd4bb0c283c5, type: 3}
+      propertyPath: range
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474761752656822568, guid: d6dbc7b230e42b040893cd4bb0c283c5, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1968787497}
@@ -4089,7 +4093,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5109243156398166088, guid: d6dbc7b230e42b040893cd4bb0c283c5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 41.22
+      value: 6.7
       objectReference: {fileID: 0}
     - target: {fileID: 5109243156398166088, guid: d6dbc7b230e42b040893cd4bb0c283c5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6704,7 +6708,7 @@ MonoBehaviour:
   MeleePrefab: {fileID: 4994702237395164113, guid: 2313d2510dcdb504a9d553a543e3d86d, type: 3}
   MarkPrefab: {fileID: 0}
   attackDelay: 1
-  sightRange: 10
+  sightRange: 2
   attackRange: 2
   PlayerInSightRange: 0
   PlayerInAttackRange: 0
@@ -6744,7 +6748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitboxData: {fileID: 11400000, guid: cfb3764ecd37f274f832ca798d8316b5, type: 2}
   attackPoint: {fileID: 882572762}
-  testKey: 104
+  testKey: 0
 --- !u!4 &1977068004 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5109243156398166088, guid: d6dbc7b230e42b040893cd4bb0c283c5, type: 3}
