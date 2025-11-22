@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class ElenaAI : MonoBehaviour
 {
@@ -14,14 +15,24 @@ public class ElenaAI : MonoBehaviour
     public bool CombatToggle = false;
     public GameObject[] objects;
     
-    [Header("Throw_PowerUp")]
+    [Header("Throw_PowerUp + UI Settings")]
     public int PowerUpHold = 0;
     public GameObject PowerUp;
     public List<GameObject> PowerUpsInGame = new List<GameObject>();
+    public GameObject PowerUpIcon;
+    public GameObject BackgroundIcon;
+    public Text BButtonText;
+    [SerializeField] private Sprite NoPowerUpIcon;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
     {
+        // Initialize UI for throw
+        BButtonText.color = Color.midnightBlue;
+        BackgroundIcon.SetActive(false);
+
         player = GameObject.FindGameObjectWithTag("Player").transform;;
 
 
@@ -90,6 +101,8 @@ public class ElenaAI : MonoBehaviour
         agent.SetDestination(closest.transform.position);
     }
 
+   //---- Change made by Angel.Rodriguez ----//
+   // Retrieve the nearest power-up from the ground
    public void RetrivePowerUp()
    {
         GameObject  NearestPowerUp = null;
@@ -109,11 +122,18 @@ public class ElenaAI : MonoBehaviour
         agent.SetDestination(NearestPowerUp.transform.position);
    }
 
+    // Throw the held power-up towards the player
     public void ThrowPowerUp()
     {
         GameObject PowerHealth = null;
-        PowerHealth = Instantiate(PowerUp, transform.position, Quaternion.identity);
-        PowerHealth.GetComponent<Rigidbody>().MovePosition(player.position);
+        PowerUpIcon.GetComponent<Image>().sprite = NoPowerUpIcon;
+        BButtonText.color = Color.midnightBlue;
+        Vector3 SpawnPosition = transform.position + transform.forward * 2f + Vector3.up * 1f;
+        PowerHealth = Instantiate(PowerUp, SpawnPosition, Quaternion.identity);
+        Vector3 DirectionToPlayer = (player.position - transform.position).normalized;
+        DirectionToPlayer.y = 0f;
+        Rigidbody rb = PowerHealth.GetComponent<Rigidbody>();
+        rb.linearVelocity = DirectionToPlayer * 5f + Vector3.up * 3f;
     }
 
 }

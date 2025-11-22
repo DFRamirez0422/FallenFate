@@ -44,6 +44,8 @@ namespace NPA_Health_Components
         private void Awake()
         {
             currentHealth = maxHealth; // Initialize health on spawn
+
+            //
             _Respawn = GameObject.FindGameObjectWithTag("RespawnManager").GetComponent<Player_Respawn>();
             ElenaThrow = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
 
@@ -56,11 +58,13 @@ namespace NPA_Health_Components
 
         private void Update()
         {
+            // Throw PowerUp
             if (Input.GetKeyDown(KeyCode.Z) && this.gameObject.CompareTag(playerTag))
             {
                 if (ElenaThrow != null && ElenaThrow.PowerUpHold == 1)
                 {
                     ElenaThrow.ThrowPowerUp();
+                    ElenaThrow.BackgroundIcon.SetActive(false);
                     ElenaThrow.PowerUpHold = 0;
                 }
             }
@@ -150,6 +154,7 @@ namespace NPA_Health_Components
             }
         }
 
+        //Heal Player to full health
         public void FullHeal()
         {
             if (this.gameObject.CompareTag(playerTag))

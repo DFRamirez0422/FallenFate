@@ -12,20 +12,32 @@ public class FullHeal : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        bool touchedGround = false;
         if (other.gameObject.CompareTag("Player"))
         {
             if(Colliding) { return; }
             Colliding = true;
             HealPowerFull = other.gameObject.GetComponent<NPA_Health_Components.Health>();
-
+             NPA_PlayerPrefab.Scripts.PlayerController playerController = other.gameObject.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
             if (HealPowerFull != null)
             {
-                HealPowerFull.FullHeal();
-                var copy = this.gameObject;
-                Destroy(copy);
+                if (playerController != null)
+                {
+                    playerController.IsHealing = true;
+                    HealPowerFull.FullHeal();
+                    var copy = this.gameObject;
+                    Destroy(copy);
+                }
+                else {}
             }
-            else { }
+            else {}
         }
 
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && !touchedGround)
+        {
+            this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            touchedGround = true;
+        }
     }
+
 }

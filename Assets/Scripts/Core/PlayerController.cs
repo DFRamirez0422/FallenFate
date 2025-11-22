@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 
 namespace NPA_PlayerPrefab.Scripts
@@ -75,6 +76,14 @@ namespace NPA_PlayerPrefab.Scripts
 
         [Header("Hitstun Reference")]
         [SerializeField] private Hitstun hitstun; // Movement is disabled while stunned
+
+        // -------- Added in by Angel Rodriguez --------
+        // this is to stop movement while healing
+        public bool IsHealing = false; //This is to stop movement while healing
+        [Tooltip("Healing duration to stop movement")]
+        public float healingTimer; //How long the healing stops movement
+        float currentHealingTime;
+
         // Note: ParryBlock is NOT gated here; parry can still run independently.
 
         // -------- Internal State --------
@@ -117,6 +126,7 @@ namespace NPA_PlayerPrefab.Scripts
 
         void Awake()
         {
+            currentHealingTime = healingTimer;
             controller = GetComponent<CharacterController>();
             if (!mainCamera) mainCamera = Camera.main;
 
@@ -151,9 +161,12 @@ namespace NPA_PlayerPrefab.Scripts
 
         void Update()
         {
+
             float dt = Time.deltaTime;
 
             ReadInput();
+
+
             GetMoveDirection();
 
             // Maintain real facing from dash / movement
@@ -173,6 +186,21 @@ namespace NPA_PlayerPrefab.Scripts
                 desiredVelocity = Vector3.zero; // hard stop while stunned
             }
 
+            // -------- Added in by Angel Rodriguez --------
+            // this is to stop movement while healing
+            if (IsHealing)
+            {
+                desiredVelocity = Vector3.zero; // hard stop while healing
+                currentHealingTime -= 1 * Time.deltaTime;
+                Debug.Log("ISHEALING SET TO true " + currentHealingTime);
+                if (currentHealingTime <= 0)
+                {
+                    IsHealing = false;
+                    currentHealingTime = healingTimer;
+                    Debug.Log("ISHEALING SET TO FALSE");
+                }
+            }
+            
             ApplyMovement(dt);
 
             if (clampZLane) ClampLaneZ();
