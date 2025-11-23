@@ -14,6 +14,11 @@ namespace NPA_PlayerPrefab.Scripts
 
         [Tooltip("Small downward force to keep grounded")]
         [SerializeField] private float groundSnap = 2f;
+        
+        [Tooltip("Gravity force when not grounded")]
+        [SerializeField] private float gravity = 9.81f;
+        
+        private Vector3 verticalVelocity = Vector3.zero;
 
         [Header("Snappy Feel")]
         [Tooltip("Ignore tiny inputs to avoid drift")]
@@ -326,13 +331,26 @@ namespace NPA_PlayerPrefab.Scripts
             }
         }
 
-        // --- Apply movement + small downward snap ---
+        // --- Apply movement + gravity/ground snap ---
         void ApplyMovement(float dt)
         {
             if (!controller) return;
 
-            Vector3 snapDown = Vector3.down * groundSnap;
-            controller.Move((desiredVelocity + snapDown) * dt);
+            // Handle gravity and ground detection
+            if (controller.isGrounded)
+            {
+                // Reset vertical velocity when grounded
+                verticalVelocity.y = -groundSnap; // Small downward force to keep grounded
+            }
+            else
+            {
+                // Apply gravity when not grounded
+                verticalVelocity.y -= gravity * dt;
+            }
+            
+            // Apply movement (horizontal) + vertical velocity (gravity/ground snap)
+            Vector3 move = desiredVelocity + verticalVelocity;
+            controller.Move(move * dt);
         }
 
         // --- Dash logic + dash attack window ---
