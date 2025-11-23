@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using NPA_Health_Components;
+using NPA_PlayerPrefab.Scripts;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using NPA_Health_Components;
 
 public class BossAI : MonoBehaviour
 {
@@ -74,6 +75,7 @@ public class BossAI : MonoBehaviour
     [Header("Player / QTE")]
     [SerializeField] private Transform player;
     [SerializeField] private MonoBehaviour playerController;
+    [SerializeField] private PlayerCombat playerCombat;
     [SerializeField] private Transform qteStartPoint;
     [SerializeField] private Transform qteEndPoint;
 
@@ -129,7 +131,7 @@ public class BossAI : MonoBehaviour
         yield return new WaitForSeconds(bossCutsceneTimer);
         if (bossSprite) bossSprite.color = originalColor;
 
-       // Debug.Log("Boss cutscene ended.");
+        // Debug.Log("Boss cutscene ended.");
         yield return TransitionToPhase1();
     }
     #endregion
@@ -145,11 +147,11 @@ public class BossAI : MonoBehaviour
     //This is the fly summon attack. It does a warning flash then it creates the enemy prefabs at the desired location if they are valid in the inspector.
     private IEnumerator DoFlySummonAttack()
     {
-       // Debug.Log("Preparing Fly Summon...");
+        // Debug.Log("Preparing Fly Summon...");
         yield return FlashRed(flashDuration, flashInterval);
         if (flyEnemyPrefabA && spawnA) Instantiate(flyEnemyPrefabA, spawnA.position, spawnA.rotation);
         if (flyEnemyPrefabB && spawnB) Instantiate(flyEnemyPrefabB, spawnB.position, spawnB.rotation);
-       // Debug.Log("Two flies summoned!");
+        // Debug.Log("Two flies summoned!");
         if (bossSprite) bossSprite.color = Color.blue;
     }
 
@@ -160,14 +162,14 @@ public class BossAI : MonoBehaviour
         yield return FlashRed(flashDuration, flashInterval);
         if (beetleEnemyPrefabA && spawnC) Instantiate(beetleEnemyPrefabA, spawnC.position, spawnC.rotation);
         if (beetleEnemyPrefabB && spawnD) Instantiate(beetleEnemyPrefabB, spawnD.position, spawnD.rotation);
-       // Debug.Log("Two beetles summoned!");
+        // Debug.Log("Two beetles summoned!");
         if (bossSprite) bossSprite.color = Color.blue;
     }
 
     //This function validates the MGR component and does the MGR mechanic from another script and activates it. This shoots a ton of projectiles at the players location.
     private IEnumerator DoMachineGunRiff()
     {
-       // Debug.Log("Machine Gun Riff starting...");
+        // Debug.Log("Machine Gun Riff starting...");
         var MGR = GetComponent<BossMachineGunRiff>();
         if (MGR == null)
         {
@@ -185,13 +187,13 @@ public class BossAI : MonoBehaviour
             if (mgrField?.GetValue(MGR) == null) break;
         }
 
-      //  Debug.Log("Machine Gun Riff ended.");
+        //  Debug.Log("Machine Gun Riff ended.");
     }
 
     //This function starts the chart loader attack if its valid. The total of time it does it is editable. This was working using angle on the fire directions.
     private IEnumerator ChartLoaderAttack()
     {
-        Debug.Log("Chart Loader Attack starting...");
+        // Debug.Log("Chart Loader Attack starting...");
         if (!chartLoader)
         {
             Debug.LogWarning("ChartLoaderExample not assigned to boss!");
@@ -200,19 +202,19 @@ public class BossAI : MonoBehaviour
         chartLoader.enabled = true;
         yield return new WaitForSeconds(chartAttackDuration);
         chartLoader.enabled = false;
-        Debug.Log("Chart Loader Attack ended.");
+        // Debug.Log("Chart Loader Attack ended.");
     }
 
     //This function starts the lane attack from another script if its valid.
     private IEnumerator DoLaneAttack()
     {
-       // Debug.Log("Starting Lane Attack...");
+        // Debug.Log("Starting Lane Attack...");
         if (bossStrings != null)
             yield return StartCoroutine(bossStrings.BeginCombos());
         else
             Debug.LogWarning("BossStringController not assigned!");
 
-      //  Debug.Log("Lane Attack complete!");
+        //  Debug.Log("Lane Attack complete!");
         yield return new WaitForSeconds(1f);
     }
 
@@ -256,20 +258,20 @@ public class BossAI : MonoBehaviour
 
         yield return new WaitForSeconds(swipeActiveTime);
         swipeHitbox.SetActive(false);
-       // Debug.Log("Swipe hitbox disabled!");
+        // Debug.Log("Swipe hitbox disabled!");
     }
 
     //This function is supposed to do the potion throw mechanics but the mechanic has not finished being developed. So this placeholder.
     private IEnumerator DoPotionThrow()
     {
-        Debug.Log("Boss is preparing to throw potions...");
+       // Debug.Log("Boss is preparing to throw potions...");
         yield return PlayIdleAnimation();
         if (aoeThrower != null)
             yield return StartCoroutine(aoeThrower.SpawnProjectileAndWarning());
         else
-            Debug.LogWarning("BossAoEThrower not assigned to boss.");
+            // Debug.LogWarning("BossAoEThrower not assigned to boss.");
 
-        Debug.Log("Potion throw complete!");
+        // Debug.Log("Potion throw complete!");
         yield return new WaitForSeconds(1f);
     }
 
@@ -315,7 +317,7 @@ public class BossAI : MonoBehaviour
             case BossPhase.Phase1: return TransitionToPhase1();
             case BossPhase.Phase2: return TransitionToPhase2();
             case BossPhase.Phase3: return TransitionToPhase3();
-            default:               return null;
+            default: return null;
         }
     }
     //If you fail the QTE this function will be called to reset the phase.
@@ -344,7 +346,9 @@ public class BossAI : MonoBehaviour
     {
         Debug.Log("QTE: Player frozen. Begin combo...");
 
+
         if (playerController) playerController.enabled = false; // Validate the player controller and set it to false.
+        if (playerController) playerController.enabled = false; // Validate and disable player combat here
         //TODO: We also need to disable the players combat since while im being translated I can still do attacks.
 
         if (player && qteStartPoint) // validate the player position and the translation position
@@ -365,6 +369,7 @@ public class BossAI : MonoBehaviour
             yield return StartCoroutine(MovePlayerTo(qteEndPoint, 1.5f)); //Move the player to the position except for in phase 3 success. In that case I dont want to.
 
         if (playerController) playerController.enabled = true; // re enable the player controller and should be reenabling the player combat.
+        if (playerController) playerController.enabled = true; // Validate and reenable player combat here as well.
 
         bool success = qteSuccessAlways; // This makes me always succeed during development which I want to get rid of.
 
@@ -372,7 +377,7 @@ public class BossAI : MonoBehaviour
         //TODO: make the qteSuccessAlways into qteOutcome and have that be success or failure
         if (success)
         {
-            if (bossHealth) bossHealth.Heal(bossHealth.MaxHealth); //I would rather this be bossHealth = bossMaxHealth or something like that.
+            if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth; //I would rather this be bossHealth = bossMaxHealth or something like that.
             Debug.Log($"QTE success → {onSuccess}");
 
             if (onSuccess == BossPhase.None)
@@ -400,36 +405,36 @@ public class BossAI : MonoBehaviour
     //I dont undertsand the parameters of this function and their purpose yet.
     private IEnumerator ShortRangeAttackLoop(bool triggerQTEAtEnd,
                                              BossPhase qteSuccessNext = BossPhase.Phase2,
-                                             BossPhase qteFailReset  = BossPhase.Phase1) // I think these params being set to = are too restrictive and might need to get changed.
+                                             BossPhase qteFailReset = BossPhase.Phase1) // I think these params being set to = are too restrictive and might need to get changed.
     {
         if (!bossHealth) yield break; // early break if boss health is not valid
 
         // Pick correct percent by phase
         float pct = phase1Active ? phase1QTEPercent
                   : phase2Active ? phase2QTEPercent
-                  :                 phase3QTEPercent; // the variable name pct does not make sense but the rest does. Depending on the bool it will pick the float pct.
+                  : phase3QTEPercent; // the variable name pct does not make sense but the rest does. Depending on the bool it will pick the float pct.
 
         // Safe threshold: strictly below MaxHealth
         int threshold = Mathf.Clamp(
-            Mathf.FloorToInt(bossHealth.MaxHealth * pct), 
+            Mathf.FloorToInt(bossHealth.MaxHealth * pct),
             1,
             bossHealth.MaxHealth - 1
 
-            //I want a debug message showing what the threshold is when it is set.
+        //I want a debug message showing what the threshold is when it is set.
         );
 
         // If we somehow start at/below threshold, refill so the loop actually runs
         if (bossHealth.CurrentHealth <= threshold)
-            bossHealth.Heal(bossHealth.MaxHealth); // need to replace heal with something else thats simpler like bossHealth = bossMaxHealth. Calling this script is gonna change
+            if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth; // need to replace heal with something else thats simpler like bossHealth = bossMaxHealth. Calling this script is gonna change
 
-        Debug.Log($"[ShortLoop] pct={pct:P0} max={bossHealth.MaxHealth} threshold={threshold} current={bossHealth.CurrentHealth}"); // not sure if this works.
+       // Debug.Log($"[ShortLoop] pct={pct:P0} max={bossHealth.MaxHealth} threshold={threshold} current={bossHealth.CurrentHealth}"); // not sure if this works.
 
         while (bossHealth.CurrentHealth > threshold)
         {
             yield return PlayIdleAnimation();
             switch (Random.Range(0, 2))
             {
-                case 0: yield return DoShortSwipe();  break;
+                case 0: yield return DoShortSwipe(); break;
                 case 1: yield return DoPotionThrow(); break;
             }
         }
@@ -447,7 +452,7 @@ public class BossAI : MonoBehaviour
         isInvulnerable = true; // For invulnerability phase
 
         if (bossSprite) bossSprite.color = Color.blue; // Placeholder sprite color change for invunerability immunity indicator
-                                                       // Debug.Log("Phase 1 started - Boss is invulnerable.");
+       // Debug.Log("Phase 1 started - Boss is invulnerable.");
 
         // yield return StartCoroutine(ChartLoaderAttack()); // For testing since it takes a while to get to phase 3
         // BossDefeated(); // for testing the scene transition
@@ -470,11 +475,11 @@ public class BossAI : MonoBehaviour
         if (bossSprite) bossSprite.color = originalColor;
 
         // Heal + grace frame to avoid instant QTE, then loop
-        if (bossHealth) bossHealth.Heal(bossHealth.MaxHealth); // This should be replaced to a simple bossHealth = bossMaxHealth
+        if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth; // This should be replaced to a simple bossHealth = bossMaxHealth
         yield return null;
         yield return ShortRangeAttackLoop(true, BossPhase.Phase2, BossPhase.Phase1); // not sure what these params mean but they are prob the success and failure reqs.
 
-        Debug.Log("Phase 1 sequence complete.");
+        // Debug.Log("Phase 1 sequence complete.");
     }
 
     private IEnumerator TransitionToPhase2()
@@ -484,7 +489,7 @@ public class BossAI : MonoBehaviour
         isInvulnerable = true;
 
         if (bossSprite) bossSprite.color = Color.blue;
-        Debug.Log("Phase 2 started - Boss is invulnerable.");
+        // Debug.Log("Phase 2 started - Boss is invulnerable.");
 
         yield return PlayIdleAnimation();
         yield return DoBeetleSummonAttack();
@@ -504,16 +509,16 @@ public class BossAI : MonoBehaviour
         isInvulnerable = false;
         if (bossSprite) bossSprite.color = originalColor;
 
-        if (bossHealth) bossHealth.Heal(bossHealth.MaxHealth);
+        if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth;
         yield return null; // grace frame
         yield return ShortRangeAttackLoop(true, BossPhase.Phase3, BossPhase.Phase2);
 
-        Debug.Log("Phase 2 sequence complete.");
+        // Debug.Log("Phase 2 sequence complete.");
     }
 
     private IEnumerator TransitionToPhase3()
     {
-        Debug.Log("Phase 3 starting...");
+       // Debug.Log("Phase 3 starting...");
         phase1Active = false;
         phase2Active = false;
         isInvulnerable = true;
@@ -526,11 +531,11 @@ public class BossAI : MonoBehaviour
         isInvulnerable = false;
         if (bossSprite) bossSprite.color = originalColor;
 
-        if (bossHealth) bossHealth.Heal(bossHealth.MaxHealth);
+        if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth;
         yield return null; // grace frame so we don't insta-QTE
         yield return ShortRangeAttackLoop(true, BossPhase.None, BossPhase.Phase3);
 
-        Debug.Log("Phase 3 complete.");
+        // Debug.Log("Phase 3 complete.");
     }
     #endregion
 }
