@@ -54,17 +54,6 @@ public class ElenaPickUp : MonoBehaviour
             {
                 if (_ElenaAi.PowerUpHold == 0)
                 {
-                    // Lock player movement when power-up is grabbed
-                    GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-                    if (playerObj != null)
-                    {
-                        NPA_PlayerPrefab.Scripts.PlayerController playerController = playerObj.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
-                        if (playerController != null)
-                        {
-                            playerController.LockMovementForThrow(0.3f); // Brief lock on grab
-                        }
-                    }
-                    
                     if(this.gameObject.name == ElenaPowerUpList[0].PowerUpName)
                     {
                         PowerUpIcon.sprite = ElenaPowerUpList[0].PowerUpSprite;
