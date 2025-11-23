@@ -203,18 +203,18 @@ namespace NPA_PlayerPrefab.Scripts
 
             // -------- Added in by Angel Rodriguez --------
             // this is to stop movement while healing
-            if (IsHealing)
-            {
-                desiredVelocity = Vector3.zero; // hard stop while healing
-                currentHealingTime -= 1 * Time.deltaTime;
-                Debug.Log("ISHEALING SET TO true " + currentHealingTime);
-                if (currentHealingTime <= 0)
-                {
-                    IsHealing = false;
-                    currentHealingTime = healingTimer;
-                    Debug.Log("ISHEALING SET TO FALSE");
-                }
-            }
+            // if (IsHealing)
+            // {
+            //     desiredVelocity = Vector3.zero; // hard stop while healing
+            //     currentHealingTime -= 1 * Time.deltaTime;
+            //     Debug.Log("ISHEALING SET TO true " + currentHealingTime);
+            //     if (currentHealingTime <= 0)
+            //     {
+            //         IsHealing = false;
+            //         currentHealingTime = healingTimer;
+            //         Debug.Log("ISHEALING SET TO FALSE");
+            //     }
+            // }
 
             // -------- Added for Elena throw powerup --------
             // this is to stop movement when Elena throws powerup

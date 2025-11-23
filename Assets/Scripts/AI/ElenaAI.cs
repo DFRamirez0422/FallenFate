@@ -130,12 +130,23 @@ public class ElenaAI : MonoBehaviour
         BButtonText.color = Color.midnightBlue;
         Vector3 SpawnPosition = transform.position + transform.forward * 2f + Vector3.up * 1f;
         PowerHealth = Instantiate(PowerUp, SpawnPosition, Quaternion.identity);
-        Vector3 DirectionToPlayer = (player.position - transform.position).normalized;
-        DirectionToPlayer.y = 0f;
-        Rigidbody rb = PowerHealth.GetComponent<Rigidbody>();
-        rb.linearVelocity = DirectionToPlayer * 5f + Vector3.up * 3f;
+
+        // Add parabolic movement component to continuously update position
+        ParabolicPowerUpMovement parabolicMovement = PowerHealth.GetComponent<ParabolicPowerUpMovement>();
+        if (parabolicMovement == null)
+        {
+            parabolicMovement = PowerHealth.AddComponent<ParabolicPowerUpMovement>();
+        }
         
-        // Lock player movement for a short duration
+        // Calculate flight time based on distance
+        float distance = Vector3.Distance(SpawnPosition, player.position);
+        float calculatedFlightTime = Mathf.Clamp(distance / 8f, 0.8f, 3f);
+        float calculatedHeight = Mathf.Max(distance * 0.3f, 1f);
+        
+        parabolicMovement.Initialize(SpawnPosition, player, calculatedHeight, calculatedFlightTime);
+        
+        // Lock player movement when Z is pressed (throw)
+        // Movement remains locked until player picks up the health power-up
         if (player != null)
         {
             NPA_PlayerPrefab.Scripts.PlayerController playerController = player.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
@@ -144,6 +155,7 @@ public class ElenaAI : MonoBehaviour
                 playerController.LockMovementForThrow();
             }
         }
+
     }
 
 }
