@@ -84,6 +84,13 @@ namespace NPA_PlayerPrefab.Scripts
         public float healingTimer; //How long the healing stops movement
         float currentHealingTime;
 
+        // -------- Added for Elena throw powerup --------
+        // this is to stop movement when Elena throws powerup
+        public bool IsThrowLocked = false; //This is to stop movement when Elena throws
+        [Tooltip("Duration to stop movement when Elena throws powerup")]
+        public float throwLockDuration = 1.0f; //How long the throw stops movement
+        float currentThrowLockTime;
+
         // Note: ParryBlock is NOT gated here; parry can still run independently.
 
         // -------- Internal State --------
@@ -113,6 +120,13 @@ namespace NPA_PlayerPrefab.Scripts
         private float attackForwardSpeed;
         public void SetAttackLock(bool value) => attackLocked = value;
         public void SetAttackSpeed(float value) => attackForwardSpeed = value;
+        
+        // Throw lock for Elena powerup throw
+        public void LockMovementForThrow(float duration = -1f)
+        {
+            IsThrowLocked = true;
+            currentThrowLockTime = duration > 0 ? duration : throwLockDuration;
+        }
 
         // Stun visuals
         private bool prevStunned = false;
@@ -127,6 +141,7 @@ namespace NPA_PlayerPrefab.Scripts
         void Awake()
         {
             currentHealingTime = healingTimer;
+            currentThrowLockTime = throwLockDuration;
             controller = GetComponent<CharacterController>();
             if (!mainCamera) mainCamera = Camera.main;
 
@@ -198,6 +213,19 @@ namespace NPA_PlayerPrefab.Scripts
                     IsHealing = false;
                     currentHealingTime = healingTimer;
                     Debug.Log("ISHEALING SET TO FALSE");
+                }
+            }
+
+            // -------- Added for Elena throw powerup --------
+            // this is to stop movement when Elena throws powerup
+            if (IsThrowLocked)
+            {
+                desiredVelocity = Vector3.zero; // hard stop while throw locked
+                currentThrowLockTime -= Time.deltaTime;
+                if (currentThrowLockTime <= 0)
+                {
+                    IsThrowLocked = false;
+                    currentThrowLockTime = throwLockDuration;
                 }
             }
             

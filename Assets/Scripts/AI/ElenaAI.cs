@@ -134,6 +134,16 @@ public class ElenaAI : MonoBehaviour
         DirectionToPlayer.y = 0f;
         Rigidbody rb = PowerHealth.GetComponent<Rigidbody>();
         rb.linearVelocity = DirectionToPlayer * 5f + Vector3.up * 3f;
+        
+        // Lock player movement for a short duration
+        if (player != null)
+        {
+            NPA_PlayerPrefab.Scripts.PlayerController playerController = player.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
+            if (playerController != null)
+            {
+                playerController.LockMovementForThrow();
+            }
+        }
     }
 
 }
