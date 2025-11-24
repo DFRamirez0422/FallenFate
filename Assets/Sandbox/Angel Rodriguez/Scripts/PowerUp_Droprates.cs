@@ -14,22 +14,22 @@ public class PowerUp_Droprates : MonoBehaviour
     List<Drops> dropsList = new List<Drops>();
 
     [Header("Drop Rates (Total must equal 1.0)")]
-    public float FullHealthDropRate;
-    public float HalfHealDropRate;
-    public float TenPercentHealDropRate;
+    public float BloodyHeartDropRate;
+    public float CrackedPickDropRate;
+    public float GuitarStingDropRate;
     public float DropNothingRate;
 
     [Header("PowerUp Prefabs")]
-    public GameObject FullhealPowerUpPrefab;
-    public GameObject HalfHealPowerUpPrefab;
-    public GameObject TenPercentHealPowerUpPrefab;
+    public GameObject BloodyHeartPower;
+    public GameObject CrackedPickPower;
+    public GameObject GuitarSting;
     public GameObject NoPowerUpPrefab;
     
    void Start()
     {
-        dropsList.Add(new Drops { PowerUpPrefab = FullhealPowerUpPrefab, DropRate = FullHealthDropRate });
-        dropsList.Add(new Drops { PowerUpPrefab = HalfHealPowerUpPrefab, DropRate = HalfHealDropRate });
-        dropsList.Add(new Drops { PowerUpPrefab = TenPercentHealPowerUpPrefab, DropRate = TenPercentHealDropRate });
+        dropsList.Add(new Drops { PowerUpPrefab =  BloodyHeartPower, DropRate = BloodyHeartDropRate });
+        dropsList.Add(new Drops { PowerUpPrefab = CrackedPickPower, DropRate = CrackedPickDropRate });
+        dropsList.Add(new Drops { PowerUpPrefab = GuitarSting, DropRate = GuitarStingDropRate });
         dropsList.Add(new Drops { PowerUpPrefab = NoPowerUpPrefab, DropRate = DropNothingRate });
     }
 

@@ -24,7 +24,6 @@ public class HealMin : MonoBehaviour
                 if (playerController != null)
                 {
                     playerController.IsHealing = true;
-                    HealPowerMin.Heal(0.10f);
                     var copy = this.gameObject;
                     Destroy(copy);
                 }

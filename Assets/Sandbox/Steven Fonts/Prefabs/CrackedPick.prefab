@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 772647403805086097}
   - component: {fileID: 1229445631669457920}
   - component: {fileID: 1103452056923559214}
-  - component: {fileID: 5226473555779684167}
+  - component: {fileID: 3493036653663696659}
+  - component: {fileID: -5579783493885890015}
   m_Layer: 0
   m_Name: CrackedPick
-  m_TagString: Untagged
+  m_TagString: E_PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,7 +110,34 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5226473555779684167
+--- !u!54 &3493036653663696659
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766328370172320388}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!114 &-5579783493885890015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,16 +146,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1766328370172320388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a208a828242f0cd43baf3113c482b735, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c48cc104d52243458e07decb2c7cbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BloodyHeart: {fileID: 5367534052005006824, guid: 6a848f4a21b04684fb13e239df29d312, type: 3}
+  CrackedPick: {fileID: 1766328370172320388}
+  GuitarString: {fileID: 1522450370225304828, guid: 852de79cd6a9e27428d4e8e0ecb5b130, type: 3}
   type: 0
-  healAmount: 25
-  boostMultiplier: 0
-  boostDuration: 0
-  shieldDuration: 0
-  interactAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  useTrigger: 1
-  interactRadius: 1.25
-  showPrompt: 1
-  promptText: Press E to consume

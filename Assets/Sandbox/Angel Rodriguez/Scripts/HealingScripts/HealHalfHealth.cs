@@ -24,7 +24,6 @@ public class HealHalfHealth : MonoBehaviour
                 if (playerController != null)
                 {
                     playerController.IsHealing = true;
-                    HealPowerHalf.Heal(0.50f);
                     var copy = this.gameObject;
                     Destroy(copy);
                 }

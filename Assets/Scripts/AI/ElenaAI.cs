@@ -19,10 +19,7 @@ public class ElenaAI : MonoBehaviour
     public int PowerUpHold = 0;
     public GameObject PowerUp;
     public List<GameObject> PowerUpsInGame = new List<GameObject>();
-    public GameObject PowerUpIcon;
-    public GameObject BackgroundIcon;
-    public Text BButtonText;
-    [SerializeField] private Sprite NoPowerUpIcon;
+  
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,9 +27,6 @@ public class ElenaAI : MonoBehaviour
     private void Awake()
     {
         // Initialize UI for throw
-        BButtonText.color = Color.midnightBlue;
-        BackgroundIcon.SetActive(false);
-
         player = GameObject.FindGameObjectWithTag("Player").transform;;
 
 
@@ -126,14 +120,17 @@ public class ElenaAI : MonoBehaviour
     public void ThrowPowerUp()
     {
         GameObject PowerHealth = null;
-        PowerUpIcon.GetComponent<Image>().sprite = NoPowerUpIcon;
-        BButtonText.color = Color.midnightBlue;
         Vector3 SpawnPosition = transform.position + transform.forward * 2f + Vector3.up * 1f;
+
         PowerHealth = Instantiate(PowerUp, SpawnPosition, Quaternion.identity);
+        PowerUpPickups powerUp = PowerHealth.GetComponent<PowerUpPickups>();
+
         Vector3 DirectionToPlayer = (player.position - transform.position).normalized;
         DirectionToPlayer.y = 0f;
+
         Rigidbody rb = PowerHealth.GetComponent<Rigidbody>();
         rb.linearVelocity = DirectionToPlayer * 5f + Vector3.up * 3f;
+        Vector3.MoveTowards(PowerHealth.transform.position, player.position, 10f);
     }
 
 }

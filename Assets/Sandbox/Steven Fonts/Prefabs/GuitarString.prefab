@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 2885060508002029014}
   - component: {fileID: 3238751109153812272}
   - component: {fileID: 519462193158007697}
-  - component: {fileID: 8644102955927215734}
   - component: {fileID: 2480439082090056907}
+  - component: {fileID: -9154021266700301201}
   m_Layer: 0
   m_Name: GuitarString
-  m_TagString: Untagged
+  m_TagString: E_PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,29 +110,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8644102955927215734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522450370225304828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a208a828242f0cd43baf3113c482b735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  healMode: 0
-  healValue: 50
-  boostMultiplier: 0
-  boostDuration: 0
-  shieldDuration: 0
-  interactAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  useTrigger: 1
-  interactRadius: 1.25
-  showPrompt: 1
-  promptText: Press E to consume
 --- !u!54 &2480439082090056907
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -156,7 +133,23 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
+--- !u!114 &-9154021266700301201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522450370225304828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c48cc104d52243458e07decb2c7cbd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloodyHeart: {fileID: 5367534052005006824, guid: 6a848f4a21b04684fb13e239df29d312, type: 3}
+  CrackedPick: {fileID: 1766328370172320388, guid: 67111f42165145d419d340aa70b5169d, type: 3}
+  GuitarString: {fileID: 1522450370225304828}
+  type: 0

@@ -24,7 +24,6 @@ public class FullHeal : MonoBehaviour
                 if (playerController != null)
                 {
                     playerController.IsHealing = true;
-                    HealPowerFull.FullHeal();
                     var copy = this.gameObject;
                     Destroy(copy);
                 }

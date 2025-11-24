@@ -49,34 +49,25 @@ public class ElenaPickUp : MonoBehaviour
         if (other.gameObject.CompareTag("Elena"))
         {
             ElenaAI _ElenaAi = other.gameObject.GetComponent<ElenaAI>();
-            Image PowerUpIcon = _ElenaAi.PowerUpIcon.GetComponent<Image>();
             if (_ElenaAi != null )
             {
                 if (_ElenaAi.PowerUpHold == 0)
                 {
                     if(this.gameObject.name == ElenaPowerUpList[0].PowerUpName)
                     {
-                        PowerUpIcon.sprite = ElenaPowerUpList[0].PowerUpSprite;
                         _ElenaAi.PowerUp = DamianPowerUpList[0].PowerUp;
-                        _ElenaAi.BButtonText.color = Color.darkRed;
-                        _ElenaAi.BackgroundIcon.SetActive(true);
                         _ElenaAi.PowerUpHold = 1;
                     }
                     else if (this.gameObject.name == ElenaPowerUpList[1].PowerUpName)
                     {
-                        PowerUpIcon.sprite = ElenaPowerUpList[1].PowerUpSprite;
                         _ElenaAi.PowerUp = DamianPowerUpList[1].PowerUp;
-                        _ElenaAi.BButtonText.color = Color.darkRed;
-                        _ElenaAi.BackgroundIcon.SetActive(true);
                         _ElenaAi.PowerUpHold = 1;
 
                     }
                     else if (this.gameObject.name == ElenaPowerUpList[2].PowerUpName)
                     {
-                        PowerUpIcon.sprite = ElenaPowerUpList[2].PowerUpSprite;
+
                         _ElenaAi.PowerUp = DamianPowerUpList[2].PowerUp;
-                        _ElenaAi.BButtonText.color = Color.darkRed;
-                        _ElenaAi.BackgroundIcon.SetActive(true);
                         _ElenaAi.PowerUpHold = 1;
                     }
                     var copyH = this.gameObject;

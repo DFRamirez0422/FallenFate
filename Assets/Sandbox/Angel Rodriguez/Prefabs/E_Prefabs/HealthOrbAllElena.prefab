@@ -88,6 +88,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf416ce0926ae0a459ef52bfd4906996, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5267806082410836732}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf416ce0926ae0a459ef52bfd4906996, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7936033011512197157}
   m_SourcePrefab: {fileID: 100100000, guid: cf416ce0926ae0a459ef52bfd4906996, type: 3}
 --- !u!1 &3084561106614377567 stripped
 GameObject:
@@ -166,7 +169,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3084561106614377567}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e0b61c26f266724d87b5119c1e7e7b6, type: 3}
   m_Name: 
@@ -180,3 +183,21 @@ MonoBehaviour:
   D_FullHealthPower: {fileID: 854027606637974863, guid: 0207495009c92df44bebbe2d27da3563, type: 3}
   D_HalfHealPower: {fileID: 5397236875273603122, guid: 58db01b7e4465174ebb424572e035ee6, type: 3}
   D_TenPercentHealthPower: {fileID: 7851857151876516704, guid: 40141d664fe34ee4c8a98c9272af738c, type: 3}
+--- !u!114 &7936033011512197157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3084561106614377567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c48cc104d52243458e07decb2c7cbd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PowerUpList: []
+  type: 0
+  ElenaGarbbed: 0
+  boostMultiplier: 1.5
+  boostDuration: 8
+  shieldDuration: 10
