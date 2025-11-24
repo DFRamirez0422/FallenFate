@@ -27,4 +27,9 @@ public void LoadMainMenu()
     {
         SceneManager.LoadScene("Credits");
     }
+
+    public void LoadTitlecard()
+    {
+        SceneManager.LoadScene("TitleCard");
+    }
 }
