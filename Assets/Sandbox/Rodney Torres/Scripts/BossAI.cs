@@ -103,14 +103,16 @@ public class BossAI : MonoBehaviour
         }
         if (player) player.TryGetComponent(out playerHealth);
 
+        if (player && playerCombat == null)
+            player.TryGetComponent(out playerCombat);
+
         if (swipeHitbox) swipeCollider = swipeHitbox.GetComponent<Collider>();
     }
 
     //For testing damage threshold triggers while the boss cant be damaged during development
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O) && bossHealth && !isInvulnerable)
-            bossHealth.TakeDamage(10);
+       // if (Input.GetKeyDown(KeyCode.O) && bossHealth && !isInvulnerable) bossHealth.TakeDamage(10);
     }
     #endregion
 
@@ -325,21 +327,29 @@ public class BossAI : MonoBehaviour
     {
         switch (phase)
         {
-            case BossPhase.Phase1: ResetToPhase1(); break; // I think this should be instead of ResetToPhase1(); it should be TransitionToPhase1();
-            case BossPhase.Phase2: ResetToPhase2(); break; // I think this should be instead of ResetToPhase2(); it should be TransitionToPhase2();
+            case BossPhase.Phase1:
+                StartCoroutine(TransitionToPhase1());
+                break;
+
+            case BossPhase.Phase2:
+                StartCoroutine(TransitionToPhase2());
+                break;
+
+            case BossPhase.Phase3:
+                StartCoroutine(TransitionToPhase3());
+                break;
         }
     }
+
+
     //This function is called upon the defeat of the boss after phase 3's QTE is succeeded. I want it load a different scene currently.
     private void BossDefeated()
     {
         Debug.Log("Boss defeated!");
-        SceneManager.LoadScene("CreditsScene");
+        SceneManager.LoadScene("Credits");
         //Load scene : credits
         // TODO: death anim, loot, disable AI, etc.
     }
-
-    private void ResetToPhase1() { Debug.Log("Reset to Phase 1 (placeholder)"); } // Dont need these
-    private void ResetToPhase2() { Debug.Log("Reset to Phase 2 (placeholder)"); } // Dont need these
 
     //This function is tricky so I will outline so I can udnerstand it
     private IEnumerator StartQTESequence(BossPhase onSuccess, BossPhase onFail)
@@ -348,7 +358,7 @@ public class BossAI : MonoBehaviour
 
 
         if (playerController) playerController.enabled = false; // Validate the player controller and set it to false.
-        if (playerController) playerController.enabled = false; // Validate and disable player combat here
+        if (playerCombat) playerCombat.enabled = false; // Validate and disable player combat here
         //TODO: We also need to disable the players combat since while im being translated I can still do attacks.
 
         if (player && qteStartPoint) // validate the player position and the translation position
@@ -356,8 +366,17 @@ public class BossAI : MonoBehaviour
 
         if (QTEManager.Instance != null) // Validate the QTEManager instance. Could probably delete the != null
         {
-            QTEManager.Instance.StartQTE(); //Call the manager and do the StartQTE function.
-            yield return new WaitUntil(() => !QTEManager.Instance.IsActive); //I dont know what this line of code does.
+            int presetIndex = 0;
+
+            if (phase1Active)
+                presetIndex = 0;   // uses spawnSet[0] → 4 notes
+            else if (phase2Active)
+                presetIndex = 1;   // uses spawnSet[1] → 7 notes
+            else
+                presetIndex = 2;   // phase 3 / fallback → spawnSet[2] → 11 notes
+
+            QTEManager.Instance.StartQTEWithPresetIndex(presetIndex);
+            yield return new WaitUntil(() => !QTEManager.Instance.IsActive);
         }
         else //break if you cant do the QTE sequence
         {
@@ -365,19 +384,40 @@ public class BossAI : MonoBehaviour
             yield break;
         }
 
-        if (player && qteEndPoint) // validate the player position and the translation position
-            yield return StartCoroutine(MovePlayerTo(qteEndPoint, 1.5f)); //Move the player to the position except for in phase 3 success. In that case I dont want to.
+        //Move the player to the position except for in phase 3 success. In that case I dont want to.
+        if (player && qteEndPoint && onSuccess != BossPhase.None)
+            yield return StartCoroutine(MovePlayerTo(qteEndPoint, 1.5f)); 
 
         if (playerController) playerController.enabled = true; // re enable the player controller and should be reenabling the player combat.
-        if (playerController) playerController.enabled = true; // Validate and reenable player combat here as well.
+        if (playerCombat) playerCombat.enabled = true; // Validate and reenable player combat here as well.
 
-        bool success = qteSuccessAlways; // This makes me always succeed during development which I want to get rid of.
+        // bool success = qteSuccessAlways; // This makes me always succeed during development which I want to get rid of.
+        bool success;
+
+        if (qteSuccessAlways || QTEManager.Instance == null)
+        {
+            // Dev override or no manager → always succeed
+            success = true;
+        }
+        else
+        {
+            var qte = QTEManager.Instance;
+
+            int partials = qte.PartialCount;
+            int misses = qte.MissCount;
+
+            bool failDueToPartials = partials > qte.partialFailThreshold;
+            bool failDueToMisses = misses >= qte.missFailThreshold;
+
+            success = !(failDueToPartials || failDueToMisses);
+        }
+
 
         //Currently I dont have a way of checking if I failed or not. I just have it always set to true.
         //TODO: make the qteSuccessAlways into qteOutcome and have that be success or failure
         if (success)
         {
-            if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth; //I would rather this be bossHealth = bossMaxHealth or something like that.
+            if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth; 
             Debug.Log($"QTE success → {onSuccess}");
 
             if (onSuccess == BossPhase.None)
@@ -391,6 +431,11 @@ public class BossAI : MonoBehaviour
         else // this else case should set the phase enum  to what I want it to be. So if its phase 1 I set the enum to phase 1 and that should transition me back to phase 1
         {
             Debug.Log($"QTE failed → Reset to {onFail}");
+
+            // For Phase 3 fails, also move the player back to arena start
+            if (onFail == BossPhase.Phase3 && player && qteEndPoint)
+                yield return StartCoroutine(MovePlayerTo(qteEndPoint, 1.5f));
+
             ResetPhase(onFail);
         }
     }
@@ -452,10 +497,12 @@ public class BossAI : MonoBehaviour
         isInvulnerable = true; // For invulnerability phase
 
         if (bossSprite) bossSprite.color = Color.blue; // Placeholder sprite color change for invunerability immunity indicator
-       // Debug.Log("Phase 1 started - Boss is invulnerable.");
+                                                       // Debug.Log("Phase 1 started - Boss is invulnerable.");
 
         // yield return StartCoroutine(ChartLoaderAttack()); // For testing since it takes a while to get to phase 3
         // BossDefeated(); // for testing the scene transition
+        // yield return StartCoroutine(TransitionToPhase3()); // For testing: skip Phase 1 and go straight to Phase 3
+
         yield return PlayIdleAnimation();
         yield return DoFlySummonAttack();
 

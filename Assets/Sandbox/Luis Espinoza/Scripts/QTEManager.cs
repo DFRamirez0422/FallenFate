@@ -35,9 +35,20 @@ public class QTEManager : MonoBehaviour
     int partialCount; // partial hit counter
     int missCount; // miss counter
 
+    // NEW: boss QTE fail conditions (tweakable in inspector)
+    public int partialFailThreshold = 3; // fail if partialCount > this
+    public int missFailThreshold = 1;    // fail if missCount >= this
+
+    // NEW: optional override for how many notes to spawn this run
+    int forcedCount = 0;
+    bool useForcedCount = false;
+
     bool spawning; // if notes are spawning
     bool qteActive; // if QTE is running
     public bool IsActive => qteActive; // read-only for other scripts
+    public int PartialCount => partialCount;
+    public int MissCount => missCount;
+
 
     void Awake()
     {
@@ -57,6 +68,26 @@ public class QTEManager : MonoBehaviour
     {
         if (qteActive) return; // stop if already running
         StartCoroutine(RunQTECycle()); // start sequence
+    }
+
+    // NEW: start QTE but force a specific spawnSet entry (0 = first, 1 = second, 2 = third...)
+    public void StartQTEWithPresetIndex(int presetIndex)
+    {
+
+        if (qteActive) return;
+
+        if (spawnSet != null && spawnSet.Length > 0 &&
+            presetIndex >= 0 && presetIndex < spawnSet.Length)
+        {
+            forcedCount = spawnSet[presetIndex];
+            useForcedCount = true;
+        }
+        else
+        {
+            useForcedCount = false; // fallback to normal random behavior
+        }
+
+        StartCoroutine(RunQTECycle());
     }
 
     IEnumerator RunQTECycle()
@@ -86,9 +117,20 @@ public class QTEManager : MonoBehaviour
     {
         spawning = true; // mark spawning
 
-        int count = spawnSet.Length > 0
-            ? spawnSet[Random.Range(0, spawnSet.Length)] // pick random amount
-            : 0; // none if empty
+        int count;
+
+        // NEW: use a forced count once if set, otherwise use the random spawnSet logic
+        if (useForcedCount)
+        {
+            count = forcedCount;
+            useForcedCount = false; // consume the override
+        }
+        else
+        {
+            count = spawnSet.Length > 0
+                ? spawnSet[Random.Range(0, spawnSet.Length)] // pick random amount
+                : 0; // none if empty
+        }
 
         for (int i = 0; i < count; i++) // repeat notes
         {
@@ -148,14 +190,18 @@ public class QTEManager : MonoBehaviour
 
     public void RegisterPartial()
     {
-        partialCount++; // count partial
-        CheckLose(); // check loss
+        partialCount++; // track partial hits
     }
 
     public void RegisterMiss()
     {
-        missCount++; // count miss
-        CheckLose(); // check loss
+        missCount++; // track misses
+
+        if (missCount >= loseAfter) // if too many
+        {
+            Debug.Log("QTE failed!"); // log failure
+            // handle failure here later
+        }
     }
 
     void CheckLose()
