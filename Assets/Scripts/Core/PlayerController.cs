@@ -79,7 +79,7 @@ namespace NPA_PlayerPrefab.Scripts
 
         // -------- Internal State --------
         // Dash
-        private bool isDashing = false;
+        public bool isDashing = false;
         private float dashTimer = 0f;
         private float dashCooldownTimer = 0f;
         private Vector3 dashDirection;

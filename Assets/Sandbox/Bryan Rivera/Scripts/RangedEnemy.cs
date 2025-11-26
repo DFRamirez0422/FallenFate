@@ -13,6 +13,8 @@ public class RangedEnemy : MonoBehaviour
 
     private float timer = 0f;
 
+    public float range = 10f;   // Range of the enemy to throw the potion
+
     void Update()
     {
         if (player == null) return;
@@ -25,9 +27,17 @@ public class RangedEnemy : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= throwInterval)
         {
-            ThrowPotionAtPlayer();
+            if (IsPlayerInRange())
+            {
+                ThrowPotionAtPlayer();
+            }
             timer = 0f;
         }
+    }
+
+    bool IsPlayerInRange()
+    {
+        return Vector3.Distance(transform.position, player.position) <= range;
     }
 
     void ThrowPotionAtPlayer()
