@@ -47,7 +47,8 @@ public class ElenaAI : MonoBehaviour
 
         else if (CombatToggle && PowerUpHold == 1 || PowerUpsInGame.Count == 0 && CombatToggle) { TakeCover(); }
 
-
+        Vector3 eulerAngles = transform.eulerAngles;
+        transform.eulerAngles = new Vector3(0,0,0);
 
     }
 

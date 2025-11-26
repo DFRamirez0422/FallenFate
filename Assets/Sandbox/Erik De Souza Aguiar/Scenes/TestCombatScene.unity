@@ -127,6 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 328270741816519201, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+      propertyPath: maxHealth
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4073894061389066475, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
       propertyPath: waypoint.Array.size
       value: 0
@@ -167,6 +171,10 @@ PrefabInstance:
       propertyPath: walkPointRange
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6026146156432847194, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
+      propertyPath: hitboxController
+      value: 
+      objectReference: {fileID: 139048603}
     - target: {fileID: 6026146156432847194, guid: 35d3dd9e082e0a244b812b757873f8f1, type: 3}
       propertyPath: whatIsGround.m_Bits
       value: 8
@@ -469,6 +477,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
+--- !u!212 &1218862678 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7841627072333889302, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
+  m_PrefabInstance: {fileID: 1952223196}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1295637949
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,7 +828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1331072885507830705, guid: a065dbc71781f5d4aa18eb7bff8fc3e9, type: 3}
       propertyPath: m_MusicEntries.Array.data[0].m_Tempo
-      value: 120
+      value: 115
       objectReference: {fileID: 0}
     - target: {fileID: 1331072885507830705, guid: a065dbc71781f5d4aa18eb7bff8fc3e9, type: 3}
       propertyPath: m_MusicEntries.Array.data[1].m_Tempo
@@ -1241,9 +1254,21 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2357863302574831891, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 1218862678}
+    - target: {fileID: 2357863302574831891, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1411265335}
+    - target: {fileID: 2357863302574831891, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
+      propertyPath: visualRoot
+      value: 
+      objectReference: {fileID: 1952223203}
+    - target: {fileID: 2357863302574831891, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
+      propertyPath: rotateVisualToFacing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3533410122699017750, guid: 7eafa01e94896c449a4a0bfc1d06ed4d, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1396,7 +1421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9624d2f554c7814d8d60861e1170835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultStunDuration: 0.3
+  defaultStunDuration: 0.1
 --- !u!114 &1952223206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1455,6 +1480,7 @@ MonoBehaviour:
   finisher3Unlocked: 0
   finisher6Unlocked: 0
   finisher9Unlocked: 0
+  m_DebugUI: {fileID: 0}
 --- !u!114 &1952223210
 MonoBehaviour:
   m_ObjectHideFlags: 0
