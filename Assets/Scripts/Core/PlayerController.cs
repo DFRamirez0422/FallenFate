@@ -78,11 +78,8 @@ namespace NPA_PlayerPrefab.Scripts
         [SerializeField] private Hitstun hitstun; // Movement is disabled while stunned
 
         // -------- Added in by Angel Rodriguez --------
-        // this is to stop movement while healing
-        public bool IsHealing = false; //This is to stop movement while healing
-        [Tooltip("Healing duration to stop movement")]
-        public float healingTimer; //How long the healing stops movement
-        float currentHealingTime;
+        // this is to stop movement while catching powerUp
+        [HideInInspector] public bool IsCatchingPowerUp = false;
 
         // Note: ParryBlock is NOT gated here; parry can still run independently.
 
@@ -126,7 +123,6 @@ namespace NPA_PlayerPrefab.Scripts
 
         void Awake()
         {
-            currentHealingTime = healingTimer;
             controller = GetComponent<CharacterController>();
             if (!mainCamera) mainCamera = Camera.main;
 
@@ -187,19 +183,13 @@ namespace NPA_PlayerPrefab.Scripts
             }
 
             // -------- Added in by Angel Rodriguez --------
-            // this is to stop movement while healing
-            if (IsHealing)
+            // this is to stop movement to catch powerUp
+            if (IsCatchingPowerUp)
             {
-                desiredVelocity = Vector3.zero; // hard stop while healing
-                currentHealingTime -= 1 * Time.deltaTime;
-                Debug.Log("ISHEALING SET TO true " + currentHealingTime);
-                if (currentHealingTime <= 0)
-                {
-                    IsHealing = false;
-                    currentHealingTime = healingTimer;
-                    Debug.Log("ISHEALING SET TO FALSE");
-                }
+                desiredVelocity = Vector3.zero;
             }
+            else{}
+
             
             ApplyMovement(dt);
 

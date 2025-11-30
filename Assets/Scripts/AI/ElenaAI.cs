@@ -1,9 +1,12 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class ElenaAI : MonoBehaviour
 {
@@ -18,6 +21,7 @@ public class ElenaAI : MonoBehaviour
     [Header("Throw_PowerUp + UI Settings")]
     public int PowerUpHold = 0;
     public GameObject PowerUp;
+    [SerializeField] Transform SpawnedPowerUp;
     public List<GameObject> PowerUpsInGame = new List<GameObject>();
   
 
@@ -119,18 +123,29 @@ public class ElenaAI : MonoBehaviour
     // Throw the held power-up towards the player
     public void ThrowPowerUp()
     {
-        GameObject PowerHealth = null;
-        Vector3 SpawnPosition = transform.position + transform.forward * 2f + Vector3.up * 1f;
+        NPA_PlayerPrefab.Scripts.PlayerController playerScript = player.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
+        playerScript.IsCatchingPowerUp = true;
 
-        PowerHealth = Instantiate(PowerUp, SpawnPosition, Quaternion.identity);
+        GameObject PowerHealth = Instantiate(PowerUp, SpawnedPowerUp.position, Quaternion.identity);
         PowerUpPickups powerUp = PowerHealth.GetComponent<PowerUpPickups>();
-
-        Vector3 DirectionToPlayer = (player.position - transform.position).normalized;
-        DirectionToPlayer.y = 0f;
-
+        powerUp.isThrown = true;
         Rigidbody rb = PowerHealth.GetComponent<Rigidbody>();
-        rb.linearVelocity = DirectionToPlayer * 5f + Vector3.up * 3f;
-        Vector3.MoveTowards(PowerHealth.transform.position, player.position, 10f);
+
+        float animation = 0f;
+        animation += Time.deltaTime;
+        animation = animation % 2.5f;
+
+        PowerHealth.transform.position = ParabolicVelocity(SpawnedPowerUp.position, player.position, 5f, animation);
+        rb.AddForce((player.position - SpawnedPowerUp.position).normalized * 10f, ForceMode.VelocityChange);
+    }  
+    
+    // Calculate parabolic trajectory for throwing
+    private Vector3 ParabolicVelocity(Vector3 source, Vector3 target, float height, float gravity)
+    {
+        Func<float, float> f = x => -4 * height * x * x + 4 * height * x;
+        var midd = Vector3.Lerp(source, target, 0.5f);
+        return new Vector3(midd.x, f(gravity) + Mathf.Lerp(source.y, target.y, gravity), midd.z);
     }
 
+    
 }

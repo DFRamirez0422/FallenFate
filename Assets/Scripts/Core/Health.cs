@@ -59,7 +59,7 @@ namespace NPA_Health_Components
         private void Update()
         {
             // Throw PowerUp
-            if (Input.GetKeyDown(KeyCode.Z) && this.gameObject.CompareTag(playerTag))
+            if (Input.GetKeyDown(KeyCode.E) && this.gameObject.CompareTag(playerTag))
             {
                 if (ElenaThrow != null && ElenaThrow.PowerUpHold == 1)
                 {

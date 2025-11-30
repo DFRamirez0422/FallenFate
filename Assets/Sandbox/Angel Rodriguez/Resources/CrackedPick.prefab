@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4205735749253986735
+--- !u!1 &1766328370172320388
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2415945090200601903}
-  - component: {fileID: 3961806239129731641}
-  - component: {fileID: 2924208669833977994}
-  - component: {fileID: 2974808943527734051}
-  - component: {fileID: 2177789406666730128}
-  - component: {fileID: 2844481088587333253}
+  - component: {fileID: 2633942471702967548}
+  - component: {fileID: 772647403805086097}
+  - component: {fileID: 1229445631669457920}
+  - component: {fileID: 1103452056923559214}
+  - component: {fileID: 3493036653663696659}
+  - component: {fileID: -5579783493885890015}
   m_Layer: 0
-  m_Name: DemonicAmp
-  m_TagString: Untagged
+  m_Name: CrackedPick
+  m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2415945090200601903
+--- !u!4 &2633942471702967548
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205735749253986735}
+  m_GameObject: {fileID: 1766328370172320388}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -48.06, y: 0.58, z: 12.60466}
+  m_LocalPosition: {x: -35.51, y: 0.54, z: 12.57764}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3961806239129731641
+--- !u!33 &772647403805086097
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205735749253986735}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2924208669833977994
+  m_GameObject: {fileID: 1766328370172320388}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1229445631669457920
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205735749253986735}
+  m_GameObject: {fileID: 1766328370172320388}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ff279e18a612b1241b0430faad9e9055, type: 2}
+  - {fileID: 2100000, guid: e07dcc83cc079a1469f0c3e7ecf4f957, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,13 +89,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2974808943527734051
-BoxCollider:
+--- !u!135 &1103452056923559214
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205735749253986735}
+  m_GameObject: {fileID: 1766328370172320388}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -108,38 +108,15 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2177789406666730128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205735749253986735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a208a828242f0cd43baf3113c482b735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
-  healMode: 0
-  healValue: 25
-  boostMultiplier: 2
-  boostDuration: 10
-  shieldDuration: 0
-  interactAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  useTrigger: 1
-  interactRadius: 1.25
-  showPrompt: 1
-  promptText: Press E to consume
---- !u!54 &2844481088587333253
+--- !u!54 &3493036653663696659
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205735749253986735}
+  m_GameObject: {fileID: 1766328370172320388}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
@@ -156,7 +133,24 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
+--- !u!114 &-5579783493885890015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766328370172320388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c48cc104d52243458e07decb2c7cbd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloodyHeart: {fileID: 5367534052005006824, guid: 6a848f4a21b04684fb13e239df29d312, type: 3}
+  CrackedPick: {fileID: 1766328370172320388}
+  GuitarString: {fileID: 1522450370225304828, guid: 852de79cd6a9e27428d4e8e0ecb5b130, type: 3}
+  assets: {fileID: 0}
+  type: 0

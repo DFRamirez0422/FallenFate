@@ -3,6 +3,7 @@ using System.Data.Common;
 using NPA_Health_Components;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
@@ -24,26 +25,27 @@ public class PowerUpPickups : MonoBehaviour
     [Header("Item Settings")]
     public PowerUpType type;
     private bool Colliding;
-
+    [HideInInspector] public bool isThrown;
+    
     void OnTriggerEnter(Collider other)
     {
 
         if (other.gameObject.CompareTag("Elena"))
         {
             ElenaAI _ElenaAi = other.gameObject.GetComponent<ElenaAI>();
-            if (_ElenaAi != null )
+            if (_ElenaAi != null && !isThrown)
             {
-                if(gameObject.name == BloodyHeartName)
+                if(this.gameObject.name == BloodyHeartName)
                 {
-                    _ElenaAi.PowerUp = BloodyHeart;
+                    _ElenaAi.PowerUp = Resources.Load("BloodyHeart") as GameObject;;
                 }
                 if(this.gameObject.name == CrackedPickName)
                 {
-                    _ElenaAi.PowerUp = CrackedPick;
+                    _ElenaAi.PowerUp = Resources.Load(CrackedPickName) as GameObject;;
                 }
                 if(this.gameObject.name == GuitarStringName)
                 {
-                    _ElenaAi.PowerUp = GuitarString;
+                    _ElenaAi.PowerUp = Resources.Load(GuitarStringName) as GameObject;;
                 }
               _ElenaAi.PowerUpHold = 1;
               var copy = this.gameObject;
@@ -52,7 +54,35 @@ public class PowerUpPickups : MonoBehaviour
 
         }
 
+        if(other.gameObject.CompareTag("Player") && isThrown)
+        {
+           PowerUpeffects _powerUpeffects = other.gameObject.GetComponent<PowerUpeffects>();
+           NPA_PlayerPrefab.Scripts.PlayerController playerScript = other.gameObject.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
+           if(_powerUpeffects != null)
+            {
+                if(this.gameObject.name == BloodyHeartName)
+                {
+                    _powerUpeffects.FullHeal();
+                    playerScript.IsCatchingPowerUp = false;
+                }
+                if(this.gameObject.name == CrackedPickName)
+                {
+                    _powerUpeffects.Heal(0.25f);
+                    playerScript.IsCatchingPowerUp = false;
+                }
+                if(this.gameObject.name == GuitarStringName)
+                {
+                    _powerUpeffects.Heal(0.10f);
+                    playerScript.IsCatchingPowerUp = false;
+                }
+              var copy = this.gameObject;
+              Destroy(copy);
+            }
+        }
+
     }
+
+    
 
 
 
