@@ -10,6 +10,7 @@ public class RangedEnemy : MonoBehaviour
     [Header("Attack Settings")]
     public float throwInterval = 3f;    // Time between throws
     public float flightTime = 1.5f;     // Time it takes for the potion to reach the target
+    public float attackRange = 15f;     // Only throw if player is within this distance
 
     private float timer = 0f;
 
@@ -18,6 +19,9 @@ public class RangedEnemy : MonoBehaviour
     void Update()
     {
         if (player == null) return;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance > attackRange) return;
 
         // Face the player
         Vector3 lookDirection = (player.position - transform.position).normalized;

@@ -22,6 +22,11 @@ public class ElenaAI_JoseE : MonoBehaviour
 
     // vvvvv Added by Jose E. from original file. vvvvv //
 
+    ///
+    /// I dont believe this will be needed at all? I flat out do not know how this mechanic should
+    /// be implemented, but my gut tells me this is the wrong way.
+    /// FIXME to whomever is reading this, I suppose.
+    /// 
     [Header("QTE Events")]
     [SerializeField] private QuickTimeEvent_JoseE m_QTEvent;
     private bool m_IsQueryingQTEvent = false;
@@ -55,7 +60,7 @@ public class ElenaAI_JoseE : MonoBehaviour
 
         else if (CombatToggle && PowerUpHold == 1 || PowerUpsInGame.Count == 0 && CombatToggle) { TakeCover(); }
 
-        UpdateQuickTimeEvent(); // ADDED BY: Jose E.
+        UpdateQuickTimeEvent(); // ADDED BY: Jose E. FIXME probably remove this line
     }
 
 
@@ -130,35 +135,35 @@ public class ElenaAI_JoseE : MonoBehaviour
         /// Let's just pretend the quick time event was success and see what happens!
         /// 
         /// For now, I create a new copy of the script and modify it myself in the sandbox.
+        /// FIXME to whomever is reading this, I suppose.
         m_QTEvent.StartQTE();
         m_IsQueryingQTEvent = true;
-
 
         // ^^^^^ Added by Jose E. from original file. ^^^^^ //
     }
 
+    /// FIXME: something about this doesn't seem right, but I don't know where else this piece
+    /// of code should go. I guess Elena is meant to directly add to the player inventory? I don't
+    /// think I was told how this mechanic should work whatsoever. I don't know where the player
+    /// inventory even is for that matter. The instructions below don't quite explain much, sad
+    /// to say.
+    /// 
+    /// INSTRUCTIONS:
+    /// 1. Player kils enemy
+    /// 2. Enemy Drops Item
+    /// 3. Elena Locates Item and walk to it
+    /// 4. QTE Prompt appears this is you
+    ///   A. Player succeds, item is catched
+    ///   B. Player fails, no item is caught
+    /// *make sure to add console debugs that tell us the item was successful or not in being caught.
     private void UpdateQuickTimeEvent()
     {
         if (!m_IsQueryingQTEvent) return;
 
-        if (!m_QTEvent.IsStillRunning)
+        if (!m_QTEvent.IsActive)
         {
             if (m_QTEvent.IsHitOnTime)
             {
-                /// FIXME: something about this doesn't seem right, but I don't know where else this piece
-                /// of code should go. I guess Elena is meant to directly add to the player inventory? I don't
-                /// think I was told how this mechanic should work whatsoever. I don't know where the player
-                /// inventory even is for that matter. The instructions below don't quite explain much, sad
-                /// to say.
-                /// 
-                /// INSTRUCTIONS:
-                /// 1. Player kils enemy
-                /// 2. Enemy Drops Item
-                /// 3. Elena Locates Item and walk to it
-                /// 4. QTE Prompt appears this is you
-                ///   A. Player succeds, item is catched
-                ///   B. Player fails, no item is caught
-                /// *make sure to add console debugs that tell us the item was successful or not in being caught.
                 Debug.Log("I hit on time! Adding to the player inventory...");
             }
             else

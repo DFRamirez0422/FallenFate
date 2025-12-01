@@ -80,6 +80,8 @@ public class Fly : SimpleAi
             string attackID = hitboxController.GetHitboxIDByName("");
             if (!string.IsNullOrEmpty(attackID))
             {
+                GameObject newAttackPoint = Instantiate(MeleePrefab, attackPoint.position, attackPoint.rotation, attackPoint);
+
                 hitboxController.ActivateHitbox(attackID);
                 Debug.Log($"{name} triggered FlashAttackMelee() → {attackID}");
 
