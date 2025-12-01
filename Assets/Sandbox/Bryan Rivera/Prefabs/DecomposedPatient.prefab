@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 6714475316074369623}
   - component: {fileID: 2474761752656822568}
   - component: {fileID: 7595421767954025738}
-  - component: {fileID: 8842464975252446168}
-  - component: {fileID: 4289927607314205745}
+  - component: {fileID: 3340397871051990533}
   m_Layer: 0
   m_Name: DecomposedPatient
   m_TagString: Untagged
@@ -132,6 +131,7 @@ MonoBehaviour:
   player: {fileID: 0}
   throwInterval: 3
   flightTime: 1.5
+  attackRange: 15
 --- !u!114 &7595421767954025738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   attackCooldown: 1.5
---- !u!114 &8842464975252446168
+--- !u!114 &3340397871051990533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,33 +159,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
---- !u!54 &4289927607314205745
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3381806204420993810}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &5571388001574066614
 GameObject:
   m_ObjectHideFlags: 0
