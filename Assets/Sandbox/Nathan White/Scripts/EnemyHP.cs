@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class EnemyHP : MonoBehaviour
 {
-    public int maxHealth = 10;
+    public int maxHealth = 45;
     public int currentHealth;
     public Slider slider;
     
