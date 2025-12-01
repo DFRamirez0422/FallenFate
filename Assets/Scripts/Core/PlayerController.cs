@@ -282,8 +282,10 @@ namespace NPA_PlayerPrefab.Scripts
         // --- Dash logic + dash attack window ---
         void HandleDash(float dt)
         {
-            bool dashPressed = Input.GetKeyDown(KeyCode.Space) ||
-                               Input.GetKeyDown(KeyCode.Joystick1Button1);
+            // EDITED BY: Jose E.
+            // Issue #366 is to change the controls. I have decided to use the Unity settings for easier
+            // development and modifications if need be.
+            bool dashPressed = Input.GetButtonDown("Dash");
 
             if (dashCooldownTimer > 0f) dashCooldownTimer -= dt;
 
