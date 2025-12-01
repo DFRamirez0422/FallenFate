@@ -39,6 +39,10 @@ public class PowerUpPickups : MonoBehaviour
 
     void Update()
     {
+        Elena = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
+        startPos = Elena.SpawnedPowerUpposition;
+        targetPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); 
+
         if (isThrown)
         {
             ani += Time.deltaTime;
