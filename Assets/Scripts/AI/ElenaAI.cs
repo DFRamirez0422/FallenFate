@@ -21,7 +21,7 @@ public class ElenaAI : MonoBehaviour
     [Header("Throw_PowerUp + UI Settings")]
     public int PowerUpHold = 0;
     public GameObject PowerUp;
-    [SerializeField] Transform SpawnedPowerUp;
+    public Transform SpawnedPowerUpposition;
     public List<GameObject> PowerUpsInGame = new List<GameObject>();
   
 
@@ -126,7 +126,7 @@ public class ElenaAI : MonoBehaviour
         NPA_PlayerPrefab.Scripts.PlayerController playerScript = player.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
         playerScript.IsCatchingPowerUp = true;
 
-        GameObject PowerHealth = Instantiate(PowerUp, SpawnedPowerUp.position, Quaternion.identity);
+        GameObject PowerHealth = Instantiate(PowerUp, SpawnedPowerUpposition.position, Quaternion.identity);
         PowerUpPickups powerUp = PowerHealth.GetComponent<PowerUpPickups>();
         powerUp.isThrown = true;
         Rigidbody rb = PowerHealth.GetComponent<Rigidbody>();
@@ -135,17 +135,9 @@ public class ElenaAI : MonoBehaviour
         animation += Time.deltaTime;
         animation = animation % 2.5f;
 
-        PowerHealth.transform.position = ParabolicVelocity(SpawnedPowerUp.position, player.position, 5f, animation);
-        rb.AddForce((player.position - SpawnedPowerUp.position).normalized * 10f, ForceMode.VelocityChange);
+     //   rb.AddForce((player.position - SpawnedPowerUp.position).normalized * 10f, ForceMode.VelocityChange);
+          rb.linearVelocity = (player.position - SpawnedPowerUpposition.position).normalized * 10f;
     }  
-    
-    // Calculate parabolic trajectory for throwing
-    private Vector3 ParabolicVelocity(Vector3 source, Vector3 target, float height, float gravity)
-    {
-        Func<float, float> f = x => -4 * height * x * x + 4 * height * x;
-        var midd = Vector3.Lerp(source, target, 0.5f);
-        return new Vector3(midd.x, f(gravity) + Mathf.Lerp(source.y, target.y, gravity), midd.z);
-    }
 
     
 }

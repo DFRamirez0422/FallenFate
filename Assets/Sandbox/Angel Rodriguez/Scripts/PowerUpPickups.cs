@@ -1,13 +1,9 @@
 using System.Collections.Generic;
-using System.Data.Common;
 using NPA_Health_Components;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
+using System;
 
 public class PowerUpPickups : MonoBehaviour
 {
@@ -26,14 +22,41 @@ public class PowerUpPickups : MonoBehaviour
     public PowerUpType type;
     private bool Colliding;
     [HideInInspector] public bool isThrown;
-    
+
+    [Header("parabolic Settings")]
+    protected float ani;
+    public float height = 5f;
+    private Transform startPos;
+    private Transform targetPos;
+    private ElenaAI Elena;
+
+    void Awake()
+    {
+        Elena = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
+        startPos = Elena.SpawnedPowerUpposition;
+        targetPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); 
+    }
+
+    void Update()
+    {
+        if (isThrown)
+        {
+            ani += Time.deltaTime;
+            ani = ani % 2f;
+
+            transform.position = ParabolicVelocity(startPos.position, targetPos.position, height, ani / 2f);
+        }
+    }
+
+     private
+
     void OnTriggerEnter(Collider other)
     {
 
         if (other.gameObject.CompareTag("Elena"))
         {
             ElenaAI _ElenaAi = other.gameObject.GetComponent<ElenaAI>();
-            if (_ElenaAi != null && !isThrown)
+            if (_ElenaAi != null && !isThrown && _ElenaAi.PowerUpHold == 0)
             {
                 if(this.gameObject.name == BloodyHeartName)
                 {
@@ -54,7 +77,8 @@ public class PowerUpPickups : MonoBehaviour
 
         }
 
-        if(other.gameObject.CompareTag("Player") && isThrown)
+        if(other.gameObject.CompareTag("Player") && isThrown 
+            || other.gameObject.CompareTag("Player") && !isThrown)
         {
            PowerUpeffects _powerUpeffects = other.gameObject.GetComponent<PowerUpeffects>();
            NPA_PlayerPrefab.Scripts.PlayerController playerScript = other.gameObject.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
@@ -83,7 +107,12 @@ public class PowerUpPickups : MonoBehaviour
     }
 
     
-
+        private Vector3 ParabolicVelocity(Vector3 source, Vector3 target, float height, float gravity)
+    {
+        Func<float, float> f = x =>  -4 * height * x * x + 4 * height * x;
+        var midd = Vector3.Lerp(source, target, gravity);
+        return new Vector3(midd.x, f(gravity) + Mathf.Lerp(source.y, target.y, gravity), midd.z);
+    }
 
 
 }
