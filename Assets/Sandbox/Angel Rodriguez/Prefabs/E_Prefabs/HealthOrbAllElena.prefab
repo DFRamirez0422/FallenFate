@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cf416ce0926ae0a459ef52bfd4906996, type: 3}
       propertyPath: m_TagString
-      value: E_PowerUp
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -88,6 +88,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf416ce0926ae0a459ef52bfd4906996, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5267806082410836732}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cf416ce0926ae0a459ef52bfd4906996, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7936033011512197157}
   m_SourcePrefab: {fileID: 100100000, guid: cf416ce0926ae0a459ef52bfd4906996, type: 3}
 --- !u!1 &3084561106614377567 stripped
 GameObject:
@@ -137,7 +140,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -166,7 +169,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3084561106614377567}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e0b61c26f266724d87b5119c1e7e7b6, type: 3}
   m_Name: 
@@ -174,6 +177,26 @@ MonoBehaviour:
   E_FullHealthPower: {fileID: 3084561106614377567}
   E_HalfHealPower: {fileID: 7919457073474841629, guid: 3150b5cd840b96e4ba97e49a8f0910cb, type: 3}
   E_TenPercentHealthPower: {fileID: 9043130487173914243, guid: 73e889fe38fad3b41a570ed78dbd4b2e, type: 3}
+  E_FullHealthIcon: {fileID: 21300000, guid: b1893582991ab98458e9f8735bdf88be, type: 3}
+  E_HalfHealIcon: {fileID: 21300000, guid: 5a5abf069b61946408bb26ed04d775a0, type: 3}
+  E_TenPercentHealthIcon: {fileID: 21300000, guid: 4295b5d3a4c594f4d8ffb1a2db891aba, type: 3}
   D_FullHealthPower: {fileID: 854027606637974863, guid: 0207495009c92df44bebbe2d27da3563, type: 3}
   D_HalfHealPower: {fileID: 5397236875273603122, guid: 58db01b7e4465174ebb424572e035ee6, type: 3}
   D_TenPercentHealthPower: {fileID: 7851857151876516704, guid: 40141d664fe34ee4c8a98c9272af738c, type: 3}
+--- !u!114 &7936033011512197157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3084561106614377567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c48cc104d52243458e07decb2c7cbd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloodyHeart: {fileID: 0}
+  CrackedPick: {fileID: 0}
+  GuitarString: {fileID: 0}
+  assets: {fileID: 0}
+  type: 0

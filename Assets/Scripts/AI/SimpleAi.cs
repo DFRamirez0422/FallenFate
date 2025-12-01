@@ -180,6 +180,7 @@ public class SimpleAi : MonoBehaviour
             string attackID = hitboxController.GetHitboxIDByName("");
             if (!string.IsNullOrEmpty(attackID))
             {
+                Instantiate(MeleePrefab, attackPoint.position, transform.rotation * Quaternion.Euler(0,-90,0));
                 hitboxController.ActivateHitbox(attackID);
                 Debug.Log($"{name} triggered FlashAttackMelee() → {attackID}");
 

@@ -14,10 +14,10 @@ public class QuickTimeEvent_JoseE : MonoBehaviour
     // vvvvv Added by Jose E. from original file. vvvvv //
 
     [Tooltip("List of callbacks to be invoked upon hitting the QTE event on time.")]
-    [SerializeField] private UnityEvent OnSuccessfulHit;
+    [SerializeField] private UnityEvent m_OnSuccessfulHit;
 
     [Tooltip("List of callbacks to be invoked upon not hitting the QTE on time.")]
-    [SerializeField] private UnityEvent OnFailedHit;
+    [SerializeField] private UnityEvent m_OnFailedHit;
 
     /// <summary>
     /// Exposed public field that returns true if the quick time event was hit on time.
@@ -27,7 +27,7 @@ public class QuickTimeEvent_JoseE : MonoBehaviour
     /// <summary>
     /// Exposed public field that returns true if the quick time event is still running.
     /// </summary>
-    public bool IsStillRunning => qteActive; // ADDED BY: Jose E.
+    public bool IsActive => qteActive; // ADDED BY: Jose E.
 
     // ^^^^^ Added by Jose E. from original file. ^^^^^ //
 
@@ -58,7 +58,7 @@ public class QuickTimeEvent_JoseE : MonoBehaviour
                 // ADDED BY: Jose E.
                 Debug.Log("I hit on time!");
                 IsHitOnTime = true; 
-                OnSuccessfulHit.Invoke();
+                m_OnSuccessfulHit?.Invoke();
 
                 yield break; // Exit coroutine on success
             }
@@ -72,7 +72,7 @@ public class QuickTimeEvent_JoseE : MonoBehaviour
 
             // ADDED BY: Jose E.
             Debug.Log("No, I fail the event...");
-            OnFailedHit.Invoke();
+            m_OnFailedHit?.Invoke();
 
             qteActive = false;
         }

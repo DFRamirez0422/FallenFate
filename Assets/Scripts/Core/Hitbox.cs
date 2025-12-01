@@ -27,19 +27,53 @@ namespace NPA_PlayerPrefab.Scripts
         {
             if (other.gameObject == owner) return; // Ignore self-hits
 
-                // Deal damage to EnemyHP component. I changed the parameter health to enemyHealth - Rodney Torres
-                if (other.TryGetComponent<EnemyHP>(out EnemyHP enemyHealth))
+            // Deal damage to EnemyHP component. I changed the parameter health to enemyHealth - Rodney Torres
+            // Added a boss invulnerability check - Rodney Torres
+            if (other.TryGetComponent<EnemyHP>(out EnemyHP enemyHealth))
+            {
+                if (other.TryGetComponent<BossAI>(out BossAI bossAI))
+                {
+                    if (!bossAI.IsInvulnerable)
+                    {
+                        enemyHealth.TakeDamage(attackData.damage);
+                        ownerCombat?.RegisterHit();
+                    }
+                    else
+                    {
+                        Debug.Log("Hit blocked: Boss is invulnerable.");
+                    }
+                }
+                else
                 {
                     enemyHealth.TakeDamage(attackData.damage);
                     ownerCombat?.RegisterHit();
                 }
+            }
 
-            // Deal damage to Health component
+            // Added a boss invulnerability check - Rodney Torres
             if (other.TryGetComponent<Health>(out Health health))
             {
-                health.TakeDamage(attackData.damage);
-                ownerCombat?.RegisterHit();
+                if (other.TryGetComponent<BossAI>(out BossAI bossAI))
+                {
+                    if (!bossAI.IsInvulnerable)
+                    {
+                        health.TakeDamage(attackData.damage);
+                        ownerCombat?.RegisterHit();
+                    }
+                    else
+                    {
+                        Debug.Log("Hit blocked: Boss is invulnerable.");
+                    }
+                }
+                else
+                {
+                    health.TakeDamage(attackData.damage);
+                    ownerCombat?.RegisterHit();
+                }
             }
+
+
+
 
             if (other.TryGetComponent<Hitstun>(out Hitstun hitstun))
             {

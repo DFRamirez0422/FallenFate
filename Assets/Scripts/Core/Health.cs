@@ -1,3 +1,4 @@
+using NPA_PlayerPrefab.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -44,7 +45,8 @@ namespace NPA_Health_Components
         private void Awake()
         {
             currentHealth = maxHealth; // Initialize health on spawn
-            _Respawn = GameObject.FindGameObjectWithTag("RespawnManager").GetComponent<Player_Respawn>();
+
+            //
             ElenaThrow = GameObject.FindGameObjectWithTag("Elena").GetComponent<ElenaAI>();
 
             rend = GetComponentInChildren<Renderer>();
@@ -56,7 +58,8 @@ namespace NPA_Health_Components
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Z) && this.gameObject.CompareTag(playerTag))
+            // Throw PowerUp
+            if (Input.GetKeyDown(KeyCode.E) && this.gameObject.CompareTag(playerTag))
             {
                 if (ElenaThrow != null && ElenaThrow.PowerUpHold == 1)
                 {
@@ -130,36 +133,6 @@ namespace NPA_Health_Components
             }
         }
 
-
-        //Change By Angel Rodriguez
-        //Heal Player for a certain percent
-        public void Heal(float amount)
-        {
-            if (this.gameObject.CompareTag(playerTag))
-            {
-                if (currentHealth < maxHealth)
-                {
-                    float got = maxHealth * amount;
-                    currentHealth += (int)got;
-                    Debug.Log($"Healed {(int)got}. Health now {currentHealth}");
-                }
-                else
-                {
-                    Debug.Log($"Healed 0. Health now {currentHealth}");
-                }
-            }
-        }
-
-        public void FullHeal()
-        {
-            if (this.gameObject.CompareTag(playerTag))
-            {
-                int got = maxHealth - currentHealth;
-                currentHealth += got;
-                Debug.Log($"Healed {got}. Health now {currentHealth}");
-            }
-        }
-
         public void IFrameTimer()
         {
             iframe = false;
@@ -172,17 +145,24 @@ namespace NPA_Health_Components
             if (this.gameObject.CompareTag(playerTag))
             {
                 m_hasDied = true; //ADDED BY: Jose E.
-                //this.transform.position = _Respawn.CurrentCheckPoint.transform.position;
                 SceneManager.LoadScene("Death");
-                currentHealth = 100;
-                Debug.Log("Player died");
-                Debug.Log("Respawning Player...");
             }
             else
             {
                 Destroy(this.gameObject);
             }
         }
+
+         public void Heal(float amount)
+            {
+            float HealthGotten = MaxHealth * amount;
+            currentHealth += (int)HealthGotten;
+            if (currentHealth > MaxHealth)
+            {
+                currentHealth = MaxHealth;
+            }
+            Debug.Log($"Healed {(int)HealthGotten}. HP: {currentHealth}/{MaxHealth}");
+            }
 
         // Convenience overloads used by items
         public void HealAbsolute(int amount)
