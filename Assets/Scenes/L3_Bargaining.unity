@@ -4438,6 +4438,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 109229613223343036, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 662028789197962405, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -4481,6 +4485,26 @@ PrefabInstance:
     - target: {fileID: 1600373476314144087, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
       propertyPath: m_Radius
       value: 10.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107672749320073138, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3537810214919115313, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6340399879733333321, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655268989770013373, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683859851599413048, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9087571174451105601, guid: 58c5e9bf62873154ca521b0aac88d99b, type: 3}
       propertyPath: m_Name
@@ -6990,7 +7014,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Move with W A S D
+  m_text: 'Move with arrowKeys
 
 
     Dash with C
@@ -7000,7 +7024,7 @@ MonoBehaviour:
 
 
     Gain Health
-    with Z
+    with E
 
 
 '
