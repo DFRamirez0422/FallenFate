@@ -23,7 +23,7 @@ public class BossAI : MonoBehaviour
 
     //Variables for health.
     [Header("Boss Health / Phase State")]
-    private Health bossHealth;
+    private EnemyHP bossHealth;
 
     //Variables to give visual warning the boss is going to attack. This is just flashing red
     [Header("Telegraphing")]
@@ -92,9 +92,9 @@ public class BossAI : MonoBehaviour
     void Start()
     {
         bossSprite = GetComponent<SpriteRenderer>();
-        bossHealth = GetComponent<Health>();
+        bossHealth = GetComponent<EnemyHP>();
         if (bossSprite) originalColor = bossSprite.color;
-        if (!bossHealth) Debug.LogWarning("Health script missing on Boss.");
+        if (!bossHealth) Debug.LogWarning("EnemyHP script missing on Boss.");
 
         if (!player)
         {
@@ -417,7 +417,7 @@ public class BossAI : MonoBehaviour
         //TODO: make the qteSuccessAlways into qteOutcome and have that be success or failure
         if (success)
         {
-            if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth; 
+            if (bossHealth) bossHealth.currentHealth = bossHealth.maxHealth; 
             Debug.Log($"QTE success → {onSuccess}");
 
             if (onSuccess == BossPhase.None)
@@ -461,20 +461,20 @@ public class BossAI : MonoBehaviour
 
         // Safe threshold: strictly below MaxHealth
         int threshold = Mathf.Clamp(
-            Mathf.FloorToInt(bossHealth.MaxHealth * pct),
+            Mathf.FloorToInt(bossHealth.maxHealth * pct),
             1,
-            bossHealth.MaxHealth - 1
+            bossHealth.maxHealth - 1
 
         //I want a debug message showing what the threshold is when it is set.
         );
 
         // If we somehow start at/below threshold, refill so the loop actually runs
-        if (bossHealth.CurrentHealth <= threshold)
-            if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth; // need to replace heal with something else thats simpler like bossHealth = bossMaxHealth. Calling this script is gonna change
+        if (bossHealth.currentHealth <= threshold)
+            if (bossHealth) bossHealth.currentHealth = bossHealth.maxHealth; // need to replace heal with something else thats simpler like bossHealth = bossMaxHealth. Calling this script is gonna change
 
-       // Debug.Log($"[ShortLoop] pct={pct:P0} max={bossHealth.MaxHealth} threshold={threshold} current={bossHealth.CurrentHealth}"); // not sure if this works.
+       // Debug.Log($"[ShortLoop] pct={pct:P0} max={bossHealth.maxHealth} threshold={threshold} current={bossHealth.CurrentHealth}"); // not sure if this works.
 
-        while (bossHealth.CurrentHealth > threshold)
+        while (bossHealth.currentHealth > threshold)
         {
             yield return PlayIdleAnimation();
             switch (Random.Range(0, 2))
@@ -522,7 +522,7 @@ public class BossAI : MonoBehaviour
         if (bossSprite) bossSprite.color = originalColor;
 
         // Heal + grace frame to avoid instant QTE, then loop
-        if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth; // This should be replaced to a simple bossHealth = bossMaxHealth
+        if (bossHealth) bossHealth.currentHealth = bossHealth.maxHealth; // This should be replaced to a simple bossHealth = bossMaxHealth
         yield return null;
         yield return ShortRangeAttackLoop(true, BossPhase.Phase2, BossPhase.Phase1); // not sure what these params mean but they are prob the success and failure reqs.
 
@@ -556,7 +556,7 @@ public class BossAI : MonoBehaviour
         isInvulnerable = false;
         if (bossSprite) bossSprite.color = originalColor;
 
-        if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth;
+        if (bossHealth) bossHealth.currentHealth = bossHealth.maxHealth;
         yield return null; // grace frame
         yield return ShortRangeAttackLoop(true, BossPhase.Phase3, BossPhase.Phase2);
 
@@ -578,7 +578,7 @@ public class BossAI : MonoBehaviour
         isInvulnerable = false;
         if (bossSprite) bossSprite.color = originalColor;
 
-        if (bossHealth) bossHealth.currentHealth = bossHealth.MaxHealth;
+        if (bossHealth) bossHealth.currentHealth = bossHealth.maxHealth;
         yield return null; // grace frame so we don't insta-QTE
         yield return ShortRangeAttackLoop(true, BossPhase.None, BossPhase.Phase3);
 
