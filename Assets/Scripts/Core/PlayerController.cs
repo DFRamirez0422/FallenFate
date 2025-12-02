@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 
 namespace NPA_PlayerPrefab.Scripts
@@ -75,6 +76,11 @@ namespace NPA_PlayerPrefab.Scripts
 
         [Header("Hitstun Reference")]
         [SerializeField] private Hitstun hitstun; // Movement is disabled while stunned
+
+        // -------- Added in by Angel Rodriguez --------
+        // this is to stop movement while catching powerUp
+        [HideInInspector] public bool IsCatchingPowerUp = false;
+
         // Note: ParryBlock is NOT gated here; parry can still run independently.
 
         // -------- Internal State --------
@@ -151,9 +157,12 @@ namespace NPA_PlayerPrefab.Scripts
 
         void Update()
         {
+
             float dt = Time.deltaTime;
 
             ReadInput();
+
+
             GetMoveDirection();
 
             // Maintain real facing from dash / movement
@@ -173,6 +182,15 @@ namespace NPA_PlayerPrefab.Scripts
                 desiredVelocity = Vector3.zero; // hard stop while stunned
             }
 
+            // -------- Added in by Angel Rodriguez --------
+            // this is to stop movement to catch powerUp
+            if (IsCatchingPowerUp)
+            {
+                desiredVelocity = Vector3.zero;
+            }
+            else{}
+
+            
             ApplyMovement(dt);
 
             if (clampZLane) ClampLaneZ();
