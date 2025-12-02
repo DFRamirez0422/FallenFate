@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1998676592857247859
+--- !u!1 &4205735749253986735
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9072856390257878577}
-  - component: {fileID: 7023581922750760383}
-  - component: {fileID: 7179347113130188226}
-  - component: {fileID: 8841133951225536872}
-  - component: {fileID: 896286613512148076}
-  - component: {fileID: 8480034137856980770}
+  - component: {fileID: 2415945090200601903}
+  - component: {fileID: 3961806239129731641}
+  - component: {fileID: 2924208669833977994}
+  - component: {fileID: 2974808943527734051}
+  - component: {fileID: 2177789406666730128}
+  - component: {fileID: 2844481088587333253}
   m_Layer: 0
-  m_Name: DistortionShield
-  m_TagString: Untagged
+  m_Name: DemonicAmp
+  m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9072856390257878577
+--- !u!4 &2415945090200601903
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998676592857247859}
+  m_GameObject: {fileID: 4205735749253986735}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -45.32, y: 0.62, z: 12.60466}
+  m_LocalPosition: {x: -48.06, y: 0.58, z: 12.60466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7023581922750760383
+--- !u!33 &3961806239129731641
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998676592857247859}
+  m_GameObject: {fileID: 4205735749253986735}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7179347113130188226
+--- !u!23 &2924208669833977994
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998676592857247859}
+  m_GameObject: {fileID: 4205735749253986735}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a90478745bfef7f409f047ec8d981f55, type: 2}
+  - {fileID: 2100000, guid: ff279e18a612b1241b0430faad9e9055, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,13 +89,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8841133951225536872
+--- !u!65 &2974808943527734051
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998676592857247859}
+  m_GameObject: {fileID: 4205735749253986735}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -110,36 +110,36 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &896286613512148076
+--- !u!114 &2177789406666730128
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998676592857247859}
+  m_GameObject: {fileID: 4205735749253986735}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a208a828242f0cd43baf3113c482b735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  type: 1
   healMode: 0
-  healValue: 0
-  boostMultiplier: 0
-  boostDuration: 0
-  shieldDuration: 10
-  interactAction: {fileID: 0}
+  healValue: 25
+  boostMultiplier: 2
+  boostDuration: 10
+  shieldDuration: 0
+  interactAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   useTrigger: 1
   interactRadius: 1.25
   showPrompt: 1
   promptText: Press E to consume
---- !u!54 &8480034137856980770
+--- !u!54 &2844481088587333253
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998676592857247859}
+  m_GameObject: {fileID: 4205735749253986735}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0

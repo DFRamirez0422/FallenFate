@@ -1,13 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHP : MonoBehaviour
 {
-    public int maxHealth = 10;
+    public int maxHealth = 45;
     public int currentHealth;
+    public Slider slider;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentHealth = maxHealth;
+        slider.maxValue = maxHealth;
     }
 
     // Update is called once per frame
@@ -35,5 +39,6 @@ public class EnemyHP : MonoBehaviour
         // Subtract incoming damage from current health
         currentHealth -= damage;
         Debug.Log($"{gameObject.name} took damage {damage} damage. HP: {currentHealth}/{maxHealth}");
+        slider.value = currentHealth;
     }
 }
