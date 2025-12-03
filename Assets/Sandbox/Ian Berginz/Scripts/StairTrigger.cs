@@ -23,9 +23,24 @@ public class StairTrigger : MonoBehaviour
         screenFader.FadeToBlack(null);
         yield return new WaitForSeconds(screenFader.fadeDuration);
 
+        // Disable CharacterController before teleporting to prevent snap-back
+        CharacterController controller = player.GetComponent<CharacterController>();
+        bool wasEnabled = false;
+        if (controller != null)
+        {
+            wasEnabled = controller.enabled;
+            controller.enabled = false;
+        }
+
         // Move player
         player.position = destination.position;
         player.rotation = destination.rotation;
+
+        // Re-enable CharacterController after teleporting
+        if (controller != null && wasEnabled)
+        {
+            controller.enabled = true;
+        }
 
         // Fade back in
         screenFader.FadeFromBlack(null);
