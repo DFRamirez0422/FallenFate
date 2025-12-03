@@ -13,7 +13,7 @@ public void LoadMainMenu()
 
     public void LoadLevel1()
     {
-        SceneManager.LoadScene("L3_Bargaining_Infirmary");
+        SceneManager.LoadScene("L3_Bargain");
     }
 
 

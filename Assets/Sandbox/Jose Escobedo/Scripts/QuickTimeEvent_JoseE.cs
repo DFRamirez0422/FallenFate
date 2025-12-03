@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
-using UnityEditor.EditorTools;
 
 public class QuickTimeEvent_JoseE : MonoBehaviour
 {
