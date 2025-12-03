@@ -34,7 +34,7 @@ public class DG_RythmCombat : MonoBehaviour
     {
         perfectHitsText.text = perfectHits.ToString();
         // Check for input within the timing window
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             float timeSinceBeat = Time.time - lastBeatTime;
             
