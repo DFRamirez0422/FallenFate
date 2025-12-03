@@ -1,8 +1,12 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class ElenaAI : MonoBehaviour
 {
@@ -14,14 +18,19 @@ public class ElenaAI : MonoBehaviour
     public bool CombatToggle = false;
     public GameObject[] objects;
     
-    [Header("Throw_PowerUp")]
+    [Header("Throw_PowerUp + UI Settings")]
     public int PowerUpHold = 0;
     public GameObject PowerUp;
+    public Transform SpawnedPowerUpposition;
     public List<GameObject> PowerUpsInGame = new List<GameObject>();
+  
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
     {
+        // Initialize UI for throw
         player = GameObject.FindGameObjectWithTag("Player").transform;;
 
 
@@ -47,7 +56,8 @@ public class ElenaAI : MonoBehaviour
 
         else if (CombatToggle && PowerUpHold == 1 || PowerUpsInGame.Count == 0 && CombatToggle) { TakeCover(); }
 
-
+        Vector3 eulerAngles = transform.eulerAngles;
+        transform.eulerAngles = new Vector3(0,0,0);
 
     }
 
@@ -89,6 +99,8 @@ public class ElenaAI : MonoBehaviour
         agent.SetDestination(closest.transform.position);
     }
 
+   //---- Change made by Angel.Rodriguez ----//
+   // Retrieve the nearest power-up from the ground
    public void RetrivePowerUp()
    {
         GameObject  NearestPowerUp = null;
@@ -108,11 +120,24 @@ public class ElenaAI : MonoBehaviour
         agent.SetDestination(NearestPowerUp.transform.position);
    }
 
+    // Throw the held power-up towards the player
     public void ThrowPowerUp()
     {
-        GameObject PowerHealth = null;
-        PowerHealth = Instantiate(PowerUp, transform.position, Quaternion.identity);
-        PowerHealth.GetComponent<Rigidbody>().MovePosition(player.position);
-    }
+        NPA_PlayerPrefab.Scripts.PlayerController playerScript = player.GetComponent<NPA_PlayerPrefab.Scripts.PlayerController>();
+        playerScript.IsCatchingPowerUp = true;
 
+        GameObject PowerHealth = Instantiate(PowerUp, SpawnedPowerUpposition.position, Quaternion.identity);
+        PowerUpPickups powerUp = PowerHealth.GetComponent<PowerUpPickups>();
+        powerUp.isThrown = true;
+        Rigidbody rb = PowerHealth.GetComponent<Rigidbody>();
+
+        float animation = 0f;
+        animation += Time.deltaTime;
+        animation = animation % 2.5f;
+
+     //   rb.AddForce((player.position - SpawnedPowerUp.position).normalized * 10f, ForceMode.VelocityChange);
+          rb.linearVelocity = (player.position - SpawnedPowerUpposition.position).normalized * 10f;
+    }  
+
+    
 }

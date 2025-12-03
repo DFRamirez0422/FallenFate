@@ -541,6 +541,7 @@ GameObject:
   - component: {fileID: -1207989653628215955}
   - component: {fileID: 7070294306049946436}
   - component: {fileID: -7301946914468356137}
+  - component: {fileID: 459067063948096942}
   m_Layer: 0
   m_Name: Fly template
   m_TagString: Untagged
@@ -557,7 +558,7 @@ Transform:
   m_GameObject: {fileID: 4865858747938109400}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4686327, y: 0.446, z: -3.895946}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.25754, y: 0.25754, z: 0.5757307}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -774,6 +775,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  currentHealth: 0
+--- !u!114 &459067063948096942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4865858747938109400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15422b5dd8d73a4d9f82b073115dab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloodyHeartDropRate: 0.1
+  CrackedPickDropRate: 0.2
+  GuitarStingDropRate: 0.3
+  DropNothingRate: 0.4
+  BloodyHeartPower: {fileID: 5367534052005006824, guid: 6a848f4a21b04684fb13e239df29d312, type: 3}
+  CrackedPickPower: {fileID: 1766328370172320388, guid: 67111f42165145d419d340aa70b5169d, type: 3}
+  GuitarSting: {fileID: 1522450370225304828, guid: 852de79cd6a9e27428d4e8e0ecb5b130, type: 3}
+  NoPowerUpPrefab: {fileID: 6371981798865159975, guid: 3377de93948fdf64d918d355f3844b64, type: 3}
 --- !u!1 &7336512167550353745
 GameObject:
   m_ObjectHideFlags: 0

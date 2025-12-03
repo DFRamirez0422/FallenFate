@@ -36,12 +36,6 @@ namespace NPA_PlayerPrefab.Scripts
         [Header("Dash Attack Settings")] 
         [Tooltip("Timing window to perform dash attack")] 
         [SerializeField] private float dashAttackWindow = .5f;
-
-        [Header("Debug (ONLY FOR TESTING)")]
-        [Tooltip("Text object to display the current player state.")]
-        [SerializeField] private PlayerDebugUI m_DebugUI;
-        [Tooltip("Animator controller used for testing. NOT YET READY!")]
-        [SerializeField] private PlayerAnimator m_Animator;
         
         // Internal dash state
         private bool isDashing = false;
@@ -71,6 +65,10 @@ namespace NPA_PlayerPrefab.Scripts
         public void SetAttackSpeed(float value) => attackForwardSpeed = value;
 
         // vvvvv Added by Jose E. from original file. vvvvv //
+
+        [Header("Debug (ONLY FOR TESTING)")]
+        [Tooltip("Text object to display the current player state.")]
+        [SerializeField] private PlayerDebugUI m_DebugUI;
 
         /// <summary>
         /// Exposed public variable to retrieve the current velocity.
@@ -105,8 +103,6 @@ namespace NPA_PlayerPrefab.Scripts
             HandleMovement(Time.deltaTime);        // Step 3: Calculate velocity
             ApplyMovement(Time.deltaTime);         // Step 4: Apply movement to CharacterController
 
-            // CHANGED BY: Jose E.
-            //UpdateAnimation();
             UpdateDebugUi(); // <--- TODO: remove when debugging code is finished
         }
 
@@ -256,18 +252,18 @@ namespace NPA_PlayerPrefab.Scripts
         /// better way but there's not many public fields in either PlayerController or PlayerCombat
         /// that are usable for my purpose.
         /// </summary>
-        private void UpdateAnimation()
-        {
-            // Update animation based on flags.
-            if (isDashing || dashAttackConsumed)
-            {
-                m_Animator.SetPlayerIsDashing();
-            }
-            else
-            {
-                m_Animator.SetAnimBasedOnSpeed(velocity.magnitude);
-            }
-        }
+        // private void UpdateAnimation()
+        // {
+        //     // Update animation based on flags.
+        //     if (isDashing || dashAttackConsumed)
+        //     {
+        //         m_Animator.SetPlayerIsDashing();
+        //     }
+        //     else
+        //     {
+        //         m_Animator.SetAnimBasedOnSpeed(velocity.magnitude);
+        //     }
+        // }
         
         private void UpdateDebugUi()
         {

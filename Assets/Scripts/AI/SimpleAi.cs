@@ -171,33 +171,40 @@ public class SimpleAi : MonoBehaviour
     }
 
     public virtual void FlashAttackMelee()
-    { 
+    {
         Vector3 lookPos = player.position;
         lookPos.y = transform.position.y;
 
-
-            if (hitboxController != null)
+        if (hitboxController != null)
+        {
+            string attackID = hitboxController.GetHitboxIDByName("");
+            if (!string.IsNullOrEmpty(attackID))
             {
-                // Pull the first available hitbox ID from the assigned data asset
-                string attackID = hitboxController.GetHitboxIDByName("");
-                if (!string.IsNullOrEmpty(attackID))
+                Instantiate(MeleePrefab, attackPoint.position, transform.rotation * Quaternion.Euler(0,-90,0));
+                hitboxController.ActivateHitbox(attackID);
+                Debug.Log($"{name} triggered FlashAttackMelee() → {attackID}");
+
+                // --- apply stun to player directly ---
+                var playerHitstun = player.GetComponent<Hitstun>();
+                if (playerHitstun != null)
                 {
-                    hitboxController.ActivateHitbox(attackID);
-                    Debug.Log($"{name} triggered FlashAttackMelee() → {attackID}");
-                    
-                }
-                else
-                {
-                    Debug.LogWarning($"{name} has EnemyHitboxController but no valid hitboxes in its data asset!");
+                    playerHitstun.ApplyHitstun(0.3f);
+                    Debug.Log($"{name} applied hitstun to player!");
                 }
             }
             else
             {
-                Debug.LogWarning($"{name} has no EnemyHitboxController attached!");
+                Debug.LogWarning($"{name} has EnemyHitboxController but no valid hitboxes in its data asset!");
             }
+        }
+        else
+        {
+            Debug.LogWarning($"{name} has no EnemyHitboxController attached!");
+        }
 
-        Invoke(nameof(ResetAttack), timeBetweenAttacks); //This is what delays the attacks / timeBetweenAttacks is what adds a delay on the attacks.
+        Invoke(nameof(ResetAttack), timeBetweenAttacks);
     }
+
 
     //Just for developers to see attack and sight range
     private void OnDrawGizmosSelected()

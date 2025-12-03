@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 6714475316074369623}
   - component: {fileID: 2474761752656822568}
   - component: {fileID: 7595421767954025738}
+  - component: {fileID: 8842464975252446168}
+  - component: {fileID: 4289927607314205745}
+  - component: {fileID: 6930559913382990801}
   m_Layer: 0
   m_Name: DecomposedPatient
   m_TagString: Untagged
@@ -144,6 +147,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   attackCooldown: 1.5
+--- !u!114 &8842464975252446168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3381806204420993810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7715cbc6c32584991ee214868d74e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  currentHealth: 0
+--- !u!54 &4289927607314205745
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3381806204420993810}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &6930559913382990801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3381806204420993810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15422b5dd8d73a4d9f82b073115dab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloodyHeartDropRate: 0.1
+  CrackedPickDropRate: 0.2
+  GuitarStingDropRate: 0.3
+  DropNothingRate: 0.4
+  BloodyHeartPower: {fileID: 5367534052005006824, guid: 6a848f4a21b04684fb13e239df29d312, type: 3}
+  CrackedPickPower: {fileID: 1766328370172320388, guid: 67111f42165145d419d340aa70b5169d, type: 3}
+  GuitarSting: {fileID: 1522450370225304828, guid: 852de79cd6a9e27428d4e8e0ecb5b130, type: 3}
+  NoPowerUpPrefab: {fileID: 6371981798865159975, guid: 3377de93948fdf64d918d355f3844b64, type: 3}
 --- !u!1 &5571388001574066614
 GameObject:
   m_ObjectHideFlags: 0
