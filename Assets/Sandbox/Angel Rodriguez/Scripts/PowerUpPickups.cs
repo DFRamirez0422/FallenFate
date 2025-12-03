@@ -46,9 +46,9 @@ public class PowerUpPickups : MonoBehaviour
         if (isThrown)
         {
             ani += Time.deltaTime;
-            ani = ani % 2f;
+            ani = ani % 5f;
 
-            transform.position = ParabolicVelocity(startPos.position, targetPos.position, height, ani / 2f);
+            transform.position = ParabolicVelocity(startPos.position, targetPos.position, height, ani / 1f);
         }
     }
 

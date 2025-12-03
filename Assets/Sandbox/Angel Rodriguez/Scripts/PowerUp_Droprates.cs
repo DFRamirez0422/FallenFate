@@ -44,7 +44,7 @@ public class PowerUp_Droprates : MonoBehaviour
 
             if (randomValue <= cumulativeProbability)
             {
-                Vector3 SpawnPosition = this.transform.position + Vector3.up * 0.1f;
+                Vector3 SpawnPosition = this.transform.position;
                 Instantiate(powerUp.PowerUpPrefab, SpawnPosition, Quaternion.identity);
                 break;
             }
