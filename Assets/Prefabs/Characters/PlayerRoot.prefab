@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2357863302574831891}
   - component: {fileID: 6235680588838002235}
   - component: {fileID: 7567627252805986299}
+  - component: {fileID: 354899768614019721}
   m_Layer: 7
   m_Name: PlayerRoot
   m_TagString: Player
@@ -78,12 +79,23 @@ MonoBehaviour:
   moveSpeed: 5
   movementSlowOnAttack: 0.01
   groundSnap: 2
+  inputDeadzone: 0.15
+  clampZLane: 1
+  laneWidth: 3
   mainCamera: {fileID: 0}
   dashSpeed: 15
   dashDuration: 0.5
   dashCooldown: 1
   dashAttackWindow: 0.5
+  rotateVisualToFacing: 1
+  visualRoot: {fileID: 0}
+  sprite: {fileID: 0}
+  stunTint: {r: 1, g: 0, b: 0, a: 1}
   m_DebugUI: {fileID: 0}
+  hitstun: {fileID: 0}
+  IsHealing: 0
+  healingTimer: 0
+  isDashing: 0
 --- !u!114 &6235680588838002235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
   _Respawn: {fileID: 0}
+  dashScript: {fileID: 0}
 --- !u!65 &7567627252805986299
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -119,6 +133,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6106672, y: 1.5938833, z: 0.7049421}
   m_Center: {x: -0.0044646263, y: 0.8006817, z: -0.006629765}
+--- !u!114 &354899768614019721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2344414788718996121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b0aff5315450f4bbfecb19e021184f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 10
+  damageMultiplier: 1
+  isShieldActive: 0
+  shieldEndTime: 0
 --- !u!1 &3533410122699017750
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,42 +5,47 @@ using UnityEngine.Rendering;
 
 public class PowerUp_Droprates : MonoBehaviour
 {
-    List<KeyValuePair<GameObject, float>> powerUpDropRates = new List<KeyValuePair<GameObject, float>>();
+    public class Drops
+    {
+        public GameObject PowerUpPrefab {get; set; }
+        public float DropRate {get; set; }
+    }
+
+    List<Drops> dropsList = new List<Drops>();
 
     [Header("Drop Rates (Total must equal 1.0)")]
-    public float FullHealthDropRate;
-    public float HalfHealDropRate;
-    public float TenPercentHealDropRate;
+    public float BloodyHeartDropRate;
+    public float CrackedPickDropRate;
+    public float GuitarStingDropRate;
     public float DropNothingRate;
 
     [Header("PowerUp Prefabs")]
-    public GameObject FullhealPowerUpPrefab;
-    public GameObject HalfHealPowerUpPrefab;
-    public GameObject TenPercentHealPowerUpPrefab;
+    public GameObject BloodyHeartPower;
+    public GameObject CrackedPickPower;
+    public GameObject GuitarSting;
     public GameObject NoPowerUpPrefab;
-
-    private EnemyHP enemyHP;
-    private NPA_Health_Components.Health HealthComponent;
     
    void Start()
     {
-        powerUpDropRates.Add(new KeyValuePair<GameObject, float>(FullhealPowerUpPrefab, FullHealthDropRate));
-        powerUpDropRates.Add(new KeyValuePair<GameObject, float>(HalfHealPowerUpPrefab, HalfHealDropRate));
-        powerUpDropRates.Add(new KeyValuePair<GameObject, float>(TenPercentHealPowerUpPrefab, TenPercentHealDropRate));
-        powerUpDropRates.Add(new KeyValuePair<GameObject, float>(NoPowerUpPrefab, DropNothingRate));
+        dropsList.Add(new Drops { PowerUpPrefab =  BloodyHeartPower, DropRate = BloodyHeartDropRate });
+        dropsList.Add(new Drops { PowerUpPrefab = CrackedPickPower, DropRate = CrackedPickDropRate });
+        dropsList.Add(new Drops { PowerUpPrefab = GuitarSting, DropRate = GuitarStingDropRate });
+        dropsList.Add(new Drops { PowerUpPrefab = NoPowerUpPrefab, DropRate = DropNothingRate });
     }
 
     public void DropPowerUp()
     {
         float randomValue = Random.Range(0f, 1f);
         float cumulativeProbability = 0f;
-
-        foreach (var powerUp in powerUpDropRates)
+        
+        foreach (var powerUp in dropsList)
         {
-            cumulativeProbability += powerUp.Value;
+            cumulativeProbability += powerUp.DropRate;
+
             if (randomValue <= cumulativeProbability)
             {
-                Instantiate(powerUp.Key, this.transform.position, Quaternion.identity);
+                Vector3 SpawnPosition = this.transform.position;
+                Instantiate(powerUp.PowerUpPrefab, SpawnPosition, Quaternion.identity);
                 break;
             }
         }

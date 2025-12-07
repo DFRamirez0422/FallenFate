@@ -5,7 +5,6 @@ using UnityEngine;
 public class E_PowerUpFind : MonoBehaviour
 {
     ElenaAI _ElenaAI;
-    private List<GameObject> PowerUps = new List<GameObject>();
     private GameObject game;
 
     private void Start()
@@ -15,23 +14,22 @@ public class E_PowerUpFind : MonoBehaviour
 
     private void Update()
     {
-        PowerUps.RemoveAll(item => item == null);
-        _ElenaAI.PowerUpsInGame = PowerUps;
+        _ElenaAI.PowerUpsInGame.RemoveAll(item => item == null);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("E_PowerUp"))
+        if (other.gameObject.CompareTag("PowerUp"))
         {
-            PowerUps.Add(other.gameObject);
+            _ElenaAI.PowerUpsInGame.Add(other.gameObject);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("E_PowerUp"))
+        if (other.gameObject.CompareTag("PowerUp"))
         {
-             PowerUps.Remove(other.gameObject);
+             _ElenaAI.PowerUpsInGame.Remove(other.gameObject);
             Debug.Log($"Removed {other.gameObject.name} from the list.");
         }
     }

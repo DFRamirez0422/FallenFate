@@ -13,6 +13,7 @@ namespace NPA_PlayerPrefab.Scripts
         [SerializeField] private PlayerController playerController;
         [SerializeField] private AttackData dashAttackData;
 
+        // FIXME: Jose E.: This is probably not needed any longer, with issue #366
         [Header("Input Settings")]
         [SerializeField] private KeyCode attackKey = KeyCode.Mouse0;
 
@@ -21,6 +22,7 @@ namespace NPA_PlayerPrefab.Scripts
         [SerializeField] private float attackCooldown = 0.25f;
         [SerializeField] private float comboResetDelay = 1f;
 
+        // FIXME: Jose E.: This is probably not needed any longer, with issue #366
         [Header("Finisher Input Buttons")]
         [SerializeField] private KeyCode finisher3Key = KeyCode.Alpha1;
         [SerializeField] private KeyCode finisher6Key = KeyCode.Alpha2;
@@ -98,7 +100,10 @@ namespace NPA_PlayerPrefab.Scripts
 
         private void HandleAttackInput()
         {
-            if (Input.GetKeyDown(attackKey) && !isAttacking && Time.time >= nextAttackTime)
+            // EDITED BY: Jose E.
+            // Issue #366 is to change the controls. I have decided to use the Unity settings for easier
+            // development and modifications if need be.
+            if (Input.GetButtonDown("BasicAttack") && !isAttacking && Time.time >= nextAttackTime)
             {
                 AttackData attackData;
                 if (playerController.DashAttackWindowActive)
@@ -125,23 +130,32 @@ namespace NPA_PlayerPrefab.Scripts
         {
             if (!isAttacking && Time.time >= nextAttackTime)
             {
-                if (finisher3Unlocked && Input.GetKeyDown(finisher3Key))
+                // EDITED BY: Jose E.
+                // Issue #366 is to change the controls. I have decided to use the Unity settings for easier
+                // development and modifications if need be.
+                // Now, we do have a bit of a conundrum. Do we change the system to only use the highest tier
+                // finisher? Because otherwise, this new change cannot work; what finisher should be used
+                // if all of them are pigeonholed into one key bind?
+                if (Input.GetButtonDown("Finisher"))
                 {
-                    Attack(finisher3Hit);
-                    finisher3Unlocked = false;
-                    rhythmCombo.ResetCombo();
-                }
-                if (finisher6Unlocked && Input.GetKeyDown(finisher6Key))
-                {
-                    Attack(finisher6Hit);
-                    finisher6Unlocked = false;
-                    rhythmCombo.ResetCombo();
-                }
-                if (finisher9Unlocked && Input.GetKeyDown(finisher9Key))
-                {
-                    Attack(finisher9Hit);
-                    finisher9Unlocked = false;
-                    rhythmCombo.ResetCombo();
+                    if (finisher9Unlocked)
+                    {
+                        Attack(finisher9Hit);
+                        finisher9Unlocked = false;
+                        rhythmCombo.ResetCombo();
+                    }
+                    else if (finisher6Unlocked)
+                    {
+                        Attack(finisher6Hit);
+                        finisher6Unlocked = false;
+                        rhythmCombo.ResetCombo();
+                    }
+                    if (finisher3Unlocked)
+                    {
+                        Attack(finisher3Hit);
+                        finisher3Unlocked = false;
+                        rhythmCombo.ResetCombo();
+                    }
                 }
             }
         }
