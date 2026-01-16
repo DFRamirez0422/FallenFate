@@ -20,6 +20,10 @@ public class SpriteAnimator : MonoBehaviour
     {
         m_Animator = GetComponent<Animator>();
     }
+    void Awake()
+    {
+        m_Animator = GetComponent<Animator>();
+    }
 
     /// <summary>
     /// Update the animator sprite based on the current movement speed for walking and runnning.
@@ -48,5 +52,14 @@ public class SpriteAnimator : MonoBehaviour
                 gameObject.transform.localScale = new Vector2(1.0f, 1.0f);
             }
         }
+    }
+
+    /// <summary>
+    /// Directly plays a given animation clip by its defined name.
+    /// </summary>
+    /// <param name="name"></param>
+    public void StartAnimation(string name)
+    {
+        m_Animator.Play(name);
     }
 }
