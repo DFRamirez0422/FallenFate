@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteAnimator))]
+[RequireComponent(typeof(PlayerAnimator))]
 public class DummyEnemy : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
@@ -14,13 +14,13 @@ public class DummyEnemy : MonoBehaviour
     // ===== PRIVATE FIELDS ===== //
     private Transform m_Player;
     private Rigidbody2D m_Rigidbody;
-    private SpriteAnimator m_Animator;
+    private PlayerAnimator m_Animator;
     private bool m_IsChasing = false;
 
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
-        m_Animator = GetComponent<SpriteAnimator>();
+        m_Animator = GetComponent<PlayerAnimator>();
     }
 
     void Update()
@@ -38,7 +38,7 @@ public class DummyEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<Health>().Hit(1);
+            collision.gameObject.GetComponent<PlayerHealth>().ChangeHealth(-1);
         }
     }
 

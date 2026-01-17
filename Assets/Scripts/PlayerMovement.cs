@@ -1,11 +1,10 @@
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 /// <summary>
 /// Main class for all player movement via the Input Handling.
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteAnimator))]
+[RequireComponent(typeof(PlayerAnimator))]
 public class PlayerMovement : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
@@ -26,12 +25,12 @@ public class PlayerMovement : MonoBehaviour
 
     // ===== PRIVATE FIELDS ===== //
     private Rigidbody2D m_Rigidbody;
-    private SpriteAnimator m_Animator;
+    private PlayerAnimator m_Animator;
 
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
-        m_Animator = GetComponent<SpriteAnimator>();
+        m_Animator = GetComponent<PlayerAnimator>();
     }
 
     void FixedUpdate()

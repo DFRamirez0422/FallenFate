@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Health : MonoBehaviour
+public class PlayerHealth : MonoBehaviour
 {
     [Tooltip("Amount of hit pints for the entity to start with as well as its maximum health limit.")]
     [SerializeField] private int m_StartingHealth;
@@ -49,7 +49,7 @@ public class Health : MonoBehaviour
     /// Heal the entity's health by a certain amount.
     /// </summary>
     /// <param name="amount">Amount of hit points to change the current health by.</param>
-    public void Heal(int amount)
+    private void Heal(int amount)
     {
         m_CurrentHealth += amount;
 
@@ -65,7 +65,7 @@ public class Health : MonoBehaviour
     /// Hurt the entity's health by a certain amount.
     /// </summary>
     /// <param name="amount">Amount of hit points to change the current health by.</param>
-    public void Hit(int amount)
+    private void Hit(int amount)
     {
         m_CurrentHealth -= amount;
         

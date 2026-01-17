@@ -27,7 +27,7 @@ public class NPCPatrol : MonoBehaviour
     // ===== PRIVATE FIELDS ===== //
 
     private Rigidbody2D m_Rigidbody;
-    private SpriteAnimator m_Animator;
+    private PlayerAnimator m_Animator;
     private Vector2 m_HomePosition;
     private Vector2 m_Target;
     private int m_CurrentPatrolIdx = 0;
@@ -36,7 +36,7 @@ public class NPCPatrol : MonoBehaviour
     void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
-        m_Animator = GetComponentInChildren<SpriteAnimator>();
+        m_Animator = GetComponentInChildren<PlayerAnimator>();
         m_HomePosition = transform.position;
         StartCoroutine(SetNewPatrolPoint());
     }

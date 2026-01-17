@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class SpriteAnimator : MonoBehaviour
+public class PlayerAnimator : MonoBehaviour
 {
     /// <summary>
     /// Animatation controller manager class for the player.
@@ -27,6 +27,8 @@ public class SpriteAnimator : MonoBehaviour
 
     /// <summary>
     /// Update the animator sprite based on the current movement speed for walking and runnning.
+    /// 
+    /// Plays the player walking animtion while the player MoveSpeed is Greator than 0. And plays idle animation when player MoveSpeed is 0 or less.
     /// </summary>
     /// <param name="speed">Speed of the entity in meters per second.</param>
     public void SetCurrentSpeed(float speed)
@@ -41,16 +43,13 @@ public class SpriteAnimator : MonoBehaviour
     public void SetCurrentDirection(Vector2 direction)
     {
         // Sprite flipping handling. Check the input direction but only if the player is actively moving.
-        if (direction.magnitude > 0.1f)
+        if (direction.x < 0.1f)
         {
-            if (direction.x < 0.0f)
-            {
-                gameObject.transform.localScale = new Vector2(-1.0f, 1.0f);
-            }
-            else if (direction.x > 0.0f)
-            {
-                gameObject.transform.localScale = new Vector2(1.0f, 1.0f);
-            }
+            gameObject.transform.localScale = new Vector2(-1.0f, 1.0f);
+        }
+        else if (direction.x > 0.1f)
+        {
+            gameObject.transform.localScale = new Vector2(1.0f, 1.0f);
         }
     }
 

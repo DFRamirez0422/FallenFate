@@ -31,14 +31,14 @@ public class NPCWander : MonoBehaviour
     // ===== PRIVATE FIELDS ===== //
 
     private Rigidbody2D m_Rigidbody;
-    private SpriteAnimator m_Animator;
+    private PlayerAnimator m_Animator;
     private Vector2 m_Target;
     private bool m_IsPaused = false;
 
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
-        m_Animator = GetComponentInChildren<SpriteAnimator>();
+        m_Animator = GetComponentInChildren<PlayerAnimator>();
     }
 
     private void OnEnable()
