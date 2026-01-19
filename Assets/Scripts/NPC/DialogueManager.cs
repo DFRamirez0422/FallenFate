@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Xml.Schema;
 
 public class DialogueManager : MonoBehaviour
 {

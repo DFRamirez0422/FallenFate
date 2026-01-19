@@ -38,7 +38,6 @@ public class NPCPatrol : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponentInChildren<PlayerAnimator>();
         m_HomePosition = transform.position;
-        StartCoroutine(SetNewPatrolPoint());
     }
 
     private void OnEnable()

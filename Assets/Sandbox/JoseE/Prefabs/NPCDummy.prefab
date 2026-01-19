@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4628338524445068846}
   - component: {fileID: 2054910973901473787}
   - component: {fileID: 3250369580097910490}
+  - component: {fileID: 6731614624876742865}
   m_Layer: 0
   m_Name: NPCDummy
   m_TagString: Untagged
@@ -160,16 +161,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4160960783011148134}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30a5c1d6331c6cf4eaa9237334400991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PatrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  m_PatrolPoints: []
   m_PatrolSpeed: 2
   m_WaitDuration: 1.5
 --- !u!114 &2054910973901473787
@@ -179,7 +176,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4160960783011148134}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cf9822bd7b94434998c8b865341dc26, type: 3}
   m_Name: 
@@ -195,7 +192,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4160960783011148134}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f3d9ebba6ca00b46b44d60c9ecf3949, type: 3}
   m_Name: 
@@ -203,6 +200,18 @@ MonoBehaviour:
   m_InteractIconAnimator: {fileID: 5971434472153652993}
   m_Conversations: []
   m_CurrentConversation: {fileID: 0}
+--- !u!114 &6731614624876742865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4160960783011148134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c73214d949a46394080225dd6f97c46c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5391243694138528237
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,8 +362,8 @@ Transform:
   m_GameObject: {fileID: 7551972219677446192}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7950835819562213709}

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Camera boundaries finder to find camera boundaries.
+/// Camera boundaries finder to find camera boundaries across scenes regardless of concrete shape being used.
 /// </summary>
 public class ConfinerFinder : MonoBehaviour
 {

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// Main class for all player movement via the Input Handling.

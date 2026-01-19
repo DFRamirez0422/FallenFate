@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Linq.Expressions;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -72,7 +70,11 @@ public class NPCWander : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        StartCoroutine(WaitAndPickNewTarget());
+        // Fixed an issue involving the walk animation being played immediately after talking.
+        if (!collision.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(WaitAndPickNewTarget());
+        }
     }
 
     /// <summary>
@@ -81,9 +83,11 @@ public class NPCWander : MonoBehaviour
     /// <returns></returns>
     IEnumerator WaitAndPickNewTarget()
     {
+        m_Animator.StartAnimation("Idle");
         m_IsPaused = true;
         yield return new WaitForSeconds(m_WaitDuration);
 
+        m_Animator.StartAnimation("Walk");
         m_Target = GetRandomTarget();
         m_IsPaused = false;
     }
