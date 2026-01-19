@@ -4,7 +4,7 @@ using UnityEngine.Events;
 public class PlayerHealth : MonoBehaviour
 {
     [Tooltip("Amount of hit pints for the entity to start with as well as its maximum health limit.")]
-    [SerializeField] private int m_StartingHealth;
+    [SerializeField] private int m_MaxHealth;
     [Tooltip("Event to be invoked when healing, i.e. increasing hit points.")]
     [SerializeField] private UnityEvent m_OnHeal;
     [Tooltip("Event to be invoked when hit, i.e. decreasing hit points.")]
@@ -21,11 +21,11 @@ public class PlayerHealth : MonoBehaviour
     /// <summary>
     /// Exposed public variaable for the maximum number of hit points.
     /// </summary>
-    public int MaxHealth => m_StartingHealth;
+    public int MaxHealth => m_MaxHealth;
 
     void Start()
     {
-        m_CurrentHealth = m_StartingHealth;
+        m_CurrentHealth = m_MaxHealth;
     }
 
     /// <summary>
@@ -35,13 +35,21 @@ public class PlayerHealth : MonoBehaviour
     /// Negative numbers are damange, positive numbers are healing.</param>
     public void ChangeHealth(int amount)
     {
-        if (amount > 0)
+        // Removed code for now, per request.
+        // if (amount > 0)
+        // {
+        //     Heal(amount);
+        // }
+        // else if (amount < 0)
+        // {
+        //     Hit(-amount);
+        // }
+
+        m_CurrentHealth += amount;
+
+        if (m_CurrentHealth <= 0)
         {
-            Heal(amount);
-        }
-        else if (amount < 0)
-        {
-            Hit(-amount);
+            gameObject.SetActive(false);
         }
     }
 
