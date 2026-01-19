@@ -3,7 +3,10 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CameraBoundFinder : MonoBehaviour
+/// <summary>
+/// Camera boundaries finder to find camera boundaries.
+/// </summary>
+public class ConfinerFinder : MonoBehaviour
 {
     private void OnEnable()
     {

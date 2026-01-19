@@ -43,7 +43,7 @@ public class PlayerAnimator : MonoBehaviour
     public void SetCurrentDirection(Vector2 direction)
     {
         // Sprite flipping handling. Check the input direction but only if the player is actively moving.
-        if (direction.x < 0.1f)
+        if (direction.x < -0.1f)
         {
             gameObject.transform.localScale = new Vector2(-1.0f, 1.0f);
         }
@@ -59,6 +59,8 @@ public class PlayerAnimator : MonoBehaviour
     /// <param name="name"></param>
     public void StartAnimation(string name)
     {
+        // Unity has a strange bug where the component gets forgotten about? I don't know.
+        m_Animator = GetComponent<Animator>();
         m_Animator.Play(name);
     }
 }
