@@ -11,7 +11,7 @@ public class OnDeath : MonoBehaviour
         Debug.Log($"{name} died");
 
         // Disable AI / chasing
-        GetComponent<DummyEnemy>()?.SetStunned(true);
+        GetComponent<EnemyMovement>()?.SetStunned(true);
 
         // Delay physics shutdown so knockback can play
         StartCoroutine(DeathDelay());

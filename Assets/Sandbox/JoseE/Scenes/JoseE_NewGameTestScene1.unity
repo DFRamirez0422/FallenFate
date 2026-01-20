@@ -3486,10 +3486,13 @@ MonoBehaviour:
   m_AttackPoint: {fileID: 1241646599}
   m_WeaponRange: 1.5
   m_KnockBackForce: 100
-  m_StunTime: 0.3
+  m_KnockbackTime: 0.15
+  m_StunTime: 0.5
   m_EnemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  m_HandleInput: 0
+  m_ShowGizmo: 1
 --- !u!1 &1390037131
 GameObject:
   m_ObjectHideFlags: 0
@@ -12349,6 +12352,10 @@ PrefabInstance:
     - target: {fileID: 4902690353306439921, guid: 2ab17c78575f3664c9bdb98cbab8e026, type: 3}
       propertyPath: m_Name
       value: Warrior_Idle_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8373618566618456386, guid: 2ab17c78575f3664c9bdb98cbab8e026, type: 3}
+      propertyPath: m_MaxHealth
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

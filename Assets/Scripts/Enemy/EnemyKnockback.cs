@@ -36,18 +36,26 @@ public class EnemyKnockback : MonoBehaviour
 
     private IEnumerator StunTime(float knockbackTime, float stunTime)
     {
-        if (m_Enemy != null)
-        {
-            m_Enemy.SetStunned(true);
-        }
-
+        // Wait for knockback velocity to play out
         yield return new WaitForSeconds(knockbackTime);
+        
+        // Stop knockback velocity
         m_Rigidbody.linearVelocity = Vector2.zero;
+        
+        // Now stun the enemy (prevents AI but doesn't affect physics)
+        if (m_EnemyMovement != null)
+        {
+            m_EnemyMovement.SetStunned(true);
+        }
+        
+        // Wait for stun duration
         yield return new WaitForSeconds(stunTime);
         
-        if (m_Enemy != null)
+        // Unstun and return to idle
+        if (m_EnemyMovement != null)
         {
-            m_Enemy.SetStunned(false);
+            m_EnemyMovement.SetStunned(false);
+            m_EnemyMovement.ChangeState(EnemyState.Idle);
         }
         m_StunRoutine = null;
     }    
