@@ -119,6 +119,47 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &18951316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4454161974837264682, guid: 2ab17c78575f3664c9bdb98cbab8e026, type: 3}
+  m_PrefabInstance: {fileID: 3270242760695983139}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &18951318
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18951316}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 1.8122442, y: 0}
+  m_Radius: 2.9362605
 --- !u!1 &74072634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3485,7 +3526,7 @@ MonoBehaviour:
   m_Cooldown: 1
   m_AttackPoint: {fileID: 1241646599}
   m_WeaponRange: 1.33
-  m_KnockBackForce: 30
+  m_KnockBackForce: 50
   m_KnockbackTime: 0.15
   m_StunTime: 0.5
   m_EnemyLayer:
@@ -12309,6 +12350,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2590384041364080045, guid: 2ab17c78575f3664c9bdb98cbab8e026, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2606896000994040843, guid: 2ab17c78575f3664c9bdb98cbab8e026, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.25
@@ -12361,10 +12406,14 @@ PrefabInstance:
       propertyPath: m_MaxHealth
       value: 100
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4611294458829076838, guid: 2ab17c78575f3664c9bdb98cbab8e026, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4454161974837264682, guid: 2ab17c78575f3664c9bdb98cbab8e026, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 18951318}
   m_SourcePrefab: {fileID: 100100000, guid: 2ab17c78575f3664c9bdb98cbab8e026, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
