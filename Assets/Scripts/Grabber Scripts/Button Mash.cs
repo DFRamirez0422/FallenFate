@@ -15,8 +15,11 @@ public class ButtonMash : MonoBehaviour
     private bool pressed;
     [HideInInspector]
     public bool started, stunned;
+
+    //Called Scripts
     private SplayerHealth health;
-    private PlayerMovement movement;
+    private PlayerMovement playerMovement;
+    //private Enemy_Movement movement; -Not used right now but will probably use later.
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +27,7 @@ public class ButtonMash : MonoBehaviour
         MashCanvas.SetActive(false);
         mash = mashDelay;
         text2.enabled = false;
+        //movement = GetComponent<Enemy_Movement>(); -Not used right now but will probably use later.
     }
 
     // Update is called once per frame
@@ -31,8 +35,8 @@ public class ButtonMash : MonoBehaviour
     {
         if (started)
         {
-            movement.enabled = false;
-            movement.rb.velocity = Vector2.zero;
+            playerMovement.enabled = false;
+            playerMovement.rb.velocity = Vector2.zero;
 
             timer += Time.deltaTime;
 
@@ -40,15 +44,15 @@ public class ButtonMash : MonoBehaviour
             mash -= Time.deltaTime;
 
             text.enabled = true;
-            text.text = "Mash Space";
+            text.text = "Mash Z";
             
 
-            if (Input.GetKeyDown(KeyCode.Space) && !pressed)
+            if (Input.GetButtonDown("Attack") && !pressed)
             {
                 pressed = true;
                 mash = mashDelay;
             }
-            else if (Input.GetKeyUp(KeyCode.Space))
+            else if (Input.GetButtonUp("Attack"))
             {
                 pressed = false;
             }
@@ -76,7 +80,6 @@ public class ButtonMash : MonoBehaviour
                 text.text = "Stunned";
                 stunned = true;
                 mash = 2.5f;
-                movement.enabled = true;
                 Invoke(nameof(Unstun), 2);
             }            
         }
@@ -97,7 +100,7 @@ public class ButtonMash : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        movement = collision.gameObject.GetComponent<PlayerMovement>();
+        playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
         health = collision.gameObject.GetComponent<SplayerHealth>();
         timer = 0;
         started = true;

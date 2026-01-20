@@ -5,7 +5,8 @@ public class Enemy_Movement : MonoBehaviour
     public float speed;
     private bool isChasing;
 
-    private Rigidbody2D rb;
+    [HideInInspector]
+    public Rigidbody2D rb;
     private Transform player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,7 +24,7 @@ public class Enemy_Movement : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -50,5 +51,6 @@ public class Enemy_Movement : MonoBehaviour
     {
         isChasing = false;
         rb.velocity = Vector2.zero;
+        Debug.Log("Stop");
     }
 }
