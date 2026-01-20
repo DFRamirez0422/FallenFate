@@ -30,6 +30,7 @@ public class EnemyMovement : MonoBehaviour
     private float m_AttackCooldownTimer;
     private int m_FacingDirection = -1;
     private EnemyState m_EnemyState;
+    private bool m_IsStunned;
 
     void Start()
     {
@@ -41,23 +42,23 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
+        // Don't process AI if stunned or in knockback
+        if (m_IsStunned || m_EnemyState == EnemyState.Knockback) return;
+
         CheckForPlayer();
 
-        if (m_EnemyState != EnemyState.Knockback)
+        if (m_AttackCooldownTimer > 0)
         {
-            if (m_AttackCooldownTimer > 0)
-            {
-                m_AttackCooldownTimer -= Time.deltaTime;
-            }
+            m_AttackCooldownTimer -= Time.deltaTime;
+        }
 
-            if (m_EnemyState == EnemyState.Chasing)
-            {
-                Chase();
-            }
-            else if (m_EnemyState == EnemyState.Attacking)
-            {
-                m_Rigidbody.linearVelocity = Vector2.zero;
-            }
+        if (m_EnemyState == EnemyState.Chasing)
+        {
+            Chase();
+        }
+        else if (m_EnemyState == EnemyState.Attacking)
+        {
+            m_Rigidbody.linearVelocity = Vector2.zero;
         }
     }
 
@@ -78,6 +79,9 @@ public class EnemyMovement : MonoBehaviour
 
     private void CheckForPlayer()
     {
+        // Don't check for player during knockback
+        if (m_EnemyState == EnemyState.Knockback) return;
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(m_DetectionPoint.position, m_PlayerDetectRange, m_PlayerLayer);
 
         if (hits.Length > 0)
@@ -137,6 +141,21 @@ public class EnemyMovement : MonoBehaviour
         else if (m_EnemyState == EnemyState.Attacking)
         {
             m_Animator.SetBool("IsAttacking", true);
+        }
+    }
+
+    /// <summary>
+    /// Set the stunned state of the enemy. When stunned, the enemy will not process AI or chase the player.
+    /// Note: This does not affect velocity when in Knockback state to allow knockback physics to work.
+    /// </summary>
+    /// <param name="value">True to stun the enemy, false to unstun.</param>
+    public void SetStunned(bool value)
+    {
+        m_IsStunned = value;
+        // Only zero velocity if not in knockback state (to allow knockback physics to work)
+        if (m_IsStunned == true && m_EnemyState != EnemyState.Knockback)
+        {
+            m_Rigidbody.linearVelocity = Vector2.zero;
         }
     }
 }
