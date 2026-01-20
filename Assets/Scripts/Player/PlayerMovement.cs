@@ -41,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!m_IsKnockedBack)
         {
-            Vector2 input_axes = CurrentInput * m_WalkSpeed;
+            // Normalize diagonal movement to prevent faster diagonal speed
+            Vector2 input_axes = Vector2.ClampMagnitude(CurrentInput, 1f) * m_WalkSpeed;
             m_Rigidbody.AddForce(input_axes - m_Rigidbody.linearVelocity, ForceMode2D.Impulse);
 
             m_Animator.SetCurrentSpeed(input_axes.magnitude);
@@ -51,10 +52,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Attack"))
         {
             m_PlayerCombat.Attack();
-        }
+        }   
     }
 
     public void Knockback(Transform enemy, float force, float stun_time)
