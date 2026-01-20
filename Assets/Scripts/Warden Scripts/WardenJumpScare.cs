@@ -11,6 +11,11 @@ public class WardenJumpScare : MonoBehaviour
     private SplayerHealth health;
     private WardenMovement movement;
 
+    private void Start()
+    {
+        movement = GetComponent<WardenMovement>();
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         health = collision.gameObject.GetComponent<SplayerHealth>();
@@ -21,7 +26,7 @@ public class WardenJumpScare : MonoBehaviour
             health.ChangeHealth(-2);
             movement.stunned = true;
         }
-        else if (health.currentHealth <= 0)
+        if (health.currentHealth <= 0)
         {
             jumpscareImage.enabled = true; Debug.Log("Enabled Image");
 

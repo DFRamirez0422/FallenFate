@@ -28,6 +28,7 @@ public class WardenMovement : MonoBehaviour
 
         if (stunned == true)
         {
+            rb.velocity = Vector2.zero;
             Invoke(nameof(Unstun), 2);
         }
     }
