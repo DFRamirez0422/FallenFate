@@ -42,26 +42,23 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        // Don't process AI if stunned
-        if (m_IsStunned) return;
+        // Don't process AI if stunned or in knockback
+        if (m_IsStunned || m_EnemyState == EnemyState.Knockback) return;
 
         CheckForPlayer();
 
-        if (m_EnemyState != EnemyState.Knockback)
+        if (m_AttackCooldownTimer > 0)
         {
-            if (m_AttackCooldownTimer > 0)
-            {
-                m_AttackCooldownTimer -= Time.deltaTime;
-            }
+            m_AttackCooldownTimer -= Time.deltaTime;
+        }
 
-            if (m_EnemyState == EnemyState.Chasing)
-            {
-                Chase();
-            }
-            else if (m_EnemyState == EnemyState.Attacking)
-            {
-                m_Rigidbody.linearVelocity = Vector2.zero;
-            }
+        if (m_EnemyState == EnemyState.Chasing)
+        {
+            Chase();
+        }
+        else if (m_EnemyState == EnemyState.Attacking)
+        {
+            m_Rigidbody.linearVelocity = Vector2.zero;
         }
     }
 
@@ -82,6 +79,9 @@ public class EnemyMovement : MonoBehaviour
 
     private void CheckForPlayer()
     {
+        // Don't check for player during knockback
+        if (m_EnemyState == EnemyState.Knockback) return;
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(m_DetectionPoint.position, m_PlayerDetectRange, m_PlayerLayer);
 
         if (hits.Length > 0)
@@ -153,7 +153,7 @@ public class EnemyMovement : MonoBehaviour
     {
         m_IsStunned = value;
         // Only zero velocity if not in knockback state (to allow knockback physics to work)
-        if (m_IsStunned && m_EnemyState != EnemyState.Knockback)
+        if (m_IsStunned == true && m_EnemyState != EnemyState.Knockback)
         {
             m_Rigidbody.linearVelocity = Vector2.zero;
         }
