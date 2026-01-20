@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
-    [Tooltip("Amount of damage to the eenemies upon attacking.")]
+    [Tooltip("Amount of damage to the enemies upon attacking.")]
     [SerializeField] private int m_Damage = 1;
     [Tooltip("Attack cooldown in seconds.")]
     [SerializeField] private float m_Cooldown = 2.0f;
@@ -16,6 +16,10 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float m_StunTime;
     [Tooltip("Enemy collision mask.")]
     [SerializeField] private LayerMask m_EnemyLayer;
+    [Tooltip("Enable input handling in Update. If false, call Attack() externally.")]
+    [SerializeField] private bool m_HandleInput = false;
+    [Tooltip("Show attack range gizmo in editor.")]
+    [SerializeField] private bool m_ShowGizmo = true;
 
 
     // ===== PRIVATE FIELDS ===== //
@@ -27,6 +31,12 @@ public class PlayerCombat : MonoBehaviour
         if (m_Timer > 0)
         {
             m_Timer -= Time.deltaTime;
+        }
+
+        // Optional input handling
+        if (m_HandleInput && Input.GetButtonDown("Attack"))
+        {
+            Attack();
         }
     }
 
@@ -46,22 +56,41 @@ public class PlayerCombat : MonoBehaviour
 
     public void DealDamage()
     {
+        if (m_AttackPoint == null) return;
+
         Collider2D[] enemies = Physics2D.OverlapCircleAll(m_AttackPoint.position, m_WeaponRange, m_EnemyLayer);
 
-        if (enemies.Length > 0)
+        foreach (Collider2D enemy in enemies)
         {
-            enemies[0].GetComponent<EnemyHealth>().ChangeHealth(-m_Damage);
-            enemies[0].GetComponent<EnemyKnockback>().Knockback(transform, m_KnockBackForce, m_StunTime);
+            // Check for health component
+            EnemyHealth health = enemy.GetComponent<EnemyHealth>();
+            if (health == null) continue;
+
+            // Deal damage
+            health.ChangeHealth(-m_Damage);
+
+            // Apply knockback
+            EnemyKnockback knockback = enemy.GetComponent<EnemyKnockback>();
+            if (knockback != null)
+            {
+                knockback.Knockback(transform, m_KnockBackForce, m_StunTime);
+            }
+
+            // // Commented out to allow multiple enemies to be hit by one attack - David G
+            // // Only hit one enemy per attack
+            // break;
         }
     }
 
-    public void FininshAttacking()
+    public void FinishAttacking()
     {
         m_Animator.SetBool("IsAttacking", false);
     }
 
     private void OnDrawGizmosSelected()
     {
+        if (!m_ShowGizmo || m_AttackPoint == null) return;
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(m_AttackPoint.position, m_WeaponRange);
     }
