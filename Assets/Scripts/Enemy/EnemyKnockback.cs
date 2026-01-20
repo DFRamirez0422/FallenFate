@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyKnockback : MonoBehaviour
@@ -7,25 +6,49 @@ public class EnemyKnockback : MonoBehaviour
     // ===== PRIVATE FIELDS ===== //
     private Rigidbody2D m_Rigidbody;
     private EnemyMovement m_EnemyMovement;
-
-    void Start()
+    private Coroutine m_StunRoutine;
+    
+    public float KnockbackTime { get; private set; }
+    
+    private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_EnemyMovement = GetComponent<EnemyMovement>();
     }
 
-    public void Knockback(Transform player_transform, float knockback_force, float stun_time)
+    public void Knockback(Transform playerTransform, float knockbackForce, float knockbackTime, float stunTime)    
     {
         m_EnemyMovement.ChangeState(EnemyState.Knockback);
-        StartCoroutine(StunTimer(stun_time));
-        Vector2 direction = (transform.position - player_transform.position).normalized;
-        m_Rigidbody.linearVelocity = direction * knockback_force;
+
+        KnockbackTime = knockbackTime;
+        
+        Vector2 direction = (transform.position - playerTransform.position).normalized;
+
+        // Apply knockback velocity
+        m_Rigidbody.linearVelocity = direction * knockbackForce;
+
+        // Restart stun coroutine
+        if (m_StunRoutine != null)
+            StopCoroutine(m_StunRoutine);
+
+        m_StunRoutine = StartCoroutine(StunTime(knockbackTime, stunTime));;
     }
 
-    IEnumerator StunTimer(float stun_time)
+    private IEnumerator StunTime(float knockbackTime, float stunTime)
     {
-        yield return new WaitForSeconds(stun_time);
+        if (m_Enemy != null)
+        {
+            m_Enemy.SetStunned(true);
+        }
+
+        yield return new WaitForSeconds(knockbackTime);
         m_Rigidbody.linearVelocity = Vector2.zero;
-        m_EnemyMovement.ChangeState(EnemyState.Idle);
-    }
+        yield return new WaitForSeconds(stunTime);
+        
+        if (m_Enemy != null)
+        {
+            m_Enemy.SetStunned(false);
+        }
+        m_StunRoutine = null;
+    }    
 }

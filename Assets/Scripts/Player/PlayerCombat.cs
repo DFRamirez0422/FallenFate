@@ -12,7 +12,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float m_WeaponRange;
     [Tooltip("Amount of force for the enemy knock back.")]
     [SerializeField] private float m_KnockBackForce;
-    [Tooltip("Amount of time to stun the enemy during knockback.")]
+    [Tooltip("Duration of knockback velocity in seconds.")]
+    [SerializeField] private float m_KnockbackTime = 0.15f;
+    [Tooltip("Amount of time to stun the enemy after knockback.")]
     [SerializeField] private float m_StunTime;
     [Tooltip("Enemy collision mask.")]
     [SerializeField] private LayerMask m_EnemyLayer;
@@ -73,7 +75,7 @@ public class PlayerCombat : MonoBehaviour
             EnemyKnockback knockback = enemy.GetComponent<EnemyKnockback>();
             if (knockback != null)
             {
-                knockback.Knockback(transform, m_KnockBackForce, m_StunTime);
+                knockback.Knockback(transform, m_KnockBackForce, m_KnockbackTime, m_StunTime);
             }
 
             // // Commented out to allow multiple enemies to be hit by one attack - David G
