@@ -5,9 +5,11 @@ public class WardenMovement : MonoBehaviour
 {
     public float speed;
     private bool isChasing;
+    private float scalingRadius;
 
     private Rigidbody2D rb;
     private Transform player;
+    public CircleCollider2D triggercollider;
 
     public bool stunned;
 
@@ -15,11 +17,17 @@ public class WardenMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        triggercollider = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isChasing == false)
+        {
+            triggercollider.radius = scalingRadius;
+            scalingRadius = scalingRadius + 0.001f;
+        }
         if (isChasing == true)
         {
             Vector2 direction = (player.position - transform.position).normalized;
@@ -57,6 +65,7 @@ public class WardenMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             isChasing = false;
+            scalingRadius = 1;
         }
 
     }
