@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WardenJumpScare : MonoBehaviour
 {
@@ -8,16 +9,21 @@ public class WardenJumpScare : MonoBehaviour
     public AudioClip jumpscareClip1;
     public AudioSource jumpscareSource;
 
+    //scripts
     private SplayerHealth health;
     private WardenMovement movement;
+    private Disarm disarm;
 
-    public GameObject DamageCanvas; // can be removed later if we have a different way to indicate damage
+    public GameObject TextCanvas; // can be removed later if we have a different way to indicate damage
+    public TextMeshProUGUI text;
 
     private void Start()
     {
         movement = GetComponent<WardenMovement>();
+        disarm = GetComponent<Disarm>();
+
         jumpscareImage.SetActive(false);
-        DamageCanvas.SetActive(false);
+        TextCanvas.SetActive(false);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -25,25 +31,61 @@ public class WardenJumpScare : MonoBehaviour
         health = collision.gameObject.GetComponent<SplayerHealth>();
         Debug.Log("Collided with: " + collision.gameObject.name);
 
-        if (health.currentHealth > 0)
+        if (health != null)
         {
-            health.ChangeHealth(-2);
-            movement.stunned = true;
-            DamageCanvas.SetActive(true);
-            StartCoroutine(HideDamageText());
-        }
-        if (health.currentHealth <= 0)
-        {
-            jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
-
-            if (jumpscareClip1 != null)
+            if (health.currentHealth > 0)
             {
-                jumpscareSource.PlayOneShot(jumpscareClip1);
+                health.ChangeHealth(-2);
+                movement.stunned = true;
+                text.text = "Damaged";
+                TextCanvas.SetActive(true);
+                StartCoroutine(HideTextCanvasDamage());
             }
-            StartCoroutine(CloseJumpscare());
+            if (health.currentHealth <= 0)
+            {
+                jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
+
+                if (jumpscareClip1 != null)
+                {
+                    jumpscareSource.PlayOneShot(jumpscareClip1);
+                }
+                StartCoroutine(CloseJumpscare());
+            }
         }
 
 
+
+        if (collision.gameObject.tag == "Sword") //can use another tag other than sword (Like attack or swing)
+        {
+            if (movement.stunned == false)
+            {
+                movement.stunned = true;
+                text.text = "Stunned";
+                TextCanvas.SetActive(true);
+                StartCoroutine(HideTextCanvasStunned());
+            }
+            else if (movement.stunned == true)
+            {
+                text.text = "Disarmed you";
+                disarm.swordOBJ = collision.gameObject;
+                disarm.disarmed = true;
+                StartCoroutine(CallRearm());
+            }
+        }
+
+    }
+
+    private void Update()
+    {
+        //if (movement.stunned == true)
+        //{
+        //    Debug.Log("stunned");
+        //}
+
+        //if (movement.stunned == false)
+        //{
+        //    Debug.Log("not stunned");
+        //}
     }
 
     private IEnumerator CloseJumpscare()
@@ -52,9 +94,20 @@ public class WardenJumpScare : MonoBehaviour
         jumpscareImage.SetActive(false);
     }
 
-    private IEnumerator HideDamageText()
+    private IEnumerator HideTextCanvasDamage()
     {
         yield return new WaitForSeconds(2);
-        DamageCanvas.SetActive(false);
+        TextCanvas.SetActive(false);
+    }
+
+    private IEnumerator HideTextCanvasStunned()
+    {
+        yield return new WaitForSeconds(2);
+        TextCanvas.SetActive(false);
+    }
+    private IEnumerator CallRearm()
+    {
+        yield return new WaitForSeconds(2);
+        disarm.Rearm();
     }
 }

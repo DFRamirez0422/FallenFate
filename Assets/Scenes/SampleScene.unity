@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 16733137}
   - component: {fileID: 16733136}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: Text Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,11 +151,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1303303916}
-  m_Father: {fileID: 1230340111}
+  m_Father: {fileID: 84750857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 19.28, y: 4.14}
+  m_AnchoredPosition: {x: 0, y: 1.04}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &16733136
@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 84750853}
   - component: {fileID: 84750859}
   - component: {fileID: 84750858}
+  - component: {fileID: 84750860}
   m_Layer: 0
   m_Name: Warden
   m_TagString: Untagged
@@ -410,7 +411,8 @@ Transform:
   m_LocalPosition: {x: 19.28, y: 3.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 16733135}
   m_Father: {fileID: 1230340111}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &84750858
@@ -428,7 +430,8 @@ MonoBehaviour:
   jumpscareImage: {fileID: 560348731}
   jumpscareClip1: {fileID: 0}
   jumpscareSource: {fileID: 0}
-  DamageCanvas: {fileID: 0}
+  TextCanvas: {fileID: 16733134}
+  text: {fileID: 1303303917}
 --- !u!114 &84750859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,6 +446,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.5
   stunned: 0
+--- !u!114 &84750860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84750851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc62729ecc211046a6cf4333e39a478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disarmed: 0
+  swordOBJ: {fileID: 0}
 --- !u!1 &299746794
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,14 +977,13 @@ GameObject:
   - component: {fileID: 758219568}
   - component: {fileID: 758219570}
   - component: {fileID: 758219569}
-  - component: {fileID: 758219571}
   m_Layer: 0
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &758219567
 Transform:
   m_ObjectHideFlags: 0
@@ -1111,18 +1127,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &758219571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 758219566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbd3d027c2a88324dba2aca653cc387a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1119938199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1335,6 @@ Transform:
   m_Children:
   - {fileID: 84750857}
   - {fileID: 560348732}
-  - {fileID: 16733135}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1303303915
@@ -1346,7 +1349,7 @@ GameObject:
   - component: {fileID: 1303303918}
   - component: {fileID: 1303303917}
   m_Layer: 0
-  m_Name: Damaged
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
