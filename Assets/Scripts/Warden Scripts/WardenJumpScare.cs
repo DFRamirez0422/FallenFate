@@ -4,16 +4,20 @@ using UnityEngine.UI;
 
 public class WardenJumpScare : MonoBehaviour
 {
-    public Image jumpscareImage;
+    public GameObject jumpscareImage;
     public AudioClip jumpscareClip1;
     public AudioSource jumpscareSource;
 
     private SplayerHealth health;
     private WardenMovement movement;
 
+    public GameObject DamageCanvas; // can be removed later if we have a different way to indicate damage
+
     private void Start()
     {
         movement = GetComponent<WardenMovement>();
+        jumpscareImage.SetActive(false);
+        DamageCanvas.SetActive(false);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -25,10 +29,12 @@ public class WardenJumpScare : MonoBehaviour
         {
             health.ChangeHealth(-2);
             movement.stunned = true;
+            DamageCanvas.SetActive(true);
+            StartCoroutine(HideDamageText());
         }
         if (health.currentHealth <= 0)
         {
-            jumpscareImage.enabled = true; Debug.Log("Enabled Image");
+            jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
 
             if (jumpscareClip1 != null)
             {
@@ -37,12 +43,18 @@ public class WardenJumpScare : MonoBehaviour
             StartCoroutine(CloseJumpscare());
         }
 
-        
+
     }
 
     private IEnumerator CloseJumpscare()
     {
         yield return new WaitForSeconds(2);
-        jumpscareImage.enabled = false;
+        jumpscareImage.SetActive(false);
+    }
+
+    private IEnumerator HideDamageText()
+    {
+        yield return new WaitForSeconds(2);
+        DamageCanvas.SetActive(false);
     }
 }
