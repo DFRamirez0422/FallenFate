@@ -8,6 +8,8 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     [SerializeField] private Text promptText;
     [SerializeField] private Image promptBackground;
     private PickUp_Manager pickUpManager;
+    [SerializeField] private Item_Data itemData;
+    [SerializeField] private string scriptableObjectPath;
 
     
 
@@ -18,6 +20,14 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
         promptBackground = GetComponentInChildren<Image>();
         promptText.enabled = false;
         promptBackground.enabled = false;
+        if(scriptableObjectPath != null && scriptableObjectPath != "")
+        {
+            itemData = Resources.Load<Item_Data>(scriptableObjectPath);
+        }
+        else
+        {
+            Debug.LogError("Path to Item_Data is not set for " + gameObject.name);
+        }
     }
 
     // Override the OnCollide method to implement pick-up logic
@@ -26,28 +36,6 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
             if(Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log("Picked up " + gameObject.name);
-
-                if(this.gameObject.name == "Memento1")
-                {
-                    // Gets PickUp_Manager and activate Memento1
-                    pickUpManager = GameObject.Find("Item_PickUp_Manager").GetComponent<PickUp_Manager>();
-                    pickUpManager.ActivateMemento1();
-                }
-                else if(this.gameObject.name == "Memento2")
-                {
-                    // Gets PickUp_Manager and activate Memento2
-                    pickUpManager = GameObject.Find("Item_PickUp_Manager").GetComponent<PickUp_Manager>();
-                    pickUpManager.ActivateMemento2();
-                }
-                else if(this.gameObject.name == "Memento3")
-                {
-                    // Gets PickUp_Manager and activate Memento3
-                    pickUpManager = GameObject.Find("Item_PickUp_Manager").GetComponent<PickUp_Manager>();
-                    pickUpManager.ActivateMemento3();
-                }
-                else{
-                    Debug.Log("No matching memento found.");
-                }
 
                 Destroy(gameObject);
             }
