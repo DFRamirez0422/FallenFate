@@ -1,7 +1,4 @@
-using UnityEditor.EditorTools;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.XR;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimator))]
