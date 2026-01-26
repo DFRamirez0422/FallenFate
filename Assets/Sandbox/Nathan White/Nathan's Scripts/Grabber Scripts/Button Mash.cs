@@ -18,7 +18,7 @@ public class ButtonMash : MonoBehaviour
 
     //Called Scripts
     private SplayerHealth health;
-    private PlayerMovement playerMovement;
+    private TempPlayerMovement playerMovement;
     //private Enemy_Movement movement; -Not used right now but will probably use later.
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -100,7 +100,7 @@ public class ButtonMash : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+        playerMovement = collision.gameObject.GetComponent<TempPlayerMovement>();
         health = collision.gameObject.GetComponent<SplayerHealth>();
         timer = 0;
         started = true;
