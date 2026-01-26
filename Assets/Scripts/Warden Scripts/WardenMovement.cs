@@ -65,7 +65,7 @@ public class WardenMovement : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
             isChasing = false;
-            scalingRadius = 1;
+            // scalingRadius = 1;
         }
 
     }
