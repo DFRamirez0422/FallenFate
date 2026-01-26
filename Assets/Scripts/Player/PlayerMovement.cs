@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
     [Tooltip("Normal walking speed in meters per second.")]
-    [SerializeField] private float m_WalkSpeed = 5.0f;
+    [SerializeField] public float m_WalkSpeed = 5.0f;
 
 
     // ===== PUBLIC FIELDS ===== //

@@ -17,7 +17,7 @@ public class ButtonMash : MonoBehaviour
     public bool started, stunned;
 
     //Called Scripts
-    private SplayerHealth health;
+    private PlayerHealth health;
     private PlayerMovement playerMovement;
     //private Enemy_Movement movement; -Not used right now but will probably use later.
 
@@ -36,7 +36,7 @@ public class ButtonMash : MonoBehaviour
         if (started)
         {
             playerMovement.enabled = false;
-            playerMovement.rb.linearVelocity = Vector2.zero;
+            playerMovement.m_WalkSpeed = 0;
 
             timer += Time.deltaTime;
 
@@ -101,7 +101,7 @@ public class ButtonMash : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
-        health = collision.gameObject.GetComponent<SplayerHealth>();
+        health = collision.gameObject.GetComponent<PlayerHealth>();
         timer = 0;
         started = true;
     }
