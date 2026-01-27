@@ -24,8 +24,10 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public Vector2 CurrentInput => new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
+    [HideInInspector]
+    public Rigidbody2D m_Rigidbody;
+
     // ===== PRIVATE FIELDS ===== //
-    private Rigidbody2D m_Rigidbody;
     private PlayerAnimator m_Animator;
     private PlayerCombat m_PlayerCombat;
     private bool m_IsKnockedBack;
