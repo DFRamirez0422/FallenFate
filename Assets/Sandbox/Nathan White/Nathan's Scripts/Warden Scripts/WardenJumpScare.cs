@@ -10,7 +10,7 @@ public class WardenJumpScare : MonoBehaviour
     public AudioSource jumpscareSource;
 
     //scripts
-    private SplayerHealth health;
+    private PlayerHealth health;
     private WardenMovement movement;
     private Disarm disarm;
 
@@ -28,12 +28,12 @@ public class WardenJumpScare : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        health = collision.gameObject.GetComponent<SplayerHealth>();
+        health = collision.gameObject.GetComponent<PlayerHealth>();
         Debug.Log("Collided with: " + collision.gameObject.name);
 
         if (health != null)
         {
-            if (health.currentHealth > 0)
+            if (health.CurrentHealth > 0)
             {
                 health.ChangeHealth(-2);
                 movement.stunned = true;
@@ -41,7 +41,7 @@ public class WardenJumpScare : MonoBehaviour
                 TextCanvas.SetActive(true);
                 StartCoroutine(HideTextCanvasDamage());
             }
-            if (health.currentHealth <= 0)
+            if (health.CurrentHealth <= 0)
             {
                 jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
 
@@ -73,19 +73,6 @@ public class WardenJumpScare : MonoBehaviour
             }
         }
 
-    }
-
-    private void Update()
-    {
-        //if (movement.stunned == true)
-        //{
-        //    Debug.Log("stunned");
-        //}
-
-        //if (movement.stunned == false)
-        //{
-        //    Debug.Log("not stunned");
-        //}
     }
 
     private IEnumerator CloseJumpscare()

@@ -10,6 +10,8 @@ public class WardenMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Transform player;
     public CircleCollider2D triggercollider;
+    [SerializeField]
+    private float scalingRadiusSpeed = 0.001f; 
 
     public bool stunned;
 
@@ -26,7 +28,7 @@ public class WardenMovement : MonoBehaviour
         if (isChasing == false)
         {
             triggercollider.radius = scalingRadius;
-            scalingRadius = scalingRadius + 0.001f;
+            scalingRadius = scalingRadius + scalingRadiusSpeed;
         }
         if (isChasing == true)
         {
@@ -65,9 +67,7 @@ public class WardenMovement : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             isChasing = false;
-            scalingRadius = 1;
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
