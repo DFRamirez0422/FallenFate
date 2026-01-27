@@ -55,7 +55,7 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     // Override the OnCollide method to implement pick-up logic
     protected override void OnCollide(GameObject other)
     {
-            if(Input.GetKeyDown(KeyCode.E))
+            if(Input.GetButtonDown("Interact"))
             {
                 Debug.Log("Picked up " + gameObject.name);
                 if (gameObject != null && itemData != null)

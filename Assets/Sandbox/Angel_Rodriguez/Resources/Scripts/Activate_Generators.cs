@@ -21,7 +21,7 @@ public class Activate_Generators : CollidableObject
     //Activate generator on collide and key press
     protected override void OnCollide(GameObject other)
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Interact"))
         {
             Activate_Generator = true;
             Debug.Log(this.gameObject.name + " Activated");

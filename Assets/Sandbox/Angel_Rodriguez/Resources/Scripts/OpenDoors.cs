@@ -41,7 +41,7 @@ public class OpenDoors : CollidableObject
     // Override the OnCollide method to implement door opening logic
     protected override void OnCollide(GameObject other)
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Interact"))
         {  
             if (Usegenerator) // Check if door uses generators to open
             {
