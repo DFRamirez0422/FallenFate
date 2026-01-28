@@ -6,8 +6,6 @@ public class SceneChange : MonoBehaviour
 {
     [Tooltip("Name of the scene to be loaded upon trigger.")]
     [SerializeField] private string m_SceneName;
-    [Tooltip("Position in the new scene to position the player.")]
-    [SerializeField] private Vector2 m_DestPosition;
     [Tooltip("Animator component for the fader screen effect.")]
     [SerializeField] private Animator m_FadeScreenAnimator;
     [Tooltip("Amount of time to wait between scene transitions.")]
@@ -28,7 +26,7 @@ public class SceneChange : MonoBehaviour
     IEnumerator DelayFade()
     {
         yield return new WaitForSeconds(m_FadeScreenTime);
-        m_Player.position = m_DestPosition;
         SceneManager.LoadScene(m_SceneName);
+        m_Player.GetComponent<PlayerMovement>().RespawnPlayer();
     }
 }
