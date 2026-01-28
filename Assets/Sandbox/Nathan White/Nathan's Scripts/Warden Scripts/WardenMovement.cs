@@ -7,7 +7,7 @@ public class WardenMovement : MonoBehaviour
     private bool isChasing;
     private float scalingRadius;
 
-    private Rigidbody2D rb;
+    private Rigidbody2D WardensRigidBody;
     private Transform player;
     public CircleCollider2D triggercollider;
     [SerializeField]
@@ -18,7 +18,7 @@ public class WardenMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        WardensRigidBody = GetComponent<Rigidbody2D>();
         triggercollider = GetComponent<CircleCollider2D>();
     }
 
@@ -33,12 +33,12 @@ public class WardenMovement : MonoBehaviour
         if (isChasing == true)
         {
             Vector2 direction = (player.position - transform.position).normalized;
-            rb.velocity = direction * speed;
+            WardensRigidBody.velocity = direction * speed;
         }
 
         if (stunned == true)
         {
-            rb.velocity = Vector2.zero;
+            WardensRigidBody.velocity = Vector2.zero;
             Invoke(nameof(Unstun), 2);
         }
     }
@@ -65,7 +65,7 @@ public class WardenMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            rb.velocity = Vector2.zero;
+            WardensRigidBody.velocity = Vector2.zero;
             isChasing = false;
         }
     }
@@ -73,6 +73,6 @@ public class WardenMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isChasing = false;
-        rb.velocity = Vector2.zero;
+        WardensRigidBody.velocity = Vector2.zero;
     }
 }
