@@ -2283,6 +2283,37 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1590037861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1590037862}
+  m_Layer: 0
+  m_Name: RespawnPoint
+  m_TagString: Respawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1590037862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590037861}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.78, y: -2.36, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1705363871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8310,7 +8341,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SceneName: JoseE_NewGameTestScene1
-  m_DestPosition: {x: -9, y: -3}
   m_FadeScreenAnimator: {fileID: 1119935042}
   m_FadeScreenTime: 0.5
 --- !u!1 &2133949410
@@ -8632,3 +8662,4 @@ SceneRoots:
   - {fileID: 1705363871}
   - {fileID: 1818039157}
   - {fileID: 734158160}
+  - {fileID: 1590037862}

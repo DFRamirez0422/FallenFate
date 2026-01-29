@@ -72,4 +72,36 @@ public class PlayerMovement : MonoBehaviour
         m_Rigidbody.linearVelocity = Vector2.zero;
         m_IsKnockedBack = false;
     }
+
+    /// <summary>
+    /// Sets the player position to a respawn point. Useful for death, map transition, or other sequences.
+    /// </summary>
+    public void RespawnPlayer()
+    {
+        StartCoroutine(SetToRespawnPoint());
+    }
+
+    /// <summary>
+    /// Implementation for respawning the player to a respawn point.
+    /// 
+    /// Because of the way Unity seems to work, you cannot set the respawn point in the same execution
+    /// frame as the new scene being loaded in. Therefore we have to delay respawning for the next
+    /// frame, hence the coroutine.
+    /// </summary>
+    IEnumerator SetToRespawnPoint()
+    {
+        yield return null;
+        GameObject respawn_point = GameObject.FindGameObjectWithTag("Respawn");
+        m_Rigidbody.linearVelocity = Vector2.zero;
+
+        if (respawn_point)
+        {
+            transform.position = respawn_point.transform.position;
+        }
+        else
+        {
+            Debug.Log("No respawn point found - defaulting to centre of map.");
+            transform.position = Vector2.zero;
+        }
+    }
 }
