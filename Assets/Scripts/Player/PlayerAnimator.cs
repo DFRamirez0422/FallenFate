@@ -14,7 +14,8 @@ public class PlayerAnimator : MonoBehaviour
     /// AUTHOR: Jose Escobedo
     /// </summary>
     private Animator m_Animator;
-
+    private Vector2 m_LastMovedDirection = Vector2.down;
+    public Vector2 LastMovedDirection => m_LastMovedDirection;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,16 +43,32 @@ public class PlayerAnimator : MonoBehaviour
     /// <param name="direction">Input direction vector. Do not normalize because the input magnitude is used.</param>
     public void SetCurrentDirection(Vector2 direction)
     {
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            m_LastMovedDirection = QuantizeTo8(direction);
+        }
         // Sprite flipping handling. Check the input direction but only if the player is actively moving.
         if (direction.x < -0.1f)
         {
-            gameObject.transform.localScale = new Vector2(-1.0f, 1.0f);
+            //gameObject.transform.localScale = new Vector2(-1.0f, 1.0f);
         }
         else if (direction.x > 0.1f)
         {
-            gameObject.transform.localScale = new Vector2(1.0f, 1.0f);
+            //gameObject.transform.localScale = new Vector2(1.0f, 1.0f);
         }
+        
+        
     }
+
+    private static Vector2 QuantizeTo8(Vector2 dir)
+    {
+        dir.Normalize();
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float snapped = Mathf.Round(angle / 45f) * 45f; // nearest 45 degrees
+        float rad = snapped * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+    }
+   
 
     /// <summary>
     /// Directly plays a given animation clip by its defined name.

@@ -22,6 +22,16 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private bool m_HandleInput = false;
     [Tooltip("Show attack range gizmo in editor.")]
     [SerializeField] private bool m_ShowGizmo = true;
+    [Header("Attack Point Follow")]
+    [SerializeField] private float m_AttackPointDistance = 0.5f;   // how far in front of the player
+    [SerializeField] private Vector2 m_AttackPointOffset = Vector2.zero; 
+    [Header("Attack Animation State Names")]
+    [SerializeField] private PlayerAnimator m_PlayerAnimator;
+    [SerializeField] private string m_AttackUpState = "AttackUp";
+    [SerializeField] private string m_AttackDownState = "AttackDown";
+    [SerializeField] private string m_AttackLeftState = "AttackLeft";
+    [SerializeField] private string m_AttackRightState = "AttackRight";
+
 
 
     // ===== PRIVATE FIELDS ===== //
@@ -34,7 +44,8 @@ public class PlayerCombat : MonoBehaviour
         {
             m_Timer -= Time.deltaTime;
         }
-
+        
+        UpdateAttackPointPosition();
         // Optional input handling
         if (m_HandleInput && Input.GetButtonDown("Attack"))
         {
@@ -45,16 +56,53 @@ public class PlayerCombat : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<Animator>();
+
+    
+        if (m_PlayerAnimator == null)
+            m_PlayerAnimator = GetComponent<PlayerAnimator>();
     }
 
     public void Attack()
     {
         if (m_Timer <= 0)
         {
+            UpdateAttackPointPosition();
+            
+            if (m_PlayerAnimator != null)
+            {
+                Vector2 dir = m_PlayerAnimator.LastMovedDirection;
+
+                
+                if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+                {
+                    m_Animator.Play(dir.x >= 0 ? m_AttackRightState : m_AttackLeftState);
+                }
+                else
+                {
+                    m_Animator.Play(dir.y >= 0 ? m_AttackUpState : m_AttackDownState);
+                }
+            }
+
             m_Animator.SetBool("IsAttacking", true);
             m_Timer = m_Cooldown;
         }
     }
+    
+    private void UpdateAttackPointPosition()
+    {
+        if (m_AttackPoint == null || m_PlayerAnimator == null) return;
+
+        Vector2 dir = m_PlayerAnimator.LastMovedDirection;
+
+        // Safety: if direction is zero for some reason, don't move attack point
+        if (dir.sqrMagnitude < 0.001f) return;
+
+        // Put the attack point in front of the player in the last moved direction.
+        // Uses 8-direction if your LastMovedDirection is quantized to 8, or smooth if not.
+        Vector2 desiredLocal = (dir.normalized * m_AttackPointDistance) + m_AttackPointOffset;
+        m_AttackPoint.localPosition = desiredLocal;
+    }
+
 
     public void DealDamage()
     {
