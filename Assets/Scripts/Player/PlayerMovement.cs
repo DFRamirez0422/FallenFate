@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Normal walking speed in meters per second.")]
     [SerializeField] private float m_WalkSpeed = 5.0f;
 
-
     // ===== PUBLIC FIELDS ===== //
     /// <summary>
     /// Exposed variable to retrieve the player's current velocity in terms of meters per second.
@@ -20,14 +19,22 @@ public class PlayerMovement : MonoBehaviour
     public float CurrentSpeed => m_Rigidbody.linearVelocity.magnitude;
 
     /// <summary>
-    /// Exposed variable to retrieve the current raw input axes values.
+    /// Exposed variable to retrieve the current raw input axes values. Using CurrentDirection is preferrable to retrieve
+    /// the current player movement direction.
     /// </summary>
     public Vector2 CurrentInput => new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+    /// <summary>
+    /// Exposed variable to retrieve the player's current direction, including correcting for diagonal movements.
+    /// </summary>
+    // Normalize diagonal movement to prevent faster diagonal speed
+    public Vector2 CurrentDirection => Vector2.ClampMagnitude(CurrentInput, 1f);
 
     // ===== PRIVATE FIELDS ===== //
     private Rigidbody2D m_Rigidbody;
     private PlayerAnimator m_Animator;
     private PlayerCombat m_PlayerCombat;
+    private Vector2 m_LastInput = Vector2.right; // Save the last movement direction once the player stops moving.
     private bool m_IsKnockedBack;
 
     void Start()
@@ -41,12 +48,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!m_IsKnockedBack)
         {
-            // Normalize diagonal movement to prevent faster diagonal speed
-            Vector2 input_axes = Vector2.ClampMagnitude(CurrentInput, 1f) * m_WalkSpeed;
+            Vector2 input_axes = CurrentDirection * m_WalkSpeed;
             m_Rigidbody.AddForce(input_axes - m_Rigidbody.linearVelocity, ForceMode2D.Impulse);
 
+            // Save the last movement direction only if the player is currently moving.
+            // This helps keep the animation consistent as requested by David.
+            if (CurrentDirection.magnitude > 0.1f)
+            {
+                m_LastInput = CurrentDirection;
+            }
+
             m_Animator.SetCurrentSpeed(input_axes.magnitude);
-            m_Animator.SetCurrentDirection(input_axes);
+            m_Animator.SetCurrentDirection(m_LastInput);
         }
     }
 
@@ -82,6 +95,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Resets the player to an initial state and respawns them, such as restarting from a game over.
+    /// </summary>
+    public void ResetPlayer()
+    {
+        m_Animator.Reset();
+        GetComponent<PlayerHealth>().ResetHealth();
+        RespawnPlayer();
+    }
+
+    /// <summary>
     /// Implementation for respawning the player to a respawn point.
     /// 
     /// Because of the way Unity seems to work, you cannot set the respawn point in the same execution
@@ -93,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
         yield return null;
         GameObject respawn_point = GameObject.FindGameObjectWithTag("Respawn");
         m_Rigidbody.linearVelocity = Vector2.zero;
+        GetComponent<Collider2D>().enabled = true;
 
         if (respawn_point)
         {

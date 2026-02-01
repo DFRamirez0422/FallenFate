@@ -42,15 +42,8 @@ public class PlayerAnimator : MonoBehaviour
     /// <param name="direction">Input direction vector. Do not normalize because the input magnitude is used.</param>
     public void SetCurrentDirection(Vector2 direction)
     {
-        // Sprite flipping handling. Check the input direction but only if the player is actively moving.
-        if (direction.x < -0.1f)
-        {
-            gameObject.transform.localScale = new Vector2(-1.0f, 1.0f);
-        }
-        else if (direction.x > 0.1f)
-        {
-            gameObject.transform.localScale = new Vector2(1.0f, 1.0f);
-        }
+        m_Animator.SetFloat("LastDirX", direction.normalized.x);
+        m_Animator.SetFloat("LastDirY", direction.normalized.y);
     }
 
     /// <summary>
@@ -62,5 +55,14 @@ public class PlayerAnimator : MonoBehaviour
         // Unity has a strange bug where the component gets forgotten about? I don't know.
         m_Animator = GetComponent<Animator>();
         m_Animator.Play(name);
+    }
+
+    /// <summary>
+    /// Resets the animation to an initial state.
+    /// </summary>
+    /// <param name="name"></param>
+    public void Reset()
+    {
+        m_Animator.Play("Movement");
     }
 }
