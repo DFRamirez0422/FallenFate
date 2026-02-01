@@ -5,18 +5,14 @@ using UnityEngine.UI;
 public class Activate_Generators : CollidableObject
 {
     public bool Activate_Generator = false;
-    private GameObject ActivateGeneratorPrompt;
+    [SerializeField] private GameObject ActivateGeneratorPrompt;
 
-    void Awake()
-    {
-       ActivateGeneratorPrompt = GameObject.Find("ActionDescription");
-    }
     // Initialize prompt references and use base Start method
     // Override the Start method to set up references
     protected override void Start()
     {
         base.Start(); // Calls the Start method of CollidableObject
-        ActivateGeneratorPrompt.SetActive(false);
+
     }
     
     //Activate generator on collide and key press

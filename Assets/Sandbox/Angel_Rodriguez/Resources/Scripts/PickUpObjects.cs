@@ -12,12 +12,7 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     private PickUp_Manager pickUpManager;
     [SerializeField] private Item_Data itemData;
     [SerializeField] private string scriptableObjectPath;
-    private GameObject PickUpPrompt;
-    
-        void Awake()
-    {
-       PickUpPrompt = GameObject.Find("ActionDescription");
-    }
+    [SerializeField] private GameObject PickUpPrompt;
     
 
     protected override void Start()

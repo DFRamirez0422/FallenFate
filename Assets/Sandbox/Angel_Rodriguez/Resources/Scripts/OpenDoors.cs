@@ -16,7 +16,7 @@ public class OpenDoors : CollidableObject
 
     [SerializeField] private Animator DoorAnimator;
 
-    private GameObject OpenDoorPrompt;
+    [SerializeField] private GameObject OpenDoorPrompt;
     
         void Awake()
     {

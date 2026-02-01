@@ -134,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.2, y: 0.2}
+  m_Size: {x: 0.09, y: 0.17}
   m_EdgeRadius: 0
 --- !u!114 &3968468969272769520
 MonoBehaviour:
@@ -163,7 +163,8 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   itemData: {fileID: 0}
-  scriptableObjectPath: Prefabs/Key1
+  scriptableObjectPath: Prefabs/GateKey
+  PickUpPrompt: {fileID: 0}
 --- !u!95 &3845558611984227978
 Animator:
   serializedVersion: 7
@@ -174,7 +175,7 @@ Animator:
   m_GameObject: {fileID: 7332007536356803224}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e6f1d04a3bebdc34d9f264d3c24552de, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
