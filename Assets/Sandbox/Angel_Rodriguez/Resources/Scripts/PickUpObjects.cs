@@ -9,21 +9,21 @@ using UnityEngine.UI;
 
 public class PickUpObjects : CollidableObject // Inherits from CollidableObject
 {
-    [SerializeField] private Text promptText;
-    [SerializeField] private Image promptBackground;
     private PickUp_Manager pickUpManager;
     [SerializeField] private Item_Data itemData;
     [SerializeField] private string scriptableObjectPath;
-
+    private GameObject PickUpPrompt;
+    
+        void Awake()
+    {
+       PickUpPrompt = GameObject.Find("ActionDescription");
+    }
     
 
     protected override void Start()
     {
+                PickUpPrompt.SetActive(false);
         base.Start(); // Calls the Start method of CollidableObject and allows to be overridden by PickUpObjects Script
-        promptText = GetComponentInChildren<Text>();
-        promptBackground = GetComponentInChildren<Image>();
-        promptText.enabled = false;
-        promptBackground.enabled = false;
         if(scriptableObjectPath != null && scriptableObjectPath != "")
         {
             itemData = Resources.Load<Item_Data>(scriptableObjectPath);
@@ -78,8 +78,8 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     {
         if (other.CompareTag("Player"))
         {
-            promptText.enabled = true;
-            promptBackground.enabled = true;
+            PickUpPrompt.SetActive(true);
+            PickUpPrompt.GetComponentsInChildren<Text>()[0].text = "Pick Up " + itemData.itemName;
         }
     }
 
@@ -88,8 +88,8 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     {
         if (other.CompareTag("Player"))
         {
-            promptText.enabled = false;
-            promptBackground.enabled = false;
+            PickUpPrompt.SetActive(false);
+            PickUpPrompt.GetComponentsInChildren<Text>()[0].text = "";
         }
     }
 }

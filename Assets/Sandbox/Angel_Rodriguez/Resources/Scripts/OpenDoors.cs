@@ -6,22 +6,28 @@ public class OpenDoors : CollidableObject
     [Header("Door Settings")]
     private PickUp_Manager pickUpManager;
     [SerializeField] private Item_Data Key; // Key required to open the door
-    [SerializeField] private Text promptText;
-    [SerializeField] private Image promptBackground;
 
     [Header("Generator Option")]
     [SerializeField] private bool Usegenerator; // If true, door requires generators to open else requires key
     [SerializeField] private Activate_Generators Generator1;
     [SerializeField] private Activate_Generators Generator2;
+
+    [Header("Animation Settings")]
+
+    [SerializeField] private Animator DoorAnimator;
+
+    private GameObject OpenDoorPrompt;
+    
+        void Awake()
+    {
+       OpenDoorPrompt = GameObject.Find("ActionDescription");
+       DoorAnimator = GetComponent<Animator>();
+    }
    
    // Initialize references and use base Start method and check for nulls
    // Override the Start method to set up references
    protected override void Start()
     {
-        promptText = GetComponentInChildren<Text>();
-        promptBackground = GetComponentInChildren<Image>();
-        promptText.enabled = false;
-        promptBackground.enabled = false;
         pickUpManager = GameObject.Find("Item_PickUp_Manager").GetComponent<PickUp_Manager>();
         
         // Check for null references
@@ -56,7 +62,7 @@ public class OpenDoors : CollidableObject
                     Debug.Log("You need to activate both generators to open this door.");
                 }
             }
-            else if (!Usegenerator) // Door uses key to open
+            else // Door uses key to open
             {
                 // Check if the player has the required key in the PickUp_Manager
                 if (pickUpManager.items.Contains(Key) && Key.collected)
@@ -76,7 +82,7 @@ public class OpenDoors : CollidableObject
     private void OpenDoor()
     {
         Debug.Log("Door Opened");
-        Destroy(this.gameObject);
+        DoorAnimator.SetBool("HasKey", true);
     }
 
     // Show prompt when collision with player
@@ -84,8 +90,8 @@ public class OpenDoors : CollidableObject
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            promptText.enabled = true;
-            promptBackground.enabled = true;
+            OpenDoorPrompt.SetActive(true);
+            OpenDoorPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
         }
     }
 
@@ -94,8 +100,8 @@ public class OpenDoors : CollidableObject
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            promptText.enabled = false;
-            promptBackground.enabled = false;
+            OpenDoorPrompt.SetActive(false);
+            OpenDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";
         }
     }
 }
