@@ -61,7 +61,10 @@ public class OpenDoors : CollidableObject
                 {
                     Debug.Log("You need to activate both generators to open this door.");
                 }
+                return;
             }
+
+
             else // Door uses key to open
             {
                 // Check if the player has the required key in the PickUp_Manager
@@ -74,6 +77,7 @@ public class OpenDoors : CollidableObject
                 {
                     Debug.Log("You need " + Key.itemName + " to open this door.");
                 }
+                return;
             }
         }
     }
