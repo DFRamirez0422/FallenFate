@@ -16,11 +16,20 @@ public class OpenDoors : CollidableObject
 
     [SerializeField] private Animator DoorAnimator;
 
+    [Tooltip("Assign the ActionDescription GameObject from the scene in the Inspector")]
     [SerializeField] private GameObject OpenDoorPrompt;
     
         void Awake()
     {
-       OpenDoorPrompt = GameObject.Find("ActionDescription");
+       // Only try to find if not already assigned in Inspector
+       if(OpenDoorPrompt == null)
+       {
+           OpenDoorPrompt = GameObject.Find("ActionDescription");
+           if(OpenDoorPrompt == null)
+           {
+               Debug.LogError("ActionDescription not found! Please assign OpenDoorPrompt in the Inspector.");
+           }
+       }
        DoorAnimator = GetComponent<Animator>();
     }
    
