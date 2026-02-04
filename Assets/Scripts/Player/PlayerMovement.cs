@@ -13,6 +13,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float m_WalkSpeed = 5.0f;
 
     // ===== PUBLIC FIELDS ===== //
+
+    /// <summary>
+    /// Exposed variable for callers to request whether or not the player is active in gameplay or inactive due
+    /// to a cutscene or other sequence.
+    /// </summary>
+    public bool IsActive => m_IsEnabled;
+
     /// <summary>
     /// Exposed variable to retrieve the player's current velocity in terms of meters per second.
     /// </summary>
@@ -35,17 +42,22 @@ public class PlayerMovement : MonoBehaviour
     private PlayerAnimator m_Animator;
     private PlayerCombat m_PlayerCombat;
     private Vector2 m_LastInput = Vector2.right; // Save the last movement direction once the player stops moving.
-    private bool m_IsKnockedBack;
+    private bool m_IsKnockedBack = false;
+    private bool m_IsEnabled = false;
 
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<PlayerAnimator>();
         m_PlayerCombat = GetComponent<PlayerCombat>();
+        m_IsEnabled = true;
     }
 
     void FixedUpdate()
     {
+        if (!m_IsEnabled)
+            return;
+
         if (!m_IsKnockedBack)
         {
             Vector2 input_axes = CurrentDirection * m_WalkSpeed;
@@ -58,13 +70,16 @@ public class PlayerMovement : MonoBehaviour
                 m_LastInput = CurrentDirection;
             }
 
-            m_Animator.SetCurrentSpeed(input_axes.magnitude);
+            m_Animator.SetCurrentSpeed(CurrentInput.magnitude);
             m_Animator.SetCurrentDirection(m_LastInput);
         }
     }
 
     void Update()
     {
+        if (!m_IsEnabled)
+            return;
+
         if (Input.GetButtonDown("Attack"))
         {
             m_PlayerCombat.Attack();
@@ -105,6 +120,40 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Disables player control, movement, and collision for use in death and other such sequences.
+    /// </summary>
+    public void Disable()
+    {
+        m_IsEnabled = false;
+        LayerMask enemy_mask = 1 << LayerMask.NameToLayer("Enemy");
+
+        // Disable rigid body to disable all movement.
+        GetComponent<Rigidbody2D>().Sleep();
+
+        // Disable collider to let enemies know the player is no longer around.
+        GetComponent<Collider2D>().excludeLayers |= enemy_mask;
+
+        // Reset player movement speed.
+        m_Rigidbody.linearVelocity = Vector2.zero;
+
+        // Reset player animation.
+        m_Animator.SetCurrentSpeed(0.0f);
+    }
+
+    /// <summary>
+    /// Disables player control, movement, and collision for use in normal gameplay.
+    /// </summary>
+    public void Enable()
+    {
+        m_IsEnabled = true;
+        LayerMask enemy_mask = 1 << LayerMask.NameToLayer("Enemy");
+
+        GetComponent<Rigidbody2D>().WakeUp();
+        GetComponent<Collider2D>().excludeLayers &= ~enemy_mask;
+        m_Rigidbody.linearVelocity = Vector2.zero;
+    }
+
+    /// <summary>
     /// Implementation for respawning the player to a respawn point.
     /// 
     /// Because of the way Unity seems to work, you cannot set the respawn point in the same execution
@@ -114,9 +163,13 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator SetToRespawnPoint()
     {
         yield return null;
+
+        // Re-enable the player componnents that may have been deactivated during respawn.
+        Enable();
+
+        // Find a suitable respawn point.
+        // By default, we just locate the first thing Unity gives us.
         GameObject respawn_point = GameObject.FindGameObjectWithTag("Respawn");
-        m_Rigidbody.linearVelocity = Vector2.zero;
-        GetComponent<Collider2D>().enabled = true;
 
         if (respawn_point)
         {

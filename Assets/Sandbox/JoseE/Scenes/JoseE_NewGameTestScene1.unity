@@ -2139,17 +2139,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7209899331986664361, guid: 16e21f4725e35e9428f81249f83f6da3, type: 3}
   m_PrefabInstance: {fileID: 6886652430050342504}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &800640570 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4983852309611189304, guid: 16e21f4725e35e9428f81249f83f6da3, type: 3}
-  m_PrefabInstance: {fileID: 6886652430050342504}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800640565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 311e85c3d53ca0f4296a04b003383568, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &825465739
 GameObject:
   m_ObjectHideFlags: 0
@@ -12351,58 +12340,6 @@ PrefabInstance:
     - target: {fileID: 8807435852695731377, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1365088004}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 800640570}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartPlayerDeath
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: DisplayScreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerHealth, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: GameOverScreen, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
-      propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
