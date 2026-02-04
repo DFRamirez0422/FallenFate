@@ -16,6 +16,9 @@ public class ButtonMash : MonoBehaviour
     [HideInInspector]
     public bool started, stunned;
 
+    //animator
+    private Animator animator;
+
     //Called Scripts
     private PlayerHealth health;
     private PlayerMovement playerMovement;
@@ -24,6 +27,7 @@ public class ButtonMash : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        animator = GetComponent<Animator>();
         MashCanvas.SetActive(false);
         mash = 1f;
         text2.enabled = false;
@@ -35,6 +39,7 @@ public class ButtonMash : MonoBehaviour
     {
         if (started)
         {
+            
             playerMovement.enabled = false;
             playerMovement.m_Rigidbody.velocity = Vector2.zero;
 
