@@ -1,5 +1,6 @@
 using System.Threading;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ public class ButtonMash : MonoBehaviour
     [SerializeField]
     private float mash, timer;
     private bool pressed;
+    public GameObject Hitbox;
+
     [HideInInspector]
     public bool started, stunned;
 
@@ -27,6 +30,7 @@ public class ButtonMash : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Hitbox.SetActive(false);
         animator = GetComponent<Animator>();
         MashCanvas.SetActive(false);
         mash = 1f;
@@ -109,6 +113,18 @@ public class ButtonMash : MonoBehaviour
         playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
         health = collision.gameObject.GetComponent<PlayerHealth>();
         timer = 0;
-        started = true;
+        animator.SetBool("Attacking", true);
+    }
+
+    private void TurnOnHitbox()
+    {
+        Hitbox.SetActive(true);
+        Invoke(nameof(TurnOffHitbox), 2);
+    }
+    
+    private void TurnOffHitbox()
+    {
+        Hitbox.SetActive(false);
+        animator.SetBool("Attacking", false);
     }
 }

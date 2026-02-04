@@ -15,6 +15,7 @@ public class GrabberMovement : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        animator.SetBool("Chasing", false);
     }
 
     // Update is called once per frame
@@ -47,6 +48,7 @@ public class GrabberMovement : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             rb.velocity = Vector2.zero;
+            animator.SetBool("Chasing", false);
             isChasing = false;
         }
 
