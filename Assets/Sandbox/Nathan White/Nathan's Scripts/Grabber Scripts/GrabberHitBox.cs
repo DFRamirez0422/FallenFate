@@ -6,10 +6,15 @@ public class GrabberHitBox : MonoBehaviour
 
     private void Start()
     {
-        buttonmashScript = GetComponent<ButtonMash>();
+        // Finds the ButtonMash script on this object or any parent
+        buttonmashScript = GetComponentInParent<ButtonMash>();
+
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        buttonmashScript.started = true;
+        if (collision.gameObject.tag == "Player")
+        {
+            buttonmashScript.started = true;
+        }
     }
 }

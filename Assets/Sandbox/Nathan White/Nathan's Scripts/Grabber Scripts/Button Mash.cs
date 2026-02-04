@@ -43,7 +43,7 @@ public class ButtonMash : MonoBehaviour
     {
         if (started)
         {
-            
+
             playerMovement.enabled = false;
             playerMovement.m_Rigidbody.velocity = Vector2.zero;
 
@@ -54,7 +54,7 @@ public class ButtonMash : MonoBehaviour
 
             text.enabled = true;
             text.text = "Mash Z";
-            
+
 
             if (Input.GetButtonDown("Attack") && !pressed)
             {
@@ -91,10 +91,11 @@ public class ButtonMash : MonoBehaviour
                 stunned = true;
                 mash = 2.5f;
                 Invoke(nameof(Unstun), 2);
-            }            
+                animator.SetBool("Attacking", false);
+            }
         }
         else if (!stunned)
-        {text.enabled = false;}
+        { text.enabled = false; }
 
 
     }
@@ -119,12 +120,19 @@ public class ButtonMash : MonoBehaviour
     private void TurnOnHitbox()
     {
         Hitbox.SetActive(true);
-        Invoke(nameof(TurnOffHitbox), 2);
+        Invoke(nameof(TurnOffHitbox), 1);
     }
-    
+
     private void TurnOffHitbox()
     {
-        Hitbox.SetActive(false);
-        animator.SetBool("Attacking", false);
+        if (started)
+        {
+            Hitbox.SetActive(false);
+        }
+        else
+        {
+            animator.SetBool("Attacking", false);
+            Hitbox.SetActive(false);
+        }
     }
 }
