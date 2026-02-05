@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 5703896143363867580}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.96, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -63,7 +63,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8807435852695731377}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -115,7 +115,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: -731295485, guid: 44f98a6dd3aea00418510f6f660609a0, type: 3}
+  m_Sprite: {fileID: 8587034630997144377, guid: 3a7fa904de92d174d9f73541aa19013d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -160,8 +160,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.7, y: 1}
+  m_Offset: {x: -0.1, y: -0.6}
+  m_Size: {x: 0.9, y: 1.4}
   m_Direction: 0
 --- !u!50 &2208514055407226895
 Rigidbody2D:
@@ -216,21 +216,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxHealth: 3
+  m_OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHit:
+    m_PersistentCalls:
+      m_Calls: []
   m_OnZeroHealth:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9034051364470051669}
-        m_TargetAssemblyTypeName: PlayerHealth, Assembly-CSharp
-        m_MethodName: StartPlayerDeath
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &4791249104225616309
 MonoBehaviour:
   m_ObjectHideFlags: 0
