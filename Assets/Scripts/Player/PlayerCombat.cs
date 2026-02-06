@@ -3,38 +3,53 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
-    [Tooltip("Amount of damage to the enemies upon attacking.")]
-    [SerializeField] private int m_Damage = 1;
-    [Tooltip("Attack cooldown in seconds.")]
-    [SerializeField] private float m_Cooldown = 2.0f;
+    [Tooltip("Amount of damage to the enemies upon attacking.")] [SerializeField]
+    private int m_Damage = 1;
+
+    [Tooltip("Attack cooldown in seconds.")] [SerializeField]
+    private float m_Cooldown = 2.0f;
+
     [SerializeField] private Transform m_AttackPoint;
-    [Tooltip("Range of the weapon for attack checking, in meters.")]
-    [SerializeField] private float m_WeaponRange;
-    [Tooltip("Amount of force for the enemy knock back.")]
-    [SerializeField] private float m_KnockBackForce;
-    [Tooltip("Duration of knockback velocity in seconds.")]
-    [SerializeField] private float m_KnockbackTime = 0.15f;
-    [Tooltip("Amount of time to stun the enemy after knockback.")]
-    [SerializeField] private float m_StunTime;
-    [Tooltip("Enemy collision mask.")]
-    [SerializeField] private LayerMask m_EnemyLayer;
-    [Tooltip("Enable input handling in Update. If false, call Attack() externally.")]
-    [SerializeField] private bool m_HandleInput = false;
-    [Tooltip("Show attack range gizmo in editor.")]
-    [SerializeField] private bool m_ShowGizmo = true;
-    [Header("Attack Point Follow")]
-    [SerializeField] private float m_AttackPointDistance = 0.5f;   // how far in front of the player
-    [SerializeField] private Vector2 m_AttackPointOffset = Vector2.zero; 
-    [Header("Attack Animation State Names")]
-    [SerializeField] private PlayerAnimator m_PlayerAnimator;
+
+    [Tooltip("Range of the weapon for attack checking, in meters.")] [SerializeField]
+    private float m_WeaponRange;
+
+    [Tooltip("Amount of force for the enemy knock back.")] [SerializeField]
+    private float m_KnockBackForce;
+
+    [Tooltip("Duration of knockback velocity in seconds.")] [SerializeField]
+    private float m_KnockbackTime = 0.15f;
+
+    [Tooltip("Amount of time to stun the enemy after knockback.")] [SerializeField]
+    private float m_StunTime;
+
+    [Tooltip("Enemy collision mask.")] [SerializeField]
+    private LayerMask m_EnemyLayer;
+
+    [Tooltip("Enable input handling in Update. If false, call Attack() externally.")] [SerializeField]
+    private bool m_HandleInput = false;
+
+    [Tooltip("Show attack range gizmo in editor.")] [SerializeField]
+    private bool m_ShowGizmo = true;
+
+    [Header("Attack Point Follow")] [SerializeField]
+    private float m_AttackPointDistance = 0.5f; // how far in front of the player
+
+    [SerializeField] private Vector2 m_AttackPointOffset = Vector2.zero;
+
+    [Header("Attack Animation State Names")] [SerializeField]
+    private PlayerAnimator m_PlayerAnimator;
+
     [SerializeField] private string m_AttackUpState = "AttackUp";
     [SerializeField] private string m_AttackDownState = "AttackDown";
     [SerializeField] private string m_AttackLeftState = "AttackLeft";
     [SerializeField] private string m_AttackRightState = "AttackRight";
+    [SerializeField] private AudioSource m_PlayerAudio;
+    [SerializeField] private AudioClip m_AttackSwing;
 
 
 
-    // ===== PRIVATE FIELDS ===== //
+// ===== PRIVATE FIELDS ===== //
     private Animator m_Animator;
     private float m_Timer;
 
@@ -45,7 +60,7 @@ public class PlayerCombat : MonoBehaviour
             m_Timer -= Time.deltaTime;
         }
         
-        UpdateAttackPointPosition();
+        
         // Optional input handling
         if (m_HandleInput && Input.GetButtonDown("Attack"))
         {
@@ -66,7 +81,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (m_Timer <= 0)
         {
-            UpdateAttackPointPosition();
+            
             
             if (m_PlayerAnimator != null)
             {
@@ -84,24 +99,17 @@ public class PlayerCombat : MonoBehaviour
             }
 
             m_Animator.SetBool("IsAttacking", true);
+            // Play Attack audio
+            if (m_PlayerAudio != null)
+            {
+              m_PlayerAudio.PlayOneShot(m_AttackSwing);  
+            }
+            
             m_Timer = m_Cooldown;
         }
     }
     
-    private void UpdateAttackPointPosition()
-    {
-        if (m_AttackPoint == null || m_PlayerAnimator == null) return;
-
-        Vector2 dir = m_PlayerAnimator.LastMovedDirection;
-
-        // Safety: if direction is zero for some reason, don't move attack point
-        if (dir.sqrMagnitude < 0.001f) return;
-
-        // Put the attack point in front of the player in the last moved direction.
-        // Uses 8-direction if your LastMovedDirection is quantized to 8, or smooth if not.
-        Vector2 desiredLocal = (dir.normalized * m_AttackPointDistance) + m_AttackPointOffset;
-        m_AttackPoint.localPosition = desiredLocal;
-    }
+   
 
 
     public void DealDamage()
@@ -136,6 +144,7 @@ public class PlayerCombat : MonoBehaviour
     {
         m_Animator.SetBool("IsAttacking", false);
     }
+    
 
     private void OnDrawGizmosSelected()
     {

@@ -36,16 +36,18 @@ public class PlayerHealth : MonoBehaviour
     public void ChangeHealth(int amount)
     {
         // Removed code for now, per request.
-        // if (amount > 0)
-        // {
-        //     Heal(amount);
-        // }
-        // else if (amount < 0)
-        // {
-        //     Hit(-amount);
-        // }
+         if (amount > 0)
+         {
+             Heal(amount);
+         }
+         else if (amount < 0)
+         {
+             Hit(-amount);
+         }
 
-        m_CurrentHealth += amount;
+        //m_CurrentHealth += amount;
+        
+        
 
         if (m_CurrentHealth <= 0)
         {
