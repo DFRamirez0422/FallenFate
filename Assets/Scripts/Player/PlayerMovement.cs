@@ -12,7 +12,21 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Normal walking speed in meters per second.")]
     [SerializeField] private float m_WalkSpeed = 5.0f;
 
+    [Tooltip("The initial facing directioon of the player upon spawning.")]
+    [SerializeField] private Direction m_SpawnDirection = Direction.Down;
+
     // ===== PUBLIC FIELDS ===== //
+
+    /// <summary>
+    /// Used as the initial facing direction during spawning.
+    /// </summary>
+    enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right,
+    };
 
     /// <summary>
     /// Exposed variable for callers to request whether or not the player is active in gameplay or inactive due
@@ -51,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         m_Animator = GetComponent<PlayerAnimator>();
         m_PlayerCombat = GetComponent<PlayerCombat>();
         m_IsEnabled = true;
+        SetFaceDirection(m_SpawnDirection);
     }
 
     void FixedUpdate()
@@ -107,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
     public void RespawnPlayer()
     {
         StartCoroutine(SetToRespawnPoint());
+        SetFaceDirection(m_SpawnDirection);
     }
 
     /// <summary>
@@ -179,6 +195,22 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("No respawn point found - defaulting to centre of map.");
             transform.position = Vector2.zero;
+        }
+    }
+
+    /// <summary>
+    /// Sets the current facing direction basd on the  enumeration.
+    /// </summary>
+    /// <param name="dir"></param>
+    private void SetFaceDirection(Direction dir)
+    {
+        // Set up some variables in relation to the starting face direction.
+        switch (dir)
+        {
+            case Direction.Up: m_LastInput = Vector2.up; break;
+            case Direction.Down: m_LastInput = Vector2.down; break;
+            case Direction.Left: m_LastInput = Vector2.left; break;
+            case Direction.Right: m_LastInput = Vector2.right; break;
         }
     }
 }
