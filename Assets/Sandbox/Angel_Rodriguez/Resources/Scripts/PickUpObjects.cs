@@ -9,16 +9,24 @@ using UnityEngine.UI;
 
 public class PickUpObjects : CollidableObject // Inherits from CollidableObject
 {
+
+    [Header("Pick-Up Settings")]
     private PickUp_Manager pickUpManager;
     [SerializeField] private Item_Data itemData;
     [SerializeField] private string scriptableObjectPath;
+
+    [Header("UI Elements")]
+    [Tooltip("UI Prompt to show when player can pick up the item")]
     [SerializeField] private GameObject PickUpPrompt;
+    [SerializeField] private GameObject PickUpPromptPrefab;
+
     
 
     protected override void Start()
     {
-                PickUpPrompt.SetActive(false);
+        PickUpPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");;
         base.Start(); // Calls the Start method of CollidableObject and allows to be overridden by PickUpObjects Script
+
         if(scriptableObjectPath != null && scriptableObjectPath != "")
         {
             itemData = Resources.Load<Item_Data>(scriptableObjectPath);
@@ -57,13 +65,8 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
                 {
                         itemData.collected = true;
                         pickUpManager.items.Add(itemData);
-                        Debug.Log("Added " + itemData.itemName + " to PickUp_Manager");
                         var copy = this.gameObject;
                         Destroy(copy);
-                }
-                else
-                {
-                    Debug.LogError("Item_Data is not assigned for " + gameObject.name);
                 }
             }
     }
@@ -73,8 +76,11 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     {
         if (other.CompareTag("Player"))
         {
-            PickUpPrompt.SetActive(true);
-            PickUpPrompt.GetComponentsInChildren<Text>()[0].text = "Pick Up " + itemData.itemName;
+            PickUpPromptPrefab = Instantiate(PickUpPrompt);
+            PickUpPromptPrefab.SetActive(true);
+            PickUpPromptPrefab.GetComponentsInChildren<Text>()[0].text = "Pick up " + itemData.itemName;
+            PickUpPromptPrefab.GetComponentsInChildren<Text>()[1].text = "[x]";
+            PickUpPromptPrefab.GetComponentsInChildren<Text>()[2].text = "";
         }
     }
 
@@ -85,6 +91,10 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
         {
             PickUpPrompt.SetActive(false);
             PickUpPrompt.GetComponentsInChildren<Text>()[0].text = "";
+            PickUpPrompt.GetComponentsInChildren<Text>()[1].text = "";
+            PickUpPrompt.GetComponentsInChildren<Text>()[2].text = "";
+            Destroy(PickUpPromptPrefab);
+
         }
     }
 }

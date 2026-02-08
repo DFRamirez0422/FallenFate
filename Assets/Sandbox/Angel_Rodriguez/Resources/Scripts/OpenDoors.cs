@@ -7,20 +7,17 @@ public class OpenDoors : CollidableObject
     private PickUp_Manager pickUpManager;
     [SerializeField] private Item_Data Key; // Key required to open the door
 
-    [Header("Generator Option")]
-    [SerializeField] private bool Usegenerator; // If true, door requires generators to open else requires key
-    [SerializeField] private Activate_Generators Generator1;
-    [SerializeField] private Activate_Generators Generator2;
-
     [Header("Animation Settings")]
 
     [SerializeField] private Animator DoorAnimator;
 
+    [Header("UI Elements")]
     [SerializeField] private GameObject OpenDoorPrompt;
+    private GameObject _SpawnedPrompt;
     
         void Awake()
     {
-       OpenDoorPrompt = GameObject.Find("ActionDescription");
+       OpenDoorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");
        DoorAnimator = GetComponent<Animator>();
     }
    
@@ -49,36 +46,11 @@ public class OpenDoors : CollidableObject
     {
         if (Input.GetButtonDown("Interact"))
         {  
-            if (Usegenerator) // Check if door uses generators to open
-            {
-                // Check if both generators are activated
-                if(Generator1.Activate_Generator && Generator2.Activate_Generator)
-                {
-                    Debug.Log("Door Unlocked with Generators");
-                    OpenDoor();
-                }
-                else
-                {
-                    Debug.Log("You need to activate both generators to open this door.");
-                }
-                return;
-            }
-
-
-            else // Door uses key to open
-            {
                 // Check if the player has the required key in the PickUp_Manager
                 if (pickUpManager.items.Contains(Key) && Key.collected)
                 {
-                    Debug.Log("Door Unlocked with " + Key.itemName);
                     OpenDoor();
                 }
-                else
-                {
-                    Debug.Log("You need " + Key.itemName + " to open this door.");
-                }
-                return;
-            }
         }
     }
     
@@ -94,8 +66,21 @@ public class OpenDoors : CollidableObject
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            OpenDoorPrompt.SetActive(true);
-            OpenDoorPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
+            if (pickUpManager.items.Contains(Key) && Key.collected){
+            _SpawnedPrompt = Instantiate(OpenDoorPrompt);
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "[x]";
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
+            _SpawnedPrompt.SetActive(true);
+           }
+            else
+            {
+                _SpawnedPrompt = Instantiate(OpenDoorPrompt);
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "Door is locked. Find the key.";
+                _SpawnedPrompt.SetActive(true);
+            }
         }
     }
 
@@ -104,8 +89,11 @@ public class OpenDoors : CollidableObject
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            OpenDoorPrompt.SetActive(false);
-            OpenDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";
+            _SpawnedPrompt.SetActive(false);
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
+            Destroy(_SpawnedPrompt);
         }
     }
 }
