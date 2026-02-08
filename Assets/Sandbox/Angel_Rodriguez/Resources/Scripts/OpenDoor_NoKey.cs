@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class OpenDoor_NoKey : CollidableObject
 {
+    [SerializeField] private Vector3 _TranslatePosition;
+
     [Header("UI Elements")]
     [SerializeField] private GameObject OpenDoorPrompt;
     private GameObject _SpawnedPrompt;
@@ -29,7 +31,7 @@ public class OpenDoor_NoKey : CollidableObject
     // Method to open the door
     private void OpenDoor()
     {
-        transform.Translate(-1.5f, 0, 0); // Move the door up to simulate opening
+        transform.Translate(_TranslatePosition); // Move the door up to simulate opening
         GetComponent<Collider2D>().enabled = false; // Disable the collider to allow passage
         _doorOpened = true;
     }
