@@ -12,7 +12,10 @@ public class Room2_CutScene_Player : MonoBehaviour
     
     void Awake()
     {
+        // Load the cutscene canvas prefab from the Resources folder
         CutsceneCanvas = Resources.Load<GameObject>("Prefabs/Room2_CutScenePrefabs/Room2CutScene");
+
+        // Find the player movement script to disable it during the cutscene
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         if (CutsceneCanvas == null)
         {
@@ -25,9 +28,7 @@ public class Room2_CutScene_Player : MonoBehaviour
         foreach (var texture in cutsceneTextures)
         {
              // Display the texture (implementation depends on your UI setup)
-             CutsceneCanvas.GetComponentInChildren<RawImage>().texture = texture; // Assuming you have a RawImage component on the canvas to display the texture
-
-             // For example, you might set it to a RawImage component
+             CutsceneCanvas.GetComponentInChildren<RawImage>().texture = texture;
 
              yield return new WaitForSeconds(frameDuration);
         }
@@ -46,7 +47,7 @@ public class Room2_CutScene_Player : MonoBehaviour
             playerMovement.enabled = false; // Disable player movement during the cutscene
             CutsceneCanvas = Instantiate(CutsceneCanvas); // Instantiate the cutscene canvas
             CutsceneCanvas.SetActive(true); // Show the cutscene canvas
-            StartCoroutine(CutsceneCoroutine());
+            StartCoroutine(CutsceneCoroutine()); // Start the cutscene coroutine to display the textures in sequence
             GetComponent<Collider2D>().enabled = false; // Disable the collider to prevent retriggering
         }
     }

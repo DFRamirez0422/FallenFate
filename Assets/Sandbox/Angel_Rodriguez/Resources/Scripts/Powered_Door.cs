@@ -16,6 +16,7 @@ public class Powered_Door : CollidableObject
 
      void Awake()
     {
+        // Load the prompt prefab from the Resources folder
         PoweredDoorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");
     }
 
@@ -28,6 +29,8 @@ public class Powered_Door : CollidableObject
     protected override void Update()
     {
         base.Update(); // Calls the Update method of CollidableObject
+
+        // Check if both generators are activated to power the door
         if(activateGenerators.Activate_Generator && activate_Generator2.Activate_Generator)
         {
             isPowered = true;
@@ -41,7 +44,10 @@ public class Powered_Door : CollidableObject
 
     protected override void OnCollide(GameObject other)
     {
+        // Check if the door is already opened
         if(_doorOpened) return;
+
+        // Check for player input to open the door
         if (Input.GetButtonDown("Interact"))
         {
             if (isPowered)
@@ -58,6 +64,7 @@ public class Powered_Door : CollidableObject
         GetComponent<Collider2D>().enabled = false; // Disable the collider to allow passage
     }
     
+    // Show the prompt when the player enters the trigger area
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -79,6 +86,7 @@ public class Powered_Door : CollidableObject
         }
     }
 
+    // Hide the prompt when the player exits the trigger area
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

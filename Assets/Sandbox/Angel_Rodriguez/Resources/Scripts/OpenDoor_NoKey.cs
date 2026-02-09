@@ -11,7 +11,8 @@ public class OpenDoor_NoKey : CollidableObject
 
      void Awake()
     {
-        OpenDoorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");
+        // Load the prompt prefab from the Resources folder
+        OpenDoorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription"); 
     }
 
     protected override void Start()
@@ -21,7 +22,10 @@ public class OpenDoor_NoKey : CollidableObject
 
     protected override void OnCollide(GameObject other)
     {
+        // Check if the door is already opened to prevent multiple openings
         if(_doorOpened) return;
+
+        // Check for player input to open the door
         if (Input.GetButtonDown("Interact"))
         {  
             OpenDoor(); 
@@ -35,7 +39,8 @@ public class OpenDoor_NoKey : CollidableObject
         GetComponent<Collider2D>().enabled = false; // Disable the collider to allow passage
         _doorOpened = true;
     }
-
+    
+    // Show the prompt when the player enters the trigger area
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -48,6 +53,7 @@ public class OpenDoor_NoKey : CollidableObject
         }   
     }
 
+    // Hide the prompt when the player exits the trigger area
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
