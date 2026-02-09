@@ -35,6 +35,8 @@ public class Room2_CutScene_Player : MonoBehaviour
         StopCoroutine(CutsceneCoroutine());
         CutsceneCanvas.SetActive(false); // Hide the cutscene canvas after the cutscene is done
         playerMovement.enabled = true; // Re-enable player movement after the cutscene
+        Destroy(CutsceneCanvas); // Clean up the cutscene canvas
+        Destroy(this.gameObject); // Destroy this trigger object after the cutscene is done
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

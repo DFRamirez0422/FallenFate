@@ -78,7 +78,7 @@ public class OpenDoors : CollidableObject
                 _SpawnedPrompt = Instantiate(OpenDoorPrompt);
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "Door is locked. Find the key.";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "locked. Find the key.";
                 _SpawnedPrompt.SetActive(true);
             }
         }
