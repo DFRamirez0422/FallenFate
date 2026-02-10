@@ -5,30 +5,42 @@ public class GrabberMovement : MonoBehaviour
     public float speed;
     private bool isChasing;
 
-    [HideInInspector]
+
     public Rigidbody2D rb;
     private Transform player;
     private Animator animator;
+    private ButtonMash ButtonMash;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
+        ButtonMash = GetComponentInParent<ButtonMash>();
+        animator = GetComponentInParent<Animator>();
+        rb = GetComponentInParent<Rigidbody2D>();
         animator.SetBool("Chasing", false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isChasing == true)
+        if (isChasing == true && !animator.GetBool("Attacking"))
         {
             Vector2 direction = (player.position - transform.position).normalized;
             rb.linearVelocity = direction * speed;
         }
+        
+        //if (ButtonMash.started)
+        //{
+        //    Vector2 direction = transform.position;
+        //}
+
+        if (animator.GetBool("Attacking"))
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -36,6 +48,7 @@ public class GrabberMovement : MonoBehaviour
             if (player == null)
             {
                 player = collision.transform;
+                isChasing = false;
             }
             animator.SetBool("Chasing", true);
             isChasing = true;
