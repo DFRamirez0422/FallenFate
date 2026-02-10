@@ -7,6 +7,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int m_MaxHealth;
     [Tooltip("Event to be invoked upon reaching zero hit points.")]
     [SerializeField] private UnityEvent m_OnZeroHealth;
+    [Tooltip("Game over screen prefab to be displayed during a game over.")]
+    [SerializeField] private GameObject m_GameOverScreenPrefab;
     private int m_CurrentHealth;
 
     /// <summary>
@@ -44,11 +46,17 @@ public class PlayerHealth : MonoBehaviour
     /// </summary>
     public void StartPlayerDeath()
     {
-        // Disable collider to let enemies know the player is no longer around.
-        GetComponent<Collider2D>().enabled = false;
+        // Disable the player movement component.
+        GetComponent<PlayerMovement>().Disable();
 
         // Start the death animation.
         GetComponent<PlayerAnimator>().StartAnimation("Death");
+
+        // Very cheap hack to get around prefabs limitation of not invoking a callback of another prefab.
+        // Yes, yell at me all you want about this horrendous coupling but it's not like I have another choice.
+        // None of these prefabs know each other and they can't invoke one another's functions.
+        GameObject game_over_screen = Instantiate(m_GameOverScreenPrefab);
+        game_over_screen.GetComponent<GameOverScreen>().DisplayScreen();
     }
 
     /// <summary>
