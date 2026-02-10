@@ -3,9 +3,9 @@ using UnityEngine;
 public class GrabberMovement : MonoBehaviour
 {
     public float speed;
-    private bool isChasing;
+    public bool isChasing;
 
-    [HideInInspector]
+
     public Rigidbody2D rb;
     private Transform player;
     private Animator animator;
@@ -13,29 +13,36 @@ public class GrabberMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInParent<Animator>();
+        rb = GetComponentInParent<Rigidbody2D>();
         animator.SetBool("Chasing", false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isChasing == true)
+        if (isChasing == true && !animator.GetBool("Attacking"))
         {
             Vector2 direction = (player.position - transform.position).normalized;
             rb.linearVelocity = direction * speed;
         }
+
+
+        if (animator.GetBool("Attacking"))
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-
+           
             if (player == null)
             {
                 player = collision.transform;
+                isChasing = false;
             }
             animator.SetBool("Chasing", true);
             isChasing = true;
@@ -51,7 +58,6 @@ public class GrabberMovement : MonoBehaviour
             animator.SetBool("Chasing", false);
             isChasing = false;
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

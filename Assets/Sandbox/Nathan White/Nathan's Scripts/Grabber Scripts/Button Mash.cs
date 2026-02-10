@@ -44,7 +44,7 @@ public class ButtonMash : MonoBehaviour
         if (started)
         {
 
-            playerMovement.enabled = false;
+            playerMovement.Disable();
             playerMovement.m_Rigidbody.linearVelocity = Vector2.zero;
 
             timer += Time.deltaTime;
@@ -68,6 +68,7 @@ public class ButtonMash : MonoBehaviour
 
             if (health != null)
             {
+                //Damage the player 
                 if (mash <= 0)
                 {
                     text2.enabled = true;
@@ -83,15 +84,16 @@ public class ButtonMash : MonoBehaviour
                 Debug.LogWarning("Health is null");
             }
 
+            //Stun the enemy
             if (timer >= 3)
             {
-                playerMovement.enabled = true;
                 started = false;
                 text.text = "Stunned";
                 stunned = true;
                 mash = 2.5f;
                 Invoke(nameof(Unstun), 2);
                 animator.SetBool("Attacking", false);
+                playerMovement.Enable();
             }
         }
         else if (!stunned)
@@ -103,6 +105,7 @@ public class ButtonMash : MonoBehaviour
     private void Unstun()
     {
         stunned = false;
+        animator.SetBool("Attacking", false);
     }
     private void ToggleDamageText()
     {
