@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1468883700045483331}
   - component: {fileID: 9102786588351249175}
   - component: {fileID: 7498764890915046948}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Damaged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,12 +148,12 @@ GameObject:
   - component: {fileID: 1730156046680804327}
   - component: {fileID: 6690786853296670670}
   - component: {fileID: 1687547949737903762}
+  - component: {fileID: 6547588350653721608}
   - component: {fileID: 4026019361214374552}
   - component: {fileID: 3893446639580769808}
   - component: {fileID: 2167600078606967410}
   - component: {fileID: 4421956143007574518}
-  - component: {fileID: 8467842875205385008}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Grabber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,9 +217,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1164922079
-  m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.3584906, g: 0.21948682, b: 0.07271271, a: 1}
   m_FlipX: 0
@@ -295,6 +295,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
+--- !u!114 &6547588350653721608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2249023097432166996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe988e513d794d4e84fd4d45a5dae9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 2
+  maxHealth: 2
 --- !u!58 &4026019361214374552
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -349,7 +363,6 @@ MonoBehaviour:
   text2: {fileID: 7498764890915046948}
   mash: 0
   timer: 0
-  Hitbox: {fileID: 0}
   started: 0
   stunned: 0
 --- !u!95 &2167600078606967410
@@ -388,22 +401,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   rb: {fileID: 0}
---- !u!114 &8467842875205385008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2249023097432166996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f29e30cfe67c21044be31df5216c6134, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxHealth: 3
-  m_OnHit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7921440457605275879
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +413,7 @@ GameObject:
   - component: {fileID: 1603229997486269512}
   - component: {fileID: 5061174991916848738}
   - component: {fileID: 7752297402643173748}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -518,7 +515,7 @@ GameObject:
   - component: {fileID: 1805221832681393998}
   - component: {fileID: 3607249637235151323}
   - component: {fileID: 2993871191825091836}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Mash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
