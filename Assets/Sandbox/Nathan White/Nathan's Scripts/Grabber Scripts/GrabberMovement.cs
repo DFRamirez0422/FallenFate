@@ -3,18 +3,16 @@ using UnityEngine;
 public class GrabberMovement : MonoBehaviour
 {
     public float speed;
-    private bool isChasing;
+    public bool isChasing;
 
 
     public Rigidbody2D rb;
     private Transform player;
     private Animator animator;
-    private ButtonMash ButtonMash;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ButtonMash = GetComponentInParent<ButtonMash>();
         animator = GetComponentInParent<Animator>();
         rb = GetComponentInParent<Rigidbody2D>();
         animator.SetBool("Chasing", false);
@@ -28,11 +26,7 @@ public class GrabberMovement : MonoBehaviour
             Vector2 direction = (player.position - transform.position).normalized;
             rb.linearVelocity = direction * speed;
         }
-        
-        //if (ButtonMash.started)
-        //{
-        //    Vector2 direction = transform.position;
-        //}
+
 
         if (animator.GetBool("Attacking"))
         {
@@ -44,7 +38,7 @@ public class GrabberMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-
+           
             if (player == null)
             {
                 player = collision.transform;
@@ -64,7 +58,6 @@ public class GrabberMovement : MonoBehaviour
             animator.SetBool("Chasing", false);
             isChasing = false;
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
