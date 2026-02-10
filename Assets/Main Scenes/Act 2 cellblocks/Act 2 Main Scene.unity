@@ -1889,6 +1889,13 @@ MonoBehaviour:
     m_Bits: 0
   m_HandleInput: 0
   m_ShowGizmo: 1
+  m_PlayerAnimator: {fileID: 0}
+  m_AttackUpState: AttackUp
+  m_AttackDownState: AttackDown
+  m_AttackLeftState: AttackLeft
+  m_AttackRightState: AttackRight
+  m_PlayerAudio: {fileID: 0}
+  m_AttackSwingClip: {fileID: 0}
 --- !u!114 &685727142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1902,6 +1909,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxHealth: 3
+  m_OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHit:
+    m_PersistentCalls:
+      m_Calls: []
   m_OnZeroHealth:
     m_PersistentCalls:
       m_Calls: []
@@ -1919,7 +1932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_WalkSpeed: 5
-  m_SpawnDirection: 1
+  m_SpawnDirection: 0
 --- !u!50 &685727144
 Rigidbody2D:
   serializedVersion: 5
@@ -2149,7 +2162,7 @@ Camera:
   far clip plane: 5000
   field of view: 8
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -73780,7 +73793,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 8
-    OrthographicSize: 3
+    OrthographicSize: 5
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
