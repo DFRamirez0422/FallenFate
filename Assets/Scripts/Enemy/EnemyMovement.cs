@@ -25,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
     private PlayerAnimator m_SpriteAnimator;
     private Animator m_Animator;
     private float m_AttackCooldownTimer;
-    private int m_FacingDirection = -1;
+    private int m_FacingDirection = 1;
     private EnemyState m_EnemyState;
     private bool m_IsStunned;
 
@@ -61,12 +61,11 @@ public class EnemyMovement : MonoBehaviour
 
     void Chase()
     {
-        // Made redundant due to our use of the SpriteAnimator class.
-        // if (m_Player.position.x > transform.position.x && m_FacingDirection == -1 ||
-        //     m_Player.position.x < transform.position.x && m_FacingDirection == 1)
-        // {
-        //     Flip();
-        // }
+        if (m_Player.position.x > transform.position.x && m_FacingDirection == -1 ||
+            m_Player.position.x < transform.position.x && m_FacingDirection == 1)
+        {
+            Flip();
+        }
 
         Vector2 enemy_to_player = m_Player.position - transform.position;
         Vector2 direction = enemy_to_player.normalized * m_ChaseSpeed;
