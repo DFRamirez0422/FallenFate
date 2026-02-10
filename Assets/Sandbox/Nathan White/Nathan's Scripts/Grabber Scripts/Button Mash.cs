@@ -1,0 +1,138 @@
+using System.Threading;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ButtonMash : MonoBehaviour
+{
+    public float mashDelay = 0.5f;
+    public GameObject MashCanvas;
+    public TextMeshProUGUI text;
+    public TextMeshProUGUI text2;
+
+    [SerializeField]
+    private float mash, timer;
+    private bool pressed;
+    public GameObject Hitbox;
+
+    [HideInInspector]
+    public bool started, stunned;
+
+    //animator
+    private Animator animator;
+
+    //Called Scripts
+    private PlayerHealth health;
+    private PlayerMovement playerMovement;
+    //private Enemy_Movement movement; -Not used right now but will probably use later.
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        Hitbox.SetActive(false);
+        animator = GetComponent<Animator>();
+        MashCanvas.SetActive(false);
+        mash = 1f;
+        text2.enabled = false;
+        //movement = GetComponent<Enemy_Movement>(); -Not used right now but will probably use later.
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (started)
+        {
+
+            playerMovement.enabled = false;
+            playerMovement.m_Rigidbody.linearVelocity = Vector2.zero;
+
+            timer += Time.deltaTime;
+
+            MashCanvas.SetActive(true);
+            mash -= Time.deltaTime;
+
+            text.enabled = true;
+            text.text = "Mash Z";
+
+
+            if (Input.GetButtonDown("Attack") && !pressed)
+            {
+                pressed = true;
+                mash = mashDelay;
+            }
+            else if (Input.GetButtonUp("Attack"))
+            {
+                pressed = false;
+            }
+
+            if (health != null)
+            {
+                if (mash <= 0)
+                {
+                    text2.enabled = true;
+                    text2.text = "Damaged";
+                    health.ChangeHealth(-1);
+                    mash = 2.5f;
+                    timer = 0;
+                    Invoke(nameof(ToggleDamageText), 0.5f);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Health is null");
+            }
+
+            if (timer >= 3)
+            {
+                playerMovement.enabled = true;
+                started = false;
+                text.text = "Stunned";
+                stunned = true;
+                mash = 2.5f;
+                Invoke(nameof(Unstun), 2);
+                animator.SetBool("Attacking", false);
+            }
+        }
+        else if (!stunned)
+        { text.enabled = false; }
+
+
+    }
+
+    private void Unstun()
+    {
+        stunned = false;
+    }
+    private void ToggleDamageText()
+    {
+        text2.enabled = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+        health = collision.gameObject.GetComponent<PlayerHealth>();
+        timer = 0;
+        animator.SetBool("Attacking", true);
+    }
+
+    private void TurnOnHitbox()
+    {
+        Hitbox.SetActive(true);
+        Invoke(nameof(TurnOffHitbox), 1);
+    }
+
+    private void TurnOffHitbox()
+    {
+        if (started)
+        {
+            Hitbox.SetActive(false);
+        }
+        else
+        {
+            animator.SetBool("Attacking", false);
+            Hitbox.SetActive(false);
+        }
+    }
+}

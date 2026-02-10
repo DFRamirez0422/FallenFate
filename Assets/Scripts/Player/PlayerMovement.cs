@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 CurrentDirection => Vector2.ClampMagnitude(CurrentInput, 1f);
 
     // ===== PRIVATE FIELDS ===== //
-    private Rigidbody2D m_Rigidbody;
+    public Rigidbody2D m_Rigidbody;
     private PlayerAnimator m_Animator;
     private PlayerCombat m_PlayerCombat;
     private Vector2 m_LastInput = Vector2.right; // Save the last movement direction once the player stops moving.
