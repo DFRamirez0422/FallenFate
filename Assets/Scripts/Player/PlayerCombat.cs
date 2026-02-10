@@ -25,7 +25,6 @@ public class PlayerCombat : MonoBehaviour
 
 
     // ===== PRIVATE FIELDS ===== //
-    private PlayerMovement m_PlayerMovement;
     private Animator m_Animator;
     private float m_Timer;
 
@@ -36,8 +35,6 @@ public class PlayerCombat : MonoBehaviour
             m_Timer -= Time.deltaTime;
         }
 
-        MoveAttackPoint();
-
         // Optional input handling
         if (m_HandleInput && Input.GetButtonDown("Attack"))
         {
@@ -47,7 +44,6 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
-        m_PlayerMovement = GetComponent<PlayerMovement>();
         m_Animator = GetComponent<Animator>();
     }
 
@@ -99,13 +95,5 @@ public class PlayerCombat : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(m_AttackPoint.position, m_WeaponRange);
-    }
-
-    /// <summary>
-    /// Function to move the attack point relative to the player's direction.
-    /// </summary>
-    private void MoveAttackPoint()
-    {
-        m_AttackPoint.position = (Vector2)transform.position + m_PlayerMovement.CurrentDirection;
     }
 }

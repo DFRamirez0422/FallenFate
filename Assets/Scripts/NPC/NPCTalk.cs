@@ -19,19 +19,19 @@ public class NPCTalk : MonoBehaviour
     // ===== PRIVATE FIELDS ===== //
 
     private Rigidbody2D m_Rigidbody;
-    private Animator m_Animator;
+    private PlayerAnimator m_Animator;
 
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
-        m_Animator = GetComponentInChildren<Animator>();
+        m_Animator = GetComponentInChildren<PlayerAnimator>();
     }
 
     private void OnEnable()
     {
         m_Rigidbody.linearVelocity = Vector2.zero;
         m_Rigidbody.bodyType = RigidbodyType2D.Static;
-        m_Animator.Play("Idle");
+        m_Animator.StartAnimation("Idle");
         m_InteractIconAnimator.Play("Appear");
     }
 
