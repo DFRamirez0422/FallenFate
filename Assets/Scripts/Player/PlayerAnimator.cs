@@ -4,63 +4,53 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     /// <summary>
-    /// Animatation controller manager class for the player.
-    /// 
-    /// This class bridges the connection between the player and player animations. The imagined use
-    /// of this class is to have other player components/scripts call in when something interesting happens
-    /// that requires animation to be changed. Callers are required to return data pertinent for
-    /// the animation to be judged if any arguments are present.
-    /// 
-    /// AUTHOR: Jose Escobedo
+    /// Animation controller manager for the player. Other components call in when something
+    /// requires animation to change. AUTHOR: Jose Escobedo
     /// </summary>
     private Animator m_Animator;
+    private Vector2 m_LastMovedDirection = Vector2.down;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    /// <summary>Last movement direction quantized to 8 directions, for combat and facing.</summary>
+    public Vector2 LastMovedDirection => m_LastMovedDirection;
+
+    private void Awake()
     {
         m_Animator = GetComponent<Animator>();
     }
-    void Awake()
-    {
-        m_Animator = GetComponent<Animator>();
-    }
 
-    /// <summary>
-    /// Update the animator sprite based on the current movement speed for walking and runnning.
-    /// 
-    /// Plays the player walking animtion while the player MoveSpeed is Greator than 0. And plays idle animation when player MoveSpeed is 0 or less.
-    /// </summary>
-    /// <param name="speed">Speed of the entity in meters per second.</param>
+    /// <summary>Update animator speed for walking/idle.</summary>
     public void SetCurrentSpeed(float speed)
     {
         m_Animator.SetFloat("MoveSpeed", speed);
     }
 
-    /// <summary>
-    /// Update the animator sprite direction based on the input vector.
-    /// </summary>
-    /// <param name="direction">Input direction vector. Do not normalize because the input magnitude is used.</param>
+    /// <summary>Update animator direction and store last direction for combat.</summary>
     public void SetCurrentDirection(Vector2 direction)
     {
+        if (direction.sqrMagnitude > 0.001f)
+            m_LastMovedDirection = QuantizeTo8(direction);
+
         m_Animator.SetFloat("LastDirX", direction.normalized.x);
         m_Animator.SetFloat("LastDirY", direction.normalized.y);
     }
 
-    /// <summary>
-    /// Directly plays a given animation clip by its defined name.
-    /// </summary>
-    /// <param name="name"></param>
+    private static Vector2 QuantizeTo8(Vector2 dir)
+    {
+        dir.Normalize();
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float snapped = Mathf.Round(angle / 45f) * 45f;
+        float rad = snapped * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+    }
+
+    /// <summary>Play an animation by state name.</summary>
     public void StartAnimation(string name)
     {
-        // Unity has a strange bug where the component gets forgotten about? I don't know.
         m_Animator = GetComponent<Animator>();
         m_Animator.Play(name);
     }
 
-    /// <summary>
-    /// Resets the animation to an initial state.
-    /// </summary>
-    /// <param name="name"></param>
+    /// <summary>Reset to movement blend tree.</summary>
     public void Reset()
     {
         m_Animator.Play("Movement");

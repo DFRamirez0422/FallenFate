@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    // ===== USER INTERFACE FIELDS ===== //
     [Tooltip("Amount of damage to the enemies upon attacking.")]
     [SerializeField] private int m_Damage = 1;
     [Tooltip("Attack cooldown in seconds.")]
@@ -23,41 +22,52 @@ public class PlayerCombat : MonoBehaviour
     [Tooltip("Show attack range gizmo in editor.")]
     [SerializeField] private bool m_ShowGizmo = true;
 
+    [Header("Attack Animation State Names")]
+    [SerializeField] private PlayerAnimator m_PlayerAnimator;
+    [SerializeField] private string m_AttackUpState = "AttackUp";
+    [SerializeField] private string m_AttackDownState = "AttackDown";
+    [SerializeField] private string m_AttackLeftState = "AttackLeft";
+    [SerializeField] private string m_AttackRightState = "AttackRight";
+    [SerializeField] private AudioSource m_PlayerAudio;
+    [SerializeField] private AudioClip m_AttackSwingClip;
 
-    // ===== PRIVATE FIELDS ===== //
-    private PlayerMovement m_PlayerMovement;
     private Animator m_Animator;
     private float m_Timer;
 
-    void Update()
+    private void Update()
     {
         if (m_Timer > 0)
-        {
             m_Timer -= Time.deltaTime;
-        }
 
-        MoveAttackPoint();
-
-        // Optional input handling
         if (m_HandleInput && Input.GetButtonDown("Attack"))
-        {
             Attack();
-        }
     }
 
-    void Start()
+    private void Start()
     {
-        m_PlayerMovement = GetComponent<PlayerMovement>();
         m_Animator = GetComponent<Animator>();
+        if (m_PlayerAnimator == null)
+            m_PlayerAnimator = GetComponent<PlayerAnimator>();
     }
 
     public void Attack()
     {
-        if (m_Timer <= 0)
+        if (m_Timer > 0) return;
+
+        if (m_PlayerAnimator != null)
         {
-            m_Animator.SetBool("IsAttacking", true);
-            m_Timer = m_Cooldown;
+            Vector2 dir = m_PlayerAnimator.LastMovedDirection;
+            if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+                m_Animator.Play(dir.x >= 0 ? m_AttackRightState : m_AttackLeftState);
+            else
+                m_Animator.Play(dir.y >= 0 ? m_AttackUpState : m_AttackDownState);
         }
+
+        m_Animator.SetBool("IsAttacking", true);
+        if (m_PlayerAudio != null && m_AttackSwingClip != null)
+            m_PlayerAudio.PlayOneShot(m_AttackSwingClip);
+
+        m_Timer = m_Cooldown;
     }
 
     public void DealDamage()
@@ -68,23 +78,14 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (Collider2D enemy in enemies)
         {
-            // Check for health component
             EnemyHealth health = enemy.GetComponent<EnemyHealth>();
             if (health == null) continue;
 
-            // Deal damage
             health.ChangeHealth(-m_Damage);
 
-            // Apply knockback
             EnemyKnockback knockback = enemy.GetComponent<EnemyKnockback>();
             if (knockback != null)
-            {
                 knockback.Knockback(transform, m_KnockBackForce, m_KnockbackTime, m_StunTime);
-            }
-
-            // // Commented out to allow multiple enemies to be hit by one attack - David G
-            // // Only hit one enemy per attack
-            // break;
         }
     }
 
@@ -96,16 +97,7 @@ public class PlayerCombat : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         if (!m_ShowGizmo || m_AttackPoint == null) return;
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(m_AttackPoint.position, m_WeaponRange);
-    }
-
-    /// <summary>
-    /// Function to move the attack point relative to the player's direction.
-    /// </summary>
-    private void MoveAttackPoint()
-    {
-        m_AttackPoint.position = (Vector2)transform.position + m_PlayerMovement.CurrentDirection;
     }
 }
