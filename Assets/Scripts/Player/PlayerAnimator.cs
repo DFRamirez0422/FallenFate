@@ -183,7 +183,6 @@ public class PlayerAnimator : MonoBehaviour
     /// <summary>Reset to movement blend tree.</summary>
     public void Reset()
     {
-        m_Animator.Play("Movement");
         m_CurrentState = State.Idle;
         m_IsNeedUpdate = true;
     }
