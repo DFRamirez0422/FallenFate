@@ -6,14 +6,33 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimator))]
+[RequireComponent(typeof(AudioSource))]
 public class PlayerMovement : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
+    [Header("Movemnt")]
     [Tooltip("Normal walking speed in meters per second.")]
     [SerializeField] private float m_WalkSpeed = 5.0f;
 
     [Tooltip("The initial facing directioon of the player upon spawning.")]
     [SerializeField] private Direction m_SpawnDirection = Direction.Down;
+
+    [Header("Audio Clips")]
+    [Tooltip("Normal footstep sounds for all terrain.")]
+    [SerializeField] private AudioClip m_WalkNormalSound;
+    [Tooltip("Foodstep audio clip for snow terrain.")]
+    [SerializeField] private AudioClip m_WalkSnowSound;
+    [Tooltip("Footstep audio clip for staircase terrain.")]
+    [SerializeField] private AudioClip m_WalkStairSound;
+    [Tooltip("Footstep audio clip for the bushes.")]
+    [SerializeField] private AudioClip m_WalkBushSound;
+    [Tooltip("General sound for colliding with an object.")]
+    [SerializeField] private AudioClip m_CollisionSound;
+    [Tooltip("Audio clip for hitting the wall.")]
+    [SerializeField] private AudioClip m_WallHitSound;
+    [Tooltip("Audio clip for getting hit and attacked.")]
+    [SerializeField] private AudioClip m_DamageSound;
+
 
     // ===== PUBLIC FIELDS ===== //
 
@@ -106,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
         m_IsKnockedBack = true;
         Vector2 direction = (transform.position - enemy.position).normalized;
         m_Rigidbody.linearVelocity = direction * force;
+        m_Animator.StartDamage();
         StartCoroutine(KnockbackCounter(stun_time));
     }
 
@@ -114,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(stun_time);
         m_Rigidbody.linearVelocity = Vector2.zero;
         m_IsKnockedBack = false;
+        m_Animator.Reset();
     }
 
     /// <summary>

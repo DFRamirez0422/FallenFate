@@ -60,7 +60,7 @@ public class PlayerHealth : MonoBehaviour
         GetComponent<PlayerMovement>().Disable();
 
         // Start the death animation.
-        GetComponent<PlayerAnimator>().StartAnimation("Death");
+        GetComponent<PlayerAnimator>().StartDeath();
 
         // Very cheap hack to get around prefabs limitation of not invoking a callback of another prefab.
         // Yes, yell at me all you want about this horrendous coupling but it's not like I have another choice.

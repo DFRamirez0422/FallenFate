@@ -64,6 +64,8 @@ public class PlayerCombat : MonoBehaviour
         }
 
         m_Animator.SetBool("IsAttacking", true);
+        m_PlayerAnimator.StartAttack();
+
         if (m_PlayerAudio != null && m_AttackSwingClip != null)
             m_PlayerAudio.PlayOneShot(m_AttackSwingClip);
 
@@ -92,6 +94,7 @@ public class PlayerCombat : MonoBehaviour
     public void FinishAttacking()
     {
         m_Animator.SetBool("IsAttacking", false);
+        m_PlayerAnimator.Reset();
     }
 
     private void OnDrawGizmosSelected()
