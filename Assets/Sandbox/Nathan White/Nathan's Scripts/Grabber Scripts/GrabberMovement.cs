@@ -60,12 +60,28 @@ public class GrabberMovement : MonoBehaviour
             }
             animator.SetBool("Chasing", true);
             isChasing = true;
+
+
+            // Calculate the direction from the trigger (this.transform.position) 
+            // to the other object (other.transform.position)
+            Vector2 directionToTarget = collision.transform.position - this.transform.position;
+
+            // Normalize the vector to get only the direction with a magnitude (length) of 1
+            Vector2 normalizedDirection = directionToTarget.normalized;
+
+            // You can now use normalizedDirection for various purposes
+            Debug.Log("Direction to " + collision.gameObject.name + ": " + normalizedDirection);
+
+            animator.SetFloat("DirX", normalizedDirection.x);
+            animator.SetFloat("DirY", normalizedDirection.y);
         }
+
         if (collision.gameObject.tag == "Player" && SomeoneGrabbedPlayer == true)
         {
             isChasing = false;
         }
     }
+        
 
     private void OnTriggerExit2D(Collider2D collision)
     {
