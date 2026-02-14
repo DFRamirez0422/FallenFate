@@ -73,7 +73,7 @@ public class ButtonMash : MonoBehaviour
                 {
                     text2.enabled = true;
                     text2.text = "Damaged";
-                    health.ChangeHealth(-1);
+                    health.ChangeHealth(-1, null);
                     mash = 2.5f;
                     timer = 0;
                     Invoke(nameof(ToggleDamageText), 0.5f);
