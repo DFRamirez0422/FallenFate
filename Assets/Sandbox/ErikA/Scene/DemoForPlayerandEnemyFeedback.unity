@@ -3491,6 +3491,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e76cca896a8eb40a275c069653f834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1365088006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365087995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9ef0901826aac44a789b03a5d31d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1365088010 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 258191490020332825, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+  m_PrefabInstance: {fileID: 3229406452302600360}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365087995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada5f991d7456a340a2d684e81d72d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1368145051 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3123856690187026744, guid: d13be535ae148984b892d48adfe6bf7b, type: 3}
@@ -12534,10 +12557,61 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1365088006}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1365088010}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayHurt
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: HitReact
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: PlayerHurtAnim, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: PlayerCombat, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4375191787072440313, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4310758862581000221, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1365088006}
   m_SourcePrefab: {fileID: 100100000, guid: 24b8c124f001af84d9d9bc67bc5ad64c, type: 3}
 --- !u!1001 &9158583597639350111
 PrefabInstance:
