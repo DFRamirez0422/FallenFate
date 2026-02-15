@@ -10,7 +10,7 @@ public class Item_Data : ScriptableObject
         keys
     }
     public PickUpType pickupType;
-    public string itemName = "New Item";
+    public string itemName;
     public GameObject item;    
-    public bool collected;
+    public string UniqueID;
 }

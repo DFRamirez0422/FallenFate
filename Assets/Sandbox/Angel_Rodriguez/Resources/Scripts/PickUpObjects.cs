@@ -1,6 +1,5 @@
-using System.Linq.Expressions;
-using System.Net.NetworkInformation;
-using Unity.VisualScripting;
+
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,30 +11,25 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
 
     [Header("Pick-Up Settings")]
     private PickUp_Manager pickUpManager;
-    [SerializeField] private Item_Data itemData;
-    [SerializeField] private string scriptableObjectPath;
+    public Item_Data itemData;
+    [Tooltip("For EnemySpawner too Check if item is picked up or not")]
+    public bool isPickedUp = false; // Flag to check if the item has been picked up
 
     [Header("UI Elements")]
     [Tooltip("UI Prompt to show when player can pick up the item")]
     [SerializeField] private GameObject PickUpPrompt;
-    [SerializeField] private GameObject PickUpPromptPrefab;
+    private GameObject PickUpPromptPrefab;
+
+    [Header("Audio Settings")]
+    [Tooltip("Sound to play when item is picked up")]
+    [SerializeField] private AudioSource PickUpSound;
+
 
     
 
     protected override void Start()
     {
-        PickUpPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");;
         base.Start(); // Calls the Start method of CollidableObject and allows to be overridden by PickUpObjects Script
-
-        if(scriptableObjectPath != null && scriptableObjectPath != "")
-        {
-            itemData = Resources.Load<Item_Data>(scriptableObjectPath);
-        }
-        else
-        {
-            Debug.LogError("Path to Item_Data is not set for " + gameObject.name);
-        }
-
         pickUpManager = GameObject.Find("Item_PickUp_Manager").GetComponent<PickUp_Manager>();
         if(pickUpManager == null)
         {
@@ -48,27 +42,33 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
             Destroy(copy);
             
         }
-        else
-        {
-            itemData.collected = false;
-            Debug.Log("Item " + itemData.itemName + " is not in PickUp_Manager");
-        }
     }
 
     // Override the OnCollide method to implement pick-up logic
     protected override void OnCollide(GameObject other)
     {
-            if(Input.GetButtonDown("Interact"))
+        if(isPickedUp) return; // If the item is already picked up, do nothing
+
+        //THis for the items that are used for the EnemySpawner
+            Room1_EnemySpawner enemySpawner = GetComponent<Room1_EnemySpawner>();
+            if(Input.GetButtonDown("Interact") && enemySpawner != null)
             {
-                Debug.Log("Picked up " + gameObject.name);
-                if (gameObject != null && itemData != null)
-                {
-                        itemData.collected = true;
-                        pickUpManager.items.Add(itemData);
-                        var copy = this.gameObject;
-                        Destroy(copy);
-                }
+
+                PickUpSound.Play();
+                pickUpManager.items.Add(itemData);
+                this.gameObject.GetComponent<SpriteRenderer>().enabled = false; // Hide the item visually
+                isPickedUp = true; // Set the flag to true when the item is picked up
             }
+            
+            // This is for the regular items that are not used for the EnemySpawner
+            else if (Input.GetButtonDown("Interact") && enemySpawner == null)
+            {
+                PickUpSound.Play();
+                pickUpManager.items.Add(itemData);
+                Destroy(this.gameObject, PickUpSound.clip.length); // Destroy the item after picking it up
+            }
+
+
     }
 
     // Show prompt when player enters trigger area
