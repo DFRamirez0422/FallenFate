@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(PickUpObjects))] // Ensure that the EnemySpawner component is attached to the same GameObject
+[RequireComponent(typeof(PickUpObjects))]
 public class Room1_EnemySpawner : MonoBehaviour
 {
     [Header("Enemines")]
@@ -18,6 +17,7 @@ public class Room1_EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        // Get the PickUpObjects component attached to the same GameObject
         pickUpObjects = GetComponent<PickUpObjects>();
     }
 
@@ -29,7 +29,8 @@ public class Room1_EnemySpawner : MonoBehaviour
         }
     }
 
-
+    // This function is called when the key is picked up 
+    // and it spawns the enemies and despawns the NPC
     public void SpawnEnemies()
     {
         // Loop through the number of enemies to spawn
@@ -41,16 +42,16 @@ public class Room1_EnemySpawner : MonoBehaviour
             // Randomly select an enemy type to spawn based on the amount of enemies in the game
             int enemyTypeIndex = Random.Range(0, 2);
 
-            if (enemyTypeIndex == 0)
+            if (enemyTypeIndex == 0) // Spawn the Echo enemy
             {
                 _AnmountOfEnemiesinGame.Add(Instantiate(_EchoPrefab, spawnPoint.position, Quaternion.identity)); // Spawn the Echo enemy at the selected spawn point
             }
-            else if (enemyTypeIndex == 1)
+            else if (enemyTypeIndex == 1) // Spawn the Angry Echo enemy
             {
               _AnmountOfEnemiesinGame.Add(Instantiate(_AngryEchoPrefab, spawnPoint.position, Quaternion.identity));
             }
         }
-         Destroy(NPCPrefab_Despawn); // Destroy the NPC prefab when the item is picked up
-         Destroy(this.gameObject); // Destroy the EnemySpawner GameObject after spawning enemies and despawning NPC
+         Destroy(NPCPrefab_Despawn);
+         Destroy(this.gameObject);
     }
 }
