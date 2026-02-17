@@ -1,18 +1,24 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Activate_Generators : CollidableObject
 {
+    [Header("Sprites")]
+    [SerializeField] private Sprite Generator_Off;
+    [SerializeField] private Sprite Generator_On;
+
+    [Header("Generator Activation Settings")]
     public bool Activate_Generator = false;
     private bool _hasActivated = false;
     [SerializeField] private GameObject ActivateGeneratorPrompt;
     private GameObject _SpawnedPrompt;
+    [SerializeField] private AudioSource GeneratorActivateSound;
 
     // Initialize prompt references and use base Start method
     // Override the Start method to set up references
     protected override void Start()
     {
+        this.GetComponent<SpriteRenderer>().sprite = Generator_Off; // Set initial sprite to off
         ActivateGeneratorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");
         base.Start(); // Calls the Start method of CollidableObject
 
@@ -26,6 +32,8 @@ public class Activate_Generators : CollidableObject
         {
             Activate_Generator = true;
             _hasActivated = true;
+            this.GetComponent<SpriteRenderer>().sprite = Generator_On; // Change sprite to on
+            GeneratorActivateSound.Play();
         }
     }
     
@@ -50,17 +58,19 @@ public class Activate_Generators : CollidableObject
                 _SpawnedPrompt.SetActive(true);
                 }
         }
+
+        
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
                 if(Activate_Generator)
                 {
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Generator Activated";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "Generator Activated";
                 _SpawnedPrompt.SetActive(true);
                 }
         }

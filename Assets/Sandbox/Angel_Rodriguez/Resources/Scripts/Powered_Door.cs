@@ -1,45 +1,26 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Powered_Door : CollidableObject
 {
+    [Header("Sprites")]
+    [SerializeField] private Sprite Door_Closed;
+    [SerializeField] private Sprite Door_Open;
+
     [Header("UI Elements")]
     [SerializeField] private GameObject PoweredDoorPrompt;
     private GameObject _SpawnedPrompt;
 
     [Header("Power Settings")]
-    [SerializeField] private bool isPowered = false; // Indicates if the door is powered
     private bool _doorOpened = false;
     [SerializeField] private Activate_Generators activateGenerators;
     [SerializeField] private Activate_Generators activate_Generator2;
-
-     void Awake()
-    {
-        // Load the prompt prefab from the Resources folder
-        PoweredDoorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");
-    }
-
+    private AudioSource _doorOpenSound;
 
     protected override void Start()
     {
         base.Start(); // Calls the Start method of CollidableObject
-    }
-
-    protected override void Update()
-    {
-        base.Update(); // Calls the Update method of CollidableObject
-
-        // Check if both generators are activated to power the door
-        if(activateGenerators.Activate_Generator && activate_Generator2.Activate_Generator)
-        {
-            isPowered = true;
-        }
-        else
-        {
-            isPowered = false;
-        }
-
+        _doorOpenSound = GetComponent<AudioSource>();
     }
 
     protected override void OnCollide(GameObject other)
@@ -50,18 +31,20 @@ public class Powered_Door : CollidableObject
         // Check for player input to open the door
         if (Input.GetButtonDown("Interact"))
         {
-            if (isPowered)
+            if (activateGenerators == null || activate_Generator2 == null)
             {
-                OpenDoor();
+                Debug.LogError("Activate_Generators references are not set in the inspector.");
+                return;
+            }
+
+            if (activateGenerators.Activate_Generator && activate_Generator2.Activate_Generator)
+            {
+                this.GetComponent<SpriteRenderer>().sprite = Door_Open; // Change sprite to open
+                this.GetComponent<BoxCollider2D>().enabled = false; // Disable collider to allow passage
+                _doorOpenSound.Play(); // Play door opening sound
                 _doorOpened = true;
             }
         }
-    }
-
-    void OpenDoor()
-    {
-        transform.Translate(-1f, 0, 0); // Move the door up to simulate opening
-        GetComponent<Collider2D>().enabled = false; // Disable the collider to allow passage
     }
     
     // Show the prompt when the player enters the trigger area
@@ -71,7 +54,7 @@ public class Powered_Door : CollidableObject
         {
             _SpawnedPrompt = Instantiate(PoweredDoorPrompt);
             _SpawnedPrompt.SetActive(true);
-            if(isPowered)
+            if (activateGenerators.Activate_Generator && activate_Generator2.Activate_Generator)
             {
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "[x]";
@@ -91,10 +74,10 @@ public class Powered_Door : CollidableObject
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            _SpawnedPrompt.SetActive(false);
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
+            PoweredDoorPrompt.SetActive(false);
+            PoweredDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";
+            PoweredDoorPrompt.GetComponentsInChildren<Text>()[1].text = "";
+            PoweredDoorPrompt.GetComponentsInChildren<Text>()[2].text = "";
             Destroy(_SpawnedPrompt);
         }
     }
