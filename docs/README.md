@@ -1,22 +1,22 @@
 # FallenFate Documentation
 
-Table of contents for documentation in this directory.
+Table of contents for all project documentation files.
 
 ---
 
-## Merge & Changelog
-
+## Guides & Reference
 | Document | Description |
 |----------|-------------|
-| [2025-02-16_Joses-NewUpdates-Sounds.md](2025-02-16_Joses-NewUpdates-Sounds.md) | PR #428 – Player animations, PlayerSound, CameraManager, SceneChange robustness |
-| [MERGE_PR417_COMBAT_CHANGELOG.md](MERGE_PR417_COMBAT_CHANGELOG.md) | PR #417 – Combat feedback (CameraShake, EnemyHitScript, PlayerCombat, etc.) |
+| [Unity Package Resolution Guide](2025-02-17_unity-package-resolution-guide.md) | How to prevent and fix Unity package version mismatch errors (Tilemaps, URP, etc.) |
 
----
-
-## Code Reviews & Feedback
-
+## Code Reviews
 | Document | Description |
 |----------|-------------|
-| [CODE_REVIEW_PR415_Room2_Addons.md](CODE_REVIEW_PR415_Room2_Addons.md) | PR #415 – Angel Rodriguez Room2 addons (CollidableObject, doors, generators) |
-| [CODE_REVIEW_PR415_GITHUB_COMMENT.md](CODE_REVIEW_PR415_GITHUB_COMMENT.md) | PR #415 – GitHub comment version |
-| [CODE_FEEDBACK_PR417_Combat_Feedback.md](CODE_FEEDBACK_PR417_Combat_Feedback.md) | PR #417 – Combat feedback notes |
+| [PR #415 -- Room2 Addons Review](CODE_REVIEW_PR415_Room2_Addons.md) | Code review for Room 2 colliders and addons |
+| [PR #415 -- GitHub Comment](CODE_REVIEW_PR415_GITHUB_COMMENT.md) | GitHub comment for PR #415 |
+
+## Change Logs
+| Document | Description |
+|----------|-------------|
+| [PR #417 -- Combat Merge Changelog](MERGE_PR417_COMBAT_CHANGELOG.md) | Changelog for combat system merge |
+| [PR #417 -- Combat Feedback](CODE_FEEDBACK_PR417_Combat_Feedback.md) | Code feedback on combat system changes |

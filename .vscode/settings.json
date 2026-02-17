@@ -1,5 +1,28 @@
 {
+    "files.watcherExclude": {
+        "**/Library/**": true,
+        "**/library/**": true,
+        "**/Temp/**": true,
+        "**/temp/**": true,
+        "**/Obj/**": true,
+        "**/obj/**": true,
+        "**/Build/**": true,
+        "**/build/**": true,
+        "**/Builds/**": true,
+        "**/Logs/**": true,
+        "**/logs/**": true,
+        "**/UserSettings/**": true,
+        "**/MemoryCaptures/**": true
+    },
+    "search.exclude": {
+        "**/Library/**": true,
+        "**/Temp/**": true,
+        "**/Obj/**": true,
+        "**/Build/**": true,
+        "**/Logs/**": true
+    },
     "files.exclude": {
+        // OS and IDE artifacts
         "**/.DS_Store": true,
         "**/.git": true,
         "**/.vs": true,
@@ -11,38 +34,17 @@
         "**/*.user": true,
         "**/*.userprefs": true,
         "**/*.unityproj": true,
+
+        // Binary files (can't edit in Cursor)
         "**/*.dll": true,
         "**/*.exe": true,
         "**/*.pdf": true,
-        "**/*.mid": true,
-        "**/*.midi": true,
-        "**/*.wav": true,
-        "**/*.gif": true,
-        "**/*.ico": true,
-        "**/*.jpg": true,
-        "**/*.jpeg": true,
-        "**/*.png": true,
-        "**/*.psd": true,
-        "**/*.tga": true,
-        "**/*.tif": true,
-        "**/*.tiff": true,
-        "**/*.3ds": true,
-        "**/*.3DS": true,
-        "**/*.fbx": true,
-        "**/*.FBX": true,
-        "**/*.lxo": true,
-        "**/*.LXO": true,
-        "**/*.ma": true,
-        "**/*.MA": true,
-        "**/*.obj": true,
-        "**/*.OBJ": true,
-        "**/*.asset": true,
+
+        // Rarely useful binary formats
         "**/*.cubemap": true,
         "**/*.flare": true,
-        "**/*.mat": true,
-        "**/*.meta": true,
-        "**/*.prefab": true,
-        "**/*.unity": true,
+
+        // Unity-generated folders
         "build/": true,
         "Build/": true,
         "Library/": true,
@@ -51,7 +53,6 @@
         "Obj/": true,
         "Logs/": true,
         "logs/": true,
-        "ProjectSettings/": true,
         "UserSettings/": true,
         "temp/": true,
         "Temp/": true
