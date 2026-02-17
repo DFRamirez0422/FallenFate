@@ -1,15 +1,19 @@
-using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [Tooltip("Amount of hit pints for the maximum health limit.")]
+    [Tooltip("Amount of hit points for the maximum health limit.")]
     [SerializeField] private int m_MaxHealth;
-    private int m_CurrentHealth;
+    [SerializeField] private UnityEvent m_OnHit;
 
-    void Start()
+    private int m_CurrentHealth;
+    private EnemyHitScript m_HitReaction;
+
+    private void Awake()
     {
         m_CurrentHealth = m_MaxHealth;
+        m_HitReaction = GetComponent<EnemyHitScript>();
     }
 
     public void ChangeHealth(int amount)
@@ -17,12 +21,13 @@ public class EnemyHealth : MonoBehaviour
         m_CurrentHealth += amount;
 
         if (m_CurrentHealth > m_MaxHealth)
-        {
             m_CurrentHealth = m_MaxHealth;
-        }
         else if (m_CurrentHealth <= 0)
-        {
             Destroy(gameObject);
-        }
+
+        m_OnHit?.Invoke();
+        m_HitReaction?.FlashWhite();
+        m_HitReaction?.PlayHitSound();
+        m_HitReaction?.ImpactEffect();
     }
 }

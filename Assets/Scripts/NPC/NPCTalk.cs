@@ -11,6 +11,13 @@ public class NPCTalk : MonoBehaviour
     [SerializeField] private Animator m_InteractIconAnimator;
     [SerializeField] private List<DialogueSO> m_Conversations;
     [SerializeField] private DialogueSO m_CurrentConversation;
+    
+
+    [Header("Audio Clips")]
+    [Tooltip("Game object audio source for oneshot sound effects playback.")]
+    [SerializeField] private AudioSource m_SoundPlayer;
+    [Tooltip("")]
+    [SerializeField] private AudioClip m_TalkSound;
 
 
     // ===== PUBLIC FIELDS ===== //
@@ -45,6 +52,8 @@ public class NPCTalk : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
+            m_SoundPlayer.PlayOneShot(m_TalkSound);
+
             if (DialogueManager.Instance.IsDialogueActive)
             {
                 DialogueManager.Instance.AdvanceDialogue();

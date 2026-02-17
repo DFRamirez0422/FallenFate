@@ -19,6 +19,7 @@ public class DialogueManager : MonoBehaviour
 
 
     // ===== PRIVATE FIELDS ===== //
+    private GameObject m_Player;
     private DialogueSO m_CurrentDialogue;
     private int m_DialogueIdx;
 
@@ -34,6 +35,7 @@ public class DialogueManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        m_Player = GameObject.FindGameObjectWithTag("Player");
         m_CanvasGroup = GetComponent<CanvasGroup>();
         m_CanvasGroup.alpha = 0;
         m_CanvasGroup.interactable = false;
@@ -47,6 +49,9 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueSO dialogueSO)
     {
+        // Disable all player movement when the dialogue screen is open.
+        m_Player.GetComponent<PlayerMovement>().Disable();
+
         m_CurrentDialogue = dialogueSO;
         m_DialogueIdx = 0;
         IsDialogueActive = true;
@@ -82,6 +87,9 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
+        // Enable all player movement when the dialogue is finished.
+        m_Player.GetComponent<PlayerMovement>().Enable();
+
         m_DialogueIdx = 0;
         IsDialogueActive = false;
         ClearChoices();
