@@ -7,8 +7,10 @@ Date: February 17, 2026
 ## Table of Contents
 - [What Happened](#what-happened)
 - [Why It Happened](#why-it-happened)
+  - [Cause 1: Version Mismatches in manifest.json](#cause-1-version-mismatches-in-manifestjson)
+  - [Cause 2: EBUSY File Locks from Cursor/VS Code](#cause-2-ebusy-file-locks-from-cursorvs-code)
 - [How Builtin Packages Work in Unity 6](#how-builtin-packages-work-in-unity-6)
-- [The Fix That Was Applied](#the-fix-that-was-applied)
+- [The Fixes That Were Applied](#the-fixes-that-were-applied)
 - [Rules to Prevent This From Happening Again](#rules-to-prevent-this-from-happening-again)
 - [Recovery Steps If It Happens Again](#recovery-steps-if-it-happens-again)
 - [File Locations](#file-locations)
@@ -39,7 +41,11 @@ These errors made it impossible for Unity to compile any editor scripts that dep
 
 ## Why It Happened
 
-The root cause was **version mismatches** in `Packages/manifest.json`. Three packages were requested at versions **higher than what Unity 6000.1.9f1 ships**:
+There were **two separate causes** working together to produce these errors.
+
+### Cause 1: Version Mismatches in manifest.json
+
+Three packages were requested at versions **higher than what Unity 6000.1.9f1 ships**:
 
 | Package | Version in `manifest.json` | Actual Builtin Version (6000.1.9f1) |
 |---------|---------------------------|--------------------------------------|
@@ -49,12 +55,26 @@ The root cause was **version mismatches** in `Packages/manifest.json`. Three pac
 
 When Unity's Package Manager tried to resolve these, it couldn't find the requested versions (they don't exist for this editor version). This caused the overall package resolution to fail, which in turn prevented the **`com.unity.2d.tilemap`** builtin package from loading. Since `psdimporter`, `tilemap.extras`, and `aseprite` all depend on `com.unity.2d.tilemap`, they all threw compilation errors about missing Tilemap types.
 
-### How did wrong versions get into the manifest?
+#### How did wrong versions get into the manifest?
 
 This typically happens when:
 1. **Someone opens the project in a newer Unity version** -- the newer editor writes its higher builtin versions into `manifest.json`, then when opened in the older editor those versions don't exist.
 2. **Manual editing of `manifest.json`** -- someone types in a version number that doesn't match the editor.
 3. **Merging branches** where contributors are on different Unity versions -- the merge takes the "newer" version strings but the editor can't satisfy them.
+
+### Cause 2: EBUSY File Locks from Cursor/VS Code
+
+Even after fixing the version mismatches, Unity showed a more specific error:
+
+```
+EBUSY: resource busy or locked, open 'C:\...\Library\PackageCache\.tmp-...\package\Editor\...'
+```
+
+This means **another process was holding file locks** on files inside `Library/PackageCache` while Unity was trying to extract packages there. The culprit was **Cursor (VS Code)** -- specifically its **file watcher**.
+
+By default, Cursor/VS Code monitors the entire workspace for file changes (to update IntelliSense, the file explorer, search indexes, etc.). When Unity tries to extract thousands of files into `Library/PackageCache`, Cursor's file watcher opens those same files for indexing, creating **EBUSY (resource busy)** conflicts on Windows. This is a Windows-specific issue because Windows enforces mandatory file locks, unlike macOS/Linux.
+
+The fix was adding `files.watcherExclude` to `.vscode/settings.json` to tell Cursor to completely ignore the `Library/` folder (and other Unity-generated folders). The `files.exclude` setting that was already there only hides files from the sidebar -- it does **not** stop the file watcher.
 
 ---
 
@@ -84,7 +104,9 @@ If you request a version higher than what's bundled, the Package Manager will fa
 
 ---
 
-## The Fix That Was Applied
+## The Fixes That Were Applied
+
+### Fix 1: Corrected version mismatches in manifest.json
 
 Three version numbers in `Packages/manifest.json` were corrected to match Unity 6000.1.9f1's builtin versions:
 
@@ -100,6 +122,37 @@ Three version numbers in `Packages/manifest.json` were corrected to match Unity 
 ```
 
 Additionally, `Library/PackageCache` was deleted to force a clean re-download, and `packages-lock.json` was deleted to force a clean re-resolution.
+
+### Fix 2: Added file watcher exclusions to .vscode/settings.json
+
+Two new settings blocks were added to `.vscode/settings.json`:
+
+**`files.watcherExclude`** -- Stops Cursor's file watcher from monitoring Unity-generated folders:
+```json
+"files.watcherExclude": {
+    "**/Library/**": true,
+    "**/Temp/**": true,
+    "**/Obj/**": true,
+    "**/Build/**": true,
+    "**/Builds/**": true,
+    "**/Logs/**": true,
+    "**/UserSettings/**": true,
+    "**/MemoryCaptures/**": true
+}
+```
+
+**`search.exclude`** -- Prevents Ctrl+Shift+F searches from scanning these folders:
+```json
+"search.exclude": {
+    "**/Library/**": true,
+    "**/Temp/**": true,
+    "**/Obj/**": true,
+    "**/Build/**": true,
+    "**/Logs/**": true
+}
+```
+
+These are **different from `files.exclude`** (which was already set). `files.exclude` only hides files from the sidebar. `files.watcherExclude` stops the background file monitoring that causes EBUSY locks. `search.exclude` prevents unnecessary indexing of generated files.
 
 ---
 
@@ -122,7 +175,12 @@ Additionally, `Library/PackageCache` was deleted to force a clean re-download, a
 - The `Library/` folder (including `PackageCache`) is local-only and regenerated by Unity.
 - It is already in `.gitignore` -- make sure it stays there.
 
-### 5. If you add a new package, verify it compiles before pushing
+### 5. Keep .vscode/settings.json watcher exclusions in place
+- The project includes `files.watcherExclude` in `.vscode/settings.json` that prevents Cursor/VS Code from locking files inside `Library/`.
+- **Do not remove these exclusions.** Without them, Cursor's file watcher will lock files that Unity needs to write, causing EBUSY errors on Windows.
+- If you clone the repo fresh and still get EBUSY errors, verify `.vscode/settings.json` was pulled correctly.
+
+### 6. If you add a new package, verify it compiles before pushing
 - Open Unity, wait for compilation to finish, and confirm zero errors in the Console before committing `manifest.json` and `packages-lock.json`.
 
 ---
@@ -147,11 +205,19 @@ If you or a team member sees the "One or more packages could not be added to the
 4. **Delete** `Packages/packages-lock.json`
 5. **Reopen Unity** and wait for full reimport (~5-10 minutes for a clean Library rebuild)
 
+### EBUSY Fix (if you see "resource busy or locked")
+1. **Close Cursor/VS Code completely** (this is the process holding the locks)
+2. **Close Unity completely**
+3. **Delete** `Library/PackageCache/` folder
+4. **Open Unity first** (let it finish resolving packages)
+5. **Then open Cursor** after Unity has fully loaded
+6. Verify `.vscode/settings.json` has the `files.watcherExclude` entries for `**/Library/**`
+
 ### Nuclear Option (if nothing else works)
-1. Close Unity
+1. Close both Unity and Cursor
 2. `git checkout -- Packages/manifest.json` to restore the last known-good manifest
 3. Delete `Library/` and `Packages/packages-lock.json`
-4. Reopen Unity
+4. Open Unity first, let it fully import, then open Cursor
 
 ---
 
@@ -162,6 +228,7 @@ If you or a team member sees the "One or more packages could not be added to the
 | Package Manifest | `Packages/manifest.json` |
 | Package Lock File | `Packages/packages-lock.json` |
 | Project Version | `ProjectSettings/ProjectVersion.txt` |
+| VS Code / Cursor Workspace Settings | `.vscode/settings.json` |
 | Git Ignore | `.gitignore` |
 | Package Cache (local, not committed) | `Library/PackageCache/` |
 | This Guide | `docs/2025-02-17_unity-package-resolution-guide.md` |
