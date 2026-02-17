@@ -31,6 +31,7 @@ public class PlayerCombat : MonoBehaviour
     [Header("Sound (optional - prefers PlayerSound when present)")]
     [SerializeField] private AudioSource m_PlayerAudio;
     [SerializeField] private AudioClip m_AttackSwingClip;
+    [SerializeField] private AudioClip m_AttackVoiceClip;
     [SerializeField] private AudioClip m_HurtClip;
 
     private Animator m_Animator;
@@ -75,6 +76,8 @@ public class PlayerCombat : MonoBehaviour
             m_PlayerSound.PlayAttack();
         else if (m_PlayerAudio != null && m_AttackSwingClip != null)
             m_PlayerAudio.PlayOneShot(m_AttackSwingClip);
+        if (m_PlayerAudio != null && m_AttackVoiceClip != null)
+            m_PlayerAudio.PlayOneShot(m_AttackVoiceClip);
         m_Timer = m_Cooldown;
     }
 
