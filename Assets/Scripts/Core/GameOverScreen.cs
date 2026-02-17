@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameOverScreen : MonoBehaviour
-{
+{    
     private CanvasGroup m_CanvasGroup;
 
     void Awake()

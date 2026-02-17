@@ -6,7 +6,6 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimator))]
-[RequireComponent(typeof(AudioSource))]
 public class PlayerMovement : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
@@ -16,22 +15,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Tooltip("The initial facing directioon of the player upon spawning.")]
     [SerializeField] private Direction m_SpawnDirection = Direction.Down;
-
-    [Header("Audio Clips")]
-    [Tooltip("Normal footstep sounds for all terrain.")]
-    [SerializeField] private AudioClip m_WalkNormalSound;
-    [Tooltip("Foodstep audio clip for snow terrain.")]
-    [SerializeField] private AudioClip m_WalkSnowSound;
-    [Tooltip("Footstep audio clip for staircase terrain.")]
-    [SerializeField] private AudioClip m_WalkStairSound;
-    [Tooltip("Footstep audio clip for the bushes.")]
-    [SerializeField] private AudioClip m_WalkBushSound;
-    [Tooltip("General sound for colliding with an object.")]
-    [SerializeField] private AudioClip m_CollisionSound;
-    [Tooltip("Audio clip for hitting the wall.")]
-    [SerializeField] private AudioClip m_WallHitSound;
-    [Tooltip("Audio clip for getting hit and attacked.")]
-    [SerializeField] private AudioClip m_DamageSound;
 
 
     // ===== PUBLIC FIELDS ===== //
@@ -74,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D m_Rigidbody;
     private PlayerAnimator m_Animator;
     private PlayerCombat m_PlayerCombat;
+    private PlayerSound m_PlayerSound;
     private Vector2 m_LastInput = Vector2.right; // Save the last movement direction once the player stops moving.
     private bool m_IsKnockedBack = false;
     private bool m_IsEnabled = false;
@@ -83,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<PlayerAnimator>();
         m_PlayerCombat = GetComponent<PlayerCombat>();
+        m_PlayerSound = GetComponent<PlayerSound>();
         m_IsEnabled = true;
         SetFaceDirection(m_SpawnDirection);
     }
@@ -126,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = (transform.position - enemy.position).normalized;
         m_Rigidbody.linearVelocity = direction * force;
         m_Animator.StartDamage();
+        m_PlayerSound.PlayDamage();
         StartCoroutine(KnockbackCounter(stun_time));
     }
 
