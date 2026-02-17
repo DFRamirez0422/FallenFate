@@ -30,6 +30,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private string m_AttackRightState = "AttackRight";
     [SerializeField] private AudioSource m_PlayerAudio;
     [SerializeField] private AudioClip m_AttackSwingClip;
+    [SerializeField] private AudioClip m_HurtClip;
+    [SerializeField] private AudioClip m_AttackVoiceClip;
 
     private Animator m_Animator;
     private float m_Timer;
@@ -65,7 +67,11 @@ public class PlayerCombat : MonoBehaviour
 
         m_Animator.SetBool("IsAttacking", true);
         if (m_PlayerAudio != null && m_AttackSwingClip != null)
+        {
             m_PlayerAudio.PlayOneShot(m_AttackSwingClip);
+            m_PlayerAudio.PlayOneShot(m_AttackVoiceClip);
+        }
+            
 
         m_Timer = m_Cooldown;
     }
@@ -92,6 +98,12 @@ public class PlayerCombat : MonoBehaviour
     public void FinishAttacking()
     {
         m_Animator.SetBool("IsAttacking", false);
+    }
+
+    public void HitReact()
+    {
+        if (m_PlayerAudio != null && m_HurtClip != null)
+            m_PlayerAudio.PlayOneShot(m_HurtClip);
     }
 
     private void OnDrawGizmosSelected()
