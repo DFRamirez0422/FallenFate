@@ -14,7 +14,7 @@ public class ButtonMash : MonoBehaviour
     [SerializeField]
     private float mash, timer;
     private bool pressed;
-    public GameObject Hitbox;
+    
 
     [HideInInspector]
     public bool started, stunned;
@@ -22,10 +22,12 @@ public class ButtonMash : MonoBehaviour
     //animator
     private Animator animator;
 
-    //Called Scripts
+    //Private Called Scripts
     private PlayerHealth health;
     private PlayerMovement playerMovement;
-    //private Enemy_Movement movement; -Not used right now but will probably use later.
+    //Public Called Scripts
+    public GameObject Hitbox;
+    public GrabberMovement grabberMovement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,7 +37,6 @@ public class ButtonMash : MonoBehaviour
         MashCanvas.SetActive(false);
         mash = 1f;
         text2.enabled = false;
-        //movement = GetComponent<Enemy_Movement>(); -Not used right now but will probably use later.
     }
 
     // Update is called once per frame
@@ -73,7 +74,7 @@ public class ButtonMash : MonoBehaviour
                 {
                     text2.enabled = true;
                     text2.text = "Damaged";
-                    health.ChangeHealth(-1);
+                    health.ChangeHealth(-1, null);
                     mash = 2.5f;
                     timer = 0;
                     Invoke(nameof(ToggleDamageText), 0.5f);
@@ -94,6 +95,7 @@ public class ButtonMash : MonoBehaviour
                 Invoke(nameof(Unstun), 2);
                 animator.SetBool("Attacking", false);
                 playerMovement.Enable();
+                grabberMovement.StoppedGrabbing();
             }
         }
         else if (!stunned)

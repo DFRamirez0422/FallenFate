@@ -35,7 +35,7 @@ public class WardenJumpScare : MonoBehaviour
         {
             if (health.CurrentHealth > 0)
             {
-                health.ChangeHealth(-2);
+                health.ChangeHealth(-2,null);
                 movement.stunned = true;
                 text.text = "Damaged";
                 TextCanvas.SetActive(true);

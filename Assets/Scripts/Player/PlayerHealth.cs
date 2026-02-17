@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private GameObject m_GameOverScreenPrefab;
 
     private int m_CurrentHealth;
+    public Transform LastHitSource {  get; private set; }
 
     public int CurrentHealth => m_CurrentHealth;
     public int MaxHealth => m_MaxHealth;
@@ -25,12 +27,17 @@ public class PlayerHealth : MonoBehaviour
     }
 
     /// <summary>Change health by amount. Negative = damage, positive = heal.</summary>
-    public void ChangeHealth(int amount)
+    public void ChangeHealth(int amount,Transform hitSource)
     {
+         
         if (amount > 0)
             Heal(amount);
         else if (amount < 0)
-            Hit(-amount);
+        {
+            LastHitSource = hitSource; 
+            Hit(-amount); 
+        }
+        
 
         if (m_CurrentHealth <= 0)
             m_OnZeroHealth?.Invoke();
