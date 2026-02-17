@@ -32,6 +32,14 @@ PrefabInstance:
       propertyPath: m_AttackVoiceClip
       value: 
       objectReference: {fileID: 8300000, guid: e03bbff75342720479a577ce6af02aca, type: 3}
+    - target: {fileID: 6004596432197237255, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6004596432197237255, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7377306586043715401, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_Size.x
       value: 2.852259
@@ -86,7 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8807435852695731377, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_Name
-      value: Player Variant
+      value: Player 2_13_26
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_MaxHealth
@@ -94,7 +102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -105,11 +113,19 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 8691155245514656409}
+      objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 4310758862581000221}
+    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 258191490020332825}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
@@ -121,11 +137,19 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: GenerateImpulse
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: HitReact
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
@@ -134,6 +158,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: PlayerHurtAnim, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: PlayerCombat, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
@@ -146,6 +174,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
