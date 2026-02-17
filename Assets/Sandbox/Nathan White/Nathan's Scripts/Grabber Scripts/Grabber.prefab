@@ -67,8 +67,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.85, y: 0}
-  m_Radius: 1.5
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 5
 --- !u!114 &568878624364507512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+  isChasing: 0
   rb: {fileID: 0}
 --- !u!1 &1353109210371362005
 GameObject:
@@ -312,8 +313,8 @@ GameObject:
   - component: {fileID: 1730156046680804327}
   - component: {fileID: 6690786853296670670}
   - component: {fileID: 1687547949737903762}
-  - component: {fileID: 3893446639580769808}
   - component: {fileID: 2167600078606967410}
+  - component: {fileID: 3893446639580769808}
   - component: {fileID: 1349522477561852731}
   - component: {fileID: 6653704456797462385}
   - component: {fileID: 7215186538279180650}
@@ -461,27 +462,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
---- !u!114 &3893446639580769808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2249023097432166996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bdcca546804bbc4ea494884419a9faa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mashDelay: 0.5
-  MashCanvas: {fileID: 7921440457605275879}
-  text: {fileID: 2993871191825091836}
-  text2: {fileID: 7498764890915046948}
-  mash: 0
-  timer: 0
-  Hitbox: {fileID: 1697609270852778515}
-  started: 0
-  stunned: 0
 --- !u!95 &2167600078606967410
 Animator:
   serializedVersion: 7
@@ -504,6 +484,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3893446639580769808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2249023097432166996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdcca546804bbc4ea494884419a9faa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mashDelay: 0.5
+  MashCanvas: {fileID: 7921440457605275879}
+  text: {fileID: 2993871191825091836}
+  text2: {fileID: 7498764890915046948}
+  mash: 0
+  timer: 0
+  started: 0
+  stunned: 0
+  Hitbox: {fileID: 1697609270852778515}
+  grabberMovement: {fileID: 568878624364507512}
 --- !u!114 &1349522477561852731
 MonoBehaviour:
   m_ObjectHideFlags: 0
