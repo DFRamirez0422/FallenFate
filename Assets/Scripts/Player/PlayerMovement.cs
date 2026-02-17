@@ -9,11 +9,13 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
+    [Header("Movemnt")]
     [Tooltip("Normal walking speed in meters per second.")]
     [SerializeField] private float m_WalkSpeed = 5.0f;
 
     [Tooltip("The initial facing directioon of the player upon spawning.")]
     [SerializeField] private Direction m_SpawnDirection = Direction.Down;
+
 
     // ===== PUBLIC FIELDS ===== //
 
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D m_Rigidbody;
     private PlayerAnimator m_Animator;
     private PlayerCombat m_PlayerCombat;
+    private PlayerSound m_PlayerSound;
     private Vector2 m_LastInput = Vector2.right; // Save the last movement direction once the player stops moving.
     private bool m_IsKnockedBack = false;
     private bool m_IsEnabled = false;
@@ -64,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<PlayerAnimator>();
         m_PlayerCombat = GetComponent<PlayerCombat>();
+        m_PlayerSound = GetComponent<PlayerSound>();
         m_IsEnabled = true;
         SetFaceDirection(m_SpawnDirection);
     }
@@ -106,6 +110,8 @@ public class PlayerMovement : MonoBehaviour
         m_IsKnockedBack = true;
         Vector2 direction = (transform.position - enemy.position).normalized;
         m_Rigidbody.linearVelocity = direction * force;
+        m_Animator.StartDamage();
+        m_PlayerSound.PlayDamage();
         StartCoroutine(KnockbackCounter(stun_time));
     }
 
@@ -114,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(stun_time);
         m_Rigidbody.linearVelocity = Vector2.zero;
         m_IsKnockedBack = false;
+        m_Animator.Reset();
     }
 
     /// <summary>

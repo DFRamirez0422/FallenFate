@@ -28,12 +28,13 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private string m_AttackDownState = "AttackDown";
     [SerializeField] private string m_AttackLeftState = "AttackLeft";
     [SerializeField] private string m_AttackRightState = "AttackRight";
+    [Header("Sound (optional - prefers PlayerSound when present)")]
     [SerializeField] private AudioSource m_PlayerAudio;
     [SerializeField] private AudioClip m_AttackSwingClip;
     [SerializeField] private AudioClip m_HurtClip;
-    [SerializeField] private AudioClip m_AttackVoiceClip;
 
     private Animator m_Animator;
+    private PlayerSound m_PlayerSound;
     private float m_Timer;
 
     private void Update()
@@ -48,6 +49,8 @@ public class PlayerCombat : MonoBehaviour
     private void Start()
     {
         m_Animator = GetComponent<Animator>();
+        m_PlayerSound = GetComponent<PlayerSound>();
+
         if (m_PlayerAnimator == null)
             m_PlayerAnimator = GetComponent<PlayerAnimator>();
     }
@@ -66,13 +69,12 @@ public class PlayerCombat : MonoBehaviour
         }
 
         m_Animator.SetBool("IsAttacking", true);
-        if (m_PlayerAudio != null && m_AttackSwingClip != null)
-        {
+        if (m_PlayerAnimator != null)
+            m_PlayerAnimator.StartAttack();
+        if (m_PlayerSound != null)
+            m_PlayerSound.PlayAttack();
+        else if (m_PlayerAudio != null && m_AttackSwingClip != null)
             m_PlayerAudio.PlayOneShot(m_AttackSwingClip);
-            m_PlayerAudio.PlayOneShot(m_AttackVoiceClip);
-        }
-            
-
         m_Timer = m_Cooldown;
     }
 
@@ -98,11 +100,15 @@ public class PlayerCombat : MonoBehaviour
     public void FinishAttacking()
     {
         m_Animator.SetBool("IsAttacking", false);
+        if (m_PlayerAnimator != null)
+            m_PlayerAnimator.Reset();
     }
 
     public void HitReact()
     {
-        if (m_PlayerAudio != null && m_HurtClip != null)
+        if (m_PlayerSound != null)
+            m_PlayerSound.PlayDamage();
+        else if (m_PlayerAudio != null && m_HurtClip != null)
             m_PlayerAudio.PlayOneShot(m_HurtClip);
     }
 

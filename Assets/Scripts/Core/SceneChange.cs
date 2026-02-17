@@ -18,7 +18,12 @@ public class SceneChange : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             m_Player = collision.transform;
-            m_FadeScreenAnimator.Play("FadeOut");
+
+            if (m_FadeScreenAnimator)
+            {
+                m_FadeScreenAnimator.Play("FadeOut");
+            }
+
             StartCoroutine(DelayFade());
         }
     }
