@@ -111,7 +111,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = (transform.position - enemy.position).normalized;
         m_Rigidbody.linearVelocity = direction * force;
         m_Animator.StartDamage();
-        m_PlayerSound.PlayDamage();
+        if (m_PlayerSound != null)
+            m_PlayerSound.PlayDamage();
         StartCoroutine(KnockbackCounter(stun_time));
     }
 
