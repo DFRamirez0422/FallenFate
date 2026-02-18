@@ -9,11 +9,14 @@ public class EnemyHealth : MonoBehaviour
 
     private int m_CurrentHealth;
     private EnemyHitScript m_HitReaction;
+    private Animator animator;
+    public float DeathDelay = 0;
 
     private void Awake()
     {
         m_CurrentHealth = m_MaxHealth;
         m_HitReaction = GetComponent<EnemyHitScript>();
+        animator = GetComponent<Animator>();
     }
 
     public void ChangeHealth(int amount)
@@ -23,11 +26,23 @@ public class EnemyHealth : MonoBehaviour
         if (m_CurrentHealth > m_MaxHealth)
             m_CurrentHealth = m_MaxHealth;
         else if (m_CurrentHealth <= 0)
-            Destroy(gameObject);
+        {
+            if (animator != null)
+            {
+                animator.SetBool("Died", true);
+                Destroy(gameObject, DeathDelay);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
 
         m_OnHit?.Invoke();
         m_HitReaction?.FlashWhite();
         m_HitReaction?.PlayHitSound();
         m_HitReaction?.ImpactEffect();
     }
+
+
 }

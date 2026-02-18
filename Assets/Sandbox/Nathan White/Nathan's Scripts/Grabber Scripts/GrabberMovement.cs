@@ -11,8 +11,11 @@ public class GrabberMovement : MonoBehaviour
     public Rigidbody2D rb;
     private Transform player;
     private Animator animator;
-    private ButtonMash ButtonMash;
     private Vector2 direction;
+
+    //Scripts
+    private ButtonMash ButtonMash;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +24,8 @@ public class GrabberMovement : MonoBehaviour
         rb = GetComponentInParent<Rigidbody2D>();
         animator.SetBool("Chasing", false);
         ButtonMash = GetComponentInParent<ButtonMash>();
+
+        SomeoneGrabbedPlayer = false;
     }
 
     // Update is called once per frame
@@ -43,7 +48,7 @@ public class GrabberMovement : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
         }
 
-        if (animator.GetBool("Attacking"))
+        if (animator.GetBool("Attacking") || animator.GetBool("Died"))
         {
             rb.linearVelocity = Vector2.zero;
         }
