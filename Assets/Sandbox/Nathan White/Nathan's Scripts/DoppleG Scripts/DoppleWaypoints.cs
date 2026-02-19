@@ -10,9 +10,12 @@ public class Waypoints : MonoBehaviour
     [HideInInspector]
     public int waypointIndex = 0;
 
+    private Animator animator;
+
     void Start()
     {
         transform.position = waypoints[waypointIndex].transform.position;
+        animator = GetComponentInParent<Animator>();
     }
 
     void Update()
@@ -23,5 +26,19 @@ public class Waypoints : MonoBehaviour
     public void Move()
     {
         transform.position = Vector2.MoveTowards(transform.position, waypoints[waypointIndex].transform.position, moveSpeed * Time.deltaTime);
+
+        // Calculate the direction from the trigger (this.transform.position) 
+        // to the other object (other.transform.position)
+        Vector2 directionToTarget = waypoints[waypointIndex].transform.position - this.transform.position;
+
+        // Normalize the vector to get only the direction with a magnitude (length) of 1
+        Vector2 normalizedDirection = directionToTarget.normalized;
+
+        // You can now use normalizedDirection for various purposes
+        Debug.Log("Direction to " + waypoints[waypointIndex].gameObject.name + ": " + normalizedDirection);
+
+        animator.SetFloat("DirX", normalizedDirection.x);
+        animator.SetFloat("DirY", normalizedDirection.y);
+
     }
 }
