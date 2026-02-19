@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Waypoints : MonoBehaviour
@@ -9,8 +10,10 @@ public class Waypoints : MonoBehaviour
 
     [HideInInspector]
     public int waypointIndex = 0;
+    public bool IsMoving = false;
 
     private Animator animator;
+
 
     void Start()
     {
@@ -21,10 +24,16 @@ public class Waypoints : MonoBehaviour
     void Update()
     {
         Move();
+
+        if (Vector3.Distance(transform.position, waypoints[waypointIndex].transform.position) < 0.3f)
+        {
+            IsMoving = false;
+        }
     }
 
     public void Move()
     {
+        IsMoving = true;
         transform.position = Vector2.MoveTowards(transform.position, waypoints[waypointIndex].transform.position, moveSpeed * Time.deltaTime);
 
         // Calculate the direction from the trigger (this.transform.position) 
