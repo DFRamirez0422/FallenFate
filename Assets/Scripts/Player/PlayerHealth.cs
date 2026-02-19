@@ -27,19 +27,35 @@ public class PlayerHealth : MonoBehaviour
     }
 
     /// <summary>Change health by amount. Negative = damage, positive = heal.</summary>
-    public void ChangeHealth(int amount,Transform hitSource)
+    public void ChangeHealth(int amount)
     {
-         
         if (amount > 0)
             Heal(amount);
         else if (amount < 0)
-        {
-            LastHitSource = hitSource; 
-            Hit(-amount); 
-        }
+            TakeDamage(-amount, transform);
         
-
         if (m_CurrentHealth <= 0)
+            m_OnZeroHealth?.Invoke();
+    }
+
+    /// <summary>
+    /// Applies damage to the player and stores the source of the hit.
+    /// This exists separately from ChangeHealth so damage events
+    /// can track hit direction for knockback, reactions, etc.
+    /// Damage must always be positive.
+    /// </summary>
+    public void TakeDamage(int damage, Transform hitSource)
+    {
+        if (damage <= 0) return;
+
+        LastHitSource = hitSource;
+
+        m_CurrentHealth = Mathf.Max(0, m_CurrentHealth - damage);
+
+        // Trigger hit reaction even if this damage is fatal
+        m_OnHit?.Invoke();
+
+        if (m_CurrentHealth == 0)
             m_OnZeroHealth?.Invoke();
     }
 

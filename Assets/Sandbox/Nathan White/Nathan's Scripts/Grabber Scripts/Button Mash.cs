@@ -25,6 +25,8 @@ public class ButtonMash : MonoBehaviour
     //Private Called Scripts
     private PlayerHealth health;
     private PlayerMovement playerMovement;
+    private SpriteRenderer PlayerSprite;
+
     //Public Called Scripts
     public GameObject Hitbox;
     public GrabberMovement grabberMovement;
@@ -37,6 +39,7 @@ public class ButtonMash : MonoBehaviour
         MashCanvas.SetActive(false);
         mash = 1f;
         text2.enabled = false;
+        PlayerSprite = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -44,7 +47,7 @@ public class ButtonMash : MonoBehaviour
     {
         if (started)
         {
-
+            PlayerSprite.enabled = false;
             playerMovement.Disable();
             playerMovement.m_Rigidbody.linearVelocity = Vector2.zero;
 
@@ -56,6 +59,7 @@ public class ButtonMash : MonoBehaviour
             text.enabled = true;
             text.text = "Mash Z";
 
+            animator.SetBool("Grabbing", true);
 
             if (Input.GetButtonDown("Attack") && !pressed)
             {
@@ -74,7 +78,7 @@ public class ButtonMash : MonoBehaviour
                 {
                     text2.enabled = true;
                     text2.text = "Damaged";
-                    health.ChangeHealth(-1, null);
+                    health.ChangeHealth(-1);
                     mash = 2.5f;
                     timer = 0;
                     Invoke(nameof(ToggleDamageText), 0.5f);
@@ -94,24 +98,37 @@ public class ButtonMash : MonoBehaviour
                 mash = 2.5f;
                 Invoke(nameof(Unstun), 2);
                 animator.SetBool("Attacking", false);
-                playerMovement.Enable();
+                animator.SetBool("Grabbing", false);
                 grabberMovement.StoppedGrabbing();
+
+                Invoke(nameof(EnablePlayer), 0.2f);
             }
         }
         else if (!stunned)
         { text.enabled = false; }
 
-
+        if (stunned)
+        {
+            grabberMovement.rb.linearVelocity = Vector2.zero;
+            animator.SetBool("Stunned", true);
+        }
     }
 
     private void Unstun()
     {
         stunned = false;
         animator.SetBool("Attacking", false);
+        animator.SetBool("Stunned", false);
     }
     private void ToggleDamageText()
     {
         text2.enabled = false;
+    }
+
+    private void EnablePlayer()
+    {
+        playerMovement.Enable();
+        PlayerSprite.enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
