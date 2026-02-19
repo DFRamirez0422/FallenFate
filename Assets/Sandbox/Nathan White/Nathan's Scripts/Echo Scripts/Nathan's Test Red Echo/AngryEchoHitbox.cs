@@ -21,7 +21,7 @@ public class AngryEchoHitbox : MonoBehaviour
         if (collision.tag == "Player")
         {
             health = collision.gameObject.GetComponent<PlayerHealth>();
-            health.ChangeHealth(-1, null);
+            health.ChangeHealth(-1);
         }
     }
 }
