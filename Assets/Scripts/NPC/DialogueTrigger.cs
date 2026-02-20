@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
+[RequireComponent(typeof(AudioSource))]
 public class DialogueTrigger : MonoBehaviour
 {
     /// <summary>
@@ -25,8 +27,6 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] private bool m_KeepTrigger = false;
     
     [Header("Audio Clips")]
-    [Tooltip("Game object audio source for oneshot sound effects playback.")]
-    [SerializeField] private AudioSource m_SoundPlayer;
     [Tooltip("")]
     [SerializeField] private AudioClip m_TalkSound;
 
@@ -35,9 +35,15 @@ public class DialogueTrigger : MonoBehaviour
 
 
     // ===== PRIVATE FIELDS ===== //
+    private AudioSource m_SoundPlayer;
     private DialogueSO m_CurrentConversation;
     private bool m_WasActiveDialogue = false;
-    
+
+    private void Awake()
+    {
+        m_SoundPlayer = GetComponent<AudioSource>();
+    }
+
     private void Update()
     {
         if (Input.GetButtonDown("Interact"))
