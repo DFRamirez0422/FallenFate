@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         if (!m_IsEnabled)
             return;
 
-        if (!m_IsKnockedBack)
+        if (!m_IsKnockedBack && !m_PlayerCombat.m_IsAttacking)
         {
             Vector2 input_axes = CurrentDirection * m_WalkSpeed;
             m_Rigidbody.AddForce(input_axes - m_Rigidbody.linearVelocity, ForceMode2D.Impulse);

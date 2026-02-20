@@ -38,6 +38,9 @@ public class PlayerCombat : MonoBehaviour
     private PlayerSound m_PlayerSound;
     private float m_Timer;
 
+    public bool m_IsAttacking;
+    private Rigidbody2D m_Rigidbody2D;
+
     private void Update()
     {
         if (m_Timer > 0)
@@ -51,7 +54,7 @@ public class PlayerCombat : MonoBehaviour
     {
         m_Animator = GetComponent<Animator>();
         m_PlayerSound = GetComponent<PlayerSound>();
-
+        m_Rigidbody2D = GetComponent<Rigidbody2D>();
         if (m_PlayerAnimator == null)
             m_PlayerAnimator = GetComponent<PlayerAnimator>();
     }
@@ -59,7 +62,10 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         if (m_Timer > 0) return;
-
+        m_IsAttacking = true;
+        
+        if (m_Rigidbody2D != null) m_Rigidbody2D.linearVelocity = Vector2.zero;
+        
         if (m_PlayerAnimator != null)
         {
             Vector2 dir = m_PlayerAnimator.LastMovedDirection;
@@ -105,6 +111,7 @@ public class PlayerCombat : MonoBehaviour
         m_Animator.SetBool("IsAttacking", false);
         if (m_PlayerAnimator != null)
             m_PlayerAnimator.Reset();
+        m_IsAttacking = false;
     }
 
     public void HitReact()
