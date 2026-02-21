@@ -74,10 +74,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!m_IsEnabled)
+        
+        if (!m_IsEnabled || GameState.GameplayLocked)
             return;
 
-        if (!m_IsKnockedBack && !m_PlayerCombat.m_IsAttacking)
+        if (!m_IsKnockedBack || !m_PlayerCombat.m_IsAttacking)
         {
             Vector2 input_axes = CurrentDirection * m_WalkSpeed;
             m_Rigidbody.AddForce(input_axes - m_Rigidbody.linearVelocity, ForceMode2D.Impulse);
@@ -96,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!m_IsEnabled)
+        if (!m_IsEnabled || GameState.GameplayLocked)
             return;
 
         if (Input.GetButtonDown("Attack"))
