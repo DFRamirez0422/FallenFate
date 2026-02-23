@@ -41,13 +41,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1693214533174351743}
   - component: {fileID: 7900660834185525018}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: MiniMapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1693214533174351743
 Transform:
   m_ObjectHideFlags: 0
@@ -136,6 +136,8 @@ GameObject:
   - component: {fileID: 5886494133018567201}
   - component: {fileID: 8634445421533006459}
   - component: {fileID: 161179527763327020}
+  - component: {fileID: -8529041692769382230}
+  - component: {fileID: -144985701671619406}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -204,7 +206,7 @@ SpriteRenderer:
   m_SortingLayerID: -1164922079
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1670001917, guid: 1b98b3eb1885b8f4b90d31483ee8f4ce, type: 3}
+  m_Sprite: {fileID: -1411981140, guid: 925e257172ea8fb44999b361bc4d6a0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -313,7 +315,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: -8529041692769382230}
         m_TargetAssemblyTypeName: Unity.Cinemachine.CinemachineImpulseSource, Unity.Cinemachine
         m_MethodName: GenerateImpulse
         m_Mode: 1
@@ -325,7 +327,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: -144985701671619406}
         m_TargetAssemblyTypeName: PlayerHurtAnim, Assembly-CSharp
         m_MethodName: PlayHurt
         m_Mode: 1
@@ -389,15 +391,15 @@ MonoBehaviour:
     m_Bits: 64
   m_HandleInput: 0
   m_ShowGizmo: 1
-  m_PlayerAnimator: {fileID: 0}
+  m_PlayerAnimator: {fileID: 5886494133018567201}
   m_AttackUpState: AttackUp
   m_AttackDownState: AttackDown
   m_AttackLeftState: AttackLeft
   m_AttackRightState: AttackRight
   m_PlayerAudio: {fileID: 161179527763327020}
   m_AttackSwingClip: {fileID: 8300000, guid: 5bb0360458c558e48b12afa42431ef98, type: 3}
-  m_HurtClip: {fileID: 0}
-  m_AttackVoiceClip: {fileID: 0}
+  m_AttackVoiceClip: {fileID: 8300000, guid: e03bbff75342720479a577ce6af02aca, type: 3}
+  m_HurtClip: {fileID: 8300000, guid: 6acff9389545a10448839ba8ff987c51, type: 3}
 --- !u!114 &5886494133018567201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,3 +531,68 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8529041692769382230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8807435852695731377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.2
+    ImpulseType: 3
+    DissipationRate: 0.25
+    RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    AmplitudeGain: 4
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &-144985701671619406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8807435852695731377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9ef0901826aac44a789b03a5d31d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

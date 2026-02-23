@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,14 +19,23 @@ public class EnemyCombat : MonoBehaviour
     [Tooltip("Player collision mask.")]
     [SerializeField] private LayerMask m_PlayerLayer;
 
+    /// <summary>
+    ///  Checks for player collision with the attack point and applies damage and knockback if hit.
+    /// </summary>
     public void Attack()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(m_AttackPoint.position, m_WeaponRange, m_PlayerLayer);
 
+        // Only apply damage and knockback to the first player hit, if any. This prevents multiple hits from one attack.
         if (hits.Length > 0)
         {
-            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-m_Damage,transform);
-            hits[0].GetComponent<PlayerMovement>().Knockback(transform, m_KnockBackForce, m_StunTime);
+            var health = hits[0].GetComponent<PlayerHealth>();
+            if (health != null)
+                health.TakeDamage(m_Damage, transform);
+
+            var movement = hits[0].GetComponent<PlayerMovement>();
+            if (movement != null)
+                movement.Knockback(transform, m_KnockBackForce, m_StunTime);
         }
     }
     
