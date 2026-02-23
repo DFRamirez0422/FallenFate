@@ -19,7 +19,7 @@ public class GameOverScreen : MonoBehaviour
 
         // Disable all player and AI movement.
         // TODO: respawn points do not work at all if the time scale is set to zero.
-        //Time.timeScale = 0.0f;
+        Time.timeScale = 0.0f;
     }
 
     public void HideScreen()
