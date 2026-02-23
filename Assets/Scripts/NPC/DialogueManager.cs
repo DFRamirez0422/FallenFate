@@ -53,6 +53,9 @@ public class DialogueManager : MonoBehaviour
         // Disable all player movement when the dialogue screen is open.
         m_Player.GetComponent<PlayerMovement>().Disable();
 
+        // Disable all AI movement.
+        Time.timeScale = 0.0f;
+
         m_CurrentDialogue = dialogueSO;
         m_DialogueIdx = 0;
         IsDialogueActive = true;
@@ -92,6 +95,9 @@ public class DialogueManager : MonoBehaviour
     {
         // Enable all player movement when the dialogue is finished.
         m_Player.GetComponent<PlayerMovement>().Enable();
+
+        // Enable all AI movement.
+        Time.timeScale = 1.0f;
 
         m_DialogueIdx = 0;
         IsDialogueActive = false;
