@@ -147,9 +147,11 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the action button text to prompt the user to continue or end the dialogue with a key press.
+    /// </summary>
     private void UpdateActionText()
     {
-        Debug.Log($"IDX {m_DialogueIdx} LEN {m_CurrentDialogue.lines.Length}");
         m_ActionButton.onClick.RemoveAllListeners();
         m_ActionButton.onClick.AddListener(EndDialogue);
         m_ActionButton.gameObject.SetActive(true);
