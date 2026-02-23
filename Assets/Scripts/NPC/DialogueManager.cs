@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text m_ActorName;
     [SerializeField] private TMP_Text m_DialogueText;
     [SerializeField] private Button[] m_ChoiceButtons;
+    [SerializeField] private Button m_ActionButton;
 
 
     // ===== PUBLIC FIELDS ===== //
@@ -52,10 +53,14 @@ public class DialogueManager : MonoBehaviour
         // Disable all player movement when the dialogue screen is open.
         m_Player.GetComponent<PlayerMovement>().Disable();
 
+        // Disable all AI movement.
+        Time.timeScale = 0.0f;
+
         m_CurrentDialogue = dialogueSO;
         m_DialogueIdx = 0;
         IsDialogueActive = true;
         ShowDialogue();
+        UpdateActionText();
     }
 
     public void AdvanceDialogue()
@@ -63,6 +68,7 @@ public class DialogueManager : MonoBehaviour
         if (m_DialogueIdx < m_CurrentDialogue.lines.Length)
         {
             ShowDialogue();
+            UpdateActionText();
         }
         else
         {
@@ -90,6 +96,9 @@ public class DialogueManager : MonoBehaviour
         // Enable all player movement when the dialogue is finished.
         m_Player.GetComponent<PlayerMovement>().Enable();
 
+        // Enable all AI movement.
+        Time.timeScale = 1.0f;
+
         m_DialogueIdx = 0;
         IsDialogueActive = false;
         ClearChoices();
@@ -105,6 +114,9 @@ public class DialogueManager : MonoBehaviour
 
         if (m_CurrentDialogue.options.Length > 0)
         {
+            m_ActionButton.gameObject.SetActive(false);
+            m_ActionButton.onClick.RemoveAllListeners();
+
             for (int i = 0; i < m_CurrentDialogue.options.Length; i++)
             {
                 var option = m_CurrentDialogue.options[i];
@@ -115,9 +127,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            m_ChoiceButtons[0].GetComponentInChildren<TMP_Text>().text = "End";
-            m_ChoiceButtons[0].onClick.AddListener(EndDialogue);
-            m_ChoiceButtons[0].gameObject.SetActive(true);
+            EndDialogue();
         }
     }
 
@@ -140,6 +150,26 @@ public class DialogueManager : MonoBehaviour
         {
             button.gameObject.SetActive(false);
             button.onClick.RemoveAllListeners();
+        }
+    }
+
+    /// <summary>
+    /// Updates the action button text to prompt the user to continue or end the dialogue with a key press.
+    /// </summary>
+    private void UpdateActionText()
+    {
+        m_ActionButton.onClick.RemoveAllListeners();
+        m_ActionButton.onClick.AddListener(EndDialogue);
+        m_ActionButton.gameObject.SetActive(true);
+
+        // Check if at the end of the dialogue tree.
+        if (m_DialogueIdx >= m_CurrentDialogue.lines.Length && m_CurrentDialogue.options.Length == 0)
+        {
+            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] End Dialogue";
+        }
+        else
+        {
+            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] Continue";
         }
     }
 }

@@ -16,6 +16,10 @@ public class GameOverScreen : MonoBehaviour
         m_CanvasGroup.alpha = 1;
         m_CanvasGroup.interactable = true;
         m_CanvasGroup.blocksRaycasts = true;
+
+        // Disable all player and AI movement.
+        // TODO: respawn points do not work at all if the time scale is set to zero.
+        Time.timeScale = 0.0f;
     }
 
     public void HideScreen()
@@ -28,6 +32,9 @@ public class GameOverScreen : MonoBehaviour
 
     public void OnPressRetryButton()
     {
+        // Re-enable all player and AI movement.
+        Time.timeScale = 1.0f;
+
         Debug.Log("Current scene will restart!");
         HideScreen();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
