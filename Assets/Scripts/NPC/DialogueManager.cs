@@ -46,11 +46,6 @@ public class DialogueManager : MonoBehaviour
         {
             button.gameObject.SetActive(false);
         }
-
-        // Display an action button to press a button to continue the dialogue tree.
-        m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] Continue";
-        m_ActionButton.onClick.AddListener(EndDialogue);
-        m_ActionButton.gameObject.SetActive(true);
     }
 
     public void StartDialogue(DialogueSO dialogueSO)
@@ -62,25 +57,15 @@ public class DialogueManager : MonoBehaviour
         m_DialogueIdx = 0;
         IsDialogueActive = true;
         ShowDialogue();
-
-        m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] Continue";
+        UpdateActionText();
     }
 
     public void AdvanceDialogue()
     {
-        // Default state when advancing dialogue.
-        m_ActionButton.onClick.AddListener(EndDialogue);
-        m_ActionButton.gameObject.SetActive(true);
-
         if (m_DialogueIdx < m_CurrentDialogue.lines.Length)
         {
-            // Check if at the end of the dialogue tree.
-            if (m_DialogueIdx + 1 == m_CurrentDialogue.lines.Length)
-            {
-                m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] End Dialogue";
-            }
-
             ShowDialogue();
+            UpdateActionText();
         }
         else
         {
@@ -159,6 +144,24 @@ public class DialogueManager : MonoBehaviour
         {
             button.gameObject.SetActive(false);
             button.onClick.RemoveAllListeners();
+        }
+    }
+
+    private void UpdateActionText()
+    {
+        Debug.Log($"IDX {m_DialogueIdx} LEN {m_CurrentDialogue.lines.Length}");
+        m_ActionButton.onClick.RemoveAllListeners();
+        m_ActionButton.onClick.AddListener(EndDialogue);
+        m_ActionButton.gameObject.SetActive(true);
+
+        // Check if at the end of the dialogue tree.
+        if (m_DialogueIdx >= m_CurrentDialogue.lines.Length && m_CurrentDialogue.options.Length == 0)
+        {
+            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] End Dialogue";
+        }
+        else
+        {
+            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] Continue";
         }
     }
 }
