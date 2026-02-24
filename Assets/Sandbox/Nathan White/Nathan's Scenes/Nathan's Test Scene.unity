@@ -119,16 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!82 &833398942 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 7311376568468121103, guid: d13be535ae148984b892d48adfe6bf7b, type: 3}
-  m_PrefabInstance: {fileID: 1006489385}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &833398949 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 6984479966255025186, guid: d13be535ae148984b892d48adfe6bf7b, type: 3}
-  m_PrefabInstance: {fileID: 1006489385}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &980761959
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -263,6 +253,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4677770444954568697, guid: 27ad48ee3177c25439db18994e64886d, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4677770444954568697, guid: 27ad48ee3177c25439db18994e64886d, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3123856690187026744, guid: 27ad48ee3177c25439db18994e64886d, type: 3}
       propertyPath: m_Name
       value: Angry Echo
@@ -310,35 +308,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3123856690187026744, guid: 27ad48ee3177c25439db18994e64886d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1146858779}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27ad48ee3177c25439db18994e64886d, type: 3}
---- !u!1 &1146858770 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3123856690187026744, guid: 27ad48ee3177c25439db18994e64886d, type: 3}
-  m_PrefabInstance: {fileID: 1022016673}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1146858779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146858770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4e5f6789012345678abcdef01234567, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HitSound: {fileID: 8300000, guid: a0e6e5618c7680947a35cec585b3691d, type: 3}
-  m_EnemySoundSource: {fileID: 833398942}
-  m_ImpactEffect: {fileID: 1614018271880223520, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
-  m_ImpactEffectAnimator: {fileID: 6673725852056526967, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
-  m_EnemySprite: {fileID: 833398949}
-  m_FlashMaterial: {fileID: 2100000, guid: a64f2b8576e12f24e8b69555dac949d0, type: 2}
-  m_HitDuration: 0.2
 --- !u!1001 &1151275812
 PrefabInstance:
   m_ObjectHideFlags: 0
