@@ -18,5 +18,7 @@ Table of contents for all project documentation files.
 ## Change Logs
 | Document | Description |
 |----------|-------------|
+| [2026-02-24 -- Act1 Cutscene, Dialogue, and Tools](2026-02-24_act1-cutscene-dialogue-and-tools.md) | Consolidated changelog for scene, dialogue, transition, and sandbox utility updates |
+| [2026-02-24 -- Jose's Dialogue System Fixes](2026-02-24_joses-dialogue-system-fixes.md) | Dialogue progression and conversation selection stability fixes for NPC and trigger dialogue flow |
 | [PR #417 -- Combat Merge Changelog](MERGE_PR417_COMBAT_CHANGELOG.md) | Changelog for combat system merge |
 | [PR #417 -- Combat Feedback](CODE_FEEDBACK_PR417_Combat_Feedback.md) | Code feedback on combat system changes |
