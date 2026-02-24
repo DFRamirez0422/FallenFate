@@ -18,23 +18,6 @@ public class EchoAi : MonoBehaviour
             SelfDestroy();
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log(collision.gameObject.tag);
-        if (collision.gameObject.tag == "Player")
-        {
-            objectFader.DoFade = true;
-        }
-            
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            objectFader.DoFade = false;
-        }
-    }
 
     public void SelfDestroy()
     {
