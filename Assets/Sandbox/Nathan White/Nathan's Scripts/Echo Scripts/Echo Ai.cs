@@ -13,7 +13,7 @@ public class EchoAi : MonoBehaviour
     private void Update()
     {
 
-        if (objectFader.Mat.color.a <= 0.001f)
+        if (objectFader.Mat.color.a <= 0.01f)
         {
             SelfDestroy();
         }

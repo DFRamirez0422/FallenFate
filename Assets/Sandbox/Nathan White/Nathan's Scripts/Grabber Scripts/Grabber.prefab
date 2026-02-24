@@ -315,6 +315,7 @@ GameObject:
   - component: {fileID: 1687547949737903762}
   - component: {fileID: 3893446639580769808}
   - component: {fileID: 1349522477561852731}
+  - component: {fileID: 2048007272105741550}
   - component: {fileID: 6653704456797462385}
   - component: {fileID: 7215186538279180650}
   - component: {fileID: -7776740853255798178}
@@ -499,8 +500,32 @@ MonoBehaviour:
   m_MaxHealth: 5
   m_OnHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2249023097432166996}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Knockback()
+          m_BoolArgument: 0
+        m_CallState: 2
   DeathDelay: 0.8
+--- !u!114 &2048007272105741550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2249023097432166996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f31c231c80eca40b66291e0bddecac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6653704456797462385
 MonoBehaviour:
   m_ObjectHideFlags: 0

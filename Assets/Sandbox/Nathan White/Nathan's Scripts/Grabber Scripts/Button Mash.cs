@@ -17,7 +17,7 @@ public class ButtonMash : MonoBehaviour
     
 
     [HideInInspector]
-    public bool started, stunned;
+    public bool started, stunned, knocked;
 
     //animator
     private Animator animator;
@@ -116,9 +116,17 @@ public class ButtonMash : MonoBehaviour
 
     private void Unstun()
     {
-        stunned = false;
-        animator.SetBool("Attacking", false);
-        animator.SetBool("Stunned", false);
+        if (stunned)
+        {
+            stunned = false;
+            animator.SetBool("Attacking", false);
+            animator.SetBool("Stunned", false);
+        }
+
+        if (knocked)
+        {
+            knocked = false;
+        }
     }
     private void ToggleDamageText()
     {
@@ -156,5 +164,21 @@ public class ButtonMash : MonoBehaviour
             animator.SetBool("Attacking", false);
             Hitbox.SetActive(false);
         }
+    }
+
+    public void NathansKnockbackClone()
+    {
+        Transform playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        Rigidbody2D grabberRB = GetComponent<Rigidbody2D>();
+
+        Vector2 direction = (transform.position - playerTransform.position).normalized;
+
+        knocked = true;
+        // Apply knockback velocity
+        grabberRB.AddForce(direction * 300, ForceMode2D.Impulse);
+
+        Debug.Log("Knocked");
+
+        Invoke(nameof(Unstun), 0.5f);
     }
 }
