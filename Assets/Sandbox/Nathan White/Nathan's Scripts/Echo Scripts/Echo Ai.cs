@@ -15,7 +15,7 @@ public class EchoAi : MonoBehaviour
 
         if (objectFader.Mat.color.a <= 0.001f)
         {
-            Destroy(gameObject);
+            SelfDestroy();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,5 +34,10 @@ public class EchoAi : MonoBehaviour
         {
             objectFader.DoFade = false;
         }
+    }
+
+    public void SelfDestroy()
+    {
+        Destroy(gameObject);
     }
 }
