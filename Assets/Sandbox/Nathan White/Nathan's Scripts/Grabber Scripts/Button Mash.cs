@@ -147,7 +147,7 @@ public class ButtonMash : MonoBehaviour
             playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
             health = collision.gameObject.GetComponent<PlayerHealth>();
             timer = 0;
-            animator.SetBool("Attacking", true);
+            animator.SetBool("Attacking", true); //The started variable gets activated when the grabber hitbox hits you in the attack animation.
         }
     }
 
