@@ -12,7 +12,7 @@ public class ButtonMash : MonoBehaviour
     public TextMeshProUGUI text2;
 
     [SerializeField]
-    private float mash, timer;
+    private float mash, timer, points;
     private bool pressed;
     
 
@@ -47,6 +47,7 @@ public class ButtonMash : MonoBehaviour
     {
         if (started)
         {
+           
             PlayerSprite.enabled = false;
             playerMovement.Disable();
             playerMovement.m_Rigidbody.linearVelocity = Vector2.zero;
@@ -64,6 +65,7 @@ public class ButtonMash : MonoBehaviour
             if (Input.GetButtonDown("Attack") && !pressed)
             {
                 pressed = true;
+                points = points + 0.5f;
                 mash = mashDelay;
             }
             else if (Input.GetButtonUp("Attack"))
@@ -90,7 +92,7 @@ public class ButtonMash : MonoBehaviour
             }
 
             //Stun the enemy
-            if (timer >= 3)
+            if (points >= 5)
             {
                 started = false;
                 text.text = "Stunned";
@@ -111,6 +113,7 @@ public class ButtonMash : MonoBehaviour
         {
             grabberMovement.rb.linearVelocity = Vector2.zero;
             animator.SetBool("Stunned", true);
+            points = 0;
         }
     }
 
