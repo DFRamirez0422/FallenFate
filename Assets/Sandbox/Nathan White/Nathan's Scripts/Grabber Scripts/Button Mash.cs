@@ -47,7 +47,6 @@ public class ButtonMash : MonoBehaviour
     {
         if (started)
         {
-           
             PlayerSprite.enabled = false;
             playerMovement.Disable();
             playerMovement.m_Rigidbody.linearVelocity = Vector2.zero;
@@ -102,7 +101,6 @@ public class ButtonMash : MonoBehaviour
                 animator.SetBool("Attacking", false);
                 animator.SetBool("Grabbing", false);
                 grabberMovement.StoppedGrabbing();
-
                 Invoke(nameof(EnablePlayer), 0.2f);
             }
         }
@@ -144,10 +142,13 @@ public class ButtonMash : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
-        health = collision.gameObject.GetComponent<PlayerHealth>();
-        timer = 0;
-        animator.SetBool("Attacking", true);
+        if (collision.gameObject.tag == "Player")
+        {
+            playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+            health = collision.gameObject.GetComponent<PlayerHealth>();
+            timer = 0;
+            animator.SetBool("Attacking", true);
+        }
     }
 
     private void TurnOnHitbox()
