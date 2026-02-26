@@ -30,7 +30,7 @@ public class GrabberMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isChasing == true && !animator.GetBool("Attacking") && SomeoneGrabbedPlayer == false)
+        if (isChasing == true && !animator.GetBool("Attacking") && SomeoneGrabbedPlayer == false && ButtonMash.knocked == false)
         {
             direction = (player.position - transform.position).normalized;
             rb.linearVelocity = direction * speed;
@@ -74,7 +74,7 @@ public class GrabberMovement : MonoBehaviour
             Vector2 normalizedDirection = directionToTarget.normalized;
 
             // You can now use normalizedDirection for various purposes
-            Debug.Log("Direction to " + collision.gameObject.name + ": " + normalizedDirection);
+            //Debug.Log("Direction to " + collision.gameObject.name + ": " + normalizedDirection);
 
             animator.SetFloat("DirX", normalizedDirection.x);
             animator.SetFloat("DirY", normalizedDirection.y);
