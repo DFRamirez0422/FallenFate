@@ -482,6 +482,7 @@ MonoBehaviour:
   timer: 0
   started: 0
   stunned: 0
+  knocked: 0
   Hitbox: {fileID: 1697609270852778515}
   grabberMovement: {fileID: 568878624364507512}
 --- !u!114 &1349522477561852731
@@ -499,7 +500,19 @@ MonoBehaviour:
   m_MaxHealth: 5
   m_OnHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3893446639580769808}
+        m_TargetAssemblyTypeName: ButtonMash, Assembly-CSharp
+        m_MethodName: NathansKnockbackClone
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Knockback()
+          m_BoolArgument: 0
+        m_CallState: 2
   DeathDelay: 0.8
 --- !u!114 &6653704456797462385
 MonoBehaviour:

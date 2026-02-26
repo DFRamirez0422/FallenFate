@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 686035624474961831}
   - component: {fileID: 2815529490259786544}
   - component: {fileID: 2158577207884416617}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Swing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,9 @@ GameObject:
   - component: {fileID: 7459332381644818738}
   - component: {fileID: 4484690475182991459}
   - component: {fileID: 2464560716109846538}
-  m_Layer: 0
+  - component: {fileID: -4677770444954568697}
+  - component: {fileID: -1426612158493336039}
+  m_Layer: 6
   m_Name: Angry Echo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +210,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3123856690187026744}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -273,6 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hitbox: {fileID: 1334811543458604249}
+  FacePlayer: 1
 --- !u!61 &2464560716109846538
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -319,3 +322,39 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3993368, y: 0.5814603}
   m_EdgeRadius: 0
+--- !u!114 &-4677770444954568697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123856690187026744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29e30cfe67c21044be31df5216c6134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxHealth: 2
+  m_OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  DeathDelay: 0.8
+--- !u!114 &-1426612158493336039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123856690187026744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e5f6789012345678abcdef01234567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HitSound: {fileID: 8300000, guid: a0e6e5618c7680947a35cec585b3691d, type: 3}
+  m_EnemySoundSource: {fileID: 0}
+  m_ImpactEffect: {fileID: 1614018271880223520, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+  m_ImpactEffectAnimator: {fileID: 6673725852056526967, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+  m_EnemySprite: {fileID: 0}
+  m_FlashMaterial: {fileID: 2100000, guid: a64f2b8576e12f24e8b69555dac949d0, type: 2}
+  m_HitDuration: 0.2
