@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyHitScript : MonoBehaviour
 {
-    [SerializeField] private AudioClip m_HitSound;
+    [SerializeField] private SoundDefinition m_HitSound;
     [SerializeField] private AudioSource m_EnemySoundSource;
 
     [SerializeField] private GameObject m_ImpactEffect;
@@ -27,8 +27,12 @@ public class EnemyHitScript : MonoBehaviour
 
     public void PlayHitSound()
     {
-        if (m_EnemySoundSource != null && m_HitSound != null)
-            m_EnemySoundSource.PlayOneShot(m_HitSound);
+        // if (m_EnemySoundSource != null && m_HitSound != null)
+           // m_EnemySoundSource.PlayOneShot(m_HitSound);
+           
+        // NEW method for playing hit sound effects using SoundFXManager script
+        if (m_HitSound != null)
+            SoundFXManager.instance.Play(m_HitSound, transform);
     }
 
     public void FlashWhite()
