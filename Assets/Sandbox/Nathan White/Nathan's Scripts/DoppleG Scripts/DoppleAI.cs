@@ -20,11 +20,11 @@ public class DoppleAI : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         Debug.Log(collision.gameObject.tag);
 
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && waypointScript.IsMoving == false)
         {
             waypointScript.waypointIndex += 1;
         }

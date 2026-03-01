@@ -12,12 +12,12 @@ public class ButtonMash : MonoBehaviour
     public TextMeshProUGUI text2;
 
     [SerializeField]
-    private float mash, timer;
+    private float mash, timer, points;
     private bool pressed;
     
 
     [HideInInspector]
-    public bool started, stunned;
+    public bool started, stunned, knocked;
 
     //animator
     private Animator animator;
@@ -64,6 +64,7 @@ public class ButtonMash : MonoBehaviour
             if (Input.GetButtonDown("Attack") && !pressed)
             {
                 pressed = true;
+                points = points + 0.5f;
                 mash = mashDelay;
             }
             else if (Input.GetButtonUp("Attack"))
@@ -90,7 +91,7 @@ public class ButtonMash : MonoBehaviour
             }
 
             //Stun the enemy
-            if (timer >= 3)
+            if (points >= 5)
             {
                 started = false;
                 text.text = "Stunned";
@@ -100,7 +101,6 @@ public class ButtonMash : MonoBehaviour
                 animator.SetBool("Attacking", false);
                 animator.SetBool("Grabbing", false);
                 grabberMovement.StoppedGrabbing();
-
                 Invoke(nameof(EnablePlayer), 0.2f);
             }
         }
@@ -111,14 +111,23 @@ public class ButtonMash : MonoBehaviour
         {
             grabberMovement.rb.linearVelocity = Vector2.zero;
             animator.SetBool("Stunned", true);
+            points = 0;
         }
     }
 
     private void Unstun()
     {
-        stunned = false;
-        animator.SetBool("Attacking", false);
-        animator.SetBool("Stunned", false);
+        if (stunned)
+        {
+            stunned = false;
+            animator.SetBool("Attacking", false);
+            animator.SetBool("Stunned", false);
+        }
+
+        if (knocked)
+        {
+            knocked = false;
+        }
     }
     private void ToggleDamageText()
     {
@@ -133,10 +142,13 @@ public class ButtonMash : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
-        health = collision.gameObject.GetComponent<PlayerHealth>();
-        timer = 0;
-        animator.SetBool("Attacking", true);
+        if (collision.gameObject.tag == "Player")
+        {
+            playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+            health = collision.gameObject.GetComponent<PlayerHealth>();
+            timer = 0;
+            animator.SetBool("Attacking", true); //The started variable gets activated when the grabber hitbox hits you in the attack animation.
+        }
     }
 
     private void TurnOnHitbox()
@@ -156,5 +168,21 @@ public class ButtonMash : MonoBehaviour
             animator.SetBool("Attacking", false);
             Hitbox.SetActive(false);
         }
+    }
+
+    public void NathansKnockbackClone()
+    {
+        Transform playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        Rigidbody2D grabberRB = GetComponent<Rigidbody2D>();
+
+        Vector2 direction = (transform.position - playerTransform.position).normalized;
+
+        knocked = true;
+        // Apply knockback velocity
+        grabberRB.AddForce(direction * 300, ForceMode2D.Impulse);
+
+        Debug.Log("Knocked");
+
+        Invoke(nameof(Unstun), 0.5f);
     }
 }

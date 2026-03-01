@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text m_ActorName;
     [SerializeField] private TMP_Text m_DialogueText;
     [SerializeField] private Button[] m_ChoiceButtons;
+    [SerializeField] private Button m_ActionButton;
 
 
     // ===== PUBLIC FIELDS ===== //
@@ -47,22 +48,46 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        // Centralize dialogue progression input so only one script advances each key press.
+        if (IsDialogueActive && Input.GetButtonDown("Interact"))
+        {
+            AdvanceDialogue();
+        }
+    }
+
     public void StartDialogue(DialogueSO dialogueSO)
     {
+        if (dialogueSO == null || dialogueSO.lines == null || dialogueSO.lines.Length == 0)
+        {
+            return;
+        }
+
         // Disable all player movement when the dialogue screen is open.
         m_Player.GetComponent<PlayerMovement>().Disable();
+
+        // Fully pause gameplay while dialogue is open.
+        Time.timeScale = 0.0f;
 
         m_CurrentDialogue = dialogueSO;
         m_DialogueIdx = 0;
         IsDialogueActive = true;
         ShowDialogue();
+        UpdateActionText();
     }
 
     public void AdvanceDialogue()
     {
+        if (!IsDialogueActive || m_CurrentDialogue == null || m_CurrentDialogue.lines == null)
+        {
+            return;
+        }
+
         if (m_DialogueIdx < m_CurrentDialogue.lines.Length)
         {
             ShowDialogue();
+            UpdateActionText();
         }
         else
         {
@@ -72,6 +97,11 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowDialogue()
     {
+        if (m_CurrentDialogue == null || m_CurrentDialogue.lines == null || m_DialogueIdx >= m_CurrentDialogue.lines.Length)
+        {
+            return;
+        }
+
         DialogueLine line = m_CurrentDialogue.lines[m_DialogueIdx];
         DialogueHistoryTracker.Instance.RecordNPC(line.speaker);
 
@@ -90,6 +120,9 @@ public class DialogueManager : MonoBehaviour
         // Enable all player movement when the dialogue is finished.
         m_Player.GetComponent<PlayerMovement>().Enable();
 
+        // Restore AI movement (revert from near-pause used during dialogue).
+        Time.timeScale = 1.0f;
+
         m_DialogueIdx = 0;
         IsDialogueActive = false;
         ClearChoices();
@@ -105,19 +138,21 @@ public class DialogueManager : MonoBehaviour
 
         if (m_CurrentDialogue.options.Length > 0)
         {
-            for (int i = 0; i < m_CurrentDialogue.options.Length; i++)
+            m_ActionButton.gameObject.SetActive(false);
+            m_ActionButton.onClick.RemoveAllListeners();
+
+            int choiceCount = Mathf.Min(m_CurrentDialogue.options.Length, m_ChoiceButtons.Length);
+            for (int i = 0; i < choiceCount; i++)
             {
                 var option = m_CurrentDialogue.options[i];
                 m_ChoiceButtons[i].GetComponentInChildren<TMP_Text>().text = option.optionText;
                 m_ChoiceButtons[i].gameObject.SetActive(true);
-                m_ChoiceButtons[i].onClick.AddListener(() => ChooseOption(option.nextDialogue));
+                m_ChoiceButtons[i].onClick.AddListener(MakeChoiceHandler(option.nextDialogue));
             }
         }
         else
         {
-            m_ChoiceButtons[0].GetComponentInChildren<TMP_Text>().text = "End";
-            m_ChoiceButtons[0].onClick.AddListener(EndDialogue);
-            m_ChoiceButtons[0].gameObject.SetActive(true);
+            EndDialogue();
         }
     }
 
@@ -134,12 +169,45 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private UnityEngine.Events.UnityAction MakeChoiceHandler(DialogueSO nextDialogue)
+    {
+        return () => ChooseOption(nextDialogue);
+    }
+
     private void ClearChoices()
     {
         foreach (var button in m_ChoiceButtons)
         {
             button.gameObject.SetActive(false);
             button.onClick.RemoveAllListeners();
+        }
+        m_ActionButton.onClick.RemoveAllListeners();
+    }
+
+    /// <summary>
+    /// Updates the action button text to prompt the user to continue or end the dialogue with a key press.
+    /// </summary>
+    private void UpdateActionText()
+    {
+        if (m_CurrentDialogue == null)
+        {
+            return;
+        }
+
+        m_ActionButton.onClick.RemoveAllListeners();
+        m_ActionButton.gameObject.SetActive(true);
+
+        // Check if at the end of the dialogue tree (no more lines, no choices).
+        bool atEnd = m_DialogueIdx >= m_CurrentDialogue.lines.Length && m_CurrentDialogue.options.Length == 0;
+        if (atEnd)
+        {
+            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] End Dialogue";
+            m_ActionButton.onClick.AddListener(EndDialogue);
+        }
+        else
+        {
+            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] Continue";
+            m_ActionButton.onClick.AddListener(AdvanceDialogue);
         }
     }
 }
