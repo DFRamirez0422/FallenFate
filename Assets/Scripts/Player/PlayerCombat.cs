@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -28,11 +29,12 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private string m_AttackDownState = "AttackDown";
     [SerializeField] private string m_AttackLeftState = "AttackLeft";
     [SerializeField] private string m_AttackRightState = "AttackRight";
-    [Header("Sound (optional - prefers PlayerSound when present)")]
-    [SerializeField] private AudioSource m_PlayerAudio;
-    [SerializeField] private AudioClip m_AttackSwingClip;
-    [SerializeField] private AudioClip m_AttackVoiceClip;
-    [SerializeField] private AudioClip m_HurtClip;
+    // [Header("Sound (optional - prefers PlayerSound when present)")]
+    // [SerializeField] private AudioSource m_PlayerAudio;
+    [Header("Data Assets for SoundFX via SoundDefinition)")]
+    [SerializeField] private SoundDefinition m_AttackSwingSfx;
+    [SerializeField] private SoundDefinition m_AttackVoiceSfx;
+    [SerializeField] private SoundDefinition m_HurtSfx;
 
     private Animator m_Animator;
     private PlayerSound m_PlayerSound;
@@ -62,10 +64,8 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         if (m_Timer > 0) return;
-        m_IsAttacking = true;
-        
-        if (m_Rigidbody2D != null) m_Rigidbody2D.linearVelocity = Vector2.zero;
-        
+        Debug.LogError("[PlayerCombat.Attack] CALLED\n" + Environment.StackTrace);
+
         if (m_PlayerAnimator != null)
         {
             Vector2 dir = m_PlayerAnimator.LastMovedDirection;
@@ -78,12 +78,23 @@ public class PlayerCombat : MonoBehaviour
         m_Animator.SetBool("IsAttacking", true);
         if (m_PlayerAnimator != null)
             m_PlayerAnimator.StartAttack();
-        if (m_PlayerSound != null)
-            m_PlayerSound.PlayAttack();
-        else if (m_PlayerAudio != null && m_AttackSwingClip != null)
-            m_PlayerAudio.PlayOneShot(m_AttackSwingClip);
-        if (m_PlayerAudio != null && m_AttackVoiceClip != null)
-            m_PlayerAudio.PlayOneShot(m_AttackVoiceClip);
+        
+        // --- Old Method for playing attack sound effects using PlayerSound and AudioSource --- ///
+        // if (m_PlayerSound != null)
+            // m_PlayerSound.PlayAttack();
+        // if (m_PlayerAudio != null && m_AttackSwingClip != null)
+           // m_PlayerAudio.PlayOneShot(m_AttackSwingClip);
+       // if (m_PlayerAudio != null && m_AttackVoiceClip != null)
+            // m_PlayerAudio.PlayOneShot(m_AttackVoiceClip);
+        // ---                                                                               --- ///
+            
+        // NEW Method for playing attack sound effects using SoundFXManager script
+        if (m_AttackSwingSfx != null)
+            SoundFXManager.instance.Play(m_AttackSwingSfx, transform);
+        if (m_AttackVoiceSfx != null)
+            SoundFXManager.instance.Play(m_AttackVoiceSfx, transform); 
+        
+        // Reset attack timer
         m_Timer = m_Cooldown;
     }
 
@@ -116,10 +127,12 @@ public class PlayerCombat : MonoBehaviour
 
     public void HitReact()
     {
-        if (m_PlayerSound != null)
-            m_PlayerSound.PlayDamage();
-        else if (m_PlayerAudio != null && m_HurtClip != null)
-            m_PlayerAudio.PlayOneShot(m_HurtClip);
+        // if (m_PlayerSound != null)
+           // m_PlayerSound.PlayDamage();
+           
+        // NEW method for playing hurt sound effects using SoundFXManager script
+        if (m_HurtSfx != null)
+            SoundFXManager.instance.Play(m_HurtSfx, transform);
     }
 
     private void OnDrawGizmosSelected()
