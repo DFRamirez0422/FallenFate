@@ -50,7 +50,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (!m_IsNeedUpdate) return;
 
-        m_Animator = GetComponent<Animator>();
+        // m_Animator = GetComponent<Animator>(); /// NOTE: Already set in Awake, no need to get every frame
         Vector2 dir = m_LastMovedDirection.normalized;
 
         if (dir.x < -m_HorizontalAngleLimit) // LEFT
@@ -159,7 +159,7 @@ public class PlayerAnimator : MonoBehaviour
     /// </summary>
     public void StartDamage()
     {
-        m_CurrentState = State.Attack;
+        m_CurrentState = State.Damage;
         m_IsNeedUpdate = true;
     }
 
@@ -168,7 +168,7 @@ public class PlayerAnimator : MonoBehaviour
     /// </summary>
     public void StartDeath()
     {
-        m_CurrentState = State.Attack;
+        m_CurrentState = State.Death;
         m_IsNeedUpdate = true;
     }
 
