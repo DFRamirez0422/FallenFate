@@ -16,7 +16,7 @@ public class SoundFXManager : MonoBehaviour
     {
         if (sfx == null || spawnTransform == null) return;
         
-        Debug.LogError($"[SFX] Playing '{sfx.name}' at '{spawnTransform.root.name}'");
+        // Debug.LogError($"[SFX] Playing '{sfx.name}' at '{spawnTransform.root.name}'");
 
         AudioClip clip = sfx.GetClip();
         if (clip == null) return;

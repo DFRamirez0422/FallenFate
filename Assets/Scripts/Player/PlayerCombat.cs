@@ -64,7 +64,7 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         if (m_Timer > 0) return;
-        Debug.LogError("[PlayerCombat.Attack] CALLED\n" + Environment.StackTrace);
+        //Debug.LogError("[PlayerCombat.Attack] CALLED\n" + Environment.StackTrace);
 
         if (m_PlayerAnimator != null)
         {
