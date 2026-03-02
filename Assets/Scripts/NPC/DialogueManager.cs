@@ -27,6 +27,7 @@ public class DialogueManager : MonoBehaviour
     private DialogueSO m_CurrentDialogue;
     private int m_DialogueIdx;
     private float m_LineUpdateTick; // Dialogue should reveal slowly, not all at once. This counter helps keep track what to show.
+    private float m_LastLineUpdateTime;
 
 
     private void Awake()
@@ -54,8 +55,11 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (!m_CurrentDialogue) return;
+        float delta_time = Time.realtimeSinceStartup - m_LastLineUpdateTime;
+        m_LastLineUpdateTime = Time.realtimeSinceStartup;
 
+        if (!m_CurrentDialogue) return;
+        
         // Algorithm overview:
         // Each amount of update ticks, reveal one letter at a time until the whole line is displayed.
         DialogueLine line = m_CurrentDialogue.lines[m_DialogueIdx];
@@ -65,7 +69,7 @@ public class DialogueManager : MonoBehaviour
         if (update_tick <= line_length)
         {
             m_DialogueText.text = line.text.Substring(0, update_tick);
-            m_LineUpdateTick += Time.fixedDeltaTime;
+            m_LineUpdateTick += delta_time;
         }
     }
 
