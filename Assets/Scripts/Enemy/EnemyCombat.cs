@@ -22,7 +22,7 @@ public class EnemyCombat : MonoBehaviour
     /// <summary>
     ///  Checks for player collision with the attack point and applies damage and knockback if hit.
     /// </summary>
-    public void Attack()
+    public void EnemyAttack()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(m_AttackPoint.position, m_WeaponRange, m_PlayerLayer);
 

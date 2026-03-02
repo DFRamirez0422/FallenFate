@@ -58,7 +58,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8246349862611884816}
@@ -107,8 +107,8 @@ SpriteRenderer:
   m_SortingLayerID: 1537661209
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 668ee6e350b3ef446ab12985f2d0e4fd, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -903170882, guid: d55e58b6a6eeff748b39cd5757227102, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -396,10 +396,9 @@ MonoBehaviour:
   m_AttackDownState: AttackDown
   m_AttackLeftState: AttackLeft
   m_AttackRightState: AttackRight
-  m_PlayerAudio: {fileID: 161179527763327020}
-  m_AttackSwingClip: {fileID: 8300000, guid: 5bb0360458c558e48b12afa42431ef98, type: 3}
-  m_AttackVoiceClip: {fileID: 8300000, guid: e03bbff75342720479a577ce6af02aca, type: 3}
-  m_HurtClip: {fileID: 8300000, guid: 6acff9389545a10448839ba8ff987c51, type: 3}
+  m_AttackSwingSfx: {fileID: 11400000, guid: 1f3f246828190804e9b6a20b2c83e505, type: 2}
+  m_AttackVoiceSfx: {fileID: 11400000, guid: 9ef5dced12f33a74e8c5ac9cb7c62fdc, type: 2}
+  m_HurtSfx: {fileID: 11400000, guid: 7e16da23116715243a705cefea759ecb, type: 2}
   m_IsAttacking: 0
 --- !u!114 &5886494133018567201
 MonoBehaviour:
