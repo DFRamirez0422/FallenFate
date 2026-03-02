@@ -12,6 +12,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text m_DialogueText;
     [SerializeField] private Button[] m_ChoiceButtons;
     [SerializeField] private Button m_ActionButton;
+    [Header("Dialogue Control")]
+    [Tooltip("Amount of time in between each letter reveal, measured in milliseconds.")]
+    [SerializeField] private int m_TextRevealSpeed = 30;
 
 
     // ===== PUBLIC FIELDS ===== //
@@ -23,6 +26,7 @@ public class DialogueManager : MonoBehaviour
     private GameObject m_Player;
     private DialogueSO m_CurrentDialogue;
     private int m_DialogueIdx;
+    private float m_LineUpdateTick; // Dialogue should reveal slowly, not all at once. This counter helps keep track what to show.
 
 
     private void Awake()
@@ -48,6 +52,23 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (!m_CurrentDialogue) return;
+
+        // Algorithm overview:
+        // Each amount of update ticks, reveal one letter at a time until the whole line is displayed.
+        DialogueLine line = m_CurrentDialogue.lines[m_DialogueIdx];
+        int line_length = line.text.Length;
+        int update_tick = (int)(1000.0f * m_LineUpdateTick / m_TextRevealSpeed);
+
+        if (update_tick <= line_length)
+        {
+            m_DialogueText.text = line.text.Substring(0, update_tick);
+            m_LineUpdateTick += Time.fixedDeltaTime;
+        }
+    }
+
     public void StartDialogue(DialogueSO dialogueSO)
     {
         // Disable all player movement when the dialogue screen is open.
@@ -65,6 +86,8 @@ public class DialogueManager : MonoBehaviour
 
     public void AdvanceDialogue()
     {
+        m_DialogueIdx++;
+
         if (m_DialogueIdx < m_CurrentDialogue.lines.Length)
         {
             ShowDialogue();
@@ -80,11 +103,11 @@ public class DialogueManager : MonoBehaviour
     {
         DialogueLine line = m_CurrentDialogue.lines[m_DialogueIdx];
         DialogueHistoryTracker.Instance.RecordNPC(line.speaker);
+        m_LineUpdateTick = 0;
 
         m_Portrait.sprite = line.speaker.m_Portrait;
         m_ActorName.text = line.speaker.m_ActorName;
         m_DialogueText.text = line.text;
-        m_DialogueIdx++;
 
         m_CanvasGroup.alpha = 1;
         m_CanvasGroup.interactable = true;

@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // ===== USER INTERFACE FIELDS ===== //
-    [Header("Movemnt")]
+    [Header("Movement")]
     [Tooltip("Normal walking speed in meters per second.")]
     [SerializeField] private float m_WalkSpeed = 5.0f;
 
@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Direction m_SpawnDirection = Direction.Down;
 
 
-    // ===== PUBLIC FIELDS ===== //
+    // ===== PUBLIC FIELDS ===== //x
 
     /// <summary>
     /// Used as the initial facing direction during spawning.
@@ -54,21 +54,41 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 CurrentDirection => Vector2.ClampMagnitude(CurrentInput, 1f);
 
     // ===== PRIVATE FIELDS ===== //
+    public static PlayerMovement Instance;
     public Rigidbody2D m_Rigidbody;
     private PlayerAnimator m_Animator;
     private PlayerCombat m_PlayerCombat;
     private PlayerSound m_PlayerSound;
     private Vector2 m_LastInput = Vector2.right; // Save the last movement direction once the player stops moving.
+    private Vector2 m_CheckpointPosition; // Last reached checkpoint position in the map.
     private bool m_IsKnockedBack = false;
     private bool m_IsEnabled = false;
+    private bool m_IsReachedCheckpoint = false; // Check true if a valid checkpoint has been reached. Reset during scene transitions.s
 
     void Start()
     {
+        // Essentially, make sure only one player object is ever alive regardless of scene connfiguration to make sure all of their stats
+        // remain consistent between scenes.
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Instance.m_IsReachedCheckpoint = false;
+            Instance.RespawnPlayer();
+            Destroy(gameObject);
+        }
+
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<PlayerAnimator>();
         m_PlayerCombat = GetComponent<PlayerCombat>();
         m_PlayerSound = GetComponent<PlayerSound>();
+
+        m_CheckpointPosition = transform.position;
         m_IsEnabled = true;
+        m_IsReachedCheckpoint = false;
+
         SetFaceDirection(m_SpawnDirection);
     }
 
@@ -129,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void RespawnPlayer()
     {
+        m_Animator.Reset();
         StartCoroutine(SetToRespawnPoint());
         SetFaceDirection(m_SpawnDirection);
     }
@@ -138,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void ResetPlayer()
     {
-        m_Animator.Reset();
+        m_IsReachedCheckpoint = false;
         GetComponent<PlayerHealth>().ResetHealth();
         RespawnPlayer();
     }
@@ -191,18 +212,37 @@ public class PlayerMovement : MonoBehaviour
         // Re-enable the player componnents that may have been deactivated during respawn.
         Enable();
 
-        // Find a suitable respawn point.
-        // By default, we just locate the first thing Unity gives us.
-        GameObject respawn_point = GameObject.FindGameObjectWithTag("Respawn");
-
-        if (respawn_point)
+        // Spawn the player to the nearest checkpoint if it was ever reached. The flag should be set only if so.
+        // Otherwise, find a respawn point on the map to put the player in.
+        if (m_IsReachedCheckpoint)
         {
-            transform.position = respawn_point.transform.position;
+            transform.position = m_CheckpointPosition;
         }
         else
         {
-            Debug.Log("No respawn point found - defaulting to centre of map.");
-            transform.position = Vector2.zero;
+            // Find a suitable respawn point.
+            // By default, we just locate the first thing Unity gives us.
+            GameObject respawn_point = GameObject.FindGameObjectWithTag("Respawn");
+
+            if (respawn_point)
+            {
+                transform.position = respawn_point.transform.position;
+            }
+            else
+            {
+                Debug.Log("No respawn point found - defaulting to centre of map.");
+                transform.position = Vector2.zero;
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Once a checkpoint area has been reached by the player, save the position for death.
+        if (collision.gameObject.CompareTag("Checkpoint"))
+        {
+            m_CheckpointPosition = collision.transform.position;
+            m_IsReachedCheckpoint = true;
         }
     }
 

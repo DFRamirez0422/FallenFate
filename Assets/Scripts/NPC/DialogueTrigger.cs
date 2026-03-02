@@ -48,7 +48,12 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
-            m_SoundPlayer.PlayOneShot(m_TalkSound);
+            // It is becoming evident Unity is very forgetful of its own components. Therefore we must
+            // check every single frame just in case somehow things get lost somehow.
+            if (m_SoundPlayer && m_TalkSound)
+            {
+                m_SoundPlayer.PlayOneShot(m_TalkSound);
+            }
 
             if (DialogueManager.Instance.IsDialogueActive)
             {
