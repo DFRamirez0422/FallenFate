@@ -172,14 +172,15 @@ public class ButtonMash : MonoBehaviour
 
     public void NathansKnockbackClone()
     {
+        knocked = true;
+
         Transform playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         Rigidbody2D grabberRB = GetComponent<Rigidbody2D>();
 
         Vector2 direction = (transform.position - playerTransform.position).normalized;
-
-        knocked = true;
+        
         // Apply knockback velocity
-        grabberRB.AddForce(direction * 300, ForceMode2D.Impulse);
+        grabberRB.AddForce(direction * 400, ForceMode2D.Impulse);
 
         Debug.Log("Knocked");
 

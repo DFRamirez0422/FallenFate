@@ -47,9 +47,12 @@ public class GrabberMovement : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
         }
 
-        if (animator.GetBool("Attacking") || animator.GetBool("Died"))
+        if (ButtonMash.knocked == false)
         {
-            rb.linearVelocity = Vector2.zero;
+            if (animator.GetBool("Attacking") || animator.GetBool("Died"))
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
         }
     }
 
