@@ -313,11 +313,11 @@ GameObject:
   - component: {fileID: 1730156046680804327}
   - component: {fileID: 6690786853296670670}
   - component: {fileID: 1687547949737903762}
-  - component: {fileID: 2167600078606967410}
   - component: {fileID: 3893446639580769808}
   - component: {fileID: 1349522477561852731}
   - component: {fileID: 6653704456797462385}
   - component: {fileID: 7215186538279180650}
+  - component: {fileID: -7776740853255798178}
   m_Layer: 6
   m_Name: Grabber
   m_TagString: Untagged
@@ -335,7 +335,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2048284723501421417}
@@ -459,31 +459,9 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
+  m_Offset: {x: 0, y: 0.11709233}
+  m_Size: {x: 1, y: 1.2341849}
   m_Direction: 0
---- !u!95 &2167600078606967410
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2249023097432166996}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3afae8eef8df37a4db83a3751f3d417c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3893446639580769808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,8 +480,10 @@ MonoBehaviour:
   text2: {fileID: 7498764890915046948}
   mash: 0
   timer: 0
+  points: 0
   started: 0
   stunned: 0
+  knocked: 0
   Hitbox: {fileID: 1697609270852778515}
   grabberMovement: {fileID: 568878624364507512}
 --- !u!114 &1349522477561852731
@@ -521,7 +501,19 @@ MonoBehaviour:
   m_MaxHealth: 5
   m_OnHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3893446639580769808}
+        m_TargetAssemblyTypeName: ButtonMash, Assembly-CSharp
+        m_MethodName: NathansKnockbackClone
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Knockback()
+          m_BoolArgument: 0
+        m_CallState: 2
   DeathDelay: 0.8
 --- !u!114 &6653704456797462385
 MonoBehaviour:
@@ -535,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e5f6789012345678abcdef01234567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HitSound: {fileID: 8300000, guid: a0e6e5618c7680947a35cec585b3691d, type: 3}
+  m_HitSound: {fileID: 11400000, guid: 4d5bc72e5cf059a40ad944f45c44b101, type: 2}
   m_EnemySoundSource: {fileID: 7215186538279180650}
   m_ImpactEffect: {fileID: 1614018271880223520, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
   m_ImpactEffectAnimator: {fileID: 0}
@@ -639,6 +631,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &-7776740853255798178
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2249023097432166996}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3afae8eef8df37a4db83a3751f3d417c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7921440457605275879
 GameObject:
   m_ObjectHideFlags: 0

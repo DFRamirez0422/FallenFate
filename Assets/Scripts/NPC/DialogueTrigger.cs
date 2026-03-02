@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 
 [RequireComponent(typeof(AudioSource))]
 public class DialogueTrigger : MonoBehaviour
@@ -77,25 +76,30 @@ public class DialogueTrigger : MonoBehaviour
 
     private void CheckForNewConversation()
     {
-        for (int i = m_Conversations.Count - 1; i >= 0; i--)
+        for (int i = 0; i < m_Conversations.Count; i++)
         {
             var convo = m_Conversations[i];
             if (convo != null && convo.IsConditionMet())
             {
+                // Consume only one conversation at a time to preserve intended order.
                 m_Conversations.RemoveAt(i);
                 m_CurrentConversation = convo;
+                return;
             }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !DialogueManager.Instance.IsDialogueActive)
         {    
             m_WasActiveDialogue = true;
             m_SoundPlayer.PlayOneShot(m_TalkSound);
             CheckForNewConversation();
-            DialogueManager.Instance.StartDialogue(m_CurrentConversation);
+            if (m_CurrentConversation != null)
+            {
+                DialogueManager.Instance.StartDialogue(m_CurrentConversation);
+            }
         }
     }
 }

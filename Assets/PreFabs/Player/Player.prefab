@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1693214533174351743}
   - component: {fileID: 7900660834185525018}
   m_Layer: 8
-  m_Name: MiniMapIcon
+  m_Name: MapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,8 +58,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8246349862611884816}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -107,8 +107,8 @@ SpriteRenderer:
   m_SortingLayerID: 1537661209
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 668ee6e350b3ef446ab12985f2d0e4fd, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -903170882, guid: d55e58b6a6eeff748b39cd5757227102, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -156,7 +156,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.57, y: 0.57, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1693214533174351743}
@@ -252,8 +252,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.7, y: 1}
+  m_Offset: {x: 0.0070008268, y: -0.22608292}
+  m_Size: {x: 0.85739106, y: 1.4678938}
   m_Direction: 0
 --- !u!50 &2208514055407226895
 Rigidbody2D:
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c10ab3f4431df149ab387e81067b0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_WalkSpeed: 3
+  m_WalkSpeed: 2
   m_SpawnDirection: 1
   m_Rigidbody: {fileID: 0}
 --- !u!114 &9034051364470051669
@@ -397,10 +397,10 @@ MonoBehaviour:
   m_AttackDownState: AttackDown
   m_AttackLeftState: AttackLeft
   m_AttackRightState: AttackRight
-  m_PlayerAudio: {fileID: 161179527763327020}
-  m_AttackSwingClip: {fileID: 8300000, guid: 5bb0360458c558e48b12afa42431ef98, type: 3}
-  m_AttackVoiceClip: {fileID: 8300000, guid: e03bbff75342720479a577ce6af02aca, type: 3}
-  m_HurtClip: {fileID: 8300000, guid: 6acff9389545a10448839ba8ff987c51, type: 3}
+  m_AttackSwingSfx: {fileID: 11400000, guid: 1f3f246828190804e9b6a20b2c83e505, type: 2}
+  m_AttackVoiceSfx: {fileID: 11400000, guid: 9ef5dced12f33a74e8c5ac9cb7c62fdc, type: 2}
+  m_HurtSfx: {fileID: 11400000, guid: 7e16da23116715243a705cefea759ecb, type: 2}
+  m_IsAttacking: 0
 --- !u!114 &5886494133018567201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,7 +468,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
