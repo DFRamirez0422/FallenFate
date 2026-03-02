@@ -7,7 +7,8 @@ public class Item_Data : ScriptableObject
    public enum PickUpType
     {   
         Memento,
-        keys
+        keys,
+        other
     }
     public PickUpType pickupType;
     public string itemName;

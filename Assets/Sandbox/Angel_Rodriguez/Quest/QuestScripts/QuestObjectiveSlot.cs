@@ -5,7 +5,9 @@ using UnityEngine;
 public class QuestObjectiveSlot : MonoBehaviour
 {
    [SerializeField] private TMP_Text ObjectiveText;
-   [SerializeField] private TMP_Text TrackingText;
+   [SerializeField] private TMP_Text TrackingText; 
+
+
 
     // This method refreshes the objective slot with the latest information about the quest objective
     // including its description, progress text, and completion status.
