@@ -10,14 +10,18 @@ public class WardenMovement : MonoBehaviour
     private Rigidbody2D WardensRigidBody;
     private Transform player;
     public CircleCollider2D triggercollider;
+    private Animator animator;
     [SerializeField]
     private float scalingRadiusSpeed = 0.001f; 
 
     public bool stunned;
 
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        animator = GetComponent<Animator>();
         WardensRigidBody = GetComponent<Rigidbody2D>();
         triggercollider = GetComponent<CircleCollider2D>();
     }
@@ -52,13 +56,26 @@ public class WardenMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            // Calculate the direction from the trigger (this.transform.position) 
+            // to the other object (other.transform.position)
+            Vector2 directionToTarget = collision.transform.position - this.transform.position;
+
+            // Normalize the vector to get only the direction with a magnitude (length) of 1
+            Vector2 normalizedDirection = directionToTarget.normalized;
+
+            // You can now use normalizedDirection for various purposes
+            //Debug.Log("Direction to " + collision.gameObject.name + ": " + normalizedDirection);
+
+            animator.SetFloat("DirX", normalizedDirection.x);
+            animator.SetFloat("DirY", normalizedDirection.y);
+
+
             if (player == null && !stunned)
             {
                 player = collision.transform;
             }
             isChasing = true;
         }
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
