@@ -53,11 +53,6 @@ public class DialogueTrigger : MonoBehaviour
             {
                 m_SoundPlayer.PlayOneShot(m_TalkSound);
             }
-
-            if (DialogueManager.Instance.IsDialogueActive)
-            {
-                DialogueManager.Instance.AdvanceDialogue();
-            }
         }
 
         // If the end of the dialogue is reached and the keep trigger flag is disabled, destroy the object.
