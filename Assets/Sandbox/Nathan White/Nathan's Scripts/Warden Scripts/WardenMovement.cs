@@ -14,7 +14,7 @@ public class WardenMovement : MonoBehaviour
     [SerializeField]
     private float scalingRadiusSpeed = 0.001f; 
 
-    public bool stunned;
+    public bool stunned, knocked;
 
 
 
@@ -50,6 +50,11 @@ public class WardenMovement : MonoBehaviour
     private void Unstun()
     {
         stunned = false;
+
+        if (knocked == true) 
+        { 
+            knocked = false; 
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -91,5 +96,22 @@ public class WardenMovement : MonoBehaviour
     {
         isChasing = false;
         WardensRigidBody.linearVelocity = Vector2.zero;
+    }
+
+    public void NathansKnockbackClone()
+    {
+        knocked = true;
+
+        Transform playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        Rigidbody2D grabberRB = GetComponent<Rigidbody2D>();
+
+        Vector2 direction = (transform.position - playerTransform.position).normalized;
+
+        // Apply knockback velocity
+        grabberRB.AddForce(direction * 400, ForceMode2D.Impulse);
+
+        Debug.Log("Knocked");
+
+        Invoke(nameof(Unstun), 0.5f);
     }
 }

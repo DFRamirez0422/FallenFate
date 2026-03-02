@@ -499,6 +499,7 @@ GameObject:
   - component: {fileID: 3382570552174347740}
   - component: {fileID: 9111947995600679949}
   - component: {fileID: 4378609174630290494}
+  - component: {fileID: 8812536810687011851}
   m_Layer: 6
   m_Name: Warden
   m_TagString: Untagged
@@ -693,6 +694,7 @@ MonoBehaviour:
   triggercollider: {fileID: 0}
   scalingRadiusSpeed: 0.001
   stunned: 0
+  knocked: 0
 --- !u!114 &3382570552174347740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -746,6 +748,35 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8812536810687011851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9042918177831406220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29e30cfe67c21044be31df5216c6134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxHealth: 666
+  m_OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7424458946017112231}
+        m_TargetAssemblyTypeName: WardenMovement, Assembly-CSharp
+        m_MethodName: NathansKnockbackClone
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  DeathDelay: 0
 --- !u!1 &9062336020161548700
 GameObject:
   m_ObjectHideFlags: 0

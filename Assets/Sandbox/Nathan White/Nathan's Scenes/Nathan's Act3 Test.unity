@@ -784,6 +784,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Container for Warden
       objectReference: {fileID: 0}
+    - target: {fileID: 8812536810687011851, guid: ef8c17faebdd51a46a79965a0d4d6e38, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812536810687011851, guid: ef8c17faebdd51a46a79965a0d4d6e38, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 999042757}
+    - target: {fileID: 8812536810687011851, guid: ef8c17faebdd51a46a79965a0d4d6e38, type: 3}
+      propertyPath: m_OnHit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2509,6 +2521,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1826872518}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &999042757 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9042918177831406220, guid: ef8c17faebdd51a46a79965a0d4d6e38, type: 3}
+  m_PrefabInstance: {fileID: 419318702}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1027928707
 GameObject:
   m_ObjectHideFlags: 0
