@@ -33,6 +33,8 @@ public class PlayerSound : MonoBehaviour
 
     public void PlayFootstep()
     {
+        if (!m_SoundPlayer) return;
+
         // TODO: somehow find a way to include the floor map code into the equation...
         FloorType sound_code = FloorType.Normal;
         AudioClip sound_clip;
@@ -62,21 +64,25 @@ public class PlayerSound : MonoBehaviour
 
     public void PlayCollision()
     {
+        if (!m_SoundPlayer) return;
         m_SoundPlayer.PlayOneShot(m_CollisionSound);
     }
 
     public void PlayWallHit()
     {
+        if (!m_SoundPlayer) return;
         m_SoundPlayer.PlayOneShot(m_WallHitSound);
     }
 
     public void PlayDamage()
     {
+        if (!m_SoundPlayer) return;
         m_SoundPlayer.PlayOneShot(m_DamageSound);
     }
 
     public void PlayAttack()
     {
+        if (!m_SoundPlayer) return;
         m_SoundPlayer.PlayOneShot(m_AttackSound);
     }
 }

@@ -30,6 +30,11 @@ public class NPCTalk : MonoBehaviour
 
     private void Awake()
     {
+        if (!m_SoundPlayer)
+        {
+            m_SoundPlayer = GetComponent<AudioSource>();
+        }
+
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponentInChildren<Animator>();
     }
@@ -52,10 +57,12 @@ public class NPCTalk : MonoBehaviour
     {
         if (!Input.GetButtonDown("Interact") || DialogueManager.Instance.IsDialogueActive)
         {
-            return;
+            if (m_SoundPlayer && m_TalkSound)
+            {
+                m_SoundPlayer.PlayOneShot(m_TalkSound);
+            }
         }
 
-        m_SoundPlayer.PlayOneShot(m_TalkSound);
         CheckForNewConversation();
         if (m_CurrentConversation != null)
         {
