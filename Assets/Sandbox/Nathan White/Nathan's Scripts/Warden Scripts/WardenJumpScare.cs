@@ -41,16 +41,18 @@ public class WardenJumpScare : MonoBehaviour
                 TextCanvas.SetActive(true);
                 StartCoroutine(HideTextCanvasDamage());
             }
-            if (health.CurrentHealth <= 0)
-            {
-                jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
 
-                if (jumpscareClip1 != null)
-                {
-                    jumpscareSource.PlayOneShot(jumpscareClip1);
-                }
-                StartCoroutine(CloseJumpscare());
-            }
+            //This is the thing that starts the jumpscare
+            //if (health.CurrentHealth <= 0)
+            //{
+            //    jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
+
+            //    if (jumpscareClip1 != null)
+            //    {
+            //        jumpscareSource.PlayOneShot(jumpscareClip1);
+            //    }
+            //    StartCoroutine(CloseJumpscare());
+            //}
         }
 
 
