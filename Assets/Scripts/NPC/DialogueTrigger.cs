@@ -45,6 +45,16 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetButtonDown("Interact"))
+        {
+            // It is becoming evident Unity is very forgetful of its own components. Therefore we must
+            // check every single frame just in case somehow things get lost somehow.
+            if (m_SoundPlayer && m_TalkSound)
+            {
+                m_SoundPlayer.PlayOneShot(m_TalkSound);
+            }
+        }
+
         // If the end of the dialogue is reached and the keep trigger flag is disabled, destroy the object.
         if (m_WasActiveDialogue && !DialogueManager.Instance.IsDialogueActive)
         {

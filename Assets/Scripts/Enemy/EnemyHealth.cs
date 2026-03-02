@@ -39,9 +39,7 @@ public class EnemyHealth : MonoBehaviour
         }
 
         m_OnHit?.Invoke();
-        m_HitReaction?.FlashWhite();
-        m_HitReaction?.PlayHitSound();
-        m_HitReaction?.ImpactEffect();
+        
     }
 
 

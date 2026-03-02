@@ -119,6 +119,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 686035624474961831}
+  - {fileID: 5501038616452146965}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6984479966255025186
@@ -337,7 +338,43 @@ MonoBehaviour:
   m_MaxHealth: 1
   m_OnHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1426612158493336039}
+        m_TargetAssemblyTypeName: EnemyHitScript, Assembly-CSharp
+        m_MethodName: ImpactEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: -1426612158493336039}
+        m_TargetAssemblyTypeName: EnemyHitScript, Assembly-CSharp
+        m_MethodName: FlashWhite
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: -1426612158493336039}
+        m_TargetAssemblyTypeName: EnemyHitScript, Assembly-CSharp
+        m_MethodName: PlayHitSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   DeathDelay: 0.8
 --- !u!114 &-1426612158493336039
 MonoBehaviour:
@@ -353,8 +390,93 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HitSound: {fileID: 11400000, guid: 1e7f13bb7aa41344794a107d0701992d, type: 2}
   m_EnemySoundSource: {fileID: 0}
-  m_ImpactEffect: {fileID: 1614018271880223520, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
-  m_ImpactEffectAnimator: {fileID: 6673725852056526967, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+  m_ImpactEffect: {fileID: 3406293835523641279}
+  m_ImpactEffectAnimator: {fileID: 7331408769122825448}
+  m_ImpactStateName: 
   m_EnemySprite: {fileID: 0}
   m_FlashMaterial: {fileID: 2100000, guid: a64f2b8576e12f24e8b69555dac949d0, type: 2}
   m_HitDuration: 0.2
+--- !u!1001 &4117331448033465503
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6268030948165888316}
+    m_Modifications:
+    - target: {fileID: 1614018271880223520, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_Name
+      value: ImpactEffectPrefab 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1614018271880223520, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677588439964008416, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677588439964008416, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+--- !u!1 &3406293835523641279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1614018271880223520, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+  m_PrefabInstance: {fileID: 4117331448033465503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5501038616452146965 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8463440568041763722, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+  m_PrefabInstance: {fileID: 4117331448033465503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7331408769122825448 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6673725852056526967, guid: 2855dae072a1230468812a9862d77c5c, type: 3}
+  m_PrefabInstance: {fileID: 4117331448033465503}
+  m_PrefabAsset: {fileID: 0}
