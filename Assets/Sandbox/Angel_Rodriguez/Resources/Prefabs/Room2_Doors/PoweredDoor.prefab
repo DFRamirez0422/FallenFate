@@ -76,10 +76,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1063658709
-  m_SortingLayer: 0
+  m_SortingLayerID: 34374641
+  m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1020064156, guid: b72dd86514c992b4a9f84acf09e12f41, type: 3}
+  m_Sprite: {fileID: 401754014, guid: 019e2226bac2a9f4eae9ae359994457e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,17 +124,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.54}
+    oldSize: {x: 0.64, y: 0.64}
     newSize: {x: 0.32, y: 0.54}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.32, y: 0.54}
+  m_Size: {x: 0.64, y: 0.45}
   m_EdgeRadius: 0
 --- !u!114 &7425971748890872531
 MonoBehaviour:
@@ -162,8 +162,8 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  Door_Closed: {fileID: -1020064156, guid: b72dd86514c992b4a9f84acf09e12f41, type: 3}
-  Door_Open: {fileID: 1693111566, guid: b72dd86514c992b4a9f84acf09e12f41, type: 3}
+  Door_Closed: {fileID: 401754014, guid: 019e2226bac2a9f4eae9ae359994457e, type: 3}
+  Door_Open: {fileID: 760722177, guid: 019e2226bac2a9f4eae9ae359994457e, type: 3}
   PoweredDoorPrompt: {fileID: 4809361642571075591, guid: 8b2e8bc6a178498468b981d5ce6769a1, type: 3}
   activateGenerators: {fileID: 0}
   activate_Generator2: {fileID: 0}
@@ -179,7 +179,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 883903ba50b894a46a7d2c642512ca30, type: 3}
   m_Resource: {fileID: 8300000, guid: 883903ba50b894a46a7d2c642512ca30, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

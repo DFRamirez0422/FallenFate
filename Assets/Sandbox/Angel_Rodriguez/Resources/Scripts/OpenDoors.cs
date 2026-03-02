@@ -8,6 +8,8 @@ public class OpenDoors : CollidableObject
     [SerializeField] private Item_Data Key; // Key required to open the door
     private AudioSource _doorOpenSound; // Sound to play when the door opens
 
+    [Tooltip("This is only for doors that have  Quests attached to them. It will update the quest progress when the door is opened.")]
+    [SerializeField] private LocationSO location; // Reference to the LocationSO for this door
     private bool _isDoorOpen = false; // Flag to check if the door is already open
 
     [Header("Animation Settings")]
@@ -28,7 +30,7 @@ public class OpenDoors : CollidableObject
    // Override the Start method to set up references
    protected override void Start()
     {
-        pickUpManager = GameObject.Find("Item_PickUp_Manager").GetComponent<PickUp_Manager>();
+        pickUpManager = GameObject.FindGameObjectWithTag("PickUp_Manager").GetComponent<PickUp_Manager>();
         
         // Check for null references
         if(pickUpManager == null)
@@ -53,6 +55,7 @@ public class OpenDoors : CollidableObject
                 // Check if the player has the required key in the PickUp_Manager
                 if (pickUpManager.items.Contains(Key))
                 {
+                    pickUpManager.recordLocationDiscovery(location); // Record the location discovery in the PickUp_Manager
                     OpenDoor();
                     _isDoorOpen = true;
                 }
