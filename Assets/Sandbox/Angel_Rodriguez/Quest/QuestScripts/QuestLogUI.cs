@@ -1,8 +1,5 @@
 using UnityEngine;
 using TMPro;
-using NUnit.Framework;
-using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 
 public class QuestLogUI : MonoBehaviour
 {
@@ -11,8 +8,6 @@ public class QuestLogUI : MonoBehaviour
     [SerializeField] private TMP_Text QuestNameText;
     [SerializeField] private TMP_Text QuestDescriptionText;
     [SerializeField] private QuestObjectiveSlot[] objectiveSlots;
-
-    bool isCompleted;
 
     private QuestSO questSO;
 
@@ -43,8 +38,8 @@ public class QuestLogUI : MonoBehaviour
                 questManager.updateQuestProgress(questSO, objective);
                 int currentProgress = questManager.GetCurrentProgress(questSO, objective);
                 string progressText = questManager.GetProgressText(questSO, objective);
-                isCompleted = currentProgress >= objective.requiredAmount;
-                questManager.IsQuestComplete(questSO);
+                bool isCompleted = currentProgress >= objective.requiredAmount;
+
                 objectiveSlots[i].gameObject.SetActive(true);
                 objectiveSlots[i].RefreshObjective(objective, progressText, isCompleted);
             }
