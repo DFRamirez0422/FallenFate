@@ -6,7 +6,7 @@ public class WardenMovement : MonoBehaviour
 {
     public float speed;
     private bool isChasing;
-    private float scalingRadius;
+    private float scalingRadius = 1;
 
     private Rigidbody2D WardensRigidBody;
     private Transform player;
@@ -130,14 +130,7 @@ public class WardenMovement : MonoBehaviour
 
     private void TurnOffHitbox()
     {
-        //if (started)
-        //{
-        //    Hitbox.SetActive(false);
-        //}
-        //else
-        //{
-        //    animator.SetBool("Attacking", false);
-        //    Hitbox.SetActive(false);
-        //}
+        animator.SetBool("Attacking", false);
+        Hitbox.SetActive(false);
     }
 }

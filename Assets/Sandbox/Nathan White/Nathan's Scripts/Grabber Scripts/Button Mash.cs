@@ -45,6 +45,12 @@ public class ButtonMash : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (animator.GetBool("Died"))
+        {
+            EnablePlayer();
+        }
+
+
         if (started)
         {
             PlayerSprite.enabled = false;
