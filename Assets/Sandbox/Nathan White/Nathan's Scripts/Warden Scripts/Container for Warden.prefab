@@ -238,11 +238,11 @@ Transform:
   m_GameObject: {fileID: 4608633257271020096}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.014, y: 0.417, z: 0}
-  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
+  m_LocalPosition: {x: 0.007, y: 0.2085, z: 0}
+  m_LocalScale: {x: 0.175, y: 0.175, z: 0.35}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5198328653714431524}
+  m_Father: {fileID: 3692893817576513569}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &8197039094002523410
 CircleCollider2D:
@@ -560,7 +560,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3692893817576513569}
-  - {fileID: 7752253584747426251}
   - {fileID: 796161009259738716}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -603,6 +602,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 15213665941208232}
+  - {fileID: 7752253584747426251}
   m_Father: {fileID: 5198328653714431524}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8622033769613459034
@@ -777,6 +777,7 @@ MonoBehaviour:
   scalingRadiusSpeed: 0.001
   stunned: 0
   knocked: 0
+  Hitbox: {fileID: 4608633257271020096}
 --- !u!114 &3382570552174347740
 MonoBehaviour:
   m_ObjectHideFlags: 0
