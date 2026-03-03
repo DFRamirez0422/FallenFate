@@ -34,7 +34,7 @@ public class WardenMovement : MonoBehaviour
             triggercollider.radius = scalingRadius;
             scalingRadius = scalingRadius + scalingRadiusSpeed;
         }
-        if (isChasing == true)
+        if (isChasing == true && !knocked)
         {
             Vector2 direction = (player.position - transform.position).normalized;
             WardensRigidBody.linearVelocity = direction * speed;
@@ -55,6 +55,7 @@ public class WardenMovement : MonoBehaviour
         { 
             knocked = false; 
         }
+        WardensRigidBody.linearVelocity = Vector2.zero;
     }
 
     private void OnTriggerStay2D(Collider2D collision)

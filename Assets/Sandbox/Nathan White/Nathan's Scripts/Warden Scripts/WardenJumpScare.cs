@@ -55,26 +55,6 @@ public class WardenJumpScare : MonoBehaviour
             //}
         }
 
-
-
-        if (collision.gameObject.tag == "Sword") //can use another tag other than sword (Like attack or swing)
-        {
-            if (movement.stunned == false)
-            {
-                movement.stunned = true;
-                text.text = "Stunned";
-                TextCanvas.SetActive(true);
-                StartCoroutine(HideTextCanvasStunned());
-            }
-            else if (movement.stunned == true)
-            {
-                text.text = "Disarmed you";
-                disarm.swordOBJ = collision.gameObject;
-                disarm.disarmed = true;
-                StartCoroutine(CallRearm());
-            }
-        }
-
     }
 
     private IEnumerator CloseJumpscare()
@@ -99,4 +79,6 @@ public class WardenJumpScare : MonoBehaviour
         yield return new WaitForSeconds(2);
         disarm.Rearm();
     }
+
+
 }
