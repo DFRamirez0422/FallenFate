@@ -13,7 +13,7 @@ public class WardenMovement : MonoBehaviour
     public CircleCollider2D triggercollider;
     private Animator animator;
     [SerializeField]
-    private float scalingRadiusSpeed = 0.001f; 
+    private float scalingRadiusSpeed = 0.001f;
 
     public bool stunned, knocked;
 
@@ -52,9 +52,9 @@ public class WardenMovement : MonoBehaviour
     {
         stunned = false;
 
-        if (knocked == true) 
-        { 
-            knocked = false; 
+        if (knocked == true)
+        {
+            knocked = false;
         }
         WardensRigidBody.linearVelocity = Vector2.zero;
     }
@@ -130,13 +130,14 @@ public class WardenMovement : MonoBehaviour
 
     private void TurnOffHitbox()
     {
-        if (started)
-        {
-            Hitbox.SetActive(false);
-        }
-        else
-        {
-            animator.SetBool("Attacking", false);
-            Hitbox.SetActive(false);
-        }
+        //if (started)
+        //{
+        //    Hitbox.SetActive(false);
+        //}
+        //else
+        //{
+        //    animator.SetBool("Attacking", false);
+        //    Hitbox.SetActive(false);
+        //}
     }
+}
