@@ -17,16 +17,7 @@ public class QuestManager : MonoBehaviour
         Inventory = GameObject.FindGameObjectWithTag("PickUp_Manager").GetComponent<PickUp_Manager>();
     }
 
-    void OnEnable()
-    {
-        QuestEvents.IsQuestCompleted += IsQuestComplete;
-    }
-    void OnDisable()
-    {
-        QuestEvents.IsQuestCompleted -= IsQuestComplete;
-    }
-
-    void Update()
+void Update()
     {
         //This turns the UI on and Off
         if(Input.GetButtonDown("Off/OnUI"))
@@ -42,7 +33,6 @@ public class QuestManager : MonoBehaviour
         }
     }
    
-   #region Quest Completion Check
    // This method updates the progress of a specific quest objective based on the player's inventory and discovered locations.
    public void updateQuestProgress(QuestSO quest, QuestObjective objective)
    {
@@ -68,12 +58,12 @@ public class QuestManager : MonoBehaviour
    // Gets progress text for current quest your viewing in the quest log
    public string GetProgressText(QuestSO quest, QuestObjective objective)
    {
-       int currentProgress = GetCurrentProgress(quest, objective);
-       if(currentProgress == objective.requiredAmount)
-        {
-            return "Completed";
-        }
-        else if (objective.targetItem != null)
+      int currentProgress = GetCurrentProgress(quest, objective);
+      if(currentProgress == objective.requiredAmount)
+      {
+         return "Completed";
+      }
+      else if (objective.targetItem != null)
         {
             return $"{currentProgress} / {objective.requiredAmount}";
         }
@@ -94,27 +84,5 @@ public class QuestManager : MonoBehaviour
             }
         }
         return 0;
-   }
-   #endregion
-
-   public bool IsQuestComplete(QuestSO quest)
-   {
-        if(!questProgress.TryGetValue(quest, out var progressDictionary))
-        {
-                    return false;
-        }
-        foreach(var objective in quest.objectives)
-        {
-            updateQuestProgress(quest, objective);
-        }
-
-        foreach(var objective in quest.objectives)
-        {
-            if(progressDictionary[objective] < objective.requiredAmount)
-            {
-                return false;
-            }
-        }
-        return true;
    }
 }

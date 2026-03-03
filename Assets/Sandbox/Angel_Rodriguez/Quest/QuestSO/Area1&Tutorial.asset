@@ -10,12 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ef7ec6dd388ff74bb024b771db8ff92, type: 3}
-  m_Name: PrisonGateQuest
+  m_Name: Area1&Tutorial
   m_EditorClassIdentifier: 
-  questName: Go To PrisonGate
-  Questdescription: ' You arrive to Alacatraz Island. The Alcatraz Prison looms ahead;
-    there must be a way inside.'
+  questName: Area1
+  Questdescription: How to play
   objectives:
   - Description: "Go to the prision gate entrance.\n  *Use WASD or Arrows to move."
     target: {fileID: 11400000, guid: 46856a48634b73c40b63d5210f1a64a5, type: 2}
+    requiredAmount: 1
+  - Description: "Collect GateKey.\n *Talk to the person near the tree at the bench
+      for help.\n *Press X to interact."
+    target: {fileID: 11400000, guid: e1ec00d87e4fd1b4d82a67941f2b3d7a, type: 2}
+    requiredAmount: 1
+  - Description: "Return to the prison gate entrence.\n  *Click mouse to attack."
+    target: {fileID: 11400000, guid: a2ad3db80f866aa478055553d6dbd0b3, type: 2}
     requiredAmount: 1

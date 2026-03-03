@@ -10,7 +10,8 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     [Header("Pick-Up Settings")]
     private PickUp_Manager pickUpManager;
     public Item_Data itemData;
-    public bool isPickedUp = false;
+    [Tooltip("For EnemySpawner too Check if item is picked up or not")]
+    public bool isPickedUp = false; // Flag to check if the item has been picked up
 
     [Header("UI Elements")]
     [Tooltip("UI Prompt to show when player can pick up the item")]
@@ -47,15 +48,25 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
         if(isPickedUp) return; // If the item is already picked up, do nothing
 
         //THis for the items that are used for the EnemySpawner
-            if(Input.GetButtonDown("Interact"))
+            Room1_EnemySpawner enemySpawner = GetComponent<Room1_EnemySpawner>();
+            if(Input.GetButtonDown("Interact") && enemySpawner != null)
             {
 
                 PickUpSound.Play();
                 pickUpManager.items.Add(itemData);
                 this.gameObject.GetComponent<SpriteRenderer>().enabled = false; // Hide the item visually
                 isPickedUp = true; // Set the flag to true when the item is picked up
-                Destroy(this.gameObject, PickUpSound.clip.length);
             }
+            
+            // This is for the regular items that are not used for the EnemySpawner
+            else if (Input.GetButtonDown("Interact") && enemySpawner == null)
+            {
+                PickUpSound.Play();
+                pickUpManager.items.Add(itemData);
+                Destroy(this.gameObject, PickUpSound.clip.length); // Destroy the item after picking it up
+            }
+
+
     }
 
     // Show prompt when player enters trigger area

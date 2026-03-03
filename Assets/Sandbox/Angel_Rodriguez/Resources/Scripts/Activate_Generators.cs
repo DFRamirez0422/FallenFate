@@ -13,8 +13,6 @@ public class Activate_Generators : CollidableObject
     [SerializeField] private GameObject ActivateGeneratorPrompt;
     private GameObject _SpawnedPrompt;
     [SerializeField] private AudioSource GeneratorActivateSound;
-    [SerializeField] private Item_Data GeneratorItemData;
-    private PickUp_Manager _pickUpManager;
 
     // Initialize prompt references and use base Start method
     // Override the Start method to set up references
@@ -23,7 +21,6 @@ public class Activate_Generators : CollidableObject
         this.GetComponent<SpriteRenderer>().sprite = Generator_Off; // Set initial sprite to off
         ActivateGeneratorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");
         base.Start(); // Calls the Start method of CollidableObject
-        _pickUpManager = GameObject.FindGameObjectWithTag("PickUp_Manager").GetComponent<PickUp_Manager>();
 
     }
     
@@ -36,7 +33,6 @@ public class Activate_Generators : CollidableObject
             Activate_Generator = true;
             _hasActivated = true;
             this.GetComponent<SpriteRenderer>().sprite = Generator_On; // Change sprite to on
-            _pickUpManager.items.Add(GeneratorItemData); // Add generator item to inventory
             GeneratorActivateSound.Play();
         }
     }
