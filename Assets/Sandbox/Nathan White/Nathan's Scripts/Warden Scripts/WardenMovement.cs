@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class WardenMovement : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class WardenMovement : MonoBehaviour
 
     public bool stunned, knocked;
 
-
+    public GameObject Hitbox;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,7 +35,7 @@ public class WardenMovement : MonoBehaviour
             triggercollider.radius = scalingRadius;
             scalingRadius = scalingRadius + scalingRadiusSpeed;
         }
-        if (isChasing == true && !knocked)
+        if (isChasing == true && !knocked && !animator.GetBool("Attacking"))
         {
             Vector2 direction = (player.position - transform.position).normalized;
             WardensRigidBody.linearVelocity = direction * speed;
@@ -97,6 +98,11 @@ public class WardenMovement : MonoBehaviour
     {
         isChasing = false;
         WardensRigidBody.linearVelocity = Vector2.zero;
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            animator.SetBool("Attacking", true);
+        }
     }
 
     public void NathansKnockbackClone()
@@ -115,4 +121,22 @@ public class WardenMovement : MonoBehaviour
 
         Invoke(nameof(Unstun), 0.5f);
     }
-}
+
+    private void TurnOnHitbox()
+    {
+        Hitbox.SetActive(true);
+        Invoke(nameof(TurnOffHitbox), 1);
+    }
+
+    private void TurnOffHitbox()
+    {
+        if (started)
+        {
+            Hitbox.SetActive(false);
+        }
+        else
+        {
+            animator.SetBool("Attacking", false);
+            Hitbox.SetActive(false);
+        }
+    }
