@@ -24,7 +24,7 @@ public class WardenMovement : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         WardensRigidBody = GetComponent<Rigidbody2D>();
-        triggercollider = GetComponent<CircleCollider2D>();
+        triggercollider = GetComponentInChildren<CircleCollider2D>(false);
     }
 
     // Update is called once per frame
