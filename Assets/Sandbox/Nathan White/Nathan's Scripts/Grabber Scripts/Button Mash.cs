@@ -1,5 +1,6 @@
 using System.Threading;
 using TMPro;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +27,7 @@ public class ButtonMash : MonoBehaviour
     private PlayerHealth health;
     private PlayerMovement playerMovement;
     private SpriteRenderer PlayerSprite;
+    private CinemachineImpulseSource playerImpulseSource;
 
     //Public Called Scripts
     public GameObject Hitbox;
@@ -40,6 +42,7 @@ public class ButtonMash : MonoBehaviour
         mash = 1f;
         text2.enabled = false;
         PlayerSprite = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
+        playerImpulseSource = GameObject.FindGameObjectWithTag("Player").GetComponent<CinemachineImpulseSource>();
     }
 
     // Update is called once per frame
@@ -71,6 +74,7 @@ public class ButtonMash : MonoBehaviour
             {
                 pressed = true;
                 points = points + 0.5f;
+                NathansCameraShake();
                 mash = mashDelay;
             }
             else if (Input.GetButtonUp("Attack"))
@@ -191,5 +195,10 @@ public class ButtonMash : MonoBehaviour
         Debug.Log("Knocked");
 
         Invoke(nameof(Unstun), 0.5f);
+    }
+
+    public void NathansCameraShake()
+    {
+        playerImpulseSource.GenerateImpulseWithForce(100);
     }
 }
