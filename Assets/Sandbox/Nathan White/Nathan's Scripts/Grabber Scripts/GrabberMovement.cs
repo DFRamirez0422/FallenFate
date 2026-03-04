@@ -47,9 +47,12 @@ public class GrabberMovement : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
         }
 
-        if (animator.GetBool("Attacking") || animator.GetBool("Died"))
+        if (ButtonMash.knocked == false)
         {
-            rb.linearVelocity = Vector2.zero;
+            if (animator.GetBool("Attacking") || animator.GetBool("Died"))
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
         }
     }
 
@@ -108,4 +111,26 @@ public class GrabberMovement : MonoBehaviour
     {
         SomeoneGrabbedPlayer = false;
     }
+
+    //Dont worry about this right now. If we need it ill add it back in.
+    //void Disarm()
+    //{
+    //    if (collision.gameObject.tag == "Sword") //can use another tag other than sword (Like attack or swing)
+    //    {
+    //        if (movement.stunned == false)
+    //        {
+    //            movement.stunned = true;
+    //            text.text = "Stunned";
+    //            TextCanvas.SetActive(true);
+    //            StartCoroutine(HideTextCanvasStunned());
+    //        }
+    //        else if (movement.stunned == true)
+    //        {
+    //            text.text = "Disarmed you";
+    //            disarm.swordOBJ = collision.gameObject;
+    //            disarm.disarmed = true;
+    //            StartCoroutine(CallRearm());
+    //        }
+    //    }
+    //}
 }

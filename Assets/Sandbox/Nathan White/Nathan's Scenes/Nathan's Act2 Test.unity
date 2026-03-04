@@ -18903,6 +18903,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &299991898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34027,6 +34028,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &464068235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35403,6 +35405,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &608376425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36286,6 +36289,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &669371302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40429,6 +40433,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &875669864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40704,6 +40709,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &943836795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45519,6 +45525,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &1516234076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100423,6 +100430,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &1740622930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100563,6 +100571,7 @@ GameObject:
   - component: {fileID: 1793567160}
   - component: {fileID: 1793567159}
   - component: {fileID: 1793567158}
+  - component: {fileID: 1793567162}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -100691,6 +100700,30 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &1793567162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793567156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1815937659
 GameObject:
   m_ObjectHideFlags: 0
@@ -100938,6 +100971,7 @@ MonoBehaviour:
   m_OnHit:
     m_PersistentCalls:
       m_Calls: []
+  DeathDelay: 0
 --- !u!114 &1846459357
 MonoBehaviour:
   m_ObjectHideFlags: 0
