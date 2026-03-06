@@ -3,9 +3,15 @@ using UnityEngine.UI;
 
 public class Powered_Door : CollidableObject
 {
-    [Header("Sprites")]
+    [Header("Door Sprites")]
     [SerializeField] private Sprite Door_Closed;
     [SerializeField] private Sprite Door_Open;
+
+    [Header("Door Lights Sprites")]
+    [SerializeField] private SpriteRenderer Door_Light_Prefab;
+    [SerializeField] private Sprite Door_Light_1_On;
+    [SerializeField] private Sprite Door_Light_2_On;
+    [SerializeField] private Sprite Door_Light_On;
 
     [Header("UI Elements")]
     [SerializeField] private GameObject PoweredDoorPrompt;
@@ -21,6 +27,22 @@ public class Powered_Door : CollidableObject
     {
         base.Start(); // Calls the Start method of CollidableObject
         _doorOpenSound = GetComponent<AudioSource>();
+    }
+
+    void FixedUpdate()
+    {
+            if (activateGenerators.Activate_Generator && activate_Generator2.Activate_Generator)
+            {
+                Door_Light_Prefab.sprite = Door_Light_On;
+            }
+            else if (activateGenerators.Activate_Generator)
+            {
+                Door_Light_Prefab.sprite = Door_Light_1_On;
+            }
+            else if (activate_Generator2.Activate_Generator)
+            {
+                Door_Light_Prefab.sprite = Door_Light_2_On;
+            }
     }
 
     protected override void OnCollide(GameObject other)
