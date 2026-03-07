@@ -6,87 +6,81 @@ public class PathCycleManager : MonoBehaviour
     [Header("Grouped Path Sets")]
     public List<PathGroup> PathSets;
 
-    [Header("Timer Settings")]
+    [Header("Timer")]
     public float PathEnabledTimer = 30f;
 
     [Header("Fade Settings")]
     public float FadeSpeed = 2f;
 
-    [Range(0f,1f)]
+    [Range(0f, 1f)]
     public float FadeOutAlpha = 0f;
 
-    [Header("Runtime State")]
-    public int counterValue = 0;
+    [Header("Runtime")]
+    public int currentFadingSet = 0; // 0 = Set 1 fades, 1 = Set 2 fades
 
+    // Timer variables
     float timer;
     bool timerPaused;
 
     void Start()
     {
-        ApplyCurrentState();
+        currentFadingSet = 0;
+        UpdatePaths();
     }
 
+    /// <summary>
+    ///  Cycles between the two path sets, fading one out while keeping the other visible. The timer can be paused by PathPauseTriggers on the paths.
+    /// </summary>
     void Update()
     {
-        if (timerPaused) return;
-        if (PathSets.Count == 0 || PathSets[0].Paths.Count == 0) return;
+        if (timerPaused || PathSets.Count != 2)
+            return;
 
         timer += Time.deltaTime;
 
-        if (timer > PathEnabledTimer)
+        if (timer >= PathEnabledTimer)
         {
             timer = 0f;
 
-            counterValue++;
-
-            if (counterValue >= PathSets[0].Paths.Count)
-                counterValue = 0;
-
-            ApplyCurrentState();
+            currentFadingSet = (currentFadingSet + 1) % 2;
+            UpdatePaths();
         }
     }
 
-    void ApplyCurrentState()
+    /// <summary>
+    /// Updates the fade settings on all paths based on which set is currently fading. The fading set will fade out to the specified alpha, while the other set will stay fully visible.
+    /// </summary>
+    void UpdatePaths()
     {
-        foreach (var set in PathSets)
+        for (int s = 0; s < PathSets.Count; s++)
         {
-            ProcessPathSet(set.Paths);
-            SetParentEdgeColliders(set.Paths);
-        }
-    }
+            var set = PathSets[s];
 
-    void ProcessPathSet(List<GameObject> pathSet)
-    {
-        for (int i = 0; i < pathSet.Count; i++)
-        {
-            ObjectFader fader = pathSet[i].GetComponent<ObjectFader>();
-            if (fader == null) continue;
-
-            fader.fadeSpeed = FadeSpeed;
-
-            if (i == counterValue)
+            for (int i = 0; i < set.Paths.Count; i++)
             {
-                fader.DoFade = false;
-            }
-            else
-            {
-                fader.fadeAmount = FadeOutAlpha;
-                fader.DoFade = true;
+                ObjectFader fader = set.Paths[i].GetComponent<ObjectFader>();
+                if (!fader) continue;
+
+                fader.fadeSpeed = FadeSpeed;
+
+                if (s == currentFadingSet)
+                {
+                    // This whole set fades out
+                    fader.fadeAmount = FadeOutAlpha;
+                    fader.DoFade = true;
+                }
+                else
+                {
+                    // The other whole set stays visible
+                    fader.DoFade = false;
+                }
             }
         }
     }
 
-    void SetParentEdgeColliders(List<GameObject> pathSet)
-    {
-        EdgeCollider2D[] edges = pathSet[0].transform.parent.GetComponents<EdgeCollider2D>();
-
-        for (int i = 0; i < edges.Length; i++)
-        {
-            edges[i].enabled = (i == counterValue);
-        }
-    }
-
+    /// <summary>
+    /// Called by PathPauseTriggers on the paths to pause/resume the timer when the player is on a path tile. When paused, the current fading set will remain unchanged until the timer is resumed.
+    /// </summary>
     public void PauseTimer() => timerPaused = true;
-
     public void ResumeTimer() => timerPaused = false;
 }
