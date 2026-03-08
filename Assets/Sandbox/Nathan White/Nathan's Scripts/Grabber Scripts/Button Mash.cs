@@ -199,6 +199,6 @@ public class ButtonMash : MonoBehaviour
 
     public void NathansCameraShake()
     {
-        playerImpulseSource.GenerateImpulseWithForce(100);
+       // playerImpulseSource.GenerateImpulseWithForce(100);
     }
 }
