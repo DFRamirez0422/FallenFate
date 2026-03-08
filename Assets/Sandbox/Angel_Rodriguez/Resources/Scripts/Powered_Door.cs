@@ -7,42 +7,20 @@ public class Powered_Door : CollidableObject
     [SerializeField] private Sprite Door_Closed;
     [SerializeField] private Sprite Door_Open;
 
-    [Header("Door Lights Sprites")]
-    [SerializeField] private SpriteRenderer Door_Light_Prefab;
-    [SerializeField] private Sprite Door_Light_Left_On;
-    [SerializeField] private Sprite Door_Light_Right_On;
-    [SerializeField] private Sprite Door_Light_On;
-
     [Header("UI Elements")]
     [SerializeField] private GameObject PoweredDoorPrompt;
     private GameObject _SpawnedPrompt;
 
     [Header("Power Settings")]
     private bool _doorOpened = false;
-    [SerializeField] private Activate_Generators activateGenerators;
-    [SerializeField] private Activate_Generators activate_Generator2;
+    public Activate_Generators activateGenerators;
+    public Activate_Generators activate_Generator2;
     private AudioSource _doorOpenSound;
 
     protected override void Start()
     {
         base.Start(); // Calls the Start method of CollidableObject
         _doorOpenSound = GetComponent<AudioSource>();
-    }
-
-    void FixedUpdate()
-    {
-            if (activateGenerators.Activate_Generator && activate_Generator2.Activate_Generator)
-            {
-                Door_Light_Prefab.sprite = Door_Light_On;
-            }
-            else if (activateGenerators.Activate_Generator)
-            {
-                Door_Light_Prefab.sprite = Door_Light_Left_On;
-            }
-            else if (activate_Generator2.Activate_Generator)
-            {
-                Door_Light_Prefab.sprite = Door_Light_Right_On;
-            }
     }
 
     protected override void OnCollide(GameObject other)
