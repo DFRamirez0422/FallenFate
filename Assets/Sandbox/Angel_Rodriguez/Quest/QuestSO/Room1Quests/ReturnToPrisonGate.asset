@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ef7ec6dd388ff74bb024b771db8ff92, type: 3}
   m_Name: ReturnToPrisonGate
   m_EditorClassIdentifier: 
-  questName: 
-  Questdescription: 
-  objectives: []
+  questName: Return to the Prison Gate
+  Questdescription: The Key is found. Dante heads back to the gate. Along the way
+    he notices that mysterious white figures and Dorothy gone from the bench.
+  objectives:
+  - Description: "Head baack to the gate.\n *Press Z to attack"
+    target: {fileID: 11400000, guid: a2ad3db80f866aa478055553d6dbd0b3, type: 2}
+    requiredAmount: 1
