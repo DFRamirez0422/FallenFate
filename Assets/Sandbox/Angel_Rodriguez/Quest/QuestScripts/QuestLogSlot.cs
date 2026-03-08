@@ -20,14 +20,6 @@ public class QuestLogSlot : MonoBehaviour
         SetQuest(CurrentQuestSO);
     } 
 
-    private void OnValidate()
-    {
-        if (CurrentQuestSO != null)
-        SetQuest(CurrentQuestSO);
-        else
-        gameObject.SetActive(false);
-    }
-
     void Update()
     {
         if(Input.GetButtonDown("Off/OnUI"))
@@ -41,7 +33,7 @@ public class QuestLogSlot : MonoBehaviour
     {
         CurrentQuestSO = quest;
         QuestNameText.text = quest.questName;
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
     }
     
     void getCompletedStatus(QuestSO quest)
@@ -79,6 +71,7 @@ public class QuestLogSlot : MonoBehaviour
         if(CurrentQuestSO != null)
         {
             questLogUI.HandleQusetClicked(CurrentQuestSO);
+            getCompletedStatus(CurrentQuestSO);
         }
     }
 
