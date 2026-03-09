@@ -40,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
     private PlayerSound m_PlayerSound;
     private float m_Timer;
 
-    public bool m_IsAttacking;
+    public bool m_IsAttacking = false;
     private Rigidbody2D m_Rigidbody2D;
 
     private void Update()
@@ -49,7 +49,11 @@ public class PlayerCombat : MonoBehaviour
             m_Timer -= Time.deltaTime;
 
         if (m_HandleInput && Input.GetButtonDown("Attack"))
+        {
             Attack();
+            
+        }
+            
     }
 
     private void Start()
@@ -65,7 +69,8 @@ public class PlayerCombat : MonoBehaviour
     {
         if (m_Timer > 0) return;
         //Debug.LogError("[PlayerCombat.Attack] CALLED\n" + Environment.StackTrace);
-
+        m_IsAttacking = true;
+        
         if (m_PlayerAnimator != null)
         {
             Vector2 dir = m_PlayerAnimator.LastMovedDirection;
@@ -74,7 +79,6 @@ public class PlayerCombat : MonoBehaviour
             else
                 m_Animator.Play(dir.y >= 0 ? m_AttackUpState : m_AttackDownState);
         }
-
         m_Animator.SetBool("IsAttacking", true);
         if (m_PlayerAnimator != null)
             m_PlayerAnimator.StartAttack();
