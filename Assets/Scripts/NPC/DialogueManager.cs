@@ -101,12 +101,12 @@ public class DialogueManager : MonoBehaviour
 
     public void AdvanceDialogue()
     {
-        m_DialogueIdx++;
-        
         if (!IsDialogueActive || m_CurrentDialogue == null || m_CurrentDialogue.lines == null)
         {
             return;
         }
+
+        m_DialogueIdx++;
 
         if (m_DialogueIdx < m_CurrentDialogue.lines.Length)
         {

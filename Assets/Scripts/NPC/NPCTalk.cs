@@ -55,18 +55,20 @@ public class NPCTalk : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetButtonDown("Interact") || DialogueManager.Instance.IsDialogueActive)
+        if (!DialogueManager.Instance.IsDialogueActive)
         {
-            if (m_SoundPlayer && m_TalkSound)
+            if (Input.GetButtonDown("Interact"))
             {
-                m_SoundPlayer.PlayOneShot(m_TalkSound);
-            }
-        }
+                if (m_SoundPlayer && m_TalkSound)
+                    m_SoundPlayer.PlayOneShot(m_TalkSound);
 
-        CheckForNewConversation();
-        if (m_CurrentConversation != null)
-        {
-            DialogueManager.Instance.StartDialogue(m_CurrentConversation);
+                CheckForNewConversation();
+                if (m_CurrentConversation != null)
+                {
+                    DialogueManager.Instance.StartDialogue(m_CurrentConversation);
+                    m_CurrentConversation = null;
+                }
+            }
         }
     }
 
