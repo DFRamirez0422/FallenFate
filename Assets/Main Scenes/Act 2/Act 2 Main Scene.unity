@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &4854499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8807435852695731377, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+  m_PrefabInstance: {fileID: 212533256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8314043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1451,6 +1456,16 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &183228356 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 310968129655401524, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+  m_PrefabInstance: {fileID: 212533256}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &183228357 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2132724123651104662, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+  m_PrefabInstance: {fileID: 212533256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &210290387
 GameObject:
   m_ObjectHideFlags: 0
@@ -2933,6 +2948,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 310968129655401524, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1588527880227066660, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1588527880227066660, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1164922079
+      objectReference: {fileID: 0}
     - target: {fileID: 2959080156456585104, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_Size.x
       value: 0.82
@@ -3007,13 +3034,34 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8246349862611884816, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2103470547}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8807435852695731377, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 212533270}
   m_SourcePrefab: {fileID: 100100000, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
 --- !u!4 &212533257 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8246349862611884816, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
   m_PrefabInstance: {fileID: 212533256}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &212533270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1ec9df4925d8b409456aa1c03486d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpactEffect: {fileID: 183228356}
+  m_ImpactEffectAnimator: {fileID: 183228357}
+  m_ImpactStateNames:
+  - BloodSplat1
+  - BloodSplat2
+  m_HorizontalOffset: 0.5
 --- !u!1 &220957528
 GameObject:
   m_ObjectHideFlags: 0
@@ -92748,6 +92796,7 @@ GameObject:
   - component: {fileID: 1793567160}
   - component: {fileID: 1793567159}
   - component: {fileID: 1793567158}
+  - component: {fileID: 1793567162}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -92876,6 +92925,30 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &1793567162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793567156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1815937659
 GameObject:
   m_ObjectHideFlags: 0
