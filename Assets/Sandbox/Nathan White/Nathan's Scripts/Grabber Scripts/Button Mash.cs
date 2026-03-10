@@ -28,6 +28,8 @@ public class ButtonMash : MonoBehaviour
     private PlayerMovement playerMovement;
     private SpriteRenderer PlayerSprite;
     private CinemachineImpulseSource playerImpulseSource;
+    private CinemachineImpulseSource GrabberImpulseSource;
+    private EnemyHitScript impactScript;
 
     //Public Called Scripts
     public GameObject Hitbox;
@@ -42,18 +44,13 @@ public class ButtonMash : MonoBehaviour
         mash = 1f;
         text2.enabled = false;
         PlayerSprite = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
-        playerImpulseSource = GameObject.FindGameObjectWithTag("Player").GetComponent<CinemachineImpulseSource>();
+        GrabberImpulseSource = GetComponent<CinemachineImpulseSource>();
+        impactScript = GetComponent<EnemyHitScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (animator.GetBool("Died"))
-        {
-            EnablePlayer();
-        }
-
-
         if (started)
         {
             PlayerSprite.enabled = false;
@@ -74,7 +71,8 @@ public class ButtonMash : MonoBehaviour
             {
                 pressed = true;
                 points = points + 0.5f;
-                NathansCameraShake();
+                impactScript.ImpactEffect();
+                GrabberImpulseSource.GenerateImpulse();
                 mash = mashDelay;
             }
             else if (Input.GetButtonUp("Attack"))
@@ -123,6 +121,11 @@ public class ButtonMash : MonoBehaviour
             animator.SetBool("Stunned", true);
             points = 0;
         }
+
+        if (animator.GetBool("Died"))
+        {
+            EnablePlayer();
+        }
     }
 
     private void Unstun()
@@ -152,6 +155,7 @@ public class ButtonMash : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log(collision.gameObject);
         if (collision.gameObject.tag == "Player")
         {
             playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
