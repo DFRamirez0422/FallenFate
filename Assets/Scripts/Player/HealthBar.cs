@@ -1,19 +1,48 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private TMP_Text m_HealthBarText;
-    [SerializeField] private PlayerHealth m_Health;
+    [Header("Health Settings")]
+    public int maxHealth = 4;
+    private int currentHealth;
+
+    [Header("Heart Sprites")]
+    public Sprite fullHeart;
+    public Sprite halfHeart;
+    public Sprite emptyHeart;
+
+    [Header("Heart Images")]
+    public Image[] hearts;
+
+    private PlayerHealth m_Health;
 
     void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         m_Health = player.GetComponent<PlayerHealth>();
+
+        UpdateHearts();
     }
 
     void Update()
     {
-        m_HealthBarText.text = $"HP: {m_Health.CurrentHealth}/{m_Health.MaxHealth}";
+        currentHealth = m_Health.CurrentHealth;
+        UpdateHearts();
+    }
+
+    void UpdateHearts()
+    {
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < currentHealth)
+            {
+                hearts[i].sprite = fullHeart;
+            }
+            else
+            {
+                hearts[i].sprite = emptyHeart;
+            }
+        }
     }
 }

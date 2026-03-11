@@ -41,36 +41,18 @@ public class WardenJumpScare : MonoBehaviour
                 TextCanvas.SetActive(true);
                 StartCoroutine(HideTextCanvasDamage());
             }
-            if (health.CurrentHealth <= 0)
-            {
-                jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
 
-                if (jumpscareClip1 != null)
-                {
-                    jumpscareSource.PlayOneShot(jumpscareClip1);
-                }
-                StartCoroutine(CloseJumpscare());
-            }
-        }
+            //This is the thing that starts the jumpscare
+            //if (health.CurrentHealth <= 0)
+            //{
+            //    jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
 
-
-
-        if (collision.gameObject.tag == "Sword") //can use another tag other than sword (Like attack or swing)
-        {
-            if (movement.stunned == false)
-            {
-                movement.stunned = true;
-                text.text = "Stunned";
-                TextCanvas.SetActive(true);
-                StartCoroutine(HideTextCanvasStunned());
-            }
-            else if (movement.stunned == true)
-            {
-                text.text = "Disarmed you";
-                disarm.swordOBJ = collision.gameObject;
-                disarm.disarmed = true;
-                StartCoroutine(CallRearm());
-            }
+            //    if (jumpscareClip1 != null)
+            //    {
+            //        jumpscareSource.PlayOneShot(jumpscareClip1);
+            //    }
+            //    StartCoroutine(CloseJumpscare());
+            //}
         }
 
     }
@@ -97,4 +79,6 @@ public class WardenJumpScare : MonoBehaviour
         yield return new WaitForSeconds(2);
         disarm.Rearm();
     }
+
+
 }

@@ -1,5 +1,6 @@
 using System.Threading;
 using TMPro;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +27,7 @@ public class ButtonMash : MonoBehaviour
     private PlayerHealth health;
     private PlayerMovement playerMovement;
     private SpriteRenderer PlayerSprite;
+    private CinemachineImpulseSource playerImpulseSource;
 
     //Public Called Scripts
     public GameObject Hitbox;
@@ -40,11 +42,18 @@ public class ButtonMash : MonoBehaviour
         mash = 1f;
         text2.enabled = false;
         PlayerSprite = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
+        playerImpulseSource = GameObject.FindGameObjectWithTag("Player").GetComponent<CinemachineImpulseSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (animator.GetBool("Died"))
+        {
+            EnablePlayer();
+        }
+
+
         if (started)
         {
             PlayerSprite.enabled = false;
@@ -65,6 +74,7 @@ public class ButtonMash : MonoBehaviour
             {
                 pressed = true;
                 points = points + 0.5f;
+                NathansCameraShake();
                 mash = mashDelay;
             }
             else if (Input.GetButtonUp("Attack"))
@@ -172,17 +182,23 @@ public class ButtonMash : MonoBehaviour
 
     public void NathansKnockbackClone()
     {
+        knocked = true;
+
         Transform playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         Rigidbody2D grabberRB = GetComponent<Rigidbody2D>();
 
         Vector2 direction = (transform.position - playerTransform.position).normalized;
-
-        knocked = true;
+        
         // Apply knockback velocity
-        grabberRB.AddForce(direction * 300, ForceMode2D.Impulse);
+        grabberRB.AddForce(direction * 400, ForceMode2D.Impulse);
 
         Debug.Log("Knocked");
 
         Invoke(nameof(Unstun), 0.5f);
+    }
+
+    public void NathansCameraShake()
+    {
+       // playerImpulseSource.GenerateImpulseWithForce(100);
     }
 }
