@@ -5,9 +5,9 @@ public class AngryEchoMovement : MonoBehaviour
 {
     public AngryEchoAi brain;
     private Transform player;
-    public float speed = 1f;
+    public float speed = 0.001f;
     public Rigidbody2D rb;
-    public bool CanMove = false;
+    public bool CanMove, Triggered = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,10 +19,9 @@ public class AngryEchoMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CanMove)
+        if (CanMove && Triggered)
         {
-            Vector2 direction = (player.position - transform.position).normalized;
-            rb.linearVelocity = direction * speed;
+            brain.self.position = Vector2.MoveTowards(brain.self.position, player.position, speed);
         }
     }
 
@@ -32,12 +31,12 @@ public class AngryEchoMovement : MonoBehaviour
         {
             Debug.Log("In trigger");
             player = collision.transform;
-            if (CanMove)
-            {
-                Debug.Log("Should move");
-                Vector2 direction = (player.position - transform.position).normalized;
-                rb.linearVelocity = direction * speed;
-            }
+            Triggered = true;
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Triggered = false;
     }
 }

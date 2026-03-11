@@ -5,11 +5,13 @@ public class AngryEchoAi : MonoBehaviour
     private Animator animator;
     public GameObject Hitbox;
     public bool FacePlayer;
+    public Transform self;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
+        self = transform;
     }
 
     // Update is called once per frame

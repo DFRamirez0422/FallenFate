@@ -164,9 +164,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brain: {fileID: 0}
-  speed: 0.5
+  speed: 0.01
   rb: {fileID: 0}
-  CanMove: 1
+  CanMove: 0
+  Triggered: 0
 --- !u!1 &3406293835523641279
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hitbox: {fileID: 1334811543458604249}
   FacePlayer: 1
+  self: {fileID: 0}
 --- !u!61 &1197070755350037366
 BoxCollider2D:
   m_ObjectHideFlags: 0
