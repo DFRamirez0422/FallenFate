@@ -1,5 +1,3 @@
-using Unity.Android.Gradle.Manifest;
-using UnityEditor.UI;
 using UnityEngine;
 
 public class WardenSpawn : MonoBehaviour

@@ -1,12 +1,11 @@
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class QuestSceneActive : MonoBehaviour
 {
-    [SerializeField] private SceneAsset scene1;
-    [SerializeField] private SceneAsset scene2;
-    //[SerializeField] private SceneAsset scene3;
+    [SerializeField] private string scene1;
+    [SerializeField] private string scene2;
+    //[SerializeField] private string scene3;
     
     [SerializeField] private GameObject QuestSet1;
     [SerializeField] private GameObject QuestSet2;
@@ -22,7 +21,7 @@ public class QuestSceneActive : MonoBehaviour
     private void CheckScene()
     {
         string activeSceneName = SceneManager.GetActiveScene().name;
-        if (scene1 != null && activeSceneName == scene1.name)
+        if (!string.IsNullOrEmpty(scene1) && activeSceneName == scene1)
         {
             QuestAreaNameText.text = "Prison Docks";
             QuestAreaNameText.color = Color.red;
@@ -30,7 +29,7 @@ public class QuestSceneActive : MonoBehaviour
             QuestSet2.SetActive(false);
             //QuestSet3.SetActive(false);
         }
-        else if (scene2 != null && activeSceneName == scene2.name)
+        else if (!string.IsNullOrEmpty(scene2) && activeSceneName == scene2)
         {
             QuestAreaNameText.text = "Prison Cells/OutDoors";
             QuestAreaNameText.color = Color.red;
