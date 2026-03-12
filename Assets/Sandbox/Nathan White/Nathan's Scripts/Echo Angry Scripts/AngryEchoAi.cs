@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class AngryEchoAi : MonoBehaviour
 {
-    private Animator animator;
+    [HideInInspector]
+    public Animator animator;
     public GameObject Hitbox;
     public bool FacePlayer;
     public Transform self;
@@ -42,7 +43,12 @@ public class AngryEchoAi : MonoBehaviour
             }
         }
 
-        
+        if (animator.GetBool("Died"))
+        {
+            Debug.Log("Should delete collider");
+            BoxCollider2D collider = GetComponent<BoxCollider2D>();
+            collider.enabled = false;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
