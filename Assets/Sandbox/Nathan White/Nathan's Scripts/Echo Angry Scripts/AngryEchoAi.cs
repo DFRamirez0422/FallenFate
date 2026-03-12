@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class AngryEchoAi : MonoBehaviour
 {
-    public GameObject Hitbox;
     private Animator animator;
-
+    public GameObject Hitbox;
     public bool FacePlayer;
-
+    public Transform self;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
+        self = transform;
     }
 
     // Update is called once per frame
@@ -40,6 +41,8 @@ public class AngryEchoAi : MonoBehaviour
                 transform.eulerAngles = new Vector2(0, 0);
             }
         }
+
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -59,4 +62,5 @@ public class AngryEchoAi : MonoBehaviour
         animator.SetBool("IsAttacking", false);
     }
 
+    
 }
