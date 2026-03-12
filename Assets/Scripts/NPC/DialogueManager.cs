@@ -77,6 +77,10 @@ public class DialogueManager : MonoBehaviour
         {
             AdvanceDialogue();
         }
+        else if (IsDialogueActive && Input.GetButtonDown("Attack"))
+        {
+            EndDialogue();
+        }
     }
 
     public void StartDialogue(DialogueSO dialogueSO)

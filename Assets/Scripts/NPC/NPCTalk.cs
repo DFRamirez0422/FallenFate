@@ -27,6 +27,7 @@ public class NPCTalk : MonoBehaviour
 
     private Rigidbody2D m_Rigidbody;
     private Animator m_Animator;
+    private bool m_IsTalking = false;
 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class NPCTalk : MonoBehaviour
         m_Rigidbody.bodyType = RigidbodyType2D.Static;
         m_Animator.Play("Idle");
         m_InteractIconAnimator.Play("Appear");
+        m_IsTalking = false;
     }
 
     private void OnDisable()
@@ -55,19 +57,26 @@ public class NPCTalk : MonoBehaviour
 
     private void Update()
     {
-        if (!DialogueManager.Instance.IsDialogueActive)
+        if (Input.GetButtonDown("Interact"))
         {
-            if (Input.GetButtonDown("Interact"))
+            if (!m_IsTalking)
             {
                 if (m_SoundPlayer && m_TalkSound)
+                {
                     m_SoundPlayer.PlayOneShot(m_TalkSound);
+                }
 
                 CheckForNewConversation();
+                
                 if (m_CurrentConversation != null)
                 {
                     DialogueManager.Instance.StartDialogue(m_CurrentConversation);
-                    m_CurrentConversation = null;
+                    m_IsTalking = true;
                 }
+            }
+            else if (!DialogueManager.Instance.IsDialogueActive)
+            {
+                m_IsTalking = false;
             }
         }
     }
