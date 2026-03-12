@@ -17,6 +17,16 @@ public class QuestManager : MonoBehaviour
         Inventory = GameObject.FindGameObjectWithTag("PickUp_Manager").GetComponent<PickUp_Manager>();
     }
 
+     void OnEnable()
+    {
+        QuestEvents.IsQuestCompleted += IsQuestComplete;
+    }
+    void OnDisable()
+    {
+        QuestEvents.IsQuestCompleted -= IsQuestComplete;
+    }
+
+
 void Update()
     {
         //This turns the UI on and Off
@@ -84,5 +94,26 @@ void Update()
             }
         }
         return 0;
+   }
+
+   public bool IsQuestComplete(QuestSO quest)
+   {
+        if(!questProgress.TryGetValue(quest, out var progressDictionary))
+        {
+             return false;
+        }
+        foreach(var objective in quest.objectives)
+        {
+            updateQuestProgress(quest, objective);
+        }
+
+        foreach(var objective in quest.objectives)
+        {
+            if(progressDictionary[objective] < objective.requiredAmount)
+            {
+                return false;
+            }
+        }
+        return true;
    }
 }

@@ -189,9 +189,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Reset player movement speed.
         m_Rigidbody.linearVelocity = Vector2.zero;
-
-        // Reset player animation.
-        m_Animator.SetCurrentSpeed(0.0f);
     }
 
     /// <summary>
