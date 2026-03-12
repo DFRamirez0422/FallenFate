@@ -42,13 +42,6 @@ public class AngryEchoAi : MonoBehaviour
                 transform.eulerAngles = new Vector2(0, 0);
             }
         }
-
-        if (animator.GetBool("Died"))
-        {
-            Debug.Log("Should delete collider");
-            BoxCollider2D collider = GetComponent<BoxCollider2D>();
-            collider.enabled = false;
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -19,7 +19,7 @@ public class AngryEchoMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CanMove && Triggered && !brain.animator.GetBool("IsAttacking"))
+        if (CanMove && Triggered && !brain.animator.GetBool("IsAttacking") && !brain.animator.GetBool("Died"))
         {
             Debug.Log("Should Move");
             brain.self.position = Vector2.MoveTowards(brain.self.position, player.position, speed);
