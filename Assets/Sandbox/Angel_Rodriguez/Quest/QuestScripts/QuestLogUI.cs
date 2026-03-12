@@ -8,7 +8,7 @@ public class QuestLogUI : MonoBehaviour
     [SerializeField] private TMP_Text QuestNameText;
     [SerializeField] private TMP_Text QuestDescriptionText;
     [SerializeField] private QuestObjectiveSlot[] objectiveSlots;
-
+    bool iscompleted;
     private QuestSO questSO;
 
     // This method is called when the quest button is clicked in the quest log. 
@@ -38,10 +38,11 @@ public class QuestLogUI : MonoBehaviour
                 questManager.updateQuestProgress(questSO, objective);
                 int currentProgress = questManager.GetCurrentProgress(questSO, objective);
                 string progressText = questManager.GetProgressText(questSO, objective);
-                bool isCompleted = currentProgress >= objective.requiredAmount;
+                iscompleted = currentProgress >= objective.requiredAmount;
+                questManager.IsQuestComplete(questSO);
 
                 objectiveSlots[i].gameObject.SetActive(true);
-                objectiveSlots[i].RefreshObjective(objective, progressText, isCompleted);
+                objectiveSlots[i].RefreshObjective(objective, progressText, iscompleted);
             }
             else
             {

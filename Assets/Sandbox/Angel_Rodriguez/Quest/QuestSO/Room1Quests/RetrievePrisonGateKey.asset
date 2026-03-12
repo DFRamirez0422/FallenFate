@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ef7ec6dd388ff74bb024b771db8ff92, type: 3}
+  m_Name: RetrievePrisonGateKey
+  m_EditorClassIdentifier: 
+  questName: Retrieve The Prison Gate Key
+  Questdescription: Dante finds that the gate is locked. He sees a path that goes
+    into the forest. He fllows it in hopes of finds the key. Along the path Dante
+    sees a mysterious person. They might know were the key is.
+  objectives:
+  - Description: "Find the priosn gate key\n  *Press Z to attack"
+    target: {fileID: 11400000, guid: e1ec00d87e4fd1b4d82a67941f2b3d7a, type: 2}
+    requiredAmount: 1
