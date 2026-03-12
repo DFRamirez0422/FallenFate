@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Powered_Door : CollidableObject
 {
-    [Header("Sprites")]
+    [Header("Door Sprites")]
     [SerializeField] private Sprite Door_Closed;
     [SerializeField] private Sprite Door_Open;
 
@@ -13,8 +13,8 @@ public class Powered_Door : CollidableObject
 
     [Header("Power Settings")]
     private bool _doorOpened = false;
-    [SerializeField] private Activate_Generators activateGenerators;
-    [SerializeField] private Activate_Generators activate_Generator2;
+    public Activate_Generators activateGenerators;
+    public Activate_Generators activate_Generator2;
     private AudioSource _doorOpenSound;
 
     protected override void Start()

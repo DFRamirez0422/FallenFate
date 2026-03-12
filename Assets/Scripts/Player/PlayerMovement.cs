@@ -97,7 +97,14 @@ public class PlayerMovement : MonoBehaviour
         
         if (!m_IsEnabled || GameState.GameplayLocked)
             return;
-
+        if (m_PlayerCombat.m_IsAttacking)
+        {
+            m_Rigidbody.linearVelocity = Vector2.zero;
+            m_Rigidbody.angularVelocity = 0f;
+            m_Animator.SetCurrentSpeed(0.0f);
+           return; 
+        }
+            
         if (!m_IsKnockedBack && !m_PlayerCombat.m_IsAttacking)
         {
             Vector2 input_axes = CurrentDirection * m_WalkSpeed;
@@ -113,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
             m_Animator.SetCurrentSpeed(CurrentInput.magnitude);
             m_Animator.SetCurrentDirection(m_LastInput);
         }
+       
     }
 
     void Update()
@@ -181,9 +189,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Reset player movement speed.
         m_Rigidbody.linearVelocity = Vector2.zero;
-
-        // Reset player animation.
-        m_Animator.SetCurrentSpeed(0.0f);
     }
 
     /// <summary>

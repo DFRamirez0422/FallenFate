@@ -133,9 +133,9 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.7, y: 1}
-  m_Direction: 0
+  m_Offset: {x: 0.003, y: -0.76}
+  m_Size: {x: 0.82, y: 0.179}
+  m_Direction: 1
 --- !u!50 &4652821276832523566
 Rigidbody2D:
   serializedVersion: 5
@@ -278,10 +278,10 @@ MonoBehaviour:
   m_AttackDownState: AttackDown
   m_AttackLeftState: AttackLeft
   m_AttackRightState: AttackRight
-  m_PlayerAudio: {fileID: 5679316702084953731}
-  m_AttackSwingClip: {fileID: 8300000, guid: 5bb0360458c558e48b12afa42431ef98, type: 3}
-  m_HurtClip: {fileID: 8300000, guid: 6acff9389545a10448839ba8ff987c51, type: 3}
-  m_AttackVoiceClip: {fileID: 8300000, guid: e03bbff75342720479a577ce6af02aca, type: 3}
+  m_AttackSwingSfx: {fileID: 0}
+  m_AttackVoiceSfx: {fileID: 0}
+  m_HurtSfx: {fileID: 0}
+  m_IsAttacking: 0
 --- !u!114 &8516418007833901250
 MonoBehaviour:
   m_ObjectHideFlags: 0

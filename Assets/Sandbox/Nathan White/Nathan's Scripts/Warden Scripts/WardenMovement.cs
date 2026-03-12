@@ -5,7 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class WardenMovement : MonoBehaviour
 {
     public float speed;
-    private bool isChasing;
+    public bool isChasing;
     private float scalingRadius = 1;
 
     private Rigidbody2D WardensRigidBody;

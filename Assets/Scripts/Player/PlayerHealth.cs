@@ -15,7 +15,7 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("Game over screen prefab to display on death.")]
     [SerializeField] private GameObject m_GameOverScreenPrefab;
 
-    private int m_CurrentHealth;
+    public int m_CurrentHealth;
     public Transform LastHitSource {  get; private set; }
 
     public int CurrentHealth => m_CurrentHealth;
