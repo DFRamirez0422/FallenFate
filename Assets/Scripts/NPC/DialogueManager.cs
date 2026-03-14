@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Burst.Intrinsics;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text m_ActorName;
     [SerializeField] private TMP_Text m_DialogueText;
     [SerializeField] private Button[] m_ChoiceButtons;
-    [SerializeField] private Button m_ActionButton;
+    [SerializeField] private Button m_ContinueButton;
+    [SerializeField] private Button m_EndButton;
     [Header("Dialogue Control")]
     [Tooltip("Amount of time in between each letter reveal, measured in milliseconds.")]
     [SerializeField] private int m_TextRevealSpeed = 30;
@@ -186,8 +188,11 @@ public class DialogueManager : MonoBehaviour
 
         if (m_CurrentDialogue.options.Length > 0)
         {
-            m_ActionButton.gameObject.SetActive(false);
-            m_ActionButton.onClick.RemoveAllListeners();
+            m_ContinueButton.gameObject.SetActive(false);
+            m_ContinueButton.onClick.RemoveAllListeners();
+
+            m_EndButton.gameObject.SetActive(false);
+            m_EndButton.onClick.RemoveAllListeners();
 
             int choiceCount = Mathf.Min(m_CurrentDialogue.options.Length, m_ChoiceButtons.Length);
             for (int i = 0; i < choiceCount; i++)
@@ -229,7 +234,9 @@ public class DialogueManager : MonoBehaviour
             button.gameObject.SetActive(false);
             button.onClick.RemoveAllListeners();
         }
-        m_ActionButton.onClick.RemoveAllListeners();
+        
+        m_ContinueButton.onClick.RemoveAllListeners();
+        m_EndButton.onClick.RemoveAllListeners();
     }
 
     /// <summary>
@@ -242,20 +249,21 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        m_ActionButton.onClick.RemoveAllListeners();
-        m_ActionButton.gameObject.SetActive(true);
+        m_EndButton.gameObject.SetActive(true);
+        m_EndButton.onClick.RemoveAllListeners();
+        m_EndButton.onClick.AddListener(EndDialogue);
 
         // Check if at the end of the dialogue tree (no more lines, no choices).
-        bool atEnd = m_DialogueIdx >= m_CurrentDialogue.lines.Length && m_CurrentDialogue.options.Length == 0;
+        bool atEnd = m_DialogueIdx + 1 >= m_CurrentDialogue.lines.Length && m_CurrentDialogue.options.Length == 0;
         if (atEnd)
         {
-            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] End Dialogue";
-            m_ActionButton.onClick.AddListener(EndDialogue);
+            m_ContinueButton.gameObject.SetActive(false);
         }
         else
         {
-            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] Continue";
-            m_ActionButton.onClick.AddListener(AdvanceDialogue);
+            m_ContinueButton.gameObject.SetActive(true);
+            m_ContinueButton.onClick.RemoveAllListeners();
+            m_ContinueButton.onClick.AddListener(AdvanceDialogue);
         }
     }
 
