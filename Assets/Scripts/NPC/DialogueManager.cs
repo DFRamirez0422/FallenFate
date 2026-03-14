@@ -28,6 +28,7 @@ public class DialogueManager : MonoBehaviour
     private int m_DialogueIdx;
     private float m_LineUpdateTick; // Dialogue should reveal slowly, not all at once. This counter helps keep track what to show.
     private float m_LastLineUpdateTime;
+    private bool m_IsRevealingText;
 
 
     private void Awake()
@@ -46,6 +47,7 @@ public class DialogueManager : MonoBehaviour
         m_CanvasGroup.alpha = 0;
         m_CanvasGroup.interactable = false;
         m_CanvasGroup.blocksRaycasts = false;
+        m_IsRevealingText = false;
 
         foreach (var button in m_ChoiceButtons)
         {
@@ -66,16 +68,29 @@ public class DialogueManager : MonoBehaviour
         int line_length = line.text.Length;
         int update_tick = (int)(1000.0f * m_LineUpdateTick / m_TextRevealSpeed);
 
-        if (update_tick <= line_length)
+        if (m_IsRevealingText && update_tick <= line_length)
         {
             m_DialogueText.text = line.text.Substring(0, update_tick);
             m_LineUpdateTick += delta_time;
+            m_IsRevealingText = true;
+        }
+        else
+        {
+            m_IsRevealingText = false;
         }
 
         // Centralize dialogue progression input so only one script advances each key press.
         if (IsDialogueActive && Input.GetButtonDown("Interact"))
         {
-            AdvanceDialogue();
+            if (m_IsRevealingText)
+            {
+                m_DialogueText.text = line.text;
+                m_IsRevealingText = false;
+            }
+            else
+            {
+                AdvanceDialogue();
+            }
         }
         else if (IsDialogueActive && Input.GetButtonDown("Attack"))
         {
@@ -133,6 +148,7 @@ public class DialogueManager : MonoBehaviour
         DialogueLine line = m_CurrentDialogue.lines[m_DialogueIdx];
         DialogueHistoryTracker.Instance.RecordNPC(line.speaker);
         m_LineUpdateTick = 0;
+        m_IsRevealingText = true;
 
         m_Portrait.sprite = line.speaker.m_Portrait;
         m_ActorName.text = line.speaker.m_ActorName;
@@ -152,6 +168,7 @@ public class DialogueManager : MonoBehaviour
         Time.timeScale = 1.0f;
 
         m_DialogueIdx = 0;
+        m_IsRevealingText = false;
         IsDialogueActive = false;
         ClearChoices();
 
