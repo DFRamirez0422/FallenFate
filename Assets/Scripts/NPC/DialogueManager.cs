@@ -68,15 +68,18 @@ public class DialogueManager : MonoBehaviour
         int line_length = line.text.Length;
         int update_tick = (int)(1000.0f * m_LineUpdateTick / m_TextRevealSpeed);
 
-        if (m_IsRevealingText && update_tick <= line_length)
+        if (m_IsRevealingText)
         {
-            m_DialogueText.text = line.text.Substring(0, update_tick);
-            m_LineUpdateTick += delta_time;
-            m_IsRevealingText = true;
-        }
-        else
-        {
-            m_IsRevealingText = false;
+            if (update_tick <= line_length)
+            {
+                m_DialogueText.text = line.text.Substring(0, update_tick);
+                m_LineUpdateTick += delta_time;
+                m_IsRevealingText = true;
+            }
+            else
+            {
+                m_IsRevealingText = false;
+            }
         }
 
         // Centralize dialogue progression input so only one script advances each key press.
@@ -150,7 +153,7 @@ public class DialogueManager : MonoBehaviour
         m_LineUpdateTick = 0;
         m_IsRevealingText = true;
 
-        m_Portrait.sprite = line.speaker.m_Portrait;
+        SetPortraitByEmotion(line);
         m_ActorName.text = line.speaker.m_ActorName;
         m_DialogueText.text = line.text;
 
@@ -254,5 +257,23 @@ public class DialogueManager : MonoBehaviour
             m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] Continue";
             m_ActionButton.onClick.AddListener(AdvanceDialogue);
         }
+    }
+
+    /// <summary>
+    /// Sets the proper portraits based on the current dialogue line's emotion.
+    /// </summary>
+    /// <param name="line"></param>
+    private void SetPortraitByEmotion(DialogueLine line)
+    {
+        foreach (ActorSO.EmotionPortrait emotion_portrait in line.speaker.m_EmotionPortraits)
+        {
+            if (emotion_portrait.emotion == line.emotion)
+            {
+                m_Portrait.sprite = emotion_portrait.portrait;
+                return;
+            }
+        }
+
+        m_Portrait.sprite = line.speaker.m_DefaultPortrait;
     }
 }

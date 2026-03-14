@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ActorSO", menuName = "Dialogue/NPC")]
@@ -16,6 +18,14 @@ public class ActorSO : ScriptableObject
         Quizzical_Talk
     }
 
+    [Serializable]
+    public struct EmotionPortrait
+    {
+        public Emotion emotion;
+        public Sprite portrait;
+    }
+
     public string m_ActorName;
-    public Sprite m_Portrait;
+    public Sprite m_DefaultPortrait;
+    public EmotionPortrait[] m_EmotionPortraits;
 }
