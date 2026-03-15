@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class AngryEchoAi : MonoBehaviour
 {
-    private Animator animator;
+    [HideInInspector]
+    public Animator animator;
     public GameObject Hitbox;
     public bool FacePlayer;
     public Transform self;
@@ -41,8 +42,6 @@ public class AngryEchoAi : MonoBehaviour
                 transform.eulerAngles = new Vector2(0, 0);
             }
         }
-
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

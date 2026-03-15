@@ -90,13 +90,10 @@ public class PlayerFall : MonoBehaviour
         float timer = 0f;
         while (timer < fallTime)
         {
-            player.transform.position += Vector3.down * fallSpeed * Time.deltaTime;
+            player.transform.position += Vector3.down * (fallSpeed * Time.deltaTime);
             timer += Time.deltaTime;
             yield return null;
         }
-
-        // lose 1 HP
-        if (health) health.ChangeHealth(-1);
 
         // TODO: respawn player and reset sorting order/layer
         if (movement) movement.RespawnPlayer();

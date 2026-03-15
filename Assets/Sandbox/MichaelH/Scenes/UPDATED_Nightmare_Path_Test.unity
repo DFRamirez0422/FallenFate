@@ -5913,6 +5913,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1927909987}
+    - target: {fileID: 2083031481919724870, guid: 59cfbb0e579add04db988fff74312177, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2713437298438958490, guid: 59cfbb0e579add04db988fff74312177, type: 3}
       propertyPath: manager
       value: 
@@ -5961,6 +5965,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3528340057969409888, guid: 59cfbb0e579add04db988fff74312177, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039575569594108295, guid: 59cfbb0e579add04db988fff74312177, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4766516532565310614, guid: 59cfbb0e579add04db988fff74312177, type: 3}
       propertyPath: manager
       value: 
@@ -5969,6 +5981,14 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1927909987}
+    - target: {fileID: 7750331667721594045, guid: 59cfbb0e579add04db988fff74312177, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849676571084122437, guid: 59cfbb0e579add04db988fff74312177, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9092168695941233487, guid: 59cfbb0e579add04db988fff74312177, type: 3}
       propertyPath: m_Name
       value: Path Set 1
@@ -5978,6 +5998,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59cfbb0e579add04db988fff74312177, type: 3}
+--- !u!1001 &4348763425451406235
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993038781055201418, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841414662024283836, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
+      propertyPath: m_Name
+      value: Checkpoint System
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8be569cae6cc5cc40b0ba268752d275f, type: 3}
 --- !u!1001 &5504901316256629543
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5986,9 +6063,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1826872518}
     m_Modifications:
+    - target: {fileID: 6446863047104066, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368068574889405042, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1421303189050843892, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
       propertyPath: m_Name
       value: Path Set 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950303031983524726, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
+      propertyPath: fallTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1989742055559644217, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
       propertyPath: manager
@@ -6042,10 +6131,18 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1927909987}
+    - target: {fileID: 5559017004416715551, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6997635068535242746, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
       propertyPath: manager
       value: 
       objectReference: {fileID: 1927909987}
+    - target: {fileID: 7254195653004127545, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
+      propertyPath: fallTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7979821491285318118, guid: 152933f12e6b99e41b5431304d0f950c, type: 3}
       propertyPath: manager
       value: 
@@ -6066,3 +6163,4 @@ SceneRoots:
   - {fileID: 1686510835}
   - {fileID: 1229780375}
   - {fileID: 833284040807549747}
+  - {fileID: 4348763425451406235}

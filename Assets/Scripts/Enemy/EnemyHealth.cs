@@ -29,6 +29,12 @@ public class EnemyHealth : MonoBehaviour
         {
             if (animator != null)
             {
+                Debug.Log("Should delete collider");
+                BoxCollider2D collider = GetComponent<BoxCollider2D>();
+                if (collider != null)
+                {
+                    collider.enabled = false;
+                }
                 animator.SetBool("Died", true);
                 Destroy(gameObject, DeathDelay);
             }
