@@ -223,6 +223,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_IsReachedCheckpoint)
         {
             transform.position = m_CheckpointPosition;
+            m_Rigidbody.linearVelocity = Vector2.zero;
         }
         else
         {
@@ -244,10 +245,19 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // Ignore checkpoints while player is disabled (falling / respawning)
+        if (!IsActive || m_IsKnockedBack) return;
+        
         // Once a checkpoint area has been reached by the player, save the position for death.
-        if (collision.gameObject.CompareTag("Checkpoint"))
+        if (collision.CompareTag("Checkpoint"))
         {
-            m_CheckpointPosition = collision.transform.position;
+            Transform respawn = collision.transform.Find("RespawnPoint");
+
+            if (respawn != null)
+                m_CheckpointPosition = respawn.position;
+            else
+                m_CheckpointPosition = collision.transform.position;
+
             m_IsReachedCheckpoint = true;
         }
     }
