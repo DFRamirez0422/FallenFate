@@ -44,7 +44,7 @@ public class Waypoints : MonoBehaviour
         Vector2 normalizedDirection = directionToTarget.normalized;
 
         // You can now use normalizedDirection for various purposes
-        Debug.Log("Direction to " + waypoints[waypointIndex].gameObject.name + ": " + normalizedDirection);
+        //Debug.Log("Direction to " + waypoints[waypointIndex].gameObject.name + ": " + normalizedDirection);
 
         animator.SetFloat("DirX", normalizedDirection.x);
         animator.SetFloat("DirY", normalizedDirection.y);

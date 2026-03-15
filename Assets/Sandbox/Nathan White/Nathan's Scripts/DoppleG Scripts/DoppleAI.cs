@@ -22,7 +22,7 @@ public class DoppleAI : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
+        //Debug.Log(collision.gameObject.tag);
 
         if (collision.gameObject.tag == "Player" && waypointScript.IsMoving == false)
         {

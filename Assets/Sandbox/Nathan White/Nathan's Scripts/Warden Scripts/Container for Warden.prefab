@@ -555,7 +555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8392796805825129765}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 8812536810687011851}
   m_Layer: 6
   m_Name: Warden
-  m_TagString: Untagged
+  m_TagString: Warden
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -668,9 +668,9 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3040313100920839896}
   - {fileID: 15213665941208232}
   - {fileID: 7752253584747426251}
-  - {fileID: 3040313100920839896}
   m_Father: {fileID: 5198328653714431524}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8622033769613459034
@@ -805,8 +805,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  triggercollider: {fileID: 0}
-  scalingRadiusSpeed: 0.001
+  isChasing: 0
+  triggercollider: {fileID: 8764793670972340527}
+  scalingRadiusSpeed: 0.01
   stunned: 0
   knocked: 0
   Hitbox: {fileID: 4608633257271020096}
