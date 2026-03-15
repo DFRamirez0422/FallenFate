@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4620111934463854183
+--- !u!1 &832542830717703334
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6213141113889791969}
-  - component: {fileID: 508514083614299557}
-  - component: {fileID: 9163089151016072347}
+  - component: {fileID: 236503053222660778}
+  - component: {fileID: 9080276115576662854}
+  - component: {fileID: 5310212798701165921}
   m_Layer: 0
-  m_Name: GArdenLocationSOTrigger
+  m_Name: PrisonRoofTopTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6213141113889791969
+--- !u!4 &236503053222660778
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4620111934463854183}
+  m_GameObject: {fileID: 832542830717703334}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.41163, y: 1.20597, z: 0}
+  m_LocalPosition: {x: -5.96, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &508514083614299557
+--- !u!61 &9080276115576662854
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4620111934463854183}
+  m_GameObject: {fileID: 832542830717703334}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -79,19 +79,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &9163089151016072347
+--- !u!114 &5310212798701165921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4620111934463854183}
+  m_GameObject: {fileID: 832542830717703334}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 667c38f315a52ef4a875125c16675211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 11400000, guid: 9a5051626778c0d4bbca7e8693fad5bf, type: 2}
+  location: {fileID: 11400000, guid: 685049ae148471348a23851ea8432d96, type: 2}
   returnLocation: {fileID: 0}
   itemNeeded: {fileID: 0}
   pickUpManager: {fileID: 0}
