@@ -8,7 +8,8 @@ public class Item_Data : ScriptableObject
     {   
         Memento,
         keys,
-        other
+        other,
+        Healing
     }
     public PickUpType pickupType;
     public string itemName;
