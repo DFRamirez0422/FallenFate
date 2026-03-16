@@ -61,15 +61,16 @@ void Update()
     {
         newAmount = objective.requiredAmount;        
     }
+
     /*
     else if(objective.targetActor != null && GameManager.s_Instance.Ac)
         {
             
             newAmount = objective.requiredAmount;
         }
+    */
 
     progressDictionary[objective] = newAmount;
-    */
     
    }
 
