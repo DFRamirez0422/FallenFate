@@ -67,18 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        // Essentially, make sure only one player object is ever alive regardless of scene connfiguration to make sure all of their stats
-        // remain consistent between scenes.
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Instance.m_IsReachedCheckpoint = false;
-            Instance.RespawnPlayer();
-            Destroy(gameObject);
-        }
+        Instance = this;
 
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<PlayerAnimator>();
@@ -238,7 +227,9 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 Debug.Log("No respawn point found - defaulting to centre of map.");
-                transform.position = Vector2.zero;
+                // Disabled fallback teleport to (0,0) when no Respawn is present.
+                // Keep current position instead.
+                // transform.position = Vector2.zero;
             }
         }
     }

@@ -32,6 +32,5 @@ public class SceneChange : MonoBehaviour
     {
         yield return new WaitForSeconds(m_FadeScreenTime);
         SceneManager.LoadScene(m_SceneName);
-        m_Player.GetComponent<PlayerMovement>().RespawnPlayer();
     }
 }
