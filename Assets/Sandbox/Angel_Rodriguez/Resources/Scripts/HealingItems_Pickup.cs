@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 public class HealingItems_Pickup : CollidableObject
 {
-    bool _hasActivated;
+    bool _hasActivated; // to check if healed player
+    
     [SerializeField] PlayerHealth playerHealth;
     [SerializeField] private GameObject _UIPrompt;
     GameObject UI_Action;
@@ -15,12 +16,13 @@ public class HealingItems_Pickup : CollidableObject
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
     
-    //Activate generator on collide and key press
+    // overrides the OnCollide function
     protected override void OnCollide(GameObject other)
     {
         if(_hasActivated) return;
         if (Input.GetButtonDown("Interact"))
         {
+            // Heals player if not at max health
             if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
             {
                 playerHealth.ChangeHealth(1);
@@ -31,7 +33,8 @@ public class HealingItems_Pickup : CollidableObject
             else{}
         }
     }
-
+    
+    // Shows propmt when player enters trigger area
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
