@@ -18,6 +18,8 @@ Table of contents for all project documentation files.
 ## Change Logs
 | Document | Description |
 |----------|-------------|
+| [2026-03-12 -- Compile Error Library Cleanup](2026-03-12_compile-error-library-cleanup.md) | Removed editor/platform-only libraries from runtime scripts and replaced editor-only scene references with runtime-safe scene name checks |
+| [2026-03-12 -- Grabber Screen Shake PR #464 Conflict Resolution](2026-03-12_grabber-screen-shake-pr-464-conflict-resolution.md) | Merge-conflict resolution notes for PR #464 (`Nathan'sEnemies-Week-9` into `main`) |
 | [2026-02-24 -- Act1 Cutscene, Dialogue, and Tools](2026-02-24_act1-cutscene-dialogue-and-tools.md) | Consolidated changelog for scene, dialogue, transition, and sandbox utility updates |
 | [2026-02-24 -- Jose's Dialogue System Fixes](2026-02-24_joses-dialogue-system-fixes.md) | Dialogue progression and conversation selection stability fixes for NPC and trigger dialogue flow |
 | [PR #417 -- Combat Merge Changelog](MERGE_PR417_COMBAT_CHANGELOG.md) | Changelog for combat system merge |

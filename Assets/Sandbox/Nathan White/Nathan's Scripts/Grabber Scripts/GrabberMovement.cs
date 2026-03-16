@@ -32,7 +32,7 @@ public class GrabberMovement : MonoBehaviour
     {
         if (isChasing == true && !animator.GetBool("Attacking") && SomeoneGrabbedPlayer == false && ButtonMash.knocked == false)
         {
-            direction = (player.position - transform.position).normalized;
+            direction = ((new Vector3(0, -0.3f,0) + player.position) - transform.position).normalized;
             rb.linearVelocity = direction * speed;
         }
 
@@ -71,7 +71,7 @@ public class GrabberMovement : MonoBehaviour
 
             // Calculate the direction from the trigger (this.transform.position) 
             // to the other object (other.transform.position)
-            Vector2 directionToTarget = collision.transform.position - this.transform.position;
+            Vector2 directionToTarget = (new Vector3(0, -0.3f, 0) + collision.transform.position) - this.transform.position;
 
             // Normalize the vector to get only the direction with a magnitude (length) of 1
             Vector2 normalizedDirection = directionToTarget.normalized;

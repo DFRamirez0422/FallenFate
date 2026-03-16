@@ -67,18 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        // Essentially, make sure only one player object is ever alive regardless of scene connfiguration to make sure all of their stats
-        // remain consistent between scenes.
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Instance.m_IsReachedCheckpoint = false;
-            Instance.RespawnPlayer();
-            Destroy(gameObject);
-        }
+        Instance = this;
 
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<PlayerAnimator>();
@@ -223,6 +212,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_IsReachedCheckpoint)
         {
             transform.position = m_CheckpointPosition;
+            m_Rigidbody.linearVelocity = Vector2.zero;
         }
         else
         {
@@ -237,17 +227,28 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 Debug.Log("No respawn point found - defaulting to centre of map.");
-                transform.position = Vector2.zero;
+                // Disabled fallback teleport to (0,0) when no Respawn is present.
+                // Keep current position instead.
+                // transform.position = Vector2.zero;
             }
         }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // Ignore checkpoints while player is disabled (falling / respawning)
+        if (!IsActive || m_IsKnockedBack) return;
+        
         // Once a checkpoint area has been reached by the player, save the position for death.
-        if (collision.gameObject.CompareTag("Checkpoint"))
+        if (collision.CompareTag("Checkpoint"))
         {
-            m_CheckpointPosition = collision.transform.position;
+            Transform respawn = collision.transform.Find("RespawnPoint");
+
+            if (respawn != null)
+                m_CheckpointPosition = respawn.position;
+            else
+                m_CheckpointPosition = collision.transform.position;
+
             m_IsReachedCheckpoint = true;
         }
     }
