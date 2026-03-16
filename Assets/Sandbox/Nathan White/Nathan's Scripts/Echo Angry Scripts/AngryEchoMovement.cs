@@ -21,7 +21,7 @@ public class AngryEchoMovement : MonoBehaviour
     {
         if (CanMove && Triggered && !brain.animator.GetBool("IsAttacking") && !brain.animator.GetBool("Died"))
         {
-            Debug.Log("Should Move");
+            //Debug.Log("Should Move");
             brain.self.position = Vector2.MoveTowards(brain.self.position, player.position, speed);
         }
     }
