@@ -153,16 +153,16 @@ MonoBehaviour:
   m_OnCountdownComplete:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 126722282}
-        m_TargetAssemblyTypeName: SceneChangeNoPlayerObj, Assembly-CSharp
-        m_MethodName: TransitionSceneCutscene
-        m_Mode: 1
+      - m_Target: {fileID: 1198212109}
+        m_TargetAssemblyTypeName: SkipCutscene, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Act 1 REMAKE
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!4 &80060190
@@ -172,53 +172,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 80060188}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.35739, y: -18.37407, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &126722281
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 126722283}
-  - component: {fileID: 126722282}
-  m_Layer: 0
-  m_Name: SceneChangeNoPlayerObj
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &126722282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 126722281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2793915cdf735f24693b0839fb0d30b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneName: Act 1 REMAKE
-  m_FadeScreenAnimator: {fileID: 585771026}
-  m_FadeScreenTime: 0.5
---- !u!4 &126722283
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 126722281}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.35739, y: -18.37407, z: 0}
@@ -261,7 +214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 687, y: -512.4138}
+  m_AnchoredPosition: {x: 612, y: -430.41382}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &139130474
@@ -411,11 +364,6 @@ PrefabInstance:
       addedObject: {fileID: 139130473}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa180d15a4ef4664d95e27de080bc6f1, type: 3}
---- !u!95 &585771026 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2641704898931642800, guid: aa180d15a4ef4664d95e27de080bc6f1, type: 3}
-  m_PrefabInstance: {fileID: 585771025}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &744942746
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,9 +398,9 @@ VideoPlayer:
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 0
-  m_AspectRatio: 2
+  m_AspectRatio: 1
   m_DataSource: 0
-  m_TimeUpdateMode: 2
+  m_TimeUpdateMode: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
   m_TargetAudioSources:
@@ -518,7 +466,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 872, y: -513}
+  m_AnchoredPosition: {x: 797, y: -431}
   m_SizeDelta: {x: 559.5711, y: 66.8277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &773145352
@@ -593,9 +541,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: Act 1 REMAKE
-  m_OnSkipCutsceneEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1198212110
 Transform:
   m_ObjectHideFlags: 0
@@ -878,5 +823,4 @@ SceneRoots:
   - {fileID: 744942748}
   - {fileID: 80060190}
   - {fileID: 1198212110}
-  - {fileID: 126722283}
   - {fileID: 585771025}

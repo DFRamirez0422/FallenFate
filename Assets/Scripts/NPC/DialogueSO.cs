@@ -36,6 +36,7 @@ public class DialogueSO : ScriptableObject
 public class DialogueLine
 {
     public ActorSO speaker;
+    public ActorSO.Emotion emotion;
     [TextArea(3,5)] public string text;
 }
 
