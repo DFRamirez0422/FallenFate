@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Burst.Intrinsics;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text m_ActorName;
     [SerializeField] private TMP_Text m_DialogueText;
     [SerializeField] private Button[] m_ChoiceButtons;
-    [SerializeField] private Button m_ActionButton;
+    [SerializeField] private Button m_ContinueButton;
+    [SerializeField] private Button m_EndButton;
     [Header("Dialogue Control")]
     [Tooltip("Amount of time in between each letter reveal, measured in milliseconds.")]
     [SerializeField] private int m_TextRevealSpeed = 30;
@@ -28,6 +30,7 @@ public class DialogueManager : MonoBehaviour
     private int m_DialogueIdx;
     private float m_LineUpdateTick; // Dialogue should reveal slowly, not all at once. This counter helps keep track what to show.
     private float m_LastLineUpdateTime;
+    private bool m_IsRevealingText;
 
 
     private void Awake()
@@ -46,6 +49,7 @@ public class DialogueManager : MonoBehaviour
         m_CanvasGroup.alpha = 0;
         m_CanvasGroup.interactable = false;
         m_CanvasGroup.blocksRaycasts = false;
+        m_IsRevealingText = false;
 
         foreach (var button in m_ChoiceButtons)
         {
@@ -66,16 +70,32 @@ public class DialogueManager : MonoBehaviour
         int line_length = line.text.Length;
         int update_tick = (int)(1000.0f * m_LineUpdateTick / m_TextRevealSpeed);
 
-        if (update_tick <= line_length)
+        if (m_IsRevealingText)
         {
-            m_DialogueText.text = line.text.Substring(0, update_tick);
-            m_LineUpdateTick += delta_time;
+            if (update_tick <= line_length)
+            {
+                m_DialogueText.text = line.text.Substring(0, update_tick);
+                m_LineUpdateTick += delta_time;
+                m_IsRevealingText = true;
+            }
+            else
+            {
+                m_IsRevealingText = false;
+            }
         }
 
         // Centralize dialogue progression input so only one script advances each key press.
         if (IsDialogueActive && Input.GetButtonDown("Interact"))
         {
-            AdvanceDialogue();
+            if (m_IsRevealingText)
+            {
+                m_DialogueText.text = line.text;
+                m_IsRevealingText = false;
+            }
+            else
+            {
+                AdvanceDialogue();
+            }
         }
         else if (IsDialogueActive && Input.GetButtonDown("Attack"))
         {
@@ -133,8 +153,9 @@ public class DialogueManager : MonoBehaviour
         DialogueLine line = m_CurrentDialogue.lines[m_DialogueIdx];
         DialogueHistoryTracker.Instance.RecordNPC(line.speaker);
         m_LineUpdateTick = 0;
+        m_IsRevealingText = true;
 
-        m_Portrait.sprite = line.speaker.m_Portrait;
+        SetPortraitByEmotion(line);
         m_ActorName.text = line.speaker.m_ActorName;
         m_DialogueText.text = line.text;
 
@@ -152,6 +173,7 @@ public class DialogueManager : MonoBehaviour
         Time.timeScale = 1.0f;
 
         m_DialogueIdx = 0;
+        m_IsRevealingText = false;
         IsDialogueActive = false;
         ClearChoices();
 
@@ -166,8 +188,11 @@ public class DialogueManager : MonoBehaviour
 
         if (m_CurrentDialogue.options.Length > 0)
         {
-            m_ActionButton.gameObject.SetActive(false);
-            m_ActionButton.onClick.RemoveAllListeners();
+            m_ContinueButton.gameObject.SetActive(false);
+            m_ContinueButton.onClick.RemoveAllListeners();
+
+            m_EndButton.gameObject.SetActive(false);
+            m_EndButton.onClick.RemoveAllListeners();
 
             int choiceCount = Mathf.Min(m_CurrentDialogue.options.Length, m_ChoiceButtons.Length);
             for (int i = 0; i < choiceCount; i++)
@@ -209,7 +234,9 @@ public class DialogueManager : MonoBehaviour
             button.gameObject.SetActive(false);
             button.onClick.RemoveAllListeners();
         }
-        m_ActionButton.onClick.RemoveAllListeners();
+        
+        m_ContinueButton.onClick.RemoveAllListeners();
+        m_EndButton.onClick.RemoveAllListeners();
     }
 
     /// <summary>
@@ -222,20 +249,39 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        m_ActionButton.onClick.RemoveAllListeners();
-        m_ActionButton.gameObject.SetActive(true);
+        m_EndButton.gameObject.SetActive(true);
+        m_EndButton.onClick.RemoveAllListeners();
+        m_EndButton.onClick.AddListener(EndDialogue);
 
         // Check if at the end of the dialogue tree (no more lines, no choices).
-        bool atEnd = m_DialogueIdx >= m_CurrentDialogue.lines.Length && m_CurrentDialogue.options.Length == 0;
+        bool atEnd = m_DialogueIdx + 1 >= m_CurrentDialogue.lines.Length && m_CurrentDialogue.options.Length == 0;
         if (atEnd)
         {
-            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] End Dialogue";
-            m_ActionButton.onClick.AddListener(EndDialogue);
+            m_ContinueButton.gameObject.SetActive(false);
         }
         else
         {
-            m_ActionButton.GetComponentInChildren<TMP_Text>().text = "[x] Continue";
-            m_ActionButton.onClick.AddListener(AdvanceDialogue);
+            m_ContinueButton.gameObject.SetActive(true);
+            m_ContinueButton.onClick.RemoveAllListeners();
+            m_ContinueButton.onClick.AddListener(AdvanceDialogue);
         }
+    }
+
+    /// <summary>
+    /// Sets the proper portraits based on the current dialogue line's emotion.
+    /// </summary>
+    /// <param name="line"></param>
+    private void SetPortraitByEmotion(DialogueLine line)
+    {
+        foreach (ActorSO.EmotionPortrait emotion_portrait in line.speaker.m_EmotionPortraits)
+        {
+            if (emotion_portrait.emotion == line.emotion)
+            {
+                m_Portrait.sprite = emotion_portrait.portrait;
+                return;
+            }
+        }
+
+        m_Portrait.sprite = line.speaker.m_DefaultPortrait;
     }
 }
