@@ -3,6 +3,7 @@ using UnityEngine;
 public class WardenHitbox : MonoBehaviour
 {
     private PlayerHealth health;
+    public int damage = 2;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,7 +23,7 @@ public class WardenHitbox : MonoBehaviour
         if (collision.gameObject.tag == "Hitboxs")
         {
             Debug.Log("Should hit you");
-            health.TakeDamage(2, transform);
+            health.TakeDamage(damage, transform);
         }
     }
 }
