@@ -13,7 +13,8 @@ public class GrabberHitBox : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && !animator.GetBool("Died") && animator.GetBool("Attacking"))
+        Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.tag == "Hitboxs" && !animator.GetBool("Died") && animator.GetBool("Attacking"))
         {
             buttonmashScript.started = true;
         }

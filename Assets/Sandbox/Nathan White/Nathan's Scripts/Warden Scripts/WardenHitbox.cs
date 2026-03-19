@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class AngryEchoHitbox : MonoBehaviour
+public class WardenHitbox : MonoBehaviour
 {
     private PlayerHealth health;
+    public int damage = 2;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,7 +23,7 @@ public class AngryEchoHitbox : MonoBehaviour
         if (collision.gameObject.tag == "Hitboxs")
         {
             Debug.Log("Should hit you");
-            health.TakeDamage(1,transform);
+            health.TakeDamage(damage, transform);
         }
     }
 }
