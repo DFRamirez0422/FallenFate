@@ -32,15 +32,20 @@ public class GameOverScreen : MonoBehaviour
 
     public void OnPressRetryButton()
     {
-        // Re-enable all player and AI movement.
-        Time.timeScale = 1.0f;
+        // Must resume before loading / respawning
+        Time.timeScale = 1f;
 
-        Debug.Log("Current scene will restart!");
-        HideScreen();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SaveData data = SaveSystem.Load();
+        if (data != null && SaveManager.instance != null)
+        {
+            SaveManager.instance.LoadGame(data);
+        }
+        else
+        {
+            Debug.LogWarning("Retry failed: missing save data or SaveManager instance.");
+        }
 
-        // Object should unalive itself once the retry button itself since it is decided it is merely an instance.
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     public void OnPressQuitButton()

@@ -17,13 +17,18 @@ public class PlayerHealth : MonoBehaviour
 
     public int m_CurrentHealth;
     public Transform LastHitSource {  get; private set; }
-
     public int CurrentHealth => m_CurrentHealth;
     public int MaxHealth => m_MaxHealth;
+    
+    private static bool initialized = false;
 
     private void Start()
     {
-        m_CurrentHealth = m_MaxHealth;
+        if (!initialized)
+        {
+            m_CurrentHealth = m_MaxHealth;
+            initialized = true;
+        }
     }
 
     /// <summary>Change health by amount. Negative = damage, positive = heal.</summary>
