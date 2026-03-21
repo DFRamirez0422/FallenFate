@@ -35,17 +35,11 @@ public class GameOverScreen : MonoBehaviour
         // Must resume before loading / respawning
         Time.timeScale = 1f;
 
-        SaveData data = SaveSystem.Load();
-        if (data != null && SaveManager.instance != null)
-        {
-            SaveManager.instance.LoadGame(data);
-        }
-        else
-        {
-            Debug.LogWarning("Retry failed: missing save data or SaveManager instance.");
-        }
-
-        Destroy(gameObject);
+        Debug.Log("Current scene will restart!");
+        HideScreen();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
+        Destroy(this.gameObject);
     }
 
     public void OnPressQuitButton()

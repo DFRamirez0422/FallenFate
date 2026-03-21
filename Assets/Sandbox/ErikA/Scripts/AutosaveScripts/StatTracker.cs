@@ -4,9 +4,6 @@ using UnityEngine.SceneManagement;
 public class StatTracker : MonoBehaviour
 {
     private int lastPlayerHealth;
-    private Vector3 lastPlayerPosition;
-    private GameObject[] Items;
-    private GameObject[] Enemies;
     private Scene currentScene;
     
 

@@ -20,12 +20,18 @@ public class CameraWaypointSystem : MonoBehaviour
     private Coroutine routine;
     
     LetterBoxController letterBox;
+    
+    PlayerMovement playerMovement;
+    PlayerAnimator playerAnimator;
 
     void Awake()
     {
+        
         letterBox = FindFirstObjectByType<LetterBoxController>();
     }
-
+   
+        
+    
     public void StartWaypointSequence()
     {
         if (isPlaying) return;
@@ -41,6 +47,8 @@ public class CameraWaypointSystem : MonoBehaviour
     {
         isPlaying = true;
         GameState.GameplayLocked = true;
+        
+
         // Start proxy at current player position
         camTarget.position = Player.position;
 
