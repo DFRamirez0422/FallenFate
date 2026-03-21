@@ -33,7 +33,7 @@ public class GameOverScreen : MonoBehaviour
     public void OnPressRetryButton()
     {
         // Must resume before loading / respawning
-        Time.timeScale = 1f;
+        Time.timeScale = 1.0f;
 
         Debug.Log("Current scene will restart!");
         HideScreen();

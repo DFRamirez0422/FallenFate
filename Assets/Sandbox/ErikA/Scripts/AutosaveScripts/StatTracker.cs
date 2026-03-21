@@ -6,6 +6,7 @@ public class StatTracker : MonoBehaviour
     private int lastPlayerHealth;
     private Scene currentScene;
     
+    public bool IsAlive => lastPlayerHealth > 0;
 
     [SerializeField] private PlayerHealth PlayerObject;
 
@@ -26,9 +27,13 @@ public class StatTracker : MonoBehaviour
         // Find the new player in the scene
         PlayerObject = FindObjectOfType<PlayerHealth>();
 
-        if (PlayerObject != null)
+        if (PlayerObject != null && IsAlive)
         {
             PlayerObject.m_CurrentHealth = lastPlayerHealth;
+        }
+        else if (!IsAlive)
+        {
+            PlayerObject.m_CurrentHealth = PlayerObject.m_MaxHealth;
         }
     }
 

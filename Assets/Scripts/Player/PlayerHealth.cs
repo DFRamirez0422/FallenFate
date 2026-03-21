@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class PlayerHealth : MonoBehaviour
 {
     [Tooltip("Maximum hit points and starting health.")]
-    [SerializeField] private int m_MaxHealth;
+    [SerializeField] public int m_MaxHealth;
     [Tooltip("Event when healing.")]
     [SerializeField] private UnityEvent m_OnHeal;
     [Tooltip("Event when hit (damage).")]
@@ -20,6 +20,7 @@ public class PlayerHealth : MonoBehaviour
     public int CurrentHealth => m_CurrentHealth;
     public int MaxHealth => m_MaxHealth;
     
+    
     private static bool initialized = false;
 
     private void Start()
@@ -28,6 +29,7 @@ public class PlayerHealth : MonoBehaviour
         {
             m_CurrentHealth = m_MaxHealth;
             initialized = true;
+            
         }
     }
 
@@ -95,6 +97,7 @@ public class PlayerHealth : MonoBehaviour
         // None of these prefabs know each other and they can't invoke one another's functions.
         GameObject game_over_screen = Instantiate(m_GameOverScreenPrefab);
         game_over_screen.GetComponent<GameOverScreen>().DisplayScreen();
+        
     }
 
     /// <summary>
