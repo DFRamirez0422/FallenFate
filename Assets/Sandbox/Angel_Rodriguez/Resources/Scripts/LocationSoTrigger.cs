@@ -18,11 +18,11 @@ public class LocationSoTrigger : MonoBehaviour
     //Adds LocationSO to list of discovered locations in PickUp_Manager
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player") && !pickUpManager.discoveredLocations.Contains(location) && location != null)
+        if(other.CompareTag("Hitboxs") && !pickUpManager.discoveredLocations.Contains(location) && location != null)
         {
             pickUpManager.recordLocationDiscovery(location);
         }
-        else if(other.CompareTag("Player") && pickUpManager.items.Contains(itemNeeded) && returnLocation != null)
+        else if(other.CompareTag("Hitboxs") && pickUpManager.items.Contains(itemNeeded) && returnLocation != null)
         {
             pickUpManager.recordLocationDiscovery(returnLocation);
         }

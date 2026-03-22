@@ -37,7 +37,7 @@ public class HealingItems_Pickup : CollidableObject
     // Shows propmt when player enters trigger area
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Hitboxs"))
         {
             UI_Action = Instantiate(_UIPrompt);
             UI_Action.SetActive(true);
@@ -50,7 +50,7 @@ public class HealingItems_Pickup : CollidableObject
     // Hide prompt when player exits trigger area
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Hitboxs"))
         {
             UI_Action.SetActive(false);
             UI_Action.GetComponentsInChildren<Text>()[0].text = "";

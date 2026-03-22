@@ -22,11 +22,11 @@ public class TriggerSpawner : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Player"))
+        if (!collision.CompareTag("Hitboxs"))
             return;
         if (hasBeenTriggered)
             return; 
-        if(collision.CompareTag("Player"))
+        if(collision.CompareTag("Hitboxs"))
         {
             SpawnOrDespawnObjects(objectsToToggle);
             hasBeenTriggered = true;

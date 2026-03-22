@@ -7,7 +7,7 @@ public class CollidableObject : MonoBehaviour
 
     [SerializeField]
     private ContactFilter2D contactFilter; // Filter to specify which colliders to check against
-    private List<Collider2D> results = new List<Collider2D>(1);
+    private List<Collider2D> results = new List<Collider2D>(2);
 
     protected virtual void Start()
     {
