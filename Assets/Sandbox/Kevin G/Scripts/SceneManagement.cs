@@ -19,5 +19,10 @@ public class SceneManagerUnity : MonoBehaviour
     {
         SceneManager.LoadScene("Options");
     }
+
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
 }
 
