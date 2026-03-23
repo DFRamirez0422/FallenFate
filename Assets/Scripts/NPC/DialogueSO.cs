@@ -43,6 +43,19 @@ public class DialogueLine
 [System.Serializable]
 public class DialogueOption
 {
+    /// <summary>
+    /// This allows for a designer to specify what type of action to take upon the player clicking a dialogue option.
+    /// </summary>
+    public enum Action
+    {
+        // Branch to a new dialogue tree upon selection.
+        NewDialogue,
+        // Change to a new scene upon selection.
+        SceneChange,
+    }
+
     public string optionText;
+    public Action action;
     public DialogueSO nextDialogue;
+    public string sceneName;
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Burst.Intrinsics;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -200,7 +201,7 @@ public class DialogueManager : MonoBehaviour
                 var option = m_CurrentDialogue.options[i];
                 m_ChoiceButtons[i].GetComponentInChildren<TMP_Text>().text = option.optionText;
                 m_ChoiceButtons[i].gameObject.SetActive(true);
-                m_ChoiceButtons[i].onClick.AddListener(MakeChoiceHandler(option.nextDialogue));
+                m_ChoiceButtons[i].onClick.AddListener(MakeChoiceHandler(option));
             }
         }
         else
@@ -222,9 +223,25 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private UnityEngine.Events.UnityAction MakeChoiceHandler(DialogueSO nextDialogue)
+    private UnityEngine.Events.UnityAction MakeChoiceHandler(DialogueOption option)
     {
-        return () => ChooseOption(nextDialogue);
+        if (option.action == DialogueOption.Action.NewDialogue)
+        {
+            return () => ChooseOption(option.nextDialogue);
+        }
+        else if (option.action == DialogueOption.Action.SceneChange)
+        {
+            return () =>
+            {
+                EndDialogue();
+                SceneManager.LoadScene(option.sceneName);
+            };
+        }
+        else
+        {
+            Debug.LogError("ERROR : Unknown option type for dialogue option.");
+            return () => EndDialogue();
+        }
     }
 
     private void ClearChoices()
