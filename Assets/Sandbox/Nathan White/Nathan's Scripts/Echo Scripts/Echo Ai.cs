@@ -6,10 +6,12 @@ public class EchoAi : MonoBehaviour
     private ObjectFader objectFader;
 
     public bool FaceAway;
+    public EchoWaypoint EchoWaypointScript;
 
     private void Start()
     {
         objectFader = GetComponent<ObjectFader>();
+        EchoWaypointScript = GetComponent<EchoWaypoint>();
     }
 
     private void Update()
@@ -35,12 +37,12 @@ public class EchoAi : MonoBehaviour
 
             if (normalizedDirection.x < -0.1f)
             {
-                // Resets to face forward when moving right
+                // Resets to face forward when moving right.  Basically face right
                 transform.eulerAngles = new Vector2(0, 0);
             }
             else if (normalizedDirection.x > 0.1f)
             {
-                // Sets the rotation exactly to 0, 180, 0
+                // Sets the rotation exactly to 0, 180, 0.  Basically face left
                 transform.eulerAngles = new Vector2(0, 180);
             }
         }
