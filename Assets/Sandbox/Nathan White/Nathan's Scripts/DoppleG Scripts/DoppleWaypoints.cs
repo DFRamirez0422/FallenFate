@@ -57,6 +57,5 @@ public class Waypoints : MonoBehaviour
 
         animator.SetFloat("DirX", normalizedDirection.x);
         animator.SetFloat("DirY", normalizedDirection.y);
-
     }
 }
