@@ -2079,8 +2079,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19bebf43d87c11479391cf2e281b264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HealthBarText: {fileID: 1245590315}
-  m_Health: {fileID: 0}
+  maxHealth: 4
+  fullHeart: {fileID: 0}
+  halfHeart: {fileID: 0}
+  emptyHeart: {fileID: 0}
+  hearts: []
 --- !u!114 &1259598769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3080,7 +3083,7 @@ PrefabInstance:
     - target: {fileID: 3250369580097910490, guid: 87211f6566068e74cbfde150618c60b5, type: 3}
       propertyPath: 'm_Conversations.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: dc1b25d9590bf724d84be2192afa8627, type: 2}
+      objectReference: {fileID: 11400000, guid: 2f45404ae4a0107438c94bcf2e1a3a86, type: 2}
     - target: {fileID: 4160960783011148134, guid: 87211f6566068e74cbfde150618c60b5, type: 3}
       propertyPath: m_Name
       value: Dorothy

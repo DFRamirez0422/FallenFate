@@ -131,10 +131,9 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        m_DialogueIdx++;
-
-        if (m_DialogueIdx < m_CurrentDialogue.lines.Length)
+        if (m_DialogueIdx + 1 < m_CurrentDialogue.lines.Length)
         {
+            m_DialogueIdx++;
             ShowDialogue();
             UpdateActionText();
         }
@@ -167,11 +166,8 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
-        // Enable all player movement when the dialogue is finished.
-        m_Player.GetComponent<PlayerMovement>().Enable();
-
-        // Restore AI movement (revert from near-pause used during dialogue).
-        Time.timeScale = 1.0f;
+        // Start a behavior to be triggered upon dialogue ending.
+        OnDialogueEnd();
 
         m_DialogueIdx = 0;
         m_IsRevealingText = false;
@@ -225,22 +221,21 @@ public class DialogueManager : MonoBehaviour
 
     private UnityEngine.Events.UnityAction MakeChoiceHandler(DialogueOption option)
     {
-        if (option.action == DialogueOption.Action.NewDialogue)
+        switch(option.action)
         {
-            return () => ChooseOption(option.nextDialogue);
-        }
-        else if (option.action == DialogueOption.Action.SceneChange)
-        {
-            return () =>
-            {
-                EndDialogue();
-                SceneManager.LoadScene(option.sceneName);
-            };
-        }
-        else
-        {
-            Debug.LogError("ERROR : Unknown option type for dialogue option.");
-            return () => EndDialogue();
+            case DialogueOption.Action.NewDialogue:
+                return () => ChooseOption(option.nextDialogue);
+
+            case DialogueOption.Action.ChangeScene:
+                return () =>
+                {
+                    EndDialogue();
+                    SceneManager.LoadScene(option.sceneName);
+                };
+
+            default:
+                Debug.LogError("ERROR : Unknown option type for dialogue option.");
+                return () => EndDialogue();
         }
     }
 
@@ -300,5 +295,43 @@ public class DialogueManager : MonoBehaviour
         }
 
         m_Portrait.sprite = line.speaker.m_DefaultPortrait;
+    }
+
+    /// <summary>
+    /// `OnDialougeEnd` only runs when the player has completed the dialouge sequnce with the NPC they we're just talking to.
+    /// </summary>
+    private void OnDialogueEnd()
+    {
+        switch(m_CurrentDialogue.m_ActionOnDialogueEnd)
+        {
+            case DialogueSO.ActionOnEnd.Default:
+                // Enable all player movement when the dialogue is finished.
+                m_Player.GetComponent<PlayerMovement>().Enable();
+                // Restore AI movement (revert from near-pause used during dialogue).
+                Time.timeScale = 1.0f;
+                break;
+
+            case DialogueSO.ActionOnEnd.ChangeScene:
+                SceneManager.LoadScene(m_CurrentDialogue.m_SceneChangeName);
+                break;
+
+            case DialogueSO.ActionOnEnd.SetObjectsActive:
+                foreach (GameObject obj in m_CurrentDialogue.m_ObjectsToSetActive)
+                {
+                    obj.SetActive(true);
+                }
+                break;
+
+            case DialogueSO.ActionOnEnd.InstantiateObjects:
+                foreach (GameObject obj in m_CurrentDialogue.m_ObjectsToInstantiate)
+                {
+                    Instantiate(obj);
+                }
+                break;
+
+            default:
+                Debug.Log("no ending behavior set in current dialouge");
+                break;
+        }
     }
 }
