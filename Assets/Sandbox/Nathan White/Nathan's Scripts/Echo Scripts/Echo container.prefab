@@ -428,6 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FaceAway: 1
+  EchoWaypointScript: {fileID: 0}
 --- !u!114 &9142934377622741901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,7 +449,7 @@ MonoBehaviour:
   moveSpeed: 0.2
   waypointIndex: 0
   IsMoving: 0
-  direction: 1
+  directionToMove: 1
 --- !u!95 &502795763354906830
 Animator:
   serializedVersion: 7
@@ -722,7 +723,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
