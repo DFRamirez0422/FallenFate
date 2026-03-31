@@ -58,6 +58,10 @@ public class WardenMovement : MonoBehaviour
             animator.SetBool("Knocked", false);
             animator.SetBool("Attacking", false);
         }
+        if (animator.GetBool("Respawn"))
+        {
+            animator.SetBool("Respawn", false);
+        }
         WardensRigidBody.linearVelocity = Vector2.zero;
     }
 
@@ -73,7 +77,7 @@ public class WardenMovement : MonoBehaviour
             Vector2 normalizedDirection = directionToTarget.normalized;
 
             // You can now use normalizedDirection for various purposes
-            //Debug.Log("Direction to " + collision.gameObject.name + ": " + normalizedDirection);
+            Debug.Log("Direction to " + collision.gameObject.name + ": " + normalizedDirection);
 
             animator.SetFloat("DirX", normalizedDirection.x);
             animator.SetFloat("DirY", normalizedDirection.y);
