@@ -55,6 +55,8 @@ public class WardenMovement : MonoBehaviour
         if (knocked == true)
         {
             knocked = false;
+            animator.SetBool("Knocked", false);
+            animator.SetBool("Attacking", false);
         }
         WardensRigidBody.linearVelocity = Vector2.zero;
     }
@@ -118,6 +120,7 @@ public class WardenMovement : MonoBehaviour
         grabberRB.AddForce(direction * 400, ForceMode2D.Impulse);
 
         Debug.Log("Knocked");
+        animator.SetBool("Knocked", true);
 
         Invoke(nameof(Unstun), 0.5f);
     }
