@@ -15,6 +15,11 @@ Table of contents for all project documentation files.
 | [PR #415 -- Room2 Addons Review](CODE_REVIEW_PR415_Room2_Addons.md) | Code review for Room 2 colliders and addons |
 | [PR #415 -- GitHub Comment](CODE_REVIEW_PR415_GITHUB_COMMENT.md) | GitHub comment for PR #415 |
 
+## Audits
+| Document | Description |
+|----------|-------------|
+| [2026-03-20 -- Sound System Compliance Audit](2026-03-20_sound-system-audit.md) | Full project scan of every .cs script for non-compliant sound playback. Identifies scripts using raw AudioClip/AudioSource/PlayOneShot instead of SoundFXManager + SoundDefinition, with lines to change and developer attribution. |
+
 ## Change Logs
 | Document | Description |
 |----------|-------------|
