@@ -15,7 +15,7 @@ public class QuestSO : ScriptableObject
 public class QuestObjective
 {
     [TextArea] public string Description;
-    [SerializeField] private Object target;
+    public Object target;
 
 
     public Item_Data targetItem => target as Item_Data;

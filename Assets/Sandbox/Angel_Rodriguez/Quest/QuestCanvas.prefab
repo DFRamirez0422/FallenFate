@@ -323,7 +323,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983037431144014267}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -405,9 +405,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2577745440abf2347a53c1b47ce6ade8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene1: 
-  scene2: 
-  scene3: 
+  scene1: Act 1 CUTSCENE
+  scene2: Act 2 Main Scene
+  scene3: 1 Solitary Confinment
   QuestSet1: {fileID: 892554710387782067}
   QuestSet2: {fileID: 1939810721536697788}
   QuestSet3: {fileID: 5352877175877941814}
@@ -1150,6 +1150,18 @@ PrefabInstance:
     - target: {fileID: 1626268629777311152, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2879434792249156046, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: scene1
+      value: 1 Solitary Confinment
+      objectReference: {fileID: 0}
+    - target: {fileID: 2879434792249156046, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: scene2
+      value: 3 Nightmare
+      objectReference: {fileID: 0}
+    - target: {fileID: 2879434792249156046, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: scene3
+      value: 4 Rooftops
       objectReference: {fileID: 0}
     - target: {fileID: 2879434792249156046, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
       propertyPath: QuestAreaNameText
