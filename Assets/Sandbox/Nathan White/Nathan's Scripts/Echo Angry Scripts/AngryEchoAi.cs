@@ -7,6 +7,10 @@ public class AngryEchoAi : MonoBehaviour
     public GameObject Hitbox;
     public bool FacePlayer;
     public Transform self;
+    public Collision2D InRangeCollider;
+
+    [HideInInspector]
+    public bool Bcollision;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,8 +50,16 @@ public class AngryEchoAi : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        Bcollision = true;
         Debug.Log("Ai Collision");
         animator.SetBool("IsAttacking", true);
+        
+       
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+       Bcollision = false;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
