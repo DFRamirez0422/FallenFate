@@ -84,7 +84,13 @@ public class PlayerHealth : MonoBehaviour
 
         // Start the death animation.
         GetComponent<PlayerAnimator>().StartDeath();
+    }
 
+    /// <summary>
+    /// Called only as an animation event when the game over screen should be displayed.
+    /// </summary>
+    public void StartGameOverScreen()
+    {
         // Very cheap hack to get around prefabs limitation of not invoking a callback of another prefab.
         // Yes, yell at me all you want about this horrendous coupling but it's not like I have another choice.
         // None of these prefabs know each other and they can't invoke one another's functions.
