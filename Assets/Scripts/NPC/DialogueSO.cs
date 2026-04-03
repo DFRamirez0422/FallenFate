@@ -4,14 +4,16 @@ using UnityEngine;
 public class DialogueSO : ScriptableObject
 {
     /// <summary>
-    /// This allows for a designer to specify what type of action to take upon the dialogue tree closing.
+    /// This allows for a designer to specify what type of action to take upon either ending dialogue
+    /// or selecting an option.
     /// </summary>
     public enum ActionOnEnd
     {
-        Default,
-        ChangeScene,
-        SetObjectsActive,
-        InstantiateObjects,
+        EndDialogue, // Simply ends a dialogue tree with no other side effects.
+        NewDialogue, // Branch to a new dialogue tree.
+        ChangeScene, // Changes to a new scene given by a parameter.
+        SetObjectsActive, // Activates a list of game objects in the scene.
+        InstantiateObjects, // Instantiates a list of prefabs into the scene.
     }
 
     public DialogueLine[] lines;
@@ -22,16 +24,19 @@ public class DialogueSO : ScriptableObject
 
     [Header("Action upon Dialogue Ending")]
     [Tooltip("What action to take upon the dialogue ending.")]
-    public ActionOnEnd m_ActionOnDialogueEnd = ActionOnEnd.Default;
+    public Action actionOnDialogueEnd = Action.EndDialogue;
 
     [Tooltip("If 'ChangeScene' was set, the name of the scene to load.")]
-    public string m_SceneChangeName;
+    public string sceneName;
+    
+    [Tooltip("If 'NewDialogue' was set, branch to a new dialogue tree upon selection.")]
+    public DialogueSO nextDialogue;
 
     [Tooltip("If 'SetObjectActive' was set, the list of all game objects to activate.")]
-    public GameObject[] m_ObjectsToSetActive;
+    public GameObject[] objectsToActivate;
 
     [Tooltip("If 'InstantiateObject' was set, the list of all game object prefabs to spawn.")]
-    public GameObject[] m_ObjectsToInstantiate;
+    public GameObject[] objectsToInstantiate;
 
     // items
     // locations
@@ -79,7 +84,7 @@ public class DialogueOption
     }
 
     public string optionText;
-    public Action action;
+    public Action action = Action.NewDialogue;
     [Tooltip("If 'NewDialogue' was set, branch to a new dialogue tree upon selection.")]
     public DialogueSO nextDialogue;
     [Tooltip("If 'ChangeScene' was set, the name of the scene to load.")]

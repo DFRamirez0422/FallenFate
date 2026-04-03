@@ -302,17 +302,22 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void OnDialogueEnd()
     {
-        switch(m_CurrentDialogue.m_ActionOnDialogueEnd)
+        // Enable all player movement when the dialogue is finished.
+        m_Player.GetComponent<PlayerMovement>().Enable();
+        // Restore AI movement (revert from near-pause used during dialogue).
+        Time.timeScale = 1.0f;
+
+        switch(m_CurrentDialogue.actionOnDialogueEnd)
         {
-            case DialogueSO.ActionOnEnd.Default:
-                // Enable all player movement when the dialogue is finished.
-                m_Player.GetComponent<PlayerMovement>().Enable();
-                // Restore AI movement (revert from near-pause used during dialogue).
-                Time.timeScale = 1.0f;
+            case DialogueSO.ActionOnEnd.EndDialogue:
+                break;
+
+            case DialogueSO.ActionOnEnd.NewDialogue:
+                StartDialogue(nextDialogue);
                 break;
 
             case DialogueSO.ActionOnEnd.ChangeScene:
-                SceneManager.LoadScene(m_CurrentDialogue.m_SceneChangeName);
+                SceneManager.LoadScene(m_CurrentDialogue.sceneName);
                 break;
 
             case DialogueSO.ActionOnEnd.SetObjectsActive:
