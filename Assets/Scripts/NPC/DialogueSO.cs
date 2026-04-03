@@ -24,11 +24,11 @@ public class DialogueSO : ScriptableObject
 
     [Header("Action upon Dialogue Ending")]
     [Tooltip("What action to take upon the dialogue ending.")]
-    public Action actionOnDialogueEnd = Action.EndDialogue;
+    public ActionOnEnd actionOnDialogueEnd = ActionOnEnd.EndDialogue;
 
     [Tooltip("If 'ChangeScene' was set, the name of the scene to load.")]
     public string sceneName;
-    
+
     [Tooltip("If 'NewDialogue' was set, branch to a new dialogue tree upon selection.")]
     public DialogueSO nextDialogue;
 

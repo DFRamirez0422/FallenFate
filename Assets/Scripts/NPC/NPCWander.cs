@@ -73,7 +73,9 @@ public class NPCWander : MonoBehaviour
         // Fixed an issue involving the walk animation being played immediately after talking.
         if (!collision.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(WaitAndPickNewTarget());
+            // Jose E.: disabling this coroutine call seems to do nothing so I am not sure why it was added.
+            // It was causing more issues than it fixed; NPCWander raised an exception due to collision with the map.
+            //StartCoroutine(WaitAndPickNewTarget());
         }
     }
 

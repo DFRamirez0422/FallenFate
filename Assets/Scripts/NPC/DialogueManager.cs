@@ -313,7 +313,7 @@ public class DialogueManager : MonoBehaviour
                 break;
 
             case DialogueSO.ActionOnEnd.NewDialogue:
-                StartDialogue(nextDialogue);
+                StartDialogue(m_CurrentDialogue.nextDialogue);
                 break;
 
             case DialogueSO.ActionOnEnd.ChangeScene:
@@ -321,14 +321,14 @@ public class DialogueManager : MonoBehaviour
                 break;
 
             case DialogueSO.ActionOnEnd.SetObjectsActive:
-                foreach (GameObject obj in m_CurrentDialogue.m_ObjectsToSetActive)
+                foreach (GameObject obj in m_CurrentDialogue.objectsToActivate)
                 {
                     obj.SetActive(true);
                 }
                 break;
 
             case DialogueSO.ActionOnEnd.InstantiateObjects:
-                foreach (GameObject obj in m_CurrentDialogue.m_ObjectsToInstantiate)
+                foreach (GameObject obj in m_CurrentDialogue.objectsToInstantiate)
                 {
                     Instantiate(obj);
                 }
