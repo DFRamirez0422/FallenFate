@@ -287,13 +287,13 @@ GameObject:
   - component: {fileID: 4635543079511552907}
   - component: {fileID: 2328792657414714480}
   - component: {fileID: 4179784691966245608}
+  - component: {fileID: 9142934377622741901}
   - component: {fileID: 502795763354906830}
   - component: {fileID: 234261641177726210}
   - component: {fileID: 7357654364267622116}
   - component: {fileID: 7753788535433986059}
   - component: {fileID: 5564166038269842884}
   - component: {fileID: 3033144512101462988}
-  - component: {fileID: 9142934377622741901}
   m_Layer: 6
   m_Name: Echo (1)
   m_TagString: Untagged
@@ -428,6 +428,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FaceAway: 1
+  EchoWaypointScript: {fileID: 0}
+--- !u!114 &9142934377622741901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9157612187179192547}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 241f21a68a8d8da4b8db606ee2823ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {fileID: 4672474239981749568}
+  - {fileID: 5815658266101305987}
+  - {fileID: 5450737480503164646}
+  - {fileID: 7384927510244077617}
+  moveSpeed: 0.2
+  waypointIndex: 0
+  IsMoving: 0
+  directionToMove: 1
 --- !u!95 &502795763354906830
 Animator:
   serializedVersion: 7
@@ -701,7 +723,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -731,23 +753,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3993368, y: 0.5814603}
   m_EdgeRadius: 0
---- !u!114 &9142934377622741901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9157612187179192547}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 241f21a68a8d8da4b8db606ee2823ac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 4672474239981749568}
-  - {fileID: 5815658266101305987}
-  - {fileID: 5450737480503164646}
-  - {fileID: 7384927510244077617}
-  moveSpeed: 0.2
-  waypointIndex: 0
-  IsMoving: 0

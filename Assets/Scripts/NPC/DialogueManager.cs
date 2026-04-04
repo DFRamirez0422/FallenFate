@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Burst.Intrinsics;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -130,10 +131,9 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        m_DialogueIdx++;
-
-        if (m_DialogueIdx < m_CurrentDialogue.lines.Length)
+        if (m_DialogueIdx + 1 < m_CurrentDialogue.lines.Length)
         {
+            m_DialogueIdx++;
             ShowDialogue();
             UpdateActionText();
         }
@@ -166,11 +166,8 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
-        // Enable all player movement when the dialogue is finished.
-        m_Player.GetComponent<PlayerMovement>().Enable();
-
-        // Restore AI movement (revert from near-pause used during dialogue).
-        Time.timeScale = 1.0f;
+        // Start a behavior to be triggered upon dialogue ending.
+        OnDialogueEnd();
 
         m_DialogueIdx = 0;
         m_IsRevealingText = false;
@@ -200,7 +197,7 @@ public class DialogueManager : MonoBehaviour
                 var option = m_CurrentDialogue.options[i];
                 m_ChoiceButtons[i].GetComponentInChildren<TMP_Text>().text = option.optionText;
                 m_ChoiceButtons[i].gameObject.SetActive(true);
-                m_ChoiceButtons[i].onClick.AddListener(MakeChoiceHandler(option.nextDialogue));
+                m_ChoiceButtons[i].onClick.AddListener(MakeChoiceHandler(option));
             }
         }
         else
@@ -222,9 +219,24 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private UnityEngine.Events.UnityAction MakeChoiceHandler(DialogueSO nextDialogue)
+    private UnityEngine.Events.UnityAction MakeChoiceHandler(DialogueOption option)
     {
-        return () => ChooseOption(nextDialogue);
+        switch(option.action)
+        {
+            case DialogueOption.Action.NewDialogue:
+                return () => ChooseOption(option.nextDialogue);
+
+            case DialogueOption.Action.ChangeScene:
+                return () =>
+                {
+                    EndDialogue();
+                    SceneManager.LoadScene(option.sceneName);
+                };
+
+            default:
+                Debug.LogError("ERROR : Unknown option type for dialogue option.");
+                return () => EndDialogue();
+        }
     }
 
     private void ClearChoices()
@@ -283,5 +295,48 @@ public class DialogueManager : MonoBehaviour
         }
 
         m_Portrait.sprite = line.speaker.m_DefaultPortrait;
+    }
+
+    /// <summary>
+    /// `OnDialougeEnd` only runs when the player has completed the dialouge sequnce with the NPC they we're just talking to.
+    /// </summary>
+    private void OnDialogueEnd()
+    {
+        // Enable all player movement when the dialogue is finished.
+        m_Player.GetComponent<PlayerMovement>().Enable();
+        // Restore AI movement (revert from near-pause used during dialogue).
+        Time.timeScale = 1.0f;
+
+        switch(m_CurrentDialogue.actionOnDialogueEnd)
+        {
+            case DialogueSO.ActionOnEnd.EndDialogue:
+                break;
+
+            case DialogueSO.ActionOnEnd.NewDialogue:
+                StartDialogue(m_CurrentDialogue.nextDialogue);
+                break;
+
+            case DialogueSO.ActionOnEnd.ChangeScene:
+                SceneManager.LoadScene(m_CurrentDialogue.sceneName);
+                break;
+
+            case DialogueSO.ActionOnEnd.SetObjectsActive:
+                foreach (GameObject obj in m_CurrentDialogue.objectsToActivate)
+                {
+                    obj.SetActive(true);
+                }
+                break;
+
+            case DialogueSO.ActionOnEnd.InstantiateObjects:
+                foreach (GameObject obj in m_CurrentDialogue.objectsToInstantiate)
+                {
+                    Instantiate(obj);
+                }
+                break;
+
+            default:
+                Debug.Log("no ending behavior set in current dialouge");
+                break;
+        }
     }
 }

@@ -24,7 +24,7 @@ public class GrabberMovement : MonoBehaviour
         animator.SetBool("Chasing", false);
         ButtonMash = GetComponentInParent<ButtonMash>();
 
-        SomeoneGrabbedPlayer = false;
+        
     }
 
     // Update is called once per frame

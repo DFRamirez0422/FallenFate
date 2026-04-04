@@ -84,9 +84,9 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         
-        if (!m_IsEnabled || GameState.GameplayLocked)
+        if (!m_IsEnabled )
             return;
-        if (m_PlayerCombat.m_IsAttacking)
+        if (m_PlayerCombat.m_IsAttacking || GameState.GameplayLocked)
         {
             m_Rigidbody.linearVelocity = Vector2.zero;
             m_Rigidbody.angularVelocity = 0f;

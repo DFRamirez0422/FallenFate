@@ -18,19 +18,37 @@ public class CameraWaypointSystem : MonoBehaviour
 
     private bool isPlaying;
     private Coroutine routine;
+    
+    LetterBoxController letterBox;
+    
+    PlayerMovement playerMovement;
+    PlayerAnimator playerAnimator;
 
+    void Awake()
+    {
+        
+        letterBox = FindFirstObjectByType<LetterBoxController>();
+    }
+   
+        
+    
     public void StartWaypointSequence()
     {
         if (isPlaying) return;
 
+        if (letterBox != null)
+            letterBox.EnableBars();
+
         if (routine != null) StopCoroutine(routine);
-        routine = StartCoroutine(WaypointRoutine());
+            routine = StartCoroutine(WaypointRoutine());
     }
 
     private IEnumerator WaypointRoutine()
     {
         isPlaying = true;
         GameState.GameplayLocked = true;
+        
+
         // Start proxy at current player position
         camTarget.position = Player.position;
 
@@ -58,6 +76,9 @@ public class CameraWaypointSystem : MonoBehaviour
         // Restore gameplay follow
         cam.Follow = Player;
         cam.LookAt = Player;
+        
+        if (letterBox != null)
+            letterBox.DisableBars();
 
         isPlaying = false;
         routine = null;

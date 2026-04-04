@@ -29,6 +29,15 @@ public class Waypoints : MonoBehaviour
         {
             IsMoving = false;
         }
+
+        if (IsMoving == false)
+        {
+            animator.SetBool("Idle", true);
+        }
+        else if (IsMoving == true)
+        {
+            animator.SetBool("Idle", false);
+        }
     }
 
     public void Move()
@@ -48,6 +57,5 @@ public class Waypoints : MonoBehaviour
 
         animator.SetFloat("DirX", normalizedDirection.x);
         animator.SetFloat("DirY", normalizedDirection.y);
-
     }
 }
