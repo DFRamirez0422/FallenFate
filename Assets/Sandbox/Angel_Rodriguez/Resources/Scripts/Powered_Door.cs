@@ -50,8 +50,10 @@ public class Powered_Door : CollidableObject
     // Show the prompt when the player enters the trigger area
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
+
             _SpawnedPrompt = Instantiate(PoweredDoorPrompt);
             _SpawnedPrompt.SetActive(true);
             if (activateGenerators.Activate_Generator && activate_Generator2.Activate_Generator)
@@ -72,7 +74,8 @@ public class Powered_Door : CollidableObject
     // Hide the prompt when the player exits the trigger area
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
             PoweredDoorPrompt.SetActive(false);
             PoweredDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";

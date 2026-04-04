@@ -70,7 +70,8 @@ public class OpenDoors : CollidableObject
     // Show prompt when collision with player
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
             if (pickUpManager.items.Contains(Key)){
             _SpawnedPrompt = Instantiate(OpenDoorPrompt);
@@ -93,7 +94,8 @@ public class OpenDoors : CollidableObject
     // Hide prompt when player exits collision area
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
             OpenDoorPrompt.SetActive(false);
             OpenDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";

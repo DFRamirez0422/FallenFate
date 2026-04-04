@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,8 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     private PickUp_Manager pickUpManager;
     public Item_Data itemData;
     [Tooltip("For EnemySpawner too Check if item is picked up or not")]
-    public bool isPickedUp = false; // Flag to check if the item has been picked up
+    public bool isPickedUp = false; // Flag to check if the item has been picked 
+
 
     [Header("UI Elements")]
     [Tooltip("UI Prompt to show when player can pick up the item")]
@@ -46,20 +48,9 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     protected override void OnCollide(GameObject other)
     {
         if(isPickedUp) return; // If the item is already picked up, do nothing
-
-        //THis for the items that are used for the EnemySpawner
-            Room1_EnemySpawner enemySpawner = GetComponent<Room1_EnemySpawner>();
-            if(Input.GetButtonDown("Interact") && enemySpawner != null)
-            {
-
-                PickUpSound.Play();
-                pickUpManager.items.Add(itemData);
-                this.gameObject.GetComponent<SpriteRenderer>().enabled = false; // Hide the item visually
-                isPickedUp = true; // Set the flag to true when the item is picked up
-            }
-            
+        
             // This is for the regular items that are not used for the EnemySpawner
-            else if (Input.GetButtonDown("Interact") && enemySpawner == null)
+            if (Input.GetButtonDown("Interact"))
             {
                 PickUpSound.Play();
                 pickUpManager.items.Add(itemData);
@@ -72,7 +63,7 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     // Show prompt when player enters trigger area
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Hitboxs"))
         {
             PickUpPromptPrefab = Instantiate(PickUpPrompt);
             PickUpPromptPrefab.SetActive(true);
@@ -85,7 +76,7 @@ public class PickUpObjects : CollidableObject // Inherits from CollidableObject
     // Hide prompt when player exits trigger area
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Hitboxs"))
         {
             PickUpPrompt.SetActive(false);
             PickUpPrompt.GetComponentsInChildren<Text>()[0].text = "";

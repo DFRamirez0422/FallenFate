@@ -46,6 +46,7 @@ void Update()
    // This method updates the progress of a specific quest objective based on the player's inventory and discovered locations.
    public void updateQuestProgress(QuestSO quest, QuestObjective objective)
    {
+
     if(!questProgress.ContainsKey(quest)){
        questProgress[quest] = new Dictionary<QuestObjective, int>();
     }
@@ -61,14 +62,19 @@ void Update()
     {
         newAmount = objective.requiredAmount;        
     }
-
-    /*
-    else if(objective.targetActor != null && GameManager.s_Instance.Ac)
-        {
-            
+    else if(objective.targetActor != null)
+    {
+        ActorSO targetActor = new ActorSO();
+        targetActor = objective.targetActor;
+        if(DialogueHistoryTracker.Instance.HasSpokenWith(targetActor))
             newAmount = objective.requiredAmount;
-        }
-    */
+        else
+            newAmount = 0;
+    }
+    else
+    {
+        newAmount = 0;
+    }
 
     progressDictionary[objective] = newAmount;
     

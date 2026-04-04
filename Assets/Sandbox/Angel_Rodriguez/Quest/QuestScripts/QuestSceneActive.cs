@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class QuestSceneActive : MonoBehaviour
 {
+    [Header("Scene Names")]
     [SerializeField] private string scene1;
     [SerializeField] private string scene2;
     [SerializeField] private string scene3;
     
+    [Header("Quest Sets and Area Names")]
     [SerializeField] private GameObject QuestSet1;
     [SerializeField] private GameObject QuestSet2;
     [SerializeField] private GameObject QuestSet3;

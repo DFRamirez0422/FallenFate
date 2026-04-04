@@ -45,7 +45,8 @@ public class Activate_Generators : CollidableObject
     // Show prompt when collision with player
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
                 _SpawnedPrompt = Instantiate(ActivateGeneratorPrompt);
                 if(!Activate_Generator)
@@ -55,7 +56,7 @@ public class Activate_Generators : CollidableObject
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
                 _SpawnedPrompt.SetActive(true);
                 }
-                else
+                else if(Activate_Generator)
                 {
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Generator Activated";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
@@ -69,7 +70,8 @@ public class Activate_Generators : CollidableObject
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
                 if(Activate_Generator)
                 {
@@ -84,7 +86,8 @@ public class Activate_Generators : CollidableObject
     // Hide prompt when player exits collision area
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
             _SpawnedPrompt.SetActive(false);
             _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
