@@ -26,36 +26,36 @@ public class WardenJumpScare : MonoBehaviour
         TextCanvas.SetActive(false);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        health = collision.gameObject.GetComponent<PlayerHealth>();
-        Debug.Log("Collided with: " + collision.gameObject.name);
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    health = collision.gameObject.GetComponent<PlayerHealth>();
+    //    Debug.Log("Collided with: " + collision.gameObject.name);
 
-        if (health != null)
-        {
-            if (health.CurrentHealth > 0)
-            {
-                health.ChangeHealth(-2);
-                movement.stunned = true;
-                text.text = "Damaged";
-                TextCanvas.SetActive(true);
-                StartCoroutine(HideTextCanvasDamage());
-            }
+    //    //if (health != null)
+    //    //{
+    //    //    if (health.CurrentHealth > 0)
+    //    //    {
+    //    //        health.ChangeHealth(-2);
+    //    //        movement.stunned = true;
+    //    //        text.text = "Damaged";
+    //    //        TextCanvas.SetActive(true);
+    //    //        StartCoroutine(HideTextCanvasDamage());
+    //    //    }
 
-            //This is the thing that starts the jumpscare
-            //if (health.CurrentHealth <= 0)
-            //{
-            //    jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
+    //    //    This is the thing that starts the jumpscare
+    //    //    if (health.CurrentHealth <= 0)
+    //    //    {
+    //    //        jumpscareImage.SetActive(true); Debug.Log("Enabled Image");
 
-            //    if (jumpscareClip1 != null)
-            //    {
-            //        jumpscareSource.PlayOneShot(jumpscareClip1);
-            //    }
-            //    StartCoroutine(CloseJumpscare());
-            //}
-        }
+    //    //        if (jumpscareClip1 != null)
+    //    //        {
+    //    //            jumpscareSource.PlayOneShot(jumpscareClip1);
+    //    //        }
+    //    //        StartCoroutine(CloseJumpscare());
+    //    //    }
+    //    //}
 
-    }
+    //}
 
     private IEnumerator CloseJumpscare()
     {

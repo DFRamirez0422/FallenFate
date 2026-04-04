@@ -29,11 +29,11 @@ public class EnemyCombat : MonoBehaviour
         // Only apply damage and knockback to the first player hit, if any. This prevents multiple hits from one attack.
         if (hits.Length > 0)
         {
-            var health = hits[0].GetComponent<PlayerHealth>();
+            var health = hits[0].GetComponentInParent<PlayerHealth>();
             if (health != null)
                 health.TakeDamage(m_Damage, transform);
 
-            var movement = hits[0].GetComponent<PlayerMovement>();
+            var movement = hits[0].GetComponentInParent<PlayerMovement>();
             if (movement != null)
                 movement.Knockback(transform, m_KnockBackForce, m_StunTime);
         }

@@ -80,9 +80,9 @@ public class EnemyMovement : MonoBehaviour
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(m_DetectionPoint.position, m_PlayerDetectRange, m_PlayerLayer);
 
-        if (hits.Length > 0 && hits[0].gameObject.GetComponent<PlayerMovement>().IsActive)
+        if (hits.Length > 0 && hits[0].GetComponentInParent<PlayerMovement>().IsActive)
         {
-            m_Player =  hits[0].transform;
+            m_Player = hits[0].transform.root;
     
             if (Vector2.Distance(transform.position, m_Player.position) < m_AttackRange && m_AttackCooldownTimer <= 0)
             {

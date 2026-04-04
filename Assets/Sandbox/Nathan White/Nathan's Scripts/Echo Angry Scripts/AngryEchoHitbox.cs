@@ -7,7 +7,7 @@ public class AngryEchoHitbox : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        health = GameObject.FindWithTag("Player").GetComponent<PlayerHealth>();
     }
 
     // Update is called once per frame
@@ -18,9 +18,10 @@ public class AngryEchoHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        Debug.Log(collision.tag);
+        if (collision.gameObject.tag == "Hitboxs")
         {
-            health = collision.gameObject.GetComponent<PlayerHealth>();
+            Debug.Log("Should hit you");
             health.TakeDamage(1,transform);
         }
     }
