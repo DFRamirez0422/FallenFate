@@ -48,7 +48,7 @@ public class NPCBase : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (gameObject.activeSelf && collision.gameObject.CompareTag("Player"))
         {
             SwitchState(NPCState.Talk);
         }
@@ -56,7 +56,7 @@ public class NPCBase : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (gameObject.activeSelf && collision.gameObject.CompareTag("Player"))
         {
             SwitchState(m_DefaultState);
         }

@@ -4,10 +4,15 @@ using UnityEngine.SceneManagement;
 public class GameOverScreen : MonoBehaviour
 {    
     private CanvasGroup m_CanvasGroup;
+    private bool m_SavedCursorVisible;
+    private CursorLockMode m_SavedCursorLockState;
 
     void Awake()
     {
-        HideScreen();
+        m_CanvasGroup = GetComponent<CanvasGroup>();
+        m_CanvasGroup.alpha = 0;
+        m_CanvasGroup.interactable = false;
+        m_CanvasGroup.blocksRaycasts = false;
     }
 
     public void DisplayScreen()
@@ -16,6 +21,12 @@ public class GameOverScreen : MonoBehaviour
         m_CanvasGroup.alpha = 1;
         m_CanvasGroup.interactable = true;
         m_CanvasGroup.blocksRaycasts = true;
+
+        // Ensure the cursor is visible.
+        m_SavedCursorVisible = Cursor.visible;
+        m_SavedCursorLockState = Cursor.lockState;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         // Disable all player and AI movement.
         // TODO: respawn points do not work at all if the time scale is set to zero.
@@ -28,6 +39,8 @@ public class GameOverScreen : MonoBehaviour
         m_CanvasGroup.alpha = 0;
         m_CanvasGroup.interactable = false;
         m_CanvasGroup.blocksRaycasts = false;
+        Cursor.visible = m_SavedCursorVisible;
+        Cursor.lockState = m_SavedCursorLockState;
     }
 
     public void OnPressRetryButton()
