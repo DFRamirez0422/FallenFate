@@ -10,12 +10,7 @@ public class SaveManager : MonoBehaviour
     [Header("Runtime References")]
     public Transform player;
     public PlayerHealth playerHealthComponent;
-    public PickUp_Manager pickupManager;
-    public QuestManager questManager;
-
-    private readonly List<GameObject> enemies = new List<GameObject>();
-    private readonly List<GameObject> items = new List<GameObject>();
-
+    
     private bool applyingLoad = false;
 
     void Awake()
@@ -47,21 +42,12 @@ public class SaveManager : MonoBehaviour
 
     public void CacheSceneObjects()
     {
-        enemies.Clear();
-        items.Clear();
-
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             player = playerObj.transform;
             playerHealthComponent = playerObj.GetComponent<PlayerHealth>();
         }
-
-        enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
-        items.AddRange(GameObject.FindGameObjectsWithTag("Item"));
-
-        pickupManager = FindObjectOfType<PickUp_Manager>();
-        questManager = FindObjectOfType<QuestManager>();
     }
 
     public void SaveGame()
@@ -87,21 +73,6 @@ public class SaveManager : MonoBehaviour
 
         // Edge case: never save a dead checkpoint
         data.playerHealth = Mathf.Max(currentHealth, 1);
-
-        foreach (GameObject enemy in enemies)
-        {
-            if (enemy != null && enemy.activeSelf)
-                data.activeEnemies.Add(enemy.name);
-        }
-
-        foreach (GameObject item in items)
-        {
-            if (item != null && !item.activeSelf)
-                data.collectedItems.Add(item.name);
-        }
-
-        if (questManager != null)
-           // data.questState = questManager.CurrentQuestState;
 
         SaveSystem.Save(data);
         Debug.Log("Autosave written.");
@@ -164,24 +135,5 @@ public class SaveManager : MonoBehaviour
             playerHealthComponent.m_CurrentHealth = Mathf.Max(data.playerHealth, 1);
             
         }
-
-        foreach (GameObject enemy in enemies)
-        {
-            if (enemy == null) continue;
-            enemy.SetActive(data.activeEnemies.Contains(enemy.name));
-        }
-
-        foreach (GameObject item in items)
-        {
-            if (item == null) continue;
-            bool wasCollected = data.collectedItems.Contains(item.name);
-            item.SetActive(!wasCollected);
-        }
-
-      //if (questManager != null)
-      // {
-      //     questManager.CurrentQuestState = data.questState;
-      //     questManager.ApplyQuestState();
-      // }
     }
 }

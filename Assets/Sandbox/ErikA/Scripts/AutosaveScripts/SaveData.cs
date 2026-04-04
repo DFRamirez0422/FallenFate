@@ -7,11 +7,7 @@ public class SaveData
 
     public float[] playerPosition = new float[3];
     public int playerHealth;
-
-    public List<string> activeEnemies = new List<string>();
-    public List<string> collectedItems = new List<string>();
-
-    public int questState;
+    
 }
 
 
