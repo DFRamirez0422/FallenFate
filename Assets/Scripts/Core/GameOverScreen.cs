@@ -32,14 +32,13 @@ public class GameOverScreen : MonoBehaviour
 
     public void OnPressRetryButton()
     {
-        // Re-enable all player and AI movement.
+        // Must resume before loading / respawning
         Time.timeScale = 1.0f;
 
         Debug.Log("Current scene will restart!");
         HideScreen();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
-        // Object should unalive itself once the retry button itself since it is decided it is merely an instance.
+        
         Destroy(this.gameObject);
     }
 
