@@ -7,7 +7,7 @@ public class HealingItems_Pickup : CollidableObject
     
     [SerializeField] PlayerHealth playerHealth;
     [SerializeField] private GameObject _UIPrompt;
-    GameObject UI_Action;
+    private GameObject UI_Action;
     [SerializeField] private Item_Data item_Data;
     [SerializeField] private AudioSource PickUp_Sound;
     protected override void Start()
@@ -28,9 +28,10 @@ public class HealingItems_Pickup : CollidableObject
                 playerHealth.ChangeHealth(1);
                 PickUp_Sound.Play();
                 Destroy(this.gameObject, PickUp_Sound.clip.length);
-                
             }
-            else{}
+            else
+            {
+            }
         }
     }
     
@@ -39,11 +40,31 @@ public class HealingItems_Pickup : CollidableObject
     {
         if (other.CompareTag("Hitboxs"))
         {
+            playerHealth = other.GetComponentInParent<PlayerHealth>();
             UI_Action = Instantiate(_UIPrompt);
-            UI_Action.SetActive(true);
             UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
             UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
             UI_Action.GetComponentsInChildren<Text>()[2].text = "";
+            UI_Action.SetActive(true);
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Hitboxs")){
+           playerHealth = collision.GetComponentInParent<PlayerHealth>();
+         if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
+            {
+               UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
+               UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
+               UI_Action.GetComponentsInChildren<Text>()[2].text = "";
+            }
+            else
+            {
+                UI_Action.GetComponentsInChildren<Text>()[0].text = "";
+                UI_Action.GetComponentsInChildren<Text>()[1].text = "";
+                UI_Action.GetComponentsInChildren<Text>()[2].text = "Health is full";
+            }
         }
     }
 

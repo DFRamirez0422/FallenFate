@@ -1,23 +1,20 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OpenDoor_NoKey : CollidableObject
 {
-    [SerializeField] private Vector3 _TranslatePosition;
-
+    private AudioSource _doorOpenSound; // Sound to play when the door opens
+    private Animator DoorAnimator; // Animator for the door
     [Header("UI Elements")]
     [SerializeField] private GameObject OpenDoorPrompt;
     private GameObject _SpawnedPrompt;
     private bool _doorOpened = false;
 
-     void Awake()
-    {
-        // Load the prompt prefab from the Resources folder
-        OpenDoorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription"); 
-    }
-
     protected override void Start()
     {
         base.Start(); // Calls the Start method of CollidableObject
+        _doorOpenSound = GetComponent<AudioSource>();
+        DoorAnimator = GetComponent<Animator>();
     }
 
     protected override void OnCollide(GameObject other)
@@ -35,20 +32,22 @@ public class OpenDoor_NoKey : CollidableObject
     // Method to open the door
     private void OpenDoor()
     {
-        transform.Translate(_TranslatePosition); // Move the door up to simulate opening
-        GetComponent<Collider2D>().enabled = false; // Disable the collider to allow passage
+        Debug.Log("Door Opened");
+        _doorOpenSound.Play();
+        DoorAnimator.SetBool("Open", true);
         _doorOpened = true;
     }
     
     // Show the prompt when the player enters the trigger area
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
                 _SpawnedPrompt = Instantiate(OpenDoorPrompt);
-                _SpawnedPrompt.GetComponentsInChildren<UnityEngine.UI.Text>()[0].text = "Open Door";
-                _SpawnedPrompt.GetComponentsInChildren<UnityEngine.UI.Text>()[1].text = "[x]";
-                _SpawnedPrompt.GetComponentsInChildren<UnityEngine.UI.Text>()[2].text = "";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "[x]";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
                 _SpawnedPrompt.SetActive(true);
         }   
     }
@@ -56,12 +55,14 @@ public class OpenDoor_NoKey : CollidableObject
     // Hide the prompt when the player exits the trigger area
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
         {
             _SpawnedPrompt.SetActive(false);
-            _SpawnedPrompt.GetComponentsInChildren<UnityEngine.UI.Text>()[0].text = "";
-            _SpawnedPrompt.GetComponentsInChildren<UnityEngine.UI.Text>()[1].text = "";
-            _SpawnedPrompt.GetComponentsInChildren<UnityEngine.UI.Text>()[2].text = "";
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
+            _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
             Destroy(_SpawnedPrompt);
         }
     }
