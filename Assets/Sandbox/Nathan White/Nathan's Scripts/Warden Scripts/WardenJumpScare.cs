@@ -57,13 +57,40 @@ public class WardenJumpScare : MonoBehaviour
 
     //}
 
-    private IEnumerator CloseJumpscare()
+    public void Taunt()
+    {
+        TextCanvas.SetActive(true);
+        int rando = Random.Range(1, 4);
+
+        if (rando == 1)
+        {
+            text.text = "Useless";
+        }
+        else if (rando == 2)
+        {
+            text.text = "Worthless";
+        }
+        else if (rando == 3)
+        {
+            text.text = "Pitiful";
+        }
+        else if (rando == 4)
+        {
+            text.text = "Futile";
+        }
+        HideTextCanvas();
+    }
+
+
+    
+
+private IEnumerator CloseJumpscare()
     {
         yield return new WaitForSeconds(2);
         jumpscareImage.SetActive(false);
     }
 
-    private IEnumerator HideTextCanvasDamage()
+    private IEnumerator HideTextCanvas()
     {
         yield return new WaitForSeconds(2);
         TextCanvas.SetActive(false);
