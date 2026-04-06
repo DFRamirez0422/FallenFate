@@ -7,7 +7,8 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private int m_MaxHealth;
     [SerializeField] private UnityEvent m_OnHit;
 
-    private int m_CurrentHealth;
+    
+    public int m_CurrentHealth;
     private EnemyHitScript m_HitReaction;
     private Animator animator;
     public float DeathDelay = 0;
