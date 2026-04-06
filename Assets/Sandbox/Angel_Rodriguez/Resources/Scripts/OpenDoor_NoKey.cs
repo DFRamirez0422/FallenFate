@@ -42,7 +42,7 @@ public class OpenDoor_NoKey : CollidableObject
     void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs"))
+        if (hitCollider.CompareTag("Hitboxs") || hitCollider.CompareTag("Player"))
         {
                 _SpawnedPrompt = Instantiate(OpenDoorPrompt);
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
@@ -57,7 +57,7 @@ public class OpenDoor_NoKey : CollidableObject
     {
 
         Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs"))
+        if (hitCollider.CompareTag("Hitboxs") || hitCollider.CompareTag("Player"))
         {
             _SpawnedPrompt.SetActive(false);
             _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
