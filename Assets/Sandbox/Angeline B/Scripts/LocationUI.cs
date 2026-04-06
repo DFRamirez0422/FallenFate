@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System.Collections.Generic;
 
 public class LocationUI : MonoBehaviour
 {
@@ -13,16 +12,8 @@ public class LocationUI : MonoBehaviour
 
     private Coroutine currentRoutine;
 
-    private HashSet<string> visitedLocations = new HashSet<string>();
-
     public void ShowLocation(string locationName)
     {
-
-        if (visitedLocations.Contains(locationName))
-            return;
-
-        visitedLocations.Add(locationName);
-
         if (currentRoutine != null)
         {
             StopCoroutine(currentRoutine);
@@ -33,10 +24,12 @@ public class LocationUI : MonoBehaviour
 
     IEnumerator FadeRoutine(string locationName)
     {
-        
+        locationText.text = locationName;
 
         yield return StartCoroutine(Fade(0, 1));
+
         yield return new WaitForSeconds(displayTime);
+
         yield return StartCoroutine(Fade(1, 0));
     }
 
