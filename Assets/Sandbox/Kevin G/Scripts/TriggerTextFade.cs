@@ -10,7 +10,7 @@ public class TriggerTextFade : MonoBehaviour
 
     [Header("Timing")]
     public float fadeDuration = 1f;
-    public float displayTime = 5f;
+    public float displayTime = 15f;
 
     private Coroutine currentRoutine;
 
@@ -36,7 +36,6 @@ public class TriggerTextFade : MonoBehaviour
         yield return new WaitForSeconds(displayTime);
         yield return StartCoroutine(FadeCanvas(1f, 0f));
 
-        gameObject.SetActive(false);
         currentRoutine = null;
     }
 
