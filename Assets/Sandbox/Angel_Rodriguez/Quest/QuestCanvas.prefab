@@ -405,13 +405,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2577745440abf2347a53c1b47ce6ade8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene1: Act 1 CUTSCENE
+  scene1: Act 1 REMAKE
   scene2: Act 2 Main Scene
   scene3: 1 Solitary Confinment
   QuestSet1: {fileID: 892554710387782067}
   QuestSet2: {fileID: 1939810721536697788}
   QuestSet3: {fileID: 5352877175877941814}
-  QuestAreaName1: Prison Docks
+  QuestAreaName1: Prison Docks/ Prison Front
   QuestAreaName2: Prison Cells/ Prison Yard
   QuestAreaName3: Solitary Confinement
   QuestAreaNameText: {fileID: 2662218004913338585}
@@ -436,8 +436,8 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -472,9 +472,9 @@ RectTransform:
   - {fileID: 7458599508593523879}
   m_Father: {fileID: 6015509631736847836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1312.4167, y: -418.625}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 512.1667, y: 837.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3359598096393197343
@@ -729,9 +729,9 @@ RectTransform:
   - {fileID: 8802616625224703869}
   m_Father: {fileID: 6015509631736847836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 272.08334, y: -418.625}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 544.1667, y: 837.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3088152226562421589
@@ -1043,7 +1043,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1051,15 +1051,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 512.1667
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 837.25
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1091,11 +1103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 800.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -418.625
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 914690491057132013, guid: 2dcd12df7ead07a45afe101ae22d3c98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1171,10 +1183,18 @@ PrefabInstance:
       propertyPath: questLogUI
       value: 
       objectReference: {fileID: 2418107819614062655}
+    - target: {fileID: 3253024258916536277, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: DisplayNextQuestButton
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3520420998507479508, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
       propertyPath: questLogUI
       value: 
       objectReference: {fileID: 2418107819614062655}
+    - target: {fileID: 3520420998507479508, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: DisplayNextQuestButton
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4037832770650344541, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
