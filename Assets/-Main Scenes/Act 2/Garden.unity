@@ -1772,6 +1772,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8246349862611884816, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
   m_PrefabInstance: {fileID: 212533256}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &212533258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+  m_PrefabInstance: {fileID: 212533256}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e76cca896a8eb40a275c069653f834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &212533270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8496,6 +8507,51 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a913be0fb595d84c85ef0b2eeb00596, type: 3}
+--- !u!1 &1679161737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1679161739}
+  - component: {fileID: 1679161738}
+  m_Layer: 0
+  m_Name: HealthTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1679161738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679161737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d389c82b9e20f4fbd2b6fa2ea99432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerObject: {fileID: 212533258}
+--- !u!4 &1679161739
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679161737}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1710686330
 GameObject:
   m_ObjectHideFlags: 0
@@ -11470,6 +11526,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1865250403}
+  - {fileID: 1679161739}
   - {fileID: 781675301}
   - {fileID: 247704948}
   - {fileID: 1991068469}
