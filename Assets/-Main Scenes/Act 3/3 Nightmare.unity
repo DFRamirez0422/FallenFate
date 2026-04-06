@@ -2403,10 +2403,12 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -16.766869, y: 25.27568}
-  - {x: -16.680477, y: 25.451555}
-  - {x: -15.62376, y: 25.526138}
-  - {x: -15.329472, y: 25.62232}
+  - {x: -17.133898, y: 25.152685}
+  - {x: -16.715326, y: 25.104065}
+  - {x: -15.57381, y: 25.118532}
+  - {x: -15.495993, y: 25.147245}
+  - {x: -15.415339, y: 25.293898}
+  - {x: -15.40093, y: 25.64614}
   - {x: -14.438871, y: 25.56206}
   - {x: -13.319906, y: 24.830034}
   - {x: -13.254408, y: 24.777634}
@@ -2478,7 +2480,9 @@ EdgeCollider2D:
   - {x: -21.074818, y: 25.749275}
   - {x: -20.354313, y: 25.867424}
   - {x: -20.038395, y: 25.580597}
-  - {x: -18.76472, y: 25.461084}
+  - {x: -18.757914, y: 25.222548}
+  - {x: -18.630249, y: 25.296404}
+  - {x: -17.155403, y: 25.158262}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -5025,37 +5029,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 747648991}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &754366550
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 754366551}
-  m_Layer: 0
-  m_Name: Waypoint (6)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &754366551
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 754366550}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.22, y: 24.22, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1572122469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &808575321
 GameObject:
@@ -8897,7 +8870,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 34374641
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 3586392811686792816, guid: 2301cfbb2a48b1a429566aa637d9d5dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8960,7 +8933,7 @@ MonoBehaviour:
   - {fileID: 808575322}
   - {fileID: 78743709}
   - {fileID: 167087415}
-  - {fileID: 754366551}
+  - {fileID: 2103906908}
   moveSpeed: 2
   waypointIndex: 0
   IsMoving: 0
@@ -9171,7 +9144,7 @@ Transform:
   - {fileID: 808575322}
   - {fileID: 78743709}
   - {fileID: 167087415}
-  - {fileID: 754366551}
+  - {fileID: 2103906908}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1583888344
@@ -11524,6 +11497,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2103906907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2103906908}
+  m_Layer: 0
+  m_Name: Waypoint (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2103906908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103906907}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.59, y: 12.39, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1572122469}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
