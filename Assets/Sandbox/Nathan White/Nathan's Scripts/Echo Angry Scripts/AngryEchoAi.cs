@@ -50,11 +50,12 @@ public class AngryEchoAi : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Bcollision = true;
-        Debug.Log("Ai Collision");
-        animator.SetBool("IsAttacking", true);
-        
-       
+        if (collision.gameObject.tag == "Player")
+        {
+            Bcollision = true;
+            Debug.Log("Ai Collision");
+            animator.SetBool("IsAttacking", true);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
