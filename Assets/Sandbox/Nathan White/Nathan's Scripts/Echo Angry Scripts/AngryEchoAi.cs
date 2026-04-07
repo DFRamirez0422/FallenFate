@@ -62,14 +62,6 @@ public class AngryEchoAi : MonoBehaviour
        Bcollision = false;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        animator.SetBool("InRange", true);
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        animator.SetBool("InRange", false);
-    }
     private void TurnOnHitbox()
     {
         Hitbox.SetActive(true);

@@ -112,6 +112,12 @@ public class WardenMovement : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        isChasing = false;
+        WardensRigidBody.linearVelocity = Vector2.zero;
+    }
+
     public void NathansKnockbackClone()
     {
         knocked = true;
