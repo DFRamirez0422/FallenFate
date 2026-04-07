@@ -68,7 +68,7 @@ public class WardenJumpScare : MonoBehaviour
         }
         else if (rando == 2)
         {
-            text.text = "Worthless";
+            text.text = "Weak";
         }
         else if (rando == 3)
         {
@@ -78,7 +78,8 @@ public class WardenJumpScare : MonoBehaviour
         {
             text.text = "Futile";
         }
-        HideTextCanvas();
+
+        Invoke(nameof(HideTextCanvas), 0.5f);
     }
 
 
@@ -90,9 +91,8 @@ private IEnumerator CloseJumpscare()
         jumpscareImage.SetActive(false);
     }
 
-    private IEnumerator HideTextCanvas()
+    public void HideTextCanvas()
     {
-        yield return new WaitForSeconds(2);
         TextCanvas.SetActive(false);
     }
 
