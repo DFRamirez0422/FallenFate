@@ -488,6 +488,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1572122469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &101335909 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3094269918751492021, guid: 5e826f2069367294fa72cd35f4e420e2, type: 3}
+  m_PrefabInstance: {fileID: 731871245}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &117015110
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,6 +871,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 125502131}
   m_CullTransparentMesh: 1
+--- !u!1 &159500339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2566472594585514724, guid: e8be00862db218c428f883c75f9dfadb, type: 3}
+  m_PrefabInstance: {fileID: 2067038949}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &160699449
 GameObject:
   m_ObjectHideFlags: 0
@@ -8762,8 +8772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dceaec3bedbc814f8aea1a2636aa2f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Container: {fileID: 0}
-  OptionsPanel: {fileID: 0}
+  Container: {fileID: 101335909}
+  OptionsPanel: {fileID: 159500339}
 --- !u!4 &1434326739
 Transform:
   m_ObjectHideFlags: 0
@@ -9309,6 +9319,14 @@ PrefabInstance:
     - target: {fileID: 6025763865361937067, guid: eaafba236a05713488daebb266a08c4a, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6610447872567338654, guid: eaafba236a05713488daebb266a08c4a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -762
+      objectReference: {fileID: 0}
+    - target: {fileID: 6610447872567338654, guid: eaafba236a05713488daebb266a08c4a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
