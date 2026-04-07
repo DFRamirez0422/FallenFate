@@ -16,12 +16,22 @@ public class SoundDefinition : ScriptableObject
 
     [Header("Routing (optional)")]
     public AudioMixerGroup mixerGroup;
+    
+    private int lastIndex = -1; // store last index
 
-    // Returns a random AudioClip from the clips array, or null if the array is empty.
+    // Returns a random AudioClip from the clips array, or null if the array is empty. Stores last index to avoid immediate repeats when multiple clips are available.
     public AudioClip GetClip()
     {
         if (clips == null || clips.Length == 0) return null;
-        return clips.Length == 1 ? clips[0] : clips[Random.Range(0, clips.Length)];
+        if (clips.Length == 1) return clips[0];
+
+        int index = Random.Range(0, clips.Length);
+
+        if (index == lastIndex)
+            index = (index + 1) % clips.Length;
+
+        lastIndex = index;
+        return clips[index];
     }
 
     // Returns a volume value that is the base volume multiplied by a random factor within the specified range, clamped between 0 and 1.
