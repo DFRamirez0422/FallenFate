@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 1587133033856674525}
   - component: {fileID: 7991230484286277139}
   m_Layer: 0
-  m_Name: Hold Note
+  m_Name: DG_Hold Note
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,6 +397,7 @@ Transform:
   - {fileID: 508809110536528139}
   - {fileID: 390540688947539087}
   - {fileID: 2880442386539167134}
+  - {fileID: 7792112197282973522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7991230484286277139
@@ -1071,6 +1072,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8093162756254040880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7792112197282973522}
+  - component: {fileID: 6425127248521013285}
+  m_Layer: 0
+  m_Name: Holding_anim_controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7792112197282973522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8093162756254040880}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.70095, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1587133033856674525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6425127248521013285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8093162756254040880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4ed62481a1d194dadb71161b2cf871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 6494803527785272684, guid: 1b8572bb65491194ab1f32cc5acfb27f, type: 3}
+  m_HoldNote: {fileID: 7991230484286277139}
 --- !u!1 &8913883282031776126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,14 +1276,18 @@ PrefabInstance:
     - target: {fileID: 4318689219085293495, guid: f23340a29a852df4f88a496427906c96, type: 3}
       propertyPath: m_OnNoteTriggered.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 5676815005786083416}
+      objectReference: {fileID: 2362583600177760890, guid: 1b8572bb65491194ab1f32cc5acfb27f, type: 3}
     - target: {fileID: 4318689219085293495, guid: f23340a29a852df4f88a496427906c96, type: 3}
       propertyPath: m_OnNoteTriggered.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4318689219085293495, guid: f23340a29a852df4f88a496427906c96, type: 3}
       propertyPath: m_OnNoteTriggered.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Spawn
+      value: PlayAnim_Strum
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318689219085293495, guid: f23340a29a852df4f88a496427906c96, type: 3}
+      propertyPath: m_OnNoteTriggered.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Player_animation_Guitar, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4318689219085293495, guid: f23340a29a852df4f88a496427906c96, type: 3}
       propertyPath: m_OnNoteTriggered.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -1256,14 +1307,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3834473959448716932, guid: f23340a29a852df4f88a496427906c96, type: 3}
   m_PrefabInstance: {fileID: 1355489852464306970}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5676815005786083416 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6631466877207219010, guid: f23340a29a852df4f88a496427906c96, type: 3}
-  m_PrefabInstance: {fileID: 1355489852464306970}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbb54a6160b848bc9aaea7917d6bd6bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
