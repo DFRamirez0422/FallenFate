@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class StatTracker : MonoBehaviour
 {
+    public static StatTracker Instance;
+    
     private int lastPlayerHealth;
     private Scene currentScene;
     
@@ -12,8 +14,14 @@ public class StatTracker : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
-
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -27,6 +35,9 @@ public class StatTracker : MonoBehaviour
         // Find the new player in the scene
         PlayerObject = FindObjectOfType<PlayerHealth>();
 
+        if (PlayerObject == null)
+            return;
+        
         if (PlayerObject != null && IsAlive)
         {
             PlayerObject.m_CurrentHealth = lastPlayerHealth;
@@ -39,7 +50,11 @@ public class StatTracker : MonoBehaviour
 
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (Instance == this)
+        {
+          SceneManager.sceneLoaded -= OnSceneLoaded;  
+        }
+        
     }
 
     private void PlayerStats()

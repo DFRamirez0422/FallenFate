@@ -7,7 +7,10 @@ public class PlayerHitScript : MonoBehaviour
     [SerializeField] private string[] m_ImpactStateNames;
 
     [SerializeField] private float m_HorizontalOffset = 0.25f;
+    [SerializeField] private float m_GrabbedHorizontalOffset = 0.05f;
 
+    
+    
     private PlayerHealth m_PlayerHealth;
     private Vector3 m_OriginalLocalScale;
     private Vector3 m_OriginalLocalPosition;
@@ -15,6 +18,7 @@ public class PlayerHitScript : MonoBehaviour
     private void Awake()
     {
         m_PlayerHealth = GetComponent<PlayerHealth>();
+        
 
         if (m_ImpactEffect != null)
         {
@@ -38,6 +42,12 @@ public class PlayerHitScript : MonoBehaviour
 
         Vector3 newScale = m_OriginalLocalScale;
         Vector3 newPosition = m_OriginalLocalPosition;
+        
+        bool isGrabbed = GrabberMovement.SomeoneGrabbedPlayer;
+        
+        float offsetToUse = isGrabbed
+            ? Mathf.Abs(m_GrabbedHorizontalOffset)
+            : Mathf.Abs(m_HorizontalOffset);
 
         if (attacker != null)
         {
@@ -47,12 +57,12 @@ public class PlayerHitScript : MonoBehaviour
             if (directionFromAttacker.x >= 0f)
             {
                 newScale.x = Mathf.Abs(m_OriginalLocalScale.x);
-                newPosition.x = m_OriginalLocalPosition.x + Mathf.Abs(m_HorizontalOffset);
+                newPosition.x = m_OriginalLocalPosition.x + Mathf.Abs(offsetToUse);
             }
             else
             {
                 newScale.x = -Mathf.Abs(m_OriginalLocalScale.x);
-                newPosition.x = m_OriginalLocalPosition.x - Mathf.Abs(m_HorizontalOffset);
+                newPosition.x = m_OriginalLocalPosition.x - Mathf.Abs(offsetToUse);
             }
         }
 
