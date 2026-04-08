@@ -1,3 +1,4 @@
+using System.Transactions;
 using UnityEngine;
 
 public class EchoAi : MonoBehaviour
@@ -5,12 +6,13 @@ public class EchoAi : MonoBehaviour
     private Transform player;
     private ObjectFader objectFader;
 
-    public bool FaceAway;
+    public bool FaceAway, Started;
     public EchoWaypoint EchoWaypointScript;
     private AudioSource EchoDeathScream;
 
     private void Start()
     {
+        Started = true;
         objectFader = GetComponent<ObjectFader>();
         EchoWaypointScript = GetComponent<EchoWaypoint>();
         EchoDeathScream = GetComponent<AudioSource>();
