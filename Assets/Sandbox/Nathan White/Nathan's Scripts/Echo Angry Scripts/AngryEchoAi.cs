@@ -4,6 +4,8 @@ public class AngryEchoAi : MonoBehaviour
 {
     [HideInInspector]
     public Animator animator;
+    private AudioSource EchoDeathScream;
+
     public GameObject Hitbox;
     public bool FacePlayer;
     public Transform self;
@@ -16,6 +18,7 @@ public class AngryEchoAi : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        EchoDeathScream = GetComponent<AudioSource>();
         self = transform;
     }
 
@@ -75,5 +78,8 @@ public class AngryEchoAi : MonoBehaviour
         animator.SetBool("IsAttacking", false);
     }
 
-    
+    private void PlayDeath()
+    {
+        EchoDeathScream.Play();
+    }
 }

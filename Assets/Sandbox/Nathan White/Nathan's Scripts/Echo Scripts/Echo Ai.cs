@@ -7,11 +7,13 @@ public class EchoAi : MonoBehaviour
 
     public bool FaceAway;
     public EchoWaypoint EchoWaypointScript;
+    private AudioSource EchoDeathScream;
 
     private void Start()
     {
         objectFader = GetComponent<ObjectFader>();
         EchoWaypointScript = GetComponent<EchoWaypoint>();
+        EchoDeathScream = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -52,5 +54,9 @@ public class EchoAi : MonoBehaviour
     public void SelfDestroy()
     {
         Destroy(gameObject);
+    }
+    private void PlayDeath()
+    {
+        EchoDeathScream.Play();
     }
 }
