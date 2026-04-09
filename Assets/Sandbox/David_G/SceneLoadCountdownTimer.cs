@@ -4,17 +4,17 @@ using UnityEngine.Events;
 public class SceneLoadCountdownTimer : MonoBehaviour
 {
     [Header("Countdown Settings")]
-    [SerializeField] private int m_StartTimeSeconds = 60;
+    [SerializeField] private float m_StartTimeSeconds = 60;
     [Tooltip("If enabled, timer keeps counting even when Time.timeScale is 0 (paused). If disabled, timer uses normal game time and pauses with the game.")]
     [SerializeField] private bool m_UseUnscaledTime = false;
 
     [Header("Event Called At 00:00:00")]
     [SerializeField] private UnityEvent m_OnCountdownComplete;
 
-    public int StartTimeSeconds
+    public float StartTimeSeconds
     {
         get => m_StartTimeSeconds;
-        set => m_StartTimeSeconds = Mathf.Max(0, value);
+        set => m_StartTimeSeconds = Mathf.Max(0.0f, value);
     }
 
     public string CurrentTimeFormatted => FormatTime(m_RemainingTimeSeconds);
