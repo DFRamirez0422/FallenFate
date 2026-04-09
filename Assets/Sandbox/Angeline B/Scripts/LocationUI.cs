@@ -33,7 +33,7 @@ public class LocationUI : MonoBehaviour
 
     IEnumerator FadeRoutine(string locationName)
     {
-        
+        locationText.text = "" + locationName;
 
         yield return StartCoroutine(Fade(0, 1));
         yield return new WaitForSeconds(displayTime);
