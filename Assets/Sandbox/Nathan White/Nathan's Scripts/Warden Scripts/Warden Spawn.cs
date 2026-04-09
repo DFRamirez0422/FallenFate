@@ -35,8 +35,8 @@ public class WardenSpawn : MonoBehaviour
         {
             reset = true;
             
-            Invoke(nameof(disabletp), 1);
-            Invoke(nameof(Despawn), 1);
+            Invoke(nameof(disabletp), 0.5f);
+            Invoke(nameof(Despawn), 0.5f);
         }
     }
 
