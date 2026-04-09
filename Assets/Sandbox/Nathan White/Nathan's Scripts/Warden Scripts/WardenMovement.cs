@@ -19,6 +19,10 @@ public class WardenMovement : MonoBehaviour
 
     public GameObject Hitbox;
 
+    [Header("Audio")]
+    public AudioSource WarCry; //Attack Sound
+    public AudioSource MovementAudio;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -147,4 +151,20 @@ public class WardenMovement : MonoBehaviour
         animator.SetBool("Attacking", false);
         Hitbox.SetActive(false);
     }
+
+    private void PlayDeath()
+    {
+        //DeathScream.Play();
+    }
+
+    private void PlayAttack()
+    {
+        WarCry.Play();
+    }
+
+    private void PlayMovement()
+    {
+        MovementAudio.Play();
+    }
+
 }
