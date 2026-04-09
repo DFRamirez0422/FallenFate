@@ -14,6 +14,7 @@ public class DialogueSO : ScriptableObject
         ChangeScene, // Changes to a new scene given by a parameter.
         SetObjectsActive, // Activates a list of game objects in the scene.
         InstantiateObjects, // Instantiates a list of prefabs into the scene.
+        StartCutscene, // Starts a camera animation cutscene.
     }
 
     public DialogueLine[] lines;
@@ -37,6 +38,9 @@ public class DialogueSO : ScriptableObject
 
     [Tooltip("If 'InstantiateObject' was set, the list of all game object prefabs to spawn.")]
     public GameObject[] objectsToInstantiate;
+
+    [Tooltip("If 'StartCutscene' was set, the cutscene animation to load.")]
+    public string cutsceneToPlay; // TODO: I have zero clue where the camera animation code is.
 
     // items
     // locations

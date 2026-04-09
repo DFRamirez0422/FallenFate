@@ -67,7 +67,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            GameObject old = Instance.gameObject;
+            Destroy(old);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<PlayerAnimator>();
