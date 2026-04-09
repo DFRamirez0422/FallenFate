@@ -23,6 +23,7 @@ Table of contents for all project documentation files.
 ## Change Logs
 | Document | Description |
 |----------|-------------|
+| [2026-04-05 -- Audio Mixer Cleanup](2026-04-05_audio-mixer-cleanup.md) | Identifies which of the two mixers to keep, confirms UI group removal is safe, and lists Michael's sandbox demo files that need re-assignment |
 | [2026-03-12 -- Compile Error Library Cleanup](2026-03-12_compile-error-library-cleanup.md) | Removed editor/platform-only libraries from runtime scripts and replaced editor-only scene references with runtime-safe scene name checks |
 | [2026-03-12 -- Grabber Screen Shake PR #464 Conflict Resolution](2026-03-12_grabber-screen-shake-pr-464-conflict-resolution.md) | Merge-conflict resolution notes for PR #464 (`Nathan'sEnemies-Week-9` into `main`) |
 | [2026-02-24 -- Act1 Cutscene, Dialogue, and Tools](2026-02-24_act1-cutscene-dialogue-and-tools.md) | Consolidated changelog for scene, dialogue, transition, and sandbox utility updates |
