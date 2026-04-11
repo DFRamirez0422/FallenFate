@@ -14,58 +14,104 @@ public class Activate_Generators : CollidableObject
     private GameObject _SpawnedPrompt;
     [SerializeField] private AudioSource GeneratorActivateSound;
 
+    [Header("Objects To Activate")]
+    [SerializeField] private GameObject[] objectsToActivate;
+
+    [Header("Objects To Deactivate")]
+    [SerializeField] private GameObject[] objectsToDeactivate;
+
     [SerializeField] private Item_Data item_Data;
     private PickUp_Manager _pickUp_Manager;
 
-    // Initialize prompt references and use base Start method
-    // Override the Start method to set up references
     protected override void Start()
     {
-        this.GetComponent<SpriteRenderer>().sprite = Generator_Off; // Set initial sprite to off
+        GetComponent<SpriteRenderer>().sprite = Generator_Off;
         _pickUp_Manager = GameObject.FindGameObjectWithTag("PickUp_Manager").GetComponent<PickUp_Manager>();
         ActivateGeneratorPrompt = Resources.Load<GameObject>("Prefabs/UI_Prefabs/ActionDescription");
-        base.Start(); // Calls the Start method of CollidableObject
-
+        base.Start();
     }
-    
-    //Activate generator on collide and key press
+
     protected override void OnCollide(GameObject other)
     {
-        if(_hasActivated) return;
+        if (_hasActivated) return;
+
         if (Input.GetButtonDown("Interact"))
         {
-            Activate_Generator = true;
-            _hasActivated = true;
-            this.GetComponent<SpriteRenderer>().sprite = Generator_On; // Change sprite to on
-            _pickUp_Manager.items.Add(item_Data); // Add item to inventory
-            GeneratorActivateSound.Play();
+            ActivateGenerator();
         }
     }
-    
-    // Show prompt when collision with player
+
+    private void ActivateGenerator()
+    {
+        Activate_Generator = true;
+        _hasActivated = true;
+
+        GetComponent<SpriteRenderer>().sprite = Generator_On;
+
+        if (_pickUp_Manager != null && item_Data != null)
+        {
+            _pickUp_Manager.items.Add(item_Data);
+        }
+
+        if (GeneratorActivateSound != null)
+        {
+            GeneratorActivateSound.Play();
+        }
+
+        ActivateAssignedObjects();
+        DeactivateAssignedObjects();
+    }
+
+    private void ActivateAssignedObjects()
+    {
+        if (objectsToActivate == null || objectsToActivate.Length == 0)
+            return;
+
+        for (int i = 0; i < objectsToActivate.Length; i++)
+        {
+            if (objectsToActivate[i] != null)
+            {
+                objectsToActivate[i].SetActive(true);
+            }
+        }
+    }
+
+    private void DeactivateAssignedObjects()
+    {
+        if (objectsToDeactivate == null || objectsToDeactivate.Length == 0)
+            return;
+
+        for (int i = 0; i < objectsToDeactivate.Length; i++)
+        {
+            if (objectsToDeactivate[i] != null)
+            {
+                objectsToDeactivate[i].SetActive(false);
+            }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
         if (hitCollider.CompareTag("Hitboxs"))
         {
-                _SpawnedPrompt = Instantiate(ActivateGeneratorPrompt);
-                if(!Activate_Generator)
-                {
+            _SpawnedPrompt = Instantiate(ActivateGeneratorPrompt);
+
+            if (!Activate_Generator)
+            {
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Activate Generator";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "[x]";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
                 _SpawnedPrompt.SetActive(true);
-                }
-                else if(Activate_Generator)
-                {
+            }
+            else
+            {
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Generator Activated";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
                 _SpawnedPrompt.SetActive(true);
-                }
+            }
         }
-
-        
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -73,28 +119,29 @@ public class Activate_Generators : CollidableObject
         Collider2D hitCollider = collision.collider;
         if (hitCollider.CompareTag("Hitboxs"))
         {
-                if(Activate_Generator)
-                {
+            if (Activate_Generator && _SpawnedPrompt != null)
+            {
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "Generator Activated";
                 _SpawnedPrompt.SetActive(true);
-                }
+            }
         }
     }
 
-    // Hide prompt when player exits collision area
     private void OnCollisionExit2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
         if (hitCollider.CompareTag("Hitboxs"))
         {
-            _SpawnedPrompt.SetActive(false);
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
-            Destroy(_SpawnedPrompt);
+            if (_SpawnedPrompt != null)
+            {
+                _SpawnedPrompt.SetActive(false);
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
+                Destroy(_SpawnedPrompt);
+            }
         }
     }
-    
 }
