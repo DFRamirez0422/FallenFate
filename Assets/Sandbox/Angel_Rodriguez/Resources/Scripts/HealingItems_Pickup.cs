@@ -13,7 +13,6 @@ public class HealingItems_Pickup : CollidableObject
     protected override void Start()
     {
         base.Start(); // Calls the Start method of CollidableObject
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
     
     // overrides the OnCollide function
@@ -38,32 +37,23 @@ public class HealingItems_Pickup : CollidableObject
     // Shows propmt when player enters trigger area
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Hitboxs"))
+       if (other.CompareTag("Hitboxs"))
         {
-            playerHealth = other.GetComponentInParent<PlayerHealth>();
-            UI_Action = Instantiate(_UIPrompt);
-            UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
-            UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
-            UI_Action.GetComponentsInChildren<Text>()[2].text = "";
-            UI_Action.SetActive(true);
-        }
-    }
-
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        if(collision.CompareTag("Hitboxs")){
-           playerHealth = collision.GetComponentInParent<PlayerHealth>();
-         if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
+             playerHealth = other.GetComponentInParent<PlayerHealth>();
+             UI_Action = Instantiate(_UIPrompt);
+             if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
             {
                UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
                UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
                UI_Action.GetComponentsInChildren<Text>()[2].text = "";
+               UI_Action.SetActive(true);
             }
             else
             {
                 UI_Action.GetComponentsInChildren<Text>()[0].text = "";
                 UI_Action.GetComponentsInChildren<Text>()[1].text = "";
                 UI_Action.GetComponentsInChildren<Text>()[2].text = "Health is full";
+                UI_Action.SetActive(true);
             }
         }
     }
@@ -73,6 +63,7 @@ public class HealingItems_Pickup : CollidableObject
     {
         if (other.CompareTag("Hitboxs"))
         {
+            playerHealth = null;
             UI_Action.SetActive(false);
             UI_Action.GetComponentsInChildren<Text>()[0].text = "";
             UI_Action.GetComponentsInChildren<Text>()[1].text = "";

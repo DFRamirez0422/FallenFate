@@ -5,10 +5,6 @@ using UnityEngine;
 // Manages the list of picked up items
 public class PickUp_Manager : MonoBehaviour
 {
-    void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
 
     public List<Item_Data> items;
 

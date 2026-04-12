@@ -41,8 +41,8 @@ public class OpenDoor_NoKey : CollidableObject
     // Show the prompt when the player enters the trigger area
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs") || hitCollider.CompareTag("Player"))
+        
+        if (collision.collider.CompareTag("Player"))
         {
                 _SpawnedPrompt = Instantiate(OpenDoorPrompt);
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
@@ -56,8 +56,7 @@ public class OpenDoor_NoKey : CollidableObject
     void OnCollisionExit2D(Collision2D collision)
     {
 
-        Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs") || hitCollider.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player"))
         {
             _SpawnedPrompt.SetActive(false);
             _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";

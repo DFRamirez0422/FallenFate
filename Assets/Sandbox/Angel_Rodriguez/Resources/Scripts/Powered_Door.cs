@@ -44,6 +44,10 @@ public class Powered_Door : CollidableObject
                 _doorOpenSound.Play(); // Play door opening sound
                 _doorOpened = true;
             }
+            else
+            {
+                Debug.Log("The door is not powered.");
+            }
         }
     }
     
@@ -51,7 +55,7 @@ public class Powered_Door : CollidableObject
     void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs"))
+        if (hitCollider.CompareTag("Player"))
         {
 
             _SpawnedPrompt = Instantiate(PoweredDoorPrompt);
@@ -75,7 +79,7 @@ public class Powered_Door : CollidableObject
     private void OnCollisionExit2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs"))
+        if (hitCollider.CompareTag("Player"))
         {
             PoweredDoorPrompt.SetActive(false);
             PoweredDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";

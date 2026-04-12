@@ -71,7 +71,7 @@ public class OpenDoors : CollidableObject
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs") || hitCollider.CompareTag("Player"))
+        if (hitCollider.CompareTag("Player"))
         {
             if (pickUpManager.items.Contains(Key)){
             _SpawnedPrompt = Instantiate(OpenDoorPrompt);
@@ -95,7 +95,7 @@ public class OpenDoors : CollidableObject
     private void OnCollisionExit2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs") || hitCollider.CompareTag("Player"))
+        if (hitCollider.CompareTag("Player"))
         {
             OpenDoorPrompt.SetActive(false);
             OpenDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";
