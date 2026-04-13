@@ -35,8 +35,8 @@ public class WardenSpawn : MonoBehaviour
         {
             reset = true;
             
-            Invoke(nameof(disabletp), 1);
-            Invoke(nameof(Despawn), 1);
+            Invoke(nameof(disabletp), 0.5f);
+            Invoke(nameof(Despawn), 0.5f);
         }
     }
 
@@ -59,5 +59,6 @@ public class WardenSpawn : MonoBehaviour
         animator.SetBool("Despawn", false);
         Warden.transform.position = targetSpawnPoint.position;
         animator.SetBool("Respawn", true);
+        animator.SetBool("Attacking", false);
     }
 }

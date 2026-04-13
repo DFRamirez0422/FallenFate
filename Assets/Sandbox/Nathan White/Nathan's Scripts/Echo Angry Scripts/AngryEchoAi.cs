@@ -4,6 +4,8 @@ public class AngryEchoAi : MonoBehaviour
 {
     [HideInInspector]
     public Animator animator;
+    private AudioSource EchoDeathScream;
+
     public GameObject Hitbox;
     public bool FacePlayer;
     public Transform self;
@@ -16,6 +18,7 @@ public class AngryEchoAi : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        EchoDeathScream = GetComponent<AudioSource>();
         self = transform;
     }
 
@@ -50,11 +53,12 @@ public class AngryEchoAi : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Bcollision = true;
-        Debug.Log("Ai Collision");
-        animator.SetBool("IsAttacking", true);
-        
-       
+        if (collision.gameObject.tag == "Player")
+        {
+            Bcollision = true;
+            Debug.Log("Ai Collision");
+            animator.SetBool("IsAttacking", true);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -62,14 +66,6 @@ public class AngryEchoAi : MonoBehaviour
        Bcollision = false;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        animator.SetBool("InRange", true);
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        animator.SetBool("InRange", false);
-    }
     private void TurnOnHitbox()
     {
         Hitbox.SetActive(true);
@@ -82,5 +78,8 @@ public class AngryEchoAi : MonoBehaviour
         animator.SetBool("IsAttacking", false);
     }
 
-    
+    private void PlayDeath()
+    {
+        EchoDeathScream.Play();
+    }
 }
