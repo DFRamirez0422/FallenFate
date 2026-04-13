@@ -109,6 +109,12 @@ public class GrabberMovement : MonoBehaviour
         Debug.Log("Stop");
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        isChasing = false;
+        rb.linearVelocity = Vector2.zero;
+    }
+
     public void StoppedGrabbing()
     {
         SomeoneGrabbedPlayer = false;
