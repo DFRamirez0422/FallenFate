@@ -144,6 +144,7 @@ public class ButtonMash : MonoBehaviour
         if (knocked)
         {
             knocked = false;
+            animator.SetBool("Stunned", false);
         }
     }
     private void ToggleDamageText()
@@ -203,6 +204,7 @@ public class ButtonMash : MonoBehaviour
         grabberRB.AddForce(direction * 400, ForceMode2D.Impulse);
 
         Debug.Log("Knocked");
+        animator.SetBool("Stunned", true);
 
         Invoke(nameof(Unstun), 0.5f);
     }
