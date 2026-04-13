@@ -19,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
     public Transform LastHitSource {  get; private set; }
     public int CurrentHealth => m_CurrentHealth;
     public int MaxHealth => m_MaxHealth;
+    private GameOverController m_GameOverController;
     private string m_DiedAtSceneName;
     
     
@@ -30,8 +31,12 @@ public class PlayerHealth : MonoBehaviour
         {
             m_CurrentHealth = m_MaxHealth;
             initialized = true;
-            
+            m_GameOverController = Instantiate(m_GameOverScreenPrefab).GetComponent<GameOverController>();
+            m_GameOverController.transform.parent = null;
+            DontDestroyOnLoad(m_GameOverController);
         }
+
+        m_GameOverController = GameObject.FindGameObjectWithTag("GameOverController").GetComponent<GameOverController>();
     }
 
     /// <summary>Change health by amount. Negative = damage, positive = heal.</summary>
@@ -104,8 +109,13 @@ public class PlayerHealth : MonoBehaviour
         // None of these prefabs know each other and they can't invoke one another's functions.
         // GameObject game_over_screen = Instantiate(m_GameOverScreenPrefab);
         // game_over_screen.GetComponent<GameOverScreen>().DisplayScreen();
-        m_DiedAtSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("GameOverScene");
+        // m_DiedAtSceneName = SceneManager.GetActiveScene().name;
+        // SceneManager.LoadScene("GameOverScene");
+        
+        // I'm not going to question why Unity forgets what object this is. Too tired for this...
+        // I can't wait for this game to be over very soon.
+        m_GameOverController = GameObject.FindGameObjectWithTag("GameOverController").GetComponent<GameOverController>();
+        m_GameOverController.StartGameOverScreen();
         
     }
 
