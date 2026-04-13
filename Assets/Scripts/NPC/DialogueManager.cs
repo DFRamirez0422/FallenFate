@@ -18,6 +18,12 @@ public class DialogueManager : MonoBehaviour
     [Header("Dialogue Control")]
     [Tooltip("Amount of time in between each letter reveal, measured in milliseconds.")]
     [SerializeField] private int m_TextRevealSpeed = 30;
+    
+    [Header("Audio Clips")]
+    [Tooltip("Game object audio source for oneshot sound effects playback.")]
+    [SerializeField] private AudioSource m_SoundPlayer;
+    [Tooltip("")]
+    [SerializeField] private AudioClip m_TalkSound;
 
 
     // ===== PUBLIC FIELDS ===== //
@@ -55,6 +61,11 @@ public class DialogueManager : MonoBehaviour
         foreach (var button in m_ChoiceButtons)
         {
             button.gameObject.SetActive(false);
+        }
+
+        if (!m_SoundPlayer)
+        {
+            m_SoundPlayer = GetComponent<AudioSource>();
         }
     }
 
@@ -141,6 +152,11 @@ public class DialogueManager : MonoBehaviour
         {
             ShowChoices();
         }
+
+        if (m_SoundPlayer && m_TalkSound)
+        {
+            m_SoundPlayer.PlayOneShot(m_TalkSound);
+        }
     }
 
     private void ShowDialogue()
@@ -177,6 +193,11 @@ public class DialogueManager : MonoBehaviour
         m_CanvasGroup.alpha = 0;
         m_CanvasGroup.interactable = false;
         m_CanvasGroup.blocksRaycasts = false;
+
+        if (m_SoundPlayer && m_TalkSound)
+        {
+            m_SoundPlayer.PlayOneShot(m_TalkSound);
+        }
     }
 
     private void ShowChoices()
@@ -335,7 +356,7 @@ public class DialogueManager : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("no ending behavior set in current dialouge");
+                Debug.Log($"Unknown ending type : {m_CurrentDialogue.actionOnDialogueEnd.ToString()}");
                 break;
         }
     }
