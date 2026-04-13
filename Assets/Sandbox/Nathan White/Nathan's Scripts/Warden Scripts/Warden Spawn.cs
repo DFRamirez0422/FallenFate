@@ -59,5 +59,6 @@ public class WardenSpawn : MonoBehaviour
         animator.SetBool("Despawn", false);
         Warden.transform.position = targetSpawnPoint.position;
         animator.SetBool("Respawn", true);
+        animator.SetBool("Attacking", false);
     }
 }

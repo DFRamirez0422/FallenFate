@@ -61,6 +61,7 @@ public class WardenMovement : MonoBehaviour
         if (animator.GetBool("Respawn"))
         {
             animator.SetBool("Respawn", false);
+            animator.SetBool("Attacking", false);
         }
         WardensRigidBody.linearVelocity = Vector2.zero;
     }
