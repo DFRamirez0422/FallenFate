@@ -95,6 +95,7 @@ public class PlayerCombat : MonoBehaviour
         // NEW Method for playing attack sound effects using SoundFXManager script
         if (m_AttackSwingSfx != null)
             SoundFXManager.instance.Play(m_AttackSwingSfx, transform);
+
         if (m_AttackVoiceSfx != null)
             SoundFXManager.instance.Play(m_AttackVoiceSfx, transform); 
         
