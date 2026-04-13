@@ -55,6 +55,7 @@ public class AngryEchoAi : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            Debug.Log(collision.gameObject);
             Bcollision = true;
             Debug.Log("Ai Collision");
             animator.SetBool("IsAttacking", true);
