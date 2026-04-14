@@ -82,7 +82,7 @@ public class WardenMovement : MonoBehaviour
             Vector2 normalizedDirection = directionToTarget.normalized;
 
             // You can now use normalizedDirection for various purposes
-            Debug.Log("Direction to " + collision.gameObject.name + ": " + normalizedDirection);
+            //Debug.Log("Direction to " + collision.gameObject.name + ": " + normalizedDirection);
 
             animator.SetFloat("DirX", normalizedDirection.x);
             animator.SetFloat("DirY", normalizedDirection.y);
