@@ -23,6 +23,7 @@ Table of contents for all project documentation files.
 ## Change Logs
 | Document | Description |
 |----------|-------------|
+| [2026-04-14 -- Act 2 & Act 3 Story DialogueSOs](2026-04-14_act2-act3-story-dialogue-so.md) | Dante-only story beat assets (Level 2 ×4, Level 3 ×5) from All Story Dialogue Boxes |
 | [2026-04-14 -- Interaction Action Description Copy](2026-04-14_interaction-action-description-copy.md) | Powered door + generator + Warden door `ActionDescription` strings; optional copy fields on `OpenDoors` / `Activate_Generators` |
 | [2026-04-14 -- NPC Dialogue Final Script Alignment](2026-04-14_npc-dialogue-final-script-alignment.md) | Dorothy, Mira, and David `DialogueSO` lines matched to final NPC dialogue master text; emotions set from script parentheticals |
 | [2026-04-05 -- Audio Mixer Cleanup](2026-04-05_audio-mixer-cleanup.md) | Identifies which of the two mixers to keep, confirms UI group removal is safe, and lists Michael's sandbox demo files that need re-assignment |
