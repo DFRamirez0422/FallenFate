@@ -651,6 +651,7 @@ GameObject:
   - component: {fileID: 8812536810687011851}
   - component: {fileID: 4972581420842444309}
   - component: {fileID: 587003022928315903}
+  - component: {fileID: 3093564855939393323}
   m_Layer: 6
   m_Name: Warden
   m_TagString: Warden
@@ -828,9 +829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae606f83aab324428451c56dac8ac3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpscareImage: {fileID: 9062336020161548700}
-  jumpscareClip1: {fileID: 0}
-  jumpscareSource: {fileID: 0}
+  jumpscare: {fileID: 0}
   TextCanvas: {fileID: 7288600446841525344}
   text: {fileID: 2560186532197807408}
 --- !u!114 &9111947995600679949
@@ -1020,7 +1019,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5193d11220f6f4147938b0b63b28b777, type: 3}
   m_Resource: {fileID: 8300000, guid: 5193d11220f6f4147938b0b63b28b777, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1105,6 +1104,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!328 &3093564855939393323
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9042918177831406220}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: f71fa0ed3d6a0c24ea3d5e03a48f0cb9, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 1
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 1
+  m_TargetAudioSources:
+  - {fileID: 4972581420842444309}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1 &9062336020161548700
 GameObject:
   m_ObjectHideFlags: 0
