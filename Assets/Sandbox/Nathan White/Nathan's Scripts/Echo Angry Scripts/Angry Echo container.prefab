@@ -386,7 +386,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &5472497501896452497
@@ -451,6 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+  EchoDeath: {fileID: 11400000, guid: 39de28404e7a1ed4ba1e64c26c6d406a, type: 2}
   Hitbox: {fileID: 1334811543458604249}
   FacePlayer: 1
   self: {fileID: 0}
@@ -578,7 +579,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_CurrentHealth: 0
-  DeathDelay: 0.8
+  DeathDelay: 2
 --- !u!114 &6967951388459725773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,8 +699,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c58b8be636b34d84fb7a4b9aaf03162b, type: 3}
-  m_Resource: {fileID: 8300000, guid: c58b8be636b34d84fb7a4b9aaf03162b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 801e37a1bfeaa0e4fab0187cccebd699, type: 3}
+  m_Resource: {fileID: 8300000, guid: 801e37a1bfeaa0e4fab0187cccebd699, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.2
   m_Pitch: 1
