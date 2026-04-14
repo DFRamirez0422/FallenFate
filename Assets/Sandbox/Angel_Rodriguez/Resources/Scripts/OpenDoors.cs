@@ -17,6 +17,12 @@ public class OpenDoors : CollidableObject
     [Header("UI Elements")]
     [SerializeField] private GameObject OpenDoorPrompt;
     private GameObject _SpawnedPrompt;
+
+    [Header("Action description copy (optional)")]
+    [Tooltip("Shown when the player lacks the key. Empty = default locked message.")]
+    [SerializeField] private string lockedStatusText = "";
+    [Tooltip("Optional subtitle when the player has the key. Empty = none.")]
+    [SerializeField] private string unlockedStatusText = "";
     
         void Awake()
     {
@@ -75,9 +81,20 @@ public class OpenDoors : CollidableObject
         {
             if (pickUpManager.items.Contains(Key)){
             _SpawnedPrompt = Instantiate(OpenDoorPrompt);
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "[x]";
-            _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
+            Text[] promptTexts = _SpawnedPrompt.GetComponentsInChildren<Text>();
+            // ActionDescription: [0]=Description, [1]=button hint, [2]=Unlock_NotMeet (red, overlaps main if filled).
+            if (!string.IsNullOrEmpty(unlockedStatusText))
+            {
+                promptTexts[0].text = unlockedStatusText;
+                promptTexts[1].text = "[x]";
+                promptTexts[2].text = "";
+            }
+            else
+            {
+                promptTexts[0].text = "Open Door";
+                promptTexts[1].text = "[x]";
+                promptTexts[2].text = "";
+            }
             _SpawnedPrompt.SetActive(true);
            }
             else
@@ -85,7 +102,9 @@ public class OpenDoors : CollidableObject
                 _SpawnedPrompt = Instantiate(OpenDoorPrompt);
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "locked. Find the key.";
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = string.IsNullOrEmpty(lockedStatusText)
+                    ? "locked. Find the key."
+                    : lockedStatusText;
                 _SpawnedPrompt.SetActive(true);
             }
         }
@@ -97,11 +116,11 @@ public class OpenDoors : CollidableObject
         Collider2D hitCollider = collision.collider;
         if (hitCollider.CompareTag("Player"))
         {
-            OpenDoorPrompt.SetActive(false);
-            OpenDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";
-            OpenDoorPrompt.GetComponentsInChildren<Text>()[1].text = "";
-            OpenDoorPrompt.GetComponentsInChildren<Text>()[2].text = "";
-            Destroy(_SpawnedPrompt);
+            if (_SpawnedPrompt != null)
+            {
+                Destroy(_SpawnedPrompt);
+                _SpawnedPrompt = null;
+            }
         }
     }
 }
