@@ -39,7 +39,7 @@ public class WardenMovement : MonoBehaviour
             triggercollider.radius = scalingRadius;
             scalingRadius = scalingRadius + scalingRadiusSpeed;
         }
-        if (isChasing == true && !knocked && !animator.GetBool("Attacking"))
+        if (isChasing == true && !knocked && !animator.GetBool("Attacking") && !animator.GetBool("Knocked"))
         {
             Vector2 direction = (player.position - transform.position).normalized;
             WardensRigidBody.linearVelocity = direction * speed;
@@ -67,7 +67,7 @@ public class WardenMovement : MonoBehaviour
             animator.SetBool("Respawn", false);
             animator.SetBool("Attacking", false);
         }
-        WardensRigidBody.linearVelocity = Vector2.zero;
+        //WardensRigidBody.linearVelocity = Vector2.zero;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -92,7 +92,10 @@ public class WardenMovement : MonoBehaviour
             {
                 player = collision.transform;
             }
-            isChasing = true;
+            if (knocked == false)
+            {
+                isChasing = true;
+            }
         }
     }
 
@@ -100,15 +103,21 @@ public class WardenMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            WardensRigidBody.linearVelocity = Vector2.zero;
+            //WardensRigidBody.linearVelocity = Vector2.zero;
             isChasing = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        isChasing = false;
-        WardensRigidBody.linearVelocity = Vector2.zero;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isChasing = false;
+        }
+        if (knocked == false) 
+        { 
+            WardensRigidBody.linearVelocity = Vector2.zero; 
+        }
 
         if (collision.gameObject.CompareTag("Player"))
         {
@@ -118,13 +127,21 @@ public class WardenMovement : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        isChasing = false;
-        WardensRigidBody.linearVelocity = Vector2.zero;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isChasing = false;
+        }
+        if (knocked == false)
+        {
+            WardensRigidBody.linearVelocity = Vector2.zero;
+        }
     }
 
     public void NathansKnockbackClone()
     {
         knocked = true;
+        animator.SetBool("Attacking", false);
+        TurnOffHitbox();
 
         Transform playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         Rigidbody2D grabberRB = GetComponent<Rigidbody2D>();
