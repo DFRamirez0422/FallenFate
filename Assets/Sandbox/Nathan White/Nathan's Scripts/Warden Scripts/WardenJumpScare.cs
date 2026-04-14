@@ -21,8 +21,7 @@ public class WardenJumpScare : MonoBehaviour
     {
         movement = GetComponent<WardenMovement>();
         disarm = GetComponent<Disarm>();
-
-        
+        HideTextCanvas();
     }
 
     //private void OnCollisionEnter2D(Collision2D collision)
