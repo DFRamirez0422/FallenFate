@@ -3,6 +3,7 @@ using UnityEngine;
 public class WardenHitbox : MonoBehaviour
 {
     private PlayerHealth health;
+    public WardenJumpScare wardenJumpScare;
     public int damage = 2;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +25,10 @@ public class WardenHitbox : MonoBehaviour
         {
             Debug.Log("Should hit you");
             health.TakeDamage(damage, transform);
+            if (health.m_CurrentHealth <= 0)
+            {
+                wardenJumpScare.OpenJumpscare();
+            }
         }
     }
 }

@@ -20,8 +20,8 @@ public class WardenJumpScare : MonoBehaviour
     {
         movement = GetComponent<WardenMovement>();
         disarm = GetComponent<Disarm>();
-        jumpscare.enabled = true;
-        Invoke(nameof(CloseJumpscare), 10);
+
+        
     }
 
     //private void OnCollisionEnter2D(Collision2D collision)
@@ -80,12 +80,11 @@ public class WardenJumpScare : MonoBehaviour
         Invoke(nameof(HideTextCanvas), 0.5f);
     }
 
-    public void playJumpscare()
+    public void OpenJumpscare()
     {
-
+        jumpscare.enabled = true;
+        Invoke(nameof(CloseJumpscare), 10);
     }
-    
-
     private void CloseJumpscare()
     {
        jumpscare.enabled = false;
