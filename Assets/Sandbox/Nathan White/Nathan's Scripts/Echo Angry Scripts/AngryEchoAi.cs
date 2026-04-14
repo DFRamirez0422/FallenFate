@@ -5,6 +5,7 @@ public class AngryEchoAi : MonoBehaviour
     [HideInInspector]
     public Animator animator;
     private AudioSource EchoDeathScream;
+    [SerializeField] private SoundDefinition EchoDeath;
 
     public GameObject Hitbox;
     public bool FacePlayer;
@@ -25,6 +26,11 @@ public class AngryEchoAi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if (EchoDeath != null)
+        //{
+        //    SoundFXManager.instance.Play(EchoDeath, self);
+        //}
+
         if (FacePlayer) 
         { 
             Transform player = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -55,6 +61,7 @@ public class AngryEchoAi : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            Debug.Log(collision.gameObject);
             Bcollision = true;
             Debug.Log("Ai Collision");
             animator.SetBool("IsAttacking", true);
@@ -80,6 +87,7 @@ public class AngryEchoAi : MonoBehaviour
 
     private void PlayDeath()
     {
+        //SoundFXManager.instance.Play(EchoDeath, transform);
         EchoDeathScream.Play();
     }
 }
