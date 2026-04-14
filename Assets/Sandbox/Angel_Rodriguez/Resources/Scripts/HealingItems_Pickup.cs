@@ -26,6 +26,8 @@ public class HealingItems_Pickup : CollidableObject
             {
                 playerHealth.ChangeHealth(1);
                 PickUp_Sound.Play();
+                this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                this.gameObject.GetComponent<Collider2D>().enabled = false;
                 Destroy(this.gameObject, PickUp_Sound.clip.length);
             }
             else
