@@ -134,18 +134,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4983852309611189304}
-        m_TargetAssemblyTypeName: GameOverScreen, Assembly-CSharp
-        m_MethodName: RespawnPlayer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7712865719663060667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,7 +635,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 105
+  m_SortingOrder: 999
   m_TargetDisplay: 0
 --- !u!114 &91057774359578101
 MonoBehaviour:
@@ -1118,6 +1106,10 @@ PrefabInstance:
     - target: {fileID: 933742121652592482, guid: 4a2461d468c89d0469c99806627dc4d5, type: 3}
       propertyPath: m_Name
       value: GameOverAnimations
+      objectReference: {fileID: 0}
+    - target: {fileID: 933742121652592482, guid: 4a2461d468c89d0469c99806627dc4d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1114837095140658274, guid: 4a2461d468c89d0469c99806627dc4d5, type: 3}
       propertyPath: m_LocalPosition.x
