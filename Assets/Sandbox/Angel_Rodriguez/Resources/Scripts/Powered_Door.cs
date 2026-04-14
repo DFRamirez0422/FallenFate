@@ -43,45 +43,76 @@ public class Powered_Door : CollidableObject
                 this.GetComponent<BoxCollider2D>().enabled = false; // Disable collider to allow passage
                 _doorOpenSound.Play(); // Play door opening sound
                 _doorOpened = true;
+                if (_SpawnedPrompt != null)
+                {
+                    Destroy(_SpawnedPrompt);
+                    _SpawnedPrompt = null;
+                }
             }
         }
     }
-    
-    // Show the prompt when the player enters the trigger area
+
+    private void ApplyPoweredDoorPrompt()
+    {
+        if (_SpawnedPrompt == null || _doorOpened) return;
+        if (activateGenerators == null || activate_Generator2 == null)
+        {
+            Debug.LogError("Activate_Generators references are not set in the inspector.");
+            return;
+        }
+
+        Text[] texts = _SpawnedPrompt.GetComponentsInChildren<Text>();
+        bool g1 = activateGenerators.Activate_Generator;
+        bool g2 = activate_Generator2.Activate_Generator;
+
+        if (g1 && g2)
+        {
+            // [2] is Unlock_NotMeet (red); filling it overlaps the main line. Keep status on Description [0].
+            texts[0].text = "Open Door\nBoth Generators Activated";
+            texts[1].text = "[x]";
+            texts[2].text = "";
+        }
+        else
+        {
+            texts[0].text = "";
+            texts[1].text = "";
+            if (!g1 && !g2)
+                texts[2].text = "Electric Exit Door (0 Generators Activated)";
+            else
+                texts[2].text = "Door Power 50%";
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
         if (hitCollider.CompareTag("Hitboxs"))
         {
-
             _SpawnedPrompt = Instantiate(PoweredDoorPrompt);
             _SpawnedPrompt.SetActive(true);
-            if (activateGenerators.Activate_Generator && activate_Generator2.Activate_Generator)
-            {
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Open Door";
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "[x]";
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
-            }
-            else
-            {
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "The door is not powered.";
-            }
+            ApplyPoweredDoorPrompt();
         }
     }
 
-    // Hide the prompt when the player exits the trigger area
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        Collider2D hitCollider = collision.collider;
+        if (hitCollider.CompareTag("Hitboxs"))
+        {
+            ApplyPoweredDoorPrompt();
+        }
+    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
         if (hitCollider.CompareTag("Hitboxs"))
         {
-            PoweredDoorPrompt.SetActive(false);
-            PoweredDoorPrompt.GetComponentsInChildren<Text>()[0].text = "";
-            PoweredDoorPrompt.GetComponentsInChildren<Text>()[1].text = "";
-            PoweredDoorPrompt.GetComponentsInChildren<Text>()[2].text = "";
-            Destroy(_SpawnedPrompt);
+            if (_SpawnedPrompt != null)
+            {
+                Destroy(_SpawnedPrompt);
+                _SpawnedPrompt = null;
+            }
         }
     }
 
