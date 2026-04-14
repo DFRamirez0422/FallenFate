@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class WardenJumpScare : MonoBehaviour
 {
@@ -83,11 +84,12 @@ public class WardenJumpScare : MonoBehaviour
     public void OpenJumpscare()
     {
         jumpscare.enabled = true;
-        Invoke(nameof(CloseJumpscare), 10);
+        Invoke(nameof(CloseJumpscare), 7);
     }
     private void CloseJumpscare()
     {
        jumpscare.enabled = false;
+       SceneManager.LoadScene("GameOver_NEW");
     }
 
     public void HideTextCanvas()
