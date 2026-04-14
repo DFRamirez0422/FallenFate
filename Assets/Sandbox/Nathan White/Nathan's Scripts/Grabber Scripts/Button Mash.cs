@@ -205,6 +205,7 @@ public class ButtonMash : MonoBehaviour
 
         Debug.Log("Knocked");
         animator.SetBool("Stunned", true);
+        animator.SetBool("Attacking", false);
 
         Invoke(nameof(Unstun), 0.5f);
     }
