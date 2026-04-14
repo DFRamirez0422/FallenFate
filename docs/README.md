@@ -23,6 +23,7 @@ Table of contents for all project documentation files.
 ## Change Logs
 | Document | Description |
 |----------|-------------|
+| [2026-04-14 -- Nathan Echo merge (main) resolution](2026-04-14_nathan-echo-merge-main-resolution.md) | Merge `main` into `Nathan's-Enemies-Week-13`: keep `All echos/Echoes` sprites + Echo container new audio |
 | [2026-04-14 -- Act 2 & Act 3 Story DialogueSOs](2026-04-14_act2-act3-story-dialogue-so.md) | Dante-only story beat assets (Level 2 ×4, Level 3 ×5) from All Story Dialogue Boxes |
 | [2026-04-14 -- Interaction Action Description Copy](2026-04-14_interaction-action-description-copy.md) | Powered door + generator + Warden door `ActionDescription` strings; optional copy fields on `OpenDoors` / `Activate_Generators` |
 | [2026-04-14 -- NPC Dialogue Final Script Alignment](2026-04-14_npc-dialogue-final-script-alignment.md) | Dorothy, Mira, and David `DialogueSO` lines matched to final NPC dialogue master text; emotions set from script parentheticals |
