@@ -1,13 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class WardenJumpScare : MonoBehaviour
 {
-    public GameObject jumpscareImage;
-    public AudioClip jumpscareClip1;
-    public AudioSource jumpscareSource;
+    public VideoPlayer jumpscare;
 
     //scripts
     private PlayerHealth health;
@@ -21,9 +21,7 @@ public class WardenJumpScare : MonoBehaviour
     {
         movement = GetComponent<WardenMovement>();
         disarm = GetComponent<Disarm>();
-
-        jumpscareImage.SetActive(false);
-        TextCanvas.SetActive(false);
+        HideTextCanvas();
     }
 
     //private void OnCollisionEnter2D(Collision2D collision)
@@ -57,15 +55,44 @@ public class WardenJumpScare : MonoBehaviour
 
     //}
 
-    private IEnumerator CloseJumpscare()
+    public void Taunt()
     {
-        yield return new WaitForSeconds(2);
-        jumpscareImage.SetActive(false);
+        TextCanvas.SetActive(true);
+        int rando = Random.Range(1, 4);
+
+        if (rando == 1)
+        {
+            text.text = "Useless";
+        }
+        else if (rando == 2)
+        {
+            text.text = "Weak";
+        }
+        else if (rando == 3)
+        {
+            text.text = "Pitiful";
+        }
+        else if (rando == 4)
+        {
+            text.text = "Futile";
+        }
+
+        Invoke(nameof(HideTextCanvas), 0.5f);
     }
 
-    private IEnumerator HideTextCanvasDamage()
+    public void OpenJumpscare()
     {
-        yield return new WaitForSeconds(2);
+        jumpscare.enabled = true;
+        Invoke(nameof(CloseJumpscare), 7);
+    }
+    private void CloseJumpscare()
+    {
+       jumpscare.enabled = false;
+       SceneManager.LoadScene("GameOver_NEW");
+    }
+
+    public void HideTextCanvas()
+    {
         TextCanvas.SetActive(false);
     }
 

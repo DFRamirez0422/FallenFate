@@ -4,6 +4,9 @@ public class AngryEchoAi : MonoBehaviour
 {
     [HideInInspector]
     public Animator animator;
+    private AudioSource EchoDeathScream;
+    [SerializeField] private SoundDefinition EchoDeath;
+
     public GameObject Hitbox;
     public bool FacePlayer;
     public Transform self;
@@ -16,12 +19,18 @@ public class AngryEchoAi : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        EchoDeathScream = GetComponent<AudioSource>();
         self = transform;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if (EchoDeath != null)
+        //{
+        //    SoundFXManager.instance.Play(EchoDeath, self);
+        //}
+
         if (FacePlayer) 
         { 
             Transform player = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -50,11 +59,13 @@ public class AngryEchoAi : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Bcollision = true;
-        Debug.Log("Ai Collision");
-        animator.SetBool("IsAttacking", true);
-        
-       
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log(collision.gameObject);
+            Bcollision = true;
+            Debug.Log("Ai Collision");
+            animator.SetBool("IsAttacking", true);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -62,14 +73,6 @@ public class AngryEchoAi : MonoBehaviour
        Bcollision = false;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        animator.SetBool("InRange", true);
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        animator.SetBool("InRange", false);
-    }
     private void TurnOnHitbox()
     {
         Hitbox.SetActive(true);
@@ -82,5 +85,9 @@ public class AngryEchoAi : MonoBehaviour
         animator.SetBool("IsAttacking", false);
     }
 
-    
+    private void PlayDeath()
+    {
+        //SoundFXManager.instance.Play(EchoDeath, transform);
+        EchoDeathScream.Play();
+    }
 }
