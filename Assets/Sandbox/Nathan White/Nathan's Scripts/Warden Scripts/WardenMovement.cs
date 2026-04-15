@@ -140,6 +140,7 @@ public class WardenMovement : MonoBehaviour
     public void NathansKnockbackClone()
     {
         knocked = true;
+        isChasing = false;
         animator.SetBool("Attacking", false);
         TurnOffHitbox();
 
