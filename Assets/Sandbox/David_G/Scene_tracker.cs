@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 public class Scene_tracker : MonoBehaviour
 {
      public string currentScene;
-     public string previousScene;
-     public string sceneToLoad;
+     private string previousScene;
+     private string sceneToLoad;
 
     private void Awake()
     {
