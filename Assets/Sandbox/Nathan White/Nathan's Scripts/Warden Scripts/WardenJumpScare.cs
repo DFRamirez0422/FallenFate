@@ -83,12 +83,12 @@ public class WardenJumpScare : MonoBehaviour
     public void OpenJumpscare()
     {
         jumpscare.enabled = true;
-        Invoke(nameof(CloseJumpscare), 7);
+        Invoke(nameof(CloseJumpscare), 6);
     }
     private void CloseJumpscare()
     {
-       jumpscare.enabled = false;
        SceneManager.LoadScene("GameOver_NEW");
+       jumpscare.enabled = false;
     }
 
     public void HideTextCanvas()

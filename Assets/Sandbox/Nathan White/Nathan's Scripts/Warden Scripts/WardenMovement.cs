@@ -110,14 +110,14 @@ public class WardenMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            isChasing = false;
-        }
-        if (knocked == false) 
-        { 
-            WardensRigidBody.linearVelocity = Vector2.zero; 
-        }
+        //if (collision.gameObject.CompareTag("Player"))
+        //{
+        //    isChasing = false;
+        //}
+        //if (knocked == false) 
+        //{ 
+        //    WardensRigidBody.linearVelocity = Vector2.zero; 
+        //}
 
         if (collision.gameObject.CompareTag("Player"))
         {
