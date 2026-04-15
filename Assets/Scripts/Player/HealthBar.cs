@@ -15,12 +15,12 @@ public class HealthBar : MonoBehaviour
     [Header("Heart Images")]
     public Image[] hearts;
 
-    private PlayerHealth m_Health;
+    public PlayerHealth m_Health;
 
     void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        m_Health = player.GetComponent<PlayerHealth>();
+        m_Health = player.GetComponentInChildren<PlayerHealth>();
 
         UpdateHearts();
     }

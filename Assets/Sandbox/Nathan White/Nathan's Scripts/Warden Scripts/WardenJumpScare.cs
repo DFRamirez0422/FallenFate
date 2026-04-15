@@ -1,13 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class WardenJumpScare : MonoBehaviour
 {
-    public GameObject jumpscareImage;
-    public AudioClip jumpscareClip1;
-    public AudioSource jumpscareSource;
+    public VideoPlayer jumpscare;
 
     //scripts
     private PlayerHealth health;
@@ -21,9 +21,7 @@ public class WardenJumpScare : MonoBehaviour
     {
         movement = GetComponent<WardenMovement>();
         disarm = GetComponent<Disarm>();
-
-        jumpscareImage.SetActive(false);
-        TextCanvas.SetActive(false);
+        HideTextCanvas();
     }
 
     //private void OnCollisionEnter2D(Collision2D collision)
@@ -82,13 +80,15 @@ public class WardenJumpScare : MonoBehaviour
         Invoke(nameof(HideTextCanvas), 0.5f);
     }
 
-
-    
-
-private IEnumerator CloseJumpscare()
+    public void OpenJumpscare()
     {
-        yield return new WaitForSeconds(2);
-        jumpscareImage.SetActive(false);
+        jumpscare.enabled = true;
+        Invoke(nameof(CloseJumpscare), 7);
+    }
+    private void CloseJumpscare()
+    {
+       jumpscare.enabled = false;
+       SceneManager.LoadScene("GameOver_NEW");
     }
 
     public void HideTextCanvas()
