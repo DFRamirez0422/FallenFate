@@ -1,0 +1,12 @@
+---
+description: StatTracker is a singleton; never add duplicate StatTracker/HealthTracker to level scenes
+globs: Assets/Sandbox/ErikA/Scripts/AutosaveScripts/**
+alwaysApply: false
+---
+
+# StatTracker (player health carry-over)
+
+- **One runtime instance only.** `StatTracker` uses a singleton in `Awake`. A second component in a loaded scene starts with `lastPlayerHealth == 0` and can run `ApplyCarriedHealthToPlayer` in a way that sets the player to **full HP**.
+- **Do not** add `StatTracker` (or objects named `HealthTracker` using that script) to individual level scenes if the project already has a bootstrap instance (e.g. Main Menu). Rely on `DontDestroyOnLoad` from that bootstrap.
+- **Before merging scene work** that touches persistence: in Unity run **Tools → Fallen Fate → Validate StatTracker In Build Scenes**.
+- Builds **fail** if any **single** scene file contains more than one StatTracker component reference.
