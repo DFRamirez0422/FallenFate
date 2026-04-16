@@ -2,6 +2,10 @@ using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections;
 
+/// <summary>
+/// Cinematic camera path. Sets <see cref="GameState.GameplayLocked"/> during the sequence.
+/// If the scene is unloaded before the coroutine ends, <see cref="OnDestroy"/> clears the lock.
+/// </summary>
 public class CameraWaypointSystem : MonoBehaviour
 {
     [Header("References")]
@@ -29,8 +33,19 @@ public class CameraWaypointSystem : MonoBehaviour
         
         letterBox = FindFirstObjectByType<LetterBoxController>();
     }
-   
-        
+
+    private void OnDestroy()
+    {
+        if (routine != null)
+        {
+            StopCoroutine(routine);
+            routine = null;
+        }
+
+        isPlaying = false;
+        GameState.GameplayLocked = false;
+    }
+
     
     public void StartWaypointSequence()
     {
