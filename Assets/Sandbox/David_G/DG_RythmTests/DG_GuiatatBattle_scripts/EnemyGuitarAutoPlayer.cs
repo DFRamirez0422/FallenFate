@@ -32,7 +32,7 @@ public class EnemyGuitarAutoPlayer : MonoBehaviour
     [Tooltip("The Track Object the enemy AI should auto-hit. Overrides Track ID when assigned.")]
     [SerializeField] private TrackObject m_TrackObject;
 
-    [Tooltip("Fallback track index if no Track Object is assigned. -1 means all tracks.")]
+    [Tooltip("Fallback track index if no Track Object is assigned. -1 is unassigned (auto-play disabled until a TrackObject or valid index is set).")]
     [SerializeField] private int m_TrackID = -1;
 
     private RhythmProcessor m_RhythmProcessor;
@@ -47,9 +47,27 @@ public class EnemyGuitarAutoPlayer : MonoBehaviour
             m_RhythmDirector = Toolbox.Get<RhythmDirector>(m_PlayerID);
         }
 
+        if (m_RhythmDirector == null)
+        {
+            Debug.LogError(
+                $"[EnemyGuitarAutoPlayer] No RhythmDirector found for PlayerID {m_PlayerID}. Enemy auto-play disabled.",
+                this);
+            enabled = false;
+            return;
+        }
+
+        if (m_RhythmDirector.PlayerID != m_PlayerID)
+        {
+            Debug.LogError(
+                $"[EnemyGuitarAutoPlayer] Assigned RhythmDirector '{m_RhythmDirector.gameObject.name}' has PlayerID {m_RhythmDirector.PlayerID}, but this component expects {m_PlayerID}. " +
+                "This would auto-hit the wrong player's chart. Enemy auto-play disabled.",
+                this);
+            enabled = false;
+            return;
+        }
+
         m_RhythmProcessor = m_RhythmDirector.RhythmProcessor;
 
-        // Resolve numeric TrackID from the TrackObject reference so we can filter events.
         if (m_TrackObject != null)
         {
             TrackObject[] tracks = m_RhythmDirector.TrackObjects;
@@ -61,6 +79,15 @@ public class EnemyGuitarAutoPlayer : MonoBehaviour
                     break;
                 }
             }
+        }
+
+        if (m_TrackID == -1)
+        {
+            Debug.LogWarning(
+                $"[EnemyGuitarAutoPlayer] No TrackObject assigned and TrackID is -1 on '{gameObject.name}'. " +
+                "Auto-play will hit ALL tracks on this director's processor, which may include the human player's lanes. " +
+                "Assign a TrackObject or set a specific TrackID.",
+                this);
         }
 
         m_RhythmProcessor.OnNoteActivateEvent += HandleNoteActivate;
@@ -95,7 +122,9 @@ public class EnemyGuitarAutoPlayer : MonoBehaviour
 
     private void HandleNoteActivate(Note note)
     {
-        // Filter to the enemy's specific track.
+        // Only auto-hit notes that belong to THIS director (this PlayerID).
+        if (note.RhythmClipData.RhythmDirector != m_RhythmDirector) { return; }
+
         if (m_TrackID != -1 && note.RhythmClipData.TrackID != m_TrackID) { return; }
 
         if (note is CounterNote)
