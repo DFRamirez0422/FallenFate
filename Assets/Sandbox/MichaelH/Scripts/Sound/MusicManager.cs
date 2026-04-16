@@ -13,6 +13,8 @@ public class MusicManager : MonoBehaviour
     private AudioSource activeSource;
     private AudioSource inactiveSource;
 
+    [SerializeField] private bool shouldFade = true;
+
     /// <summary>
     /// Initializes the MusicManager singleton instance and sets up the active and inactive audio sources for crossfading.
     /// </summary>
@@ -35,8 +37,9 @@ public class MusicManager : MonoBehaviour
     public void PlayMusic(SoundDefinition music, float fadeTime = 1f)
     {
         if (music == null) return;
-        if (currentMusic == music) return;
-
+        
+        if (!shouldFade) fadeTime = 0f;
+        if (currentMusic == music && activeSource.isPlaying) return;
         AudioClip clip = music.GetClip();
         if (clip == null) return;
 
@@ -51,6 +54,9 @@ public class MusicManager : MonoBehaviour
             inactiveSource.outputAudioMixerGroup = music.mixerGroup;
 
         inactiveSource.Play();
+
+        // prevent old crossfades from interfering
+        StopAllCoroutines();
 
         StartCoroutine(Crossfade(fadeTime, music.GetVolume()));
     }
@@ -84,7 +90,14 @@ public class MusicManager : MonoBehaviour
 
         activeSource.Stop();
 
-        (activeSource, inactiveSource) = (inactiveSource, activeSource); // Swap
+        // Swap sources
+        (activeSource, inactiveSource) = (inactiveSource, activeSource);
+
+        // SAFETY: ensure new active is actually playing
+        if (!activeSource.isPlaying && activeSource.clip != null)
+        {
+            activeSource.Play();
+        }
     }
 
     public void StopMusic(float fadeTime = 1f)
@@ -123,5 +136,26 @@ public class MusicManager : MonoBehaviour
 
         musicSourceA.Stop();
         musicSourceB.Stop();
+    }
+    
+    private void LateUpdate()
+    {
+        if (currentMusic == null) return;
+
+        // If BOTH sources are stopped → recover
+        if (!musicSourceA.isPlaying && !musicSourceB.isPlaying)
+        {
+            Debug.Log("Both music sources stopped. Recovering...");
+
+            AudioClip clip = currentMusic.GetClip();
+            if (clip == null) return;
+
+            activeSource.clip = clip;
+            activeSource.volume = currentMusic.GetVolume();
+            activeSource.pitch = currentMusic.GetPitch();
+            activeSource.loop = true;
+
+            activeSource.Play();
+        }
     }
 }

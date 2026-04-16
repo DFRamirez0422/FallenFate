@@ -8002,6 +8002,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_MaxHealth
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034051364470051669, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_OnZeroHealth.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -8103,6 +8107,7 @@ MonoBehaviour:
   - {fileID: 1340081352}
   - {fileID: 318440955}
   - {fileID: 321449101}
+  m_Health: {fileID: 0}
 --- !u!114 &1188680886
 MonoBehaviour:
   m_ObjectHideFlags: 0
