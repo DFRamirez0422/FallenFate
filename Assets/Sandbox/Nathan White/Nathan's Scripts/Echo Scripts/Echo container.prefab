@@ -369,7 +369,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &4635543079511552907
@@ -428,6 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FaceAway: 1
+  Started: 0
   EchoWaypointScript: {fileID: 0}
 --- !u!114 &9142934377622741901
 MonoBehaviour:
@@ -502,10 +503,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_audioClip: {fileID: 8300000, guid: 801e37a1bfeaa0e4fab0187cccebd699, type: 3}
+  m_Resource: {fileID: 8300000, guid: 801e37a1bfeaa0e4fab0187cccebd699, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -653,7 +654,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  DeathDelay: 0.8
+  m_CurrentHealth: 0
+  DeathDelay: 2
 --- !u!114 &5564166038269842884
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,7 +15,9 @@ public class ActorSO : ScriptableObject
         Sad,
         Sad_Talk,
         Quizzical,
-        Quizzical_Talk
+        Quizzical_Talk,
+        Angry,
+        Angry_Talk
     }
 
     [Serializable]

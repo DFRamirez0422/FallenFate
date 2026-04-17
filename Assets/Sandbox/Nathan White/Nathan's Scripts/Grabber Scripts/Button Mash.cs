@@ -35,6 +35,10 @@ public class ButtonMash : MonoBehaviour
     public GameObject Hitbox;
     public GrabberMovement grabberMovement;
 
+    [Header("Audio")]
+    public AudioSource DeathScream;
+    public AudioSource MovementAudio;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -140,6 +144,7 @@ public class ButtonMash : MonoBehaviour
         if (knocked)
         {
             knocked = false;
+            animator.SetBool("Stunned", false);
         }
     }
     private void ToggleDamageText()
@@ -149,8 +154,10 @@ public class ButtonMash : MonoBehaviour
 
     private void EnablePlayer()
     {
+        if (playerMovement != null) {
         playerMovement.Enable();
         PlayerSprite.enabled = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -197,12 +204,19 @@ public class ButtonMash : MonoBehaviour
         grabberRB.AddForce(direction * 400, ForceMode2D.Impulse);
 
         Debug.Log("Knocked");
+        animator.SetBool("Stunned", true);
+        animator.SetBool("Attacking", false);
 
         Invoke(nameof(Unstun), 0.5f);
     }
 
-    public void NathansCameraShake()
+    private void PlayDeath()
     {
-       // playerImpulseSource.GenerateImpulseWithForce(100);
+        DeathScream.Play();
+    }
+
+    private void PlayMovement()
+    {
+        MovementAudio.Play();
     }
 }

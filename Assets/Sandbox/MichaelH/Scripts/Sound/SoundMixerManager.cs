@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SoundMixerManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class SoundMixerManager : MonoBehaviour
     // The new way uses a logarithmic scale to convert the linear volume level to decibels
     
     [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private Slider masterSlider;
     
     /// <summary>
     /// Sets the master volume level in the audio mixer. The input level is expected to be in the range of 0.0001 to 1,
@@ -30,5 +32,16 @@ public class SoundMixerManager : MonoBehaviour
     {
         // audioMixer.SetFloat("MusicVolume", level);
         audioMixer.SetFloat("MusicVolume", Mathf.Log10(level) * 20f);
+    }
+    
+    private void Start()
+    {
+        // Sync slider with current mixer value
+        float db;
+        audioMixer.GetFloat("MasterVolume", out db);
+
+        float linear = Mathf.Pow(10f, db / 20f);
+
+        masterSlider.value = linear;
     }
 }

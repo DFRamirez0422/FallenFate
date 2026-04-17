@@ -1,29 +1,30 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class WardenJumpScare : MonoBehaviour
 {
-    public GameObject jumpscareImage;
-    public AudioClip jumpscareClip1;
-    public AudioSource jumpscareSource;
+    public VideoPlayer jumpscare;
 
     //scripts
     private PlayerHealth health;
     private WardenMovement movement;
     private Disarm disarm;
 
-    public GameObject TextCanvas; // can be removed later if we have a different way to indicate damage
+    public GameObject TextCanvas; 
+    public GameObject JumpScareCanvas;
+    public GameObject PlayerCanvas;
     public TextMeshProUGUI text;
 
     private void Start()
     {
         movement = GetComponent<WardenMovement>();
         disarm = GetComponent<Disarm>();
-
-        jumpscareImage.SetActive(false);
-        TextCanvas.SetActive(false);
+        HideTextCanvas();
+        JumpScareCanvas.SetActive(false);
     }
 
     //private void OnCollisionEnter2D(Collision2D collision)
@@ -57,15 +58,51 @@ public class WardenJumpScare : MonoBehaviour
 
     //}
 
-    private IEnumerator CloseJumpscare()
+    public void Taunt()
     {
-        yield return new WaitForSeconds(2);
-        jumpscareImage.SetActive(false);
+        TextCanvas.SetActive(true);
+        int rando = Random.Range(1, 4);
+
+        if (rando == 1)
+        {
+            text.text = "Useless";
+        }
+        else if (rando == 2)
+        {
+            text.text = "Weak";
+        }
+        else if (rando == 3)
+        {
+            text.text = "Pitiful";
+        }
+        else if (rando == 4)
+        {
+            text.text = "Futile";
+        }
+
+        Invoke(nameof(HideTextCanvas), 0.5f);
     }
 
-    private IEnumerator HideTextCanvasDamage()
+    public void OpenJumpscare()
     {
-        yield return new WaitForSeconds(2);
+        PlayerCanvas.SetActive(false);
+        jumpscare.enabled = true;
+        Invoke(nameof(JumpScareButton), 6);
+    }
+
+    private void CloseJumpscare()
+    {
+       SceneManager.LoadScene("GameOver_NEW");
+       jumpscare.enabled = false;
+    }
+
+    private void JumpScareButton()
+    {
+        JumpScareCanvas.SetActive(true);
+    }
+
+    public void HideTextCanvas()
+    {
         TextCanvas.SetActive(false);
     }
 

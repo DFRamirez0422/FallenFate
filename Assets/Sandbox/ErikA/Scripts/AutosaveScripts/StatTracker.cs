@@ -1,54 +1,89 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Carries player health across scenes. Must be a singleton: a second StatTracker in a loaded scene
+/// would start with lastPlayerHealth == 0 and, on sceneLoaded, treat the player as "not alive" and
+/// force full health (see ApplyCarriedHealthToPlayer).
+/// </summary>
 public class StatTracker : MonoBehaviour
 {
-    public static StatTracker Instance;
-    
+    private static StatTracker s_Instance;
+
     private int lastPlayerHealth;
-    private Scene currentScene;
-    
+
     public bool IsAlive => lastPlayerHealth > 0;
 
-    [SerializeField] private PlayerHealth PlayerObject;
+    private PlayerHealth PlayerObject;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (s_Instance != null && s_Instance != this)
         {
+            Debug.LogWarning(
+                "[StatTracker] Destroying duplicate instance. Only one StatTracker may exist (singleton); " +
+                "a second one starts with carried health 0 and can overwrite the player to full HP on load. " +
+                $"Remove extra StatTracker/HealthTracker objects from this scene: '{gameObject.name}' in '{gameObject.scene.name}'. " +
+                "Run: Tools → Fallen Fate → Validate StatTracker In Build Scenes.",
+                this);
             Destroy(gameObject);
             return;
         }
-        Instance = this;
+
+        s_Instance = this;
         DontDestroyOnLoad(gameObject);
-        
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        PlayerStats();
+        if (s_Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            s_Instance = null;
+        }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Find the new player in the scene
-        PlayerObject = FindObjectOfType<PlayerHealth>();
+        StopAllCoroutines();
+        StartCoroutine(SyncPlayerHealthAfterSceneLoad());
+    }
+
+    private IEnumerator SyncPlayerHealthAfterSceneLoad()
+    {
+        yield return null;
+
+        PlayerObject = ResolvePlayerHealth();
+        ApplyCarriedHealthToPlayer();
+    }
 
         if (PlayerObject == null)
             return;
         
         if (PlayerObject != null && IsAlive)
         {
-            PlayerObject.m_CurrentHealth = lastPlayerHealth;
+            PlayerHealth onRoot = playerGo.GetComponent<PlayerHealth>();
+            if (onRoot != null)
+                return onRoot;
         }
-        else if (!IsAlive)
-        {
-            PlayerObject.m_CurrentHealth = PlayerObject.m_MaxHealth;
-        }
+
+        return FindObjectOfType<PlayerHealth>();
     }
 
-    private void OnDestroy()
+    private void ApplyCarriedHealthToPlayer()
+    {
+        if (PlayerObject == null)
+            return;
+
+        if (IsAlive)
+            PlayerObject.m_CurrentHealth = lastPlayerHealth;
+        else
+            PlayerObject.m_CurrentHealth = PlayerObject.m_MaxHealth;
+    }
+
+    private void Update()
     {
         if (Instance == this)
         {
@@ -60,8 +95,6 @@ public class StatTracker : MonoBehaviour
     private void PlayerStats()
     {
         if (PlayerObject != null)
-        {
             lastPlayerHealth = PlayerObject.CurrentHealth;
-        }
     }
 }
