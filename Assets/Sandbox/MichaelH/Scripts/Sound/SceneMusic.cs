@@ -6,7 +6,8 @@ public class SceneMusic : MonoBehaviour
 
     private void Start()
     {
-        if (music != null)
-            MusicManager.instance.PlayMusic(music);
+        if (music == null) return;
+
+        MusicManager.instance.PlayMusic(music);
     }
 }
