@@ -23,11 +23,10 @@ public class GrabberMovement : MonoBehaviour
         rb = GetComponentInParent<Rigidbody2D>();
         animator.SetBool("Chasing", false);
         ButtonMash = GetComponentInParent<ButtonMash>();
-
-        
+        SomeoneGrabbedPlayer = false;
     }
 
-    // Update is called once per frame
+// Update is called once per frame
     void Update()
     {
         if (isChasing == true && !animator.GetBool("Attacking") && SomeoneGrabbedPlayer == false && ButtonMash.knocked == false)
@@ -88,6 +87,7 @@ public class GrabberMovement : MonoBehaviour
         if (collision.gameObject.tag == "Player" && SomeoneGrabbedPlayer == true)
         {
             isChasing = false;
+            Debug.Log("SomeoneGrabbedPlayer");
         }
     }
         
@@ -104,15 +104,21 @@ public class GrabberMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        isChasing = false;
-        rb.linearVelocity = Vector2.zero;
-        Debug.Log("Stop");
+        if (collision.gameObject.tag == "Player")
+        {
+            isChasing = false;
+            rb.linearVelocity = Vector2.zero;
+            Debug.Log("Stop");
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        isChasing = false;
-        rb.linearVelocity = Vector2.zero;
+        if (collision.gameObject.tag == "Player")
+        {
+            isChasing = false;
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     public void StoppedGrabbing()

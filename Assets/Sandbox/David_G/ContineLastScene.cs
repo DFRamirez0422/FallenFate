@@ -15,4 +15,8 @@ public class ContineLastScene : MonoBehaviour
         m_SceneTracker.loadPreviousScene();
     }
 
+    public void loadCurrentScene()
+    {
+        m_SceneTracker.loadCurrentScene();
+    }
 }
