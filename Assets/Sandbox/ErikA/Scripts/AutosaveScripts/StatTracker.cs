@@ -59,10 +59,10 @@ public class StatTracker : MonoBehaviour
         ApplyCarriedHealthToPlayer();
     }
 
-        if (PlayerObject == null)
-            return;
-        
-        if (PlayerObject != null && IsAlive)
+    private PlayerHealth ResolvePlayerHealth()
+    {
+        GameObject playerGo = GameObject.FindGameObjectWithTag("Player");
+        if (playerGo != null)
         {
             PlayerHealth onRoot = playerGo.GetComponent<PlayerHealth>();
             if (onRoot != null)
@@ -84,15 +84,6 @@ public class StatTracker : MonoBehaviour
     }
 
     private void Update()
-    {
-        if (Instance == this)
-        {
-          SceneManager.sceneLoaded -= OnSceneLoaded;  
-        }
-        
-    }
-
-    private void PlayerStats()
     {
         if (PlayerObject != null)
             lastPlayerHealth = PlayerObject.CurrentHealth;

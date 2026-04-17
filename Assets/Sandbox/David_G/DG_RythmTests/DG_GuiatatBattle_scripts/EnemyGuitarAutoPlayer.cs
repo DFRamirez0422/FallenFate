@@ -3,132 +3,128 @@ using Dypsloom.RhythmTimeline.Core;
 using Dypsloom.RhythmTimeline.Core.Input;
 using Dypsloom.RhythmTimeline.Core.Managers;
 using Dypsloom.RhythmTimeline.Core.Notes;
-using Dypsloom.Shared;
 using UnityEngine;
 
 /// <summary>
-/// Auto-plays an enemy guitar AI track by registering perfect note hits directly on the
-/// RhythmProcessor, bypassing RhythmInputManager and any key bindings entirely.
+/// Auto-plays notes for a single TrackObject.
 ///
-/// How to use:
-///   1. Attach this script to any GameObject in your rhythm battle scene.
-///   2. Assign the Rhythm Director (or leave empty to auto-find via PlayerID Toolbox).
-///   3. Assign the Track Object that belongs to the enemy's guitar track.
+/// Setup:
+///   1. Attach to any GameObject in your guitar battle scene.
+///   2. Assign the Track Object whose notes should be auto-played.
+///   3. On a TrackNoteEventReceiver (or the TrackObject itself), wire the
+///      OnNoteActivate() UnityEvent to this component's AutoPlayNote() method.
 ///
-/// Supported note types:
-///   TapNote     — fires a single Tap on activate.
-///   HoldNote    — fires Tap on activate, then Release at the perfect release window each Update.
-///   CounterNote — fires N Taps on activate (N = the clip's IntParameter counter value),
-///                 draining the counter instantly for a perfect score.
+/// When called, it reads the active notes on the TrackObject, determines the
+/// type (Tap / Hold / Counter), and fires the correct input on that note's
+/// own RhythmProcessor. Nothing else is touched.
 /// </summary>
 public class EnemyGuitarAutoPlayer : MonoBehaviour
 {
-    [Tooltip("Must match the PlayerID set on the Rhythm Director and other rhythm components.")]
-    [SerializeField] private uint m_PlayerID = 1;
-
-    [Tooltip("The Rhythm Director GameObject. Leave empty to auto-find via Toolbox using PlayerID.")]
-    [SerializeField] private RhythmDirector m_RhythmDirector;
-
-    [Tooltip("The Track Object the enemy AI should auto-hit. Overrides Track ID when assigned.")]
+    [Tooltip("The track whose notes this auto-player will hit.")]
     [SerializeField] private TrackObject m_TrackObject;
 
-    [Tooltip("Fallback track index if no Track Object is assigned. -1 means all tracks.")]
-    [SerializeField] private int m_TrackID = -1;
-
-    private RhythmProcessor m_RhythmProcessor;
-
-    // HoldNotes currently being held — polled each Update to release at the perfect window.
     private readonly List<HoldNote> m_ActiveHoldNotes = new List<HoldNote>();
+    private readonly HashSet<Note> m_AlreadyPlayed = new HashSet<Note>();
 
-    private void Start()
+    private RhythmDirector m_Director;
+    private RhythmProcessor m_Processor;
+    private int m_TrackID = -1;
+
+    /// <summary>
+    /// Wire this to OnNoteActivate() on a TrackNoteEventReceiver or TrackObject.
+    /// Takes no parameters — reads active notes directly from the assigned TrackObject.
+    /// </summary>
+    public void AutoPlayNote()
     {
-        if (m_RhythmDirector == null)
-        {
-            m_RhythmDirector = Toolbox.Get<RhythmDirector>(m_PlayerID);
-        }
+        if (m_TrackObject == null) return;
 
-        m_RhythmProcessor = m_RhythmDirector.RhythmProcessor;
+        IReadOnlyList<Note> activeNotes = m_TrackObject.Notes;
+        if (activeNotes == null) return;
 
-        // Resolve numeric TrackID from the TrackObject reference so we can filter events.
-        if (m_TrackObject != null)
+        for (int n = 0; n < activeNotes.Count; n++)
         {
-            TrackObject[] tracks = m_RhythmDirector.TrackObjects;
-            for (int i = 0; i < tracks.Length; i++)
+            Note note = activeNotes[n];
+            if (note == null || m_AlreadyPlayed.Contains(note)) continue;
+
+            m_AlreadyPlayed.Add(note);
+
+            if (!EnsureResolved(note)) continue;
+
+            if (note is CounterNote counterNote)
             {
-                if (tracks[i] == m_TrackObject)
+                int tapCount = counterNote.RhythmClipData.ClipParameters.IntParameter;
+                for (int i = 0; i < tapCount; i++)
                 {
-                    m_TrackID = i;
-                    break;
+                    var tap = new InputEventData(m_TrackID, 0) { Note = counterNote };
+                    m_Processor.TriggerInput(tap);
                 }
+                continue;
+            }
+
+            var tapInput = new InputEventData(m_TrackID, 0) { Note = note };
+            m_Processor.TriggerInput(tapInput);
+
+            if (note is HoldNote holdNote)
+            {
+                m_ActiveHoldNotes.Add(holdNote);
             }
         }
-
-        m_RhythmProcessor.OnNoteActivateEvent += HandleNoteActivate;
     }
 
     private void Update()
     {
-        // Mirror HoldNote's m_AutoPerfectRelease logic from outside:
-        // release when (TimeFromDeactivate + HalfCrochet) crosses zero.
-        float halfCrochet = m_RhythmDirector.HalfCrochet;
+        if (m_Director == null || m_ActiveHoldNotes.Count == 0) return;
+
+        float halfCrochet = m_Director.HalfCrochet;
 
         for (int i = m_ActiveHoldNotes.Count - 1; i >= 0; i--)
         {
-            HoldNote holdNote = m_ActiveHoldNotes[i];
+            HoldNote hold = m_ActiveHoldNotes[i];
 
-            // Guard against notes that were missed/destroyed externally.
-            if (holdNote == null || !holdNote.gameObject.activeSelf)
+            if (hold == null || !hold.gameObject.activeSelf)
             {
                 m_ActiveHoldNotes.RemoveAt(i);
                 continue;
             }
 
-            if (holdNote.TimeFromDeactivate + halfCrochet > 0)
+            if (hold.TimeFromDeactivate + halfCrochet > 0)
             {
-                var releaseInput = new InputEventData(holdNote.RhythmClipData.TrackID, 1);
-                releaseInput.Note = holdNote;
-                m_RhythmProcessor.TriggerInput(releaseInput);
+                var release = new InputEventData(hold.RhythmClipData.TrackID, 1) { Note = hold };
+                m_Processor.TriggerInput(release);
                 m_ActiveHoldNotes.RemoveAt(i);
             }
         }
+
+        m_AlreadyPlayed.RemoveWhere(n => n == null || !n.gameObject.activeSelf);
     }
 
-    private void HandleNoteActivate(Note note)
+    private bool EnsureResolved(Note note)
     {
-        // Filter to the enemy's specific track.
-        if (m_TrackID != -1 && note.RhythmClipData.TrackID != m_TrackID) { return; }
+        if (m_Processor != null) return true;
 
-        if (note is CounterNote)
+        RhythmDirector dir = note.RhythmClipData.RhythmDirector;
+        if (dir == null) return false;
+
+        TrackObject[] tracks = dir.TrackObjects;
+        for (int i = 0; i < tracks.Length; i++)
         {
-            // Burst-fire exactly N taps (the clip's IntParameter) to drain the counter to zero
-            // for a perfect score. Skip the single tap below — this loop covers all of them.
-            int tapCount = note.RhythmClipData.ClipParameters.IntParameter;
-            for (int i = 0; i < tapCount; i++)
+            if (tracks[i] == m_TrackObject)
             {
-                var counterTap = new InputEventData(note.RhythmClipData.TrackID, 0);
-                counterTap.Note = note;
-                m_RhythmProcessor.TriggerInput(counterTap);
+                m_TrackID = i;
+                break;
             }
-            return;
         }
 
-        // TapNote / HoldNote: send a single Tap (InputID 0) directly to the processor.
-        var tapInput = new InputEventData(note.RhythmClipData.TrackID, 0);
-        tapInput.Note = note;
-        m_RhythmProcessor.TriggerInput(tapInput);
-
-        // Queue HoldNotes so Update() can release them at the perfect window.
-        if (note is HoldNote holdNote)
+        if (m_TrackID == -1)
         {
-            m_ActiveHoldNotes.Add(holdNote);
+            Debug.LogError(
+                $"[EnemyGuitarAutoPlayer] TrackObject '{m_TrackObject.name}' not found on RhythmDirector '{dir.gameObject.name}'.",
+                this);
+            return false;
         }
-    }
 
-    private void OnDestroy()
-    {
-        if (m_RhythmProcessor != null)
-        {
-            m_RhythmProcessor.OnNoteActivateEvent -= HandleNoteActivate;
-        }
+        m_Director = dir;
+        m_Processor = dir.RhythmProcessor;
+        return true;
     }
 }
