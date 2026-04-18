@@ -14,7 +14,9 @@ public class WardenJumpScare : MonoBehaviour
     private WardenMovement movement;
     private Disarm disarm;
 
-    public GameObject TextCanvas; // can be removed later if we have a different way to indicate damage
+    public GameObject TextCanvas; 
+    public GameObject JumpScareCanvas;
+    public GameObject PlayerCanvas;
     public TextMeshProUGUI text;
 
     private void Start()
@@ -22,6 +24,7 @@ public class WardenJumpScare : MonoBehaviour
         movement = GetComponent<WardenMovement>();
         disarm = GetComponent<Disarm>();
         HideTextCanvas();
+        JumpScareCanvas.SetActive(false);
     }
 
     //private void OnCollisionEnter2D(Collision2D collision)
@@ -82,13 +85,20 @@ public class WardenJumpScare : MonoBehaviour
 
     public void OpenJumpscare()
     {
+        PlayerCanvas.SetActive(false);
         jumpscare.enabled = true;
-        Invoke(nameof(CloseJumpscare), 7);
+        Invoke(nameof(JumpScareButton), 6);
     }
+
     private void CloseJumpscare()
     {
-       jumpscare.enabled = false;
        SceneManager.LoadScene("GameOver_NEW");
+       jumpscare.enabled = false;
+    }
+
+    private void JumpScareButton()
+    {
+        JumpScareCanvas.SetActive(true);
     }
 
     public void HideTextCanvas()
