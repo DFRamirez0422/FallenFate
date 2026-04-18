@@ -86,15 +86,15 @@ void Update()
       int currentProgress = GetCurrentProgress(quest, objective);
       if(currentProgress == objective.requiredAmount)
       {
-         return "Completed";
+         return "";
       }
       else if (objective.targetItem != null)
         {
-            return $"{currentProgress} / {objective.requiredAmount}";
+            return $"";
         }
         else
         {
-            return "In Progress";
+            return "";
         }
    }
 
