@@ -13,7 +13,6 @@ public class QuestManager : MonoBehaviour
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
         Inventory = GameObject.FindGameObjectWithTag("PickUp_Manager").GetComponent<PickUp_Manager>();
     }
 

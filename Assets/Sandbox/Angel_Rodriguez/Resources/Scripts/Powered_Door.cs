@@ -49,6 +49,10 @@ public class Powered_Door : CollidableObject
                     _SpawnedPrompt = null;
                 }
             }
+            else
+            {
+                Debug.Log("The door is not powered.");
+            }
         }
     }
 
@@ -86,7 +90,7 @@ public class Powered_Door : CollidableObject
     void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs"))
+        if (hitCollider.CompareTag("Player"))
         {
             _SpawnedPrompt = Instantiate(PoweredDoorPrompt);
             _SpawnedPrompt.SetActive(true);
@@ -106,7 +110,7 @@ public class Powered_Door : CollidableObject
     private void OnCollisionExit2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
-        if (hitCollider.CompareTag("Hitboxs"))
+        if (hitCollider.CompareTag("Player"))
         {
             if (_SpawnedPrompt != null)
             {

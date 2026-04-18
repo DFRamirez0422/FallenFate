@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -5997891195309821779}
   - component: {fileID: 6221608707464256930}
   - component: {fileID: 546526832726740630}
-  - component: {fileID: 4324389491780489453}
   m_Layer: 11
   m_Name: GuitarHeart
   m_TagString: Untagged
@@ -148,8 +147,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dc1a2b6abe5c05d42a5dd1cc79844deb, type: 3}
-  m_Resource: {fileID: 8300000, guid: dc1a2b6abe5c05d42a5dd1cc79844deb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 532f98082c208eb44a1d44391b247e79, type: 3}
+  m_Resource: {fileID: 8300000, guid: 532f98082c208eb44a1d44391b247e79, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -278,11 +277,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ComponentVersion: 2
-  m_LightType: 1
+  m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.4
+  m_FalloffIntensity: 0.18
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.45
+  m_Intensity: 1
   m_LightVolumeIntensity: 0
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000f1830c0221b390ba19d9a65b
@@ -301,8 +300,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.0041499957, y: -0.016900003, z: 0}
-    m_Extent: {x: 0.17954999, y: 0.1829, z: 0}
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0.1
@@ -310,41 +309,10 @@ MonoBehaviour:
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.03
+  m_ShapeLightFalloffSize: 0.5
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -0.12658215, y: -0.043618202, z: 0}
-  - {x: -0.07834244, y: -0.10952377, z: 0}
-  - {x: -0.0037431717, y: -0.17083907, z: 0}
-  - {x: 0.07341194, y: -0.11923194, z: 0}
-  - {x: 0.12831688, y: -0.058840275, z: 0}
-  - {x: 0.14545727, y: 0.004930973, z: 0}
-  - {x: 0.14539528, y: 0.06977129, z: 0}
-  - {x: 0.09333992, y: 0.11632013, z: 0}
-  - {x: 0.03355694, y: 0.13778043, z: 0}
-  - {x: -0.001698494, y: 0.122451544, z: 0}
-  - {x: -0.021115303, y: 0.08975029, z: 0}
-  - {x: -0.028779984, y: 0.11376524, z: 0}
-  - {x: -0.046663284, y: 0.1285832, z: 0}
-  - {x: -0.073233604, y: 0.123473406, z: 0}
-  - {x: -0.11359882, y: 0.11274338, z: 0}
-  - {x: -0.13505936, y: 0.09332681, z: 0}
-  - {x: -0.15499783, y: 0.063441515, z: 0}
---- !u!114 &4324389491780489453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6059695308837409379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7adeb4cb69c77ca4e926fc4d214038a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverHeight: 0.03
-  hoverSpeed: 1.5
-  enableFlutter: 1
-  flutterWidth: 0.015
-  flutterSpeed: 0.5
-  phaseOffset: 17.364979
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
