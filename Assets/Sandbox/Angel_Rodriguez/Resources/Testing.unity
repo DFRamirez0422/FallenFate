@@ -322,6 +322,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2959080156456585104, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_Size.x
+      value: 0.91763127
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959080156456585104, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_Size.y
+      value: 0.16726927
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959080156456585104, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959080156456585104, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.04035068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959080156456585104, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.8763966
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959080156456585104, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_Direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8246349862611884816, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.15
@@ -365,6 +389,10 @@ PrefabInstance:
     - target: {fileID: 8807435852695731377, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807435852695731377, guid: ce0ecb99f20a0554399be8895b795181, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -437,6 +465,14 @@ PrefabInstance:
     - target: {fileID: 7832951271501164414, guid: 7b102992694a0d541988992093a98df2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7892972407179453593, guid: 7b102992694a0d541988992093a98df2, type: 3}
+      propertyPath: objectsToToggle.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7892972407179453593, guid: 7b102992694a0d541988992093a98df2, type: 3}
+      propertyPath: objectsToToggle.Array.data[0].action
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7892972407179453593, guid: 7b102992694a0d541988992093a98df2, type: 3}
       propertyPath: objectsToToggle.Array.data[0].targetObject
@@ -1297,7 +1333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2790208286440668074, guid: 3621a8fef9929d9479b3d77980ee22de, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1761,7 +1797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1143941281850645569, guid: 6767c7c8fced0df449160cad1078194e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8029419810535545431, guid: 6767c7c8fced0df449160cad1078194e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1874,7 +1910,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2303
+    m_Bits: 255
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3025,7 +3061,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1143941281850645569, guid: 6767c7c8fced0df449160cad1078194e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8029419810535545431, guid: 6767c7c8fced0df449160cad1078194e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3698,6 +3734,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PoweredDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 8246038457285861278, guid: adeafd6a9ec8c1d449576b5db904c348, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3771,10 +3811,6 @@ PrefabInstance:
     - target: {fileID: 2888794490157805927, guid: c1dca84e75ca55848be3a5f81a57d28e, type: 3}
       propertyPath: m_Name
       value: WardenOffice_Door
-      objectReference: {fileID: 0}
-    - target: {fileID: 2888794490157805927, guid: c1dca84e75ca55848be3a5f81a57d28e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7905630949025226702, guid: c1dca84e75ca55848be3a5f81a57d28e, type: 3}
       propertyPath: m_LocalPosition.x
