@@ -2254,6 +2254,7 @@ GameObject:
   - component: {fileID: 2445636329828346770}
   - component: {fileID: 4623047508944378060}
   - component: {fileID: 2418107819614062655}
+  - component: {fileID: 6416139647216537939}
   m_Layer: 5
   m_Name: QuestLog
   m_TagString: Untagged
@@ -2351,6 +2352,28 @@ MonoBehaviour:
   QuestDescriptionText: {fileID: 8402257880295981366}
   objectiveSlots:
   - {fileID: 7902952447734943230}
+--- !u!114 &6416139647216537939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5817660262447594500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2577745440abf2347a53c1b47ce6ade8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene1: 
+  scene2: 
+  scene3: 
+  QuestSet1: {fileID: 0}
+  QuestSet2: {fileID: 0}
+  QuestSet3: {fileID: 0}
+  QuestAreaName1: 
+  QuestAreaName2: 
+  QuestAreaName3: 
+  QuestAreaNameText: {fileID: 0}
 --- !u!1 &7490018762027444036
 GameObject:
   m_ObjectHideFlags: 0
@@ -2863,6 +2886,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3436894482787542811}
     m_Modifications:
+    - target: {fileID: 106068177962602841, guid: 38eb092f9a4c5c94b966aac8b2302e9a, type: 3}
+      propertyPath: CurrentQuestSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ccac05ee36c43c4bbae6e889811c0bb, type: 2}
     - target: {fileID: 856158014780119272, guid: 38eb092f9a4c5c94b966aac8b2302e9a, type: 3}
       propertyPath: m_SizeDelta.x
       value: 350
@@ -2899,6 +2926,10 @@ PrefabInstance:
       propertyPath: questLogUI
       value: 
       objectReference: {fileID: 2418107819614062655}
+    - target: {fileID: 6156456136455577591, guid: 38eb092f9a4c5c94b966aac8b2302e9a, type: 3}
+      propertyPath: CurrentQuestSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 59e89d4fcb8c4af40bae6a04d9e6e190, type: 2}
     - target: {fileID: 6489990415707773127, guid: 38eb092f9a4c5c94b966aac8b2302e9a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3038,6 +3069,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 1815748047185449278, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: questLogUI
+      value: 
+      objectReference: {fileID: 2418107819614062655}
+    - target: {fileID: 1815748047185449278, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: CurrentQuestSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b93881a5709fcd240a9f539efef332ff, type: 2}
     - target: {fileID: 2879434792249156046, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
       propertyPath: scene1
       value: 1 Solitary Confinment
@@ -3066,6 +3105,14 @@ PrefabInstance:
       propertyPath: QuestAreaNameText
       value: 
       objectReference: {fileID: 2662218004913338585}
+    - target: {fileID: 3133846840641982355, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: questLogUI
+      value: 
+      objectReference: {fileID: 2418107819614062655}
+    - target: {fileID: 3133846840641982355, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
+      propertyPath: CurrentQuestSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 230562fb41e48b743bd716f334b0d198, type: 2}
     - target: {fileID: 3253024258916536277, guid: 05d167fb25e11f949857092bab21d6c0, type: 3}
       propertyPath: questLogUI
       value: 
@@ -3289,6 +3336,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 443244339898106957, guid: 416c9f57870e00242a04e7fc366d4a96, type: 3}
+      propertyPath: questLogUI
+      value: 
+      objectReference: {fileID: 2418107819614062655}
+    - target: {fileID: 443244339898106957, guid: 416c9f57870e00242a04e7fc366d4a96, type: 3}
+      propertyPath: CurrentQuestSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d82b6b1d85ee364f88fe85e9df83edd, type: 2}
     - target: {fileID: 1619871936696042191, guid: 416c9f57870e00242a04e7fc366d4a96, type: 3}
       propertyPath: m_fontSize
       value: 24
@@ -3314,6 +3369,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4151081180568727179, guid: 416c9f57870e00242a04e7fc366d4a96, type: 3}
+      propertyPath: questLogUI
+      value: 
+      objectReference: {fileID: 2418107819614062655}
+    - target: {fileID: 5184665260918220146, guid: 416c9f57870e00242a04e7fc366d4a96, type: 3}
       propertyPath: questLogUI
       value: 
       objectReference: {fileID: 2418107819614062655}
