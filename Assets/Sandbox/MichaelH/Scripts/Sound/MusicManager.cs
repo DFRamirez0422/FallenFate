@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
+    public bool isCutsceneMusic = false;
     public static MusicManager instance;
 
     private SoundDefinition currentMusic;
@@ -157,5 +159,30 @@ public class MusicManager : MonoBehaviour
 
             activeSource.Play();
         }
+    }
+
+    public void SetCutsceneMusic(bool isCutsceneMusic)
+    {
+        if (isCutsceneMusic)
+        {
+            StopMusic();
+        }
+        else
+        {
+            PlayMusic(currentMusic);
+        }
+    }
+
+    public void Update()
+    {
+        if( SceneManager.GetActiveScene().name.Contains("CUTSCENE") )
+        {
+            isCutsceneMusic = true;
+        }
+        else
+        {
+            isCutsceneMusic = false;
+        }
+        SetCutsceneMusic(isCutsceneMusic);
     }
 }
