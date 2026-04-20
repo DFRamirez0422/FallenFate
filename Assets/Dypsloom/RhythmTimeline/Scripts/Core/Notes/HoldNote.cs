@@ -29,7 +29,6 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
         [SerializeField] protected bool m_RemoveNoteIfMissed = true;
 
         protected bool m_Holding;
-        public bool IsHolding => m_Holding;
         protected Color m_StartLineColor;
 
         protected double m_StartHoldTimeOffset;
