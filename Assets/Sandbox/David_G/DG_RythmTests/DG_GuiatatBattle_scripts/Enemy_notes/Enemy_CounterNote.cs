@@ -6,6 +6,7 @@
 
 namespace Dypsloom.RhythmTimeline.Core.Notes
 {
+    using System.Collections;
     using Dypsloom.RhythmTimeline.Core.Input;
     using Dypsloom.RhythmTimeline.Core.Playables;
     using TMPro;
@@ -15,14 +16,17 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
     /// <summary>
     /// The Counter Note is pressed multiple times as fast as possible during a limited time.
     /// </summary>
-    public class CounterNote : Note
+    public class Enemy_CounterNote : Note
     {
+        [SerializeField] private bool m_AutoPlay = true;
+        [SerializeField] private float m_AutoPlayTapInterval = 0.25f;
         [FormerlySerializedAs("m_TmpText")]
         [Tooltip("The Counter Text.")]
         [SerializeField] protected TMP_Text m_CounterText;
         
         protected int m_StartCounter;
-        protected int m_Counter;  
+        protected int m_Counter;
+        protected Coroutine m_AutoPlayCoroutine;
     
         /// <summary>
         /// Initialize the Note.
@@ -33,6 +37,12 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
             base.Initialize(rhythmClipData);
             m_StartCounter = m_RhythmClipData.ClipParameters.IntParameter;
             SetCounter(m_StartCounter);
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            StopAutoPlay();
         }
     
         /// <summary>
@@ -51,6 +61,7 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
         protected override void DeactivateNote()
         {
             base.DeactivateNote();
+            StopAutoPlay();
 
             if(Application.isPlaying == false){return;}
 		
@@ -77,7 +88,37 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
                 gameObject.SetActive(false);
                 InvokeNoteTriggerEvent(inputEventData, 0, 0);
                 RhythmClipData.TrackObject.RemoveActiveNote(this);
+                StopAutoPlay();
             }
+        }
+
+        protected override void ActivateNote()
+        {
+            base.ActivateNote();
+            TryStartAutoPlay();
+        }
+
+        private void TryStartAutoPlay()
+        {
+            if (!Application.isPlaying || !m_AutoPlay || m_AutoPlayCoroutine != null) { return; }
+            m_AutoPlayCoroutine = StartCoroutine(AutoPlayTapRoutine());
+        }
+
+        private void StopAutoPlay()
+        {
+            if (m_AutoPlayCoroutine == null) { return; }
+            StopCoroutine(m_AutoPlayCoroutine);
+            m_AutoPlayCoroutine = null;
+        }
+
+        private IEnumerator AutoPlayTapRoutine()
+        {
+            while (Application.isPlaying && gameObject.activeInHierarchy && m_Counter > 0) {
+                OnTriggerInput(new InputEventData(RhythmClipData.TrackID, 0));
+                yield return new WaitForSeconds(m_AutoPlayTapInterval);
+            }
+
+            m_AutoPlayCoroutine = null;
         }
     
         /// <summary>
