@@ -22,9 +22,14 @@ public class HealingItems_Pickup : CollidableObject
         if(_hasActivated) return;
         if (Input.GetButtonDown("Interact"))
         {
+            
             // Heals player if not at max health
             if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
             {
+                UI_Action.SetActive(false);
+                Destroy(UI_Action);
+                this.gameObject.GetComponent<SpriteRenderer>().enabled = false; // Disable the collider to prevent multiple triggers
+                this.gameObject.GetComponent<Collider2D>().enabled = false; // Disable the collider to prevent multiple triggers
                 playerHealth.ChangeHealth(1);
                 PickUp_Sound.Play();
                 Destroy(this.gameObject, PickUp_Sound.clip.length);
@@ -38,22 +43,32 @@ public class HealingItems_Pickup : CollidableObject
     // Shows propmt when player enters trigger area
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Hitboxs"))
+        if (other.CompareTag("Hitboxs") || other.CompareTag("Player"))
         {
-            playerHealth = other.GetComponentInParent<PlayerHealth>();
-            UI_Action = Instantiate(_UIPrompt);
-            UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
-            UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
-            UI_Action.GetComponentsInChildren<Text>()[2].text = "";
-            UI_Action.SetActive(true);
+            PlayerHealth _playerHealth = other.GetComponentInParent<PlayerHealth>();
+            if(_playerHealth.m_CurrentHealth < _playerHealth.MaxHealth){
+                UI_Action = Instantiate(_UIPrompt);
+                UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
+                UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
+                UI_Action.GetComponentsInChildren<Text>()[2].text = "";
+                UI_Action.SetActive(true);
+            }
+             else
+            {
+                UI_Action = Instantiate(_UIPrompt);
+                UI_Action.GetComponentsInChildren<Text>()[0].text = "";
+                UI_Action.GetComponentsInChildren<Text>()[1].text = "";
+                UI_Action.GetComponentsInChildren<Text>()[2].text = "Health is full";
+                UI_Action.SetActive(true);
+            }
         }
     }
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.CompareTag("Hitboxs")){
-           playerHealth = collision.GetComponentInParent<PlayerHealth>();
-         if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
+        if(collision.CompareTag("Hitboxs") || collision.CompareTag("Player")){
+           PlayerHealth _playerHealth = collision.GetComponentInParent<PlayerHealth>();
+         if(_playerHealth.m_CurrentHealth < _playerHealth.MaxHealth)
             {
                UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
                UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
@@ -71,7 +86,7 @@ public class HealingItems_Pickup : CollidableObject
     // Hide prompt when player exits trigger area
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Hitboxs"))
+        if (other.CompareTag("Hitboxs") || other.CompareTag("Player"))
         {
             UI_Action.SetActive(false);
             UI_Action.GetComponentsInChildren<Text>()[0].text = "";

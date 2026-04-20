@@ -32,6 +32,7 @@ RectTransform:
   - {fileID: 6797100066384333361}
   - {fileID: 7565144317866777107}
   - {fileID: 2587012968908923529}
+  - {fileID: 8641878649995226151}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -129,7 +130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
       propertyPath: m_Name
-      value: GoToGArdenBenchQ
+      value: GoToDoorandExitQ
       objectReference: {fileID: 0}
     - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
       propertyPath: m_IsActive
@@ -244,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
       propertyPath: m_Name
-      value: FindWardenOfficeKeyQ
+      value: FindWayOutQuest
       objectReference: {fileID: 0}
     - target: {fileID: 5631362855618453490, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
       propertyPath: QuestNameText
@@ -279,6 +280,116 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &5719090887558467243
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6489990415707773127}
+    m_Modifications:
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_Name
+      value: Garden-FindElenaQ
+      objectReference: {fileID: 0}
+    - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631362855618453490, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+      propertyPath: CurrentQuestSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 43f96d6dfdf262046af0da8c3a6e66d4, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+--- !u!224 &8641878649995226151 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4084857238247170700, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
+  m_PrefabInstance: {fileID: 5719090887558467243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5786174069395454111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -369,7 +480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
       propertyPath: m_Name
-      value: PowerGeneratorsQ
+      value: FindGenerator2Quest
       objectReference: {fileID: 0}
     - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
       propertyPath: m_IsActive
@@ -488,7 +599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
       propertyPath: m_Name
-      value: GoToWardenOfficeQ
+      value: FindGenerator1Quest
       objectReference: {fileID: 0}
     - target: {fileID: 5434191748490081498, guid: 13136e94a50505e4dbd690441ec9fe7c, type: 3}
       propertyPath: m_IsActive
