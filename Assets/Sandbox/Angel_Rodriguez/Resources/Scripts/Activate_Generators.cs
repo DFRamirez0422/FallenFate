@@ -18,12 +18,6 @@ public class Activate_Generators : CollidableObject
     [Header("Objects To Activate")]
     [SerializeField] private GameObject[] objectsToActivate;
 
-    [Header("Action description copy (optional)")]
-    [Tooltip("Primary line when the generator is off. Empty = \"Activate Generator\".")]
-    [SerializeField] private string interactPromptWhenOff = "";
-    [Tooltip("Status line when the generator is on. Empty = \"Generator Activated\".")]
-    [SerializeField] private string statusPromptWhenOn = "";
-
     [Header("Objects To Deactivate")]
     [SerializeField] private GameObject[] objectsToDeactivate;
 
@@ -196,16 +190,6 @@ public class Activate_Generators : CollidableObject
         }
     }
 
-    private string PromptWhenOff()
-    {
-        return string.IsNullOrEmpty(interactPromptWhenOff) ? "Activate Generator" : interactPromptWhenOff;
-    }
-
-    private string PromptWhenOn()
-    {
-        return string.IsNullOrEmpty(statusPromptWhenOn) ? "Generator Activated" : statusPromptWhenOn;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
@@ -215,14 +199,14 @@ public class Activate_Generators : CollidableObject
 
             if (!Activate_Generator)
             {
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = PromptWhenOff();
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Activate Generator";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "[x]";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
                 _SpawnedPrompt.SetActive(true);
             }
             else
             {
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = PromptWhenOn();
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "Generator Activated";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "";
                 _SpawnedPrompt.SetActive(true);
@@ -239,7 +223,7 @@ public class Activate_Generators : CollidableObject
             {
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[0].text = "";
                 _SpawnedPrompt.GetComponentsInChildren<Text>()[1].text = "";
-                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = PromptWhenOn();
+                _SpawnedPrompt.GetComponentsInChildren<Text>()[2].text = "Generator Activated";
                 _SpawnedPrompt.SetActive(true);
             }
         }

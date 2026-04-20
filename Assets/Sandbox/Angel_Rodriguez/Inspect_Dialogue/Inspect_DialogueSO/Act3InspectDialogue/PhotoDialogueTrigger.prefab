@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3061244335370867962
+--- !u!1 &8293125166656510483
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,56 +8,66 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9192564815261727635}
-  - component: {fileID: 3687864423385136508}
-  - component: {fileID: 915770088545565549}
-  - component: {fileID: 8914645021342268541}
+  - component: {fileID: 969390227369804145}
+  - component: {fileID: 6632437608583058957}
+  - component: {fileID: 8418305626625905919}
+  - component: {fileID: 39819202841141752}
   m_Layer: 0
-  m_Name: PhotoDialogueTrigger
+  m_Name: Act1_FirstEncounter_DialogueTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9192564815261727635
+--- !u!4 &969390227369804145
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3061244335370867962}
+  m_GameObject: {fileID: 8293125166656510483}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.629943, y: -24.305254, z: 0}
+  m_LocalPosition: {x: -18, y: 38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3687864423385136508
+--- !u!114 &6632437608583058957
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3061244335370867962}
+<<<<<<< Updated upstream:Assets/Sandbox/Angel_Rodriguez/Inspect_Dialogue/Inspect_DialogueTriggers/Act1_FirstEncounter_DialogueTrigger.prefab
+  m_GameObject: {fileID: 8293125166656510483}
   m_Enabled: 1
+=======
+  m_GameObject: {fileID: 6202933386481135497}
+  m_Enabled: 0
+>>>>>>> Stashed changes:Assets/PreFabs/NPCs/Everyone here… they held on too tightlyDialogueTrigger.prefab
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45161614ae989bb4492f3bcba573576f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Conversations:
-  - {fileID: 11400000, guid: 26b758f47a974274fb365ef0549e0927, type: 2}
+  - {fileID: 11400000, guid: afa9ca7bac2499a4f8e1227d717c304b, type: 2}
   m_KeepTrigger: 0
   m_TalkSound: {fileID: 0}
---- !u!61 &915770088545565549
+--- !u!61 &8418305626625905919
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3061244335370867962}
+<<<<<<< Updated upstream:Assets/Sandbox/Angel_Rodriguez/Inspect_Dialogue/Inspect_DialogueTriggers/Act1_FirstEncounter_DialogueTrigger.prefab
+  m_GameObject: {fileID: 8293125166656510483}
   m_Enabled: 1
+=======
+  m_GameObject: {fileID: 6202933386481135497}
+  m_Enabled: 0
+>>>>>>> Stashed changes:Assets/PreFabs/NPCs/Everyone here… they held on too tightlyDialogueTrigger.prefab
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -94,15 +104,15 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 0.2, y: 7}
   m_EdgeRadius: 0
---- !u!82 &8914645021342268541
+--- !u!82 &39819202841141752
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3061244335370867962}
+  m_GameObject: {fileID: 8293125166656510483}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
