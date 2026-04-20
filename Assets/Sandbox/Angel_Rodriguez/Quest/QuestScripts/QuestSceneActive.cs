@@ -28,7 +28,7 @@ public class QuestSceneActive : MonoBehaviour
     private void CheckScene()
     {
         string activeSceneName = SceneManager.GetActiveScene().name;
-        if (activeSceneName == scene1)
+        if (activeSceneName == scene1 && QuestSet1 != null)
         {
             QuestAreaNameText.text = QuestAreaName1;
             QuestAreaNameText.color = Color.red;
@@ -36,7 +36,7 @@ public class QuestSceneActive : MonoBehaviour
             QuestSet2.SetActive(false);
             QuestSet3.SetActive(false);
         }
-        else if (activeSceneName == scene2)
+        else if (activeSceneName == scene2 && QuestSet2 != null)
         {
             QuestAreaNameText.text = QuestAreaName2;
             QuestAreaNameText.color = Color.red;
@@ -44,7 +44,7 @@ public class QuestSceneActive : MonoBehaviour
             QuestSet2.SetActive(true);
             QuestSet3.SetActive(false);
         }
-        else if (activeSceneName == scene3)
+        else if (activeSceneName == scene3 && QuestSet3 != null)
         {
             QuestAreaNameText.text = QuestAreaName3;
             QuestAreaNameText.color = Color.red;

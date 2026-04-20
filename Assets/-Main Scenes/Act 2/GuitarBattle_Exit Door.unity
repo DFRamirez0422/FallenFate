@@ -1311,7 +1311,7 @@ Transform:
   m_GameObject: {fileID: 393947575}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.64, y: 0.9, z: 0}
+  m_LocalPosition: {x: -0.8, y: 0.9, z: 0}
   m_LocalScale: {x: 0.12202, y: 0.12202, z: 0.12202}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -6075,6 +6075,8 @@ GameObject:
   - component: {fileID: 1828084605}
   - component: {fileID: 1828084604}
   - component: {fileID: 1828084603}
+  - component: {fileID: 1828084607}
+  - component: {fileID: 1828084606}
   m_Layer: 0
   m_Name: Enemy_Guitarist
   m_TagString: Untagged
@@ -6096,8 +6098,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerID: 1
   m_RhythmDirector: {fileID: 0}
-  m_TrackObject: {fileID: 0}
-  m_TrackID: -1
+  m_TrackObject: {fileID: 517900701}
+  m_TrackID: 0
 --- !u!114 &1828084604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6126,6 +6128,38 @@ Transform:
   - {fileID: 136255207}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1828084606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828084602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47976dbd3057a14d9eaad68a9494311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayerID: 1
+  m_RhythmDirector: {fileID: 0}
+  m_TrackObject: {fileID: 712841722}
+  m_TrackID: 2
+--- !u!114 &1828084607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828084602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47976dbd3057a14d9eaad68a9494311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayerID: 1
+  m_RhythmDirector: {fileID: 0}
+  m_TrackObject: {fileID: 1845889693}
+  m_TrackID: 1
 --- !u!1 &1828268946
 GameObject:
   m_ObjectHideFlags: 0

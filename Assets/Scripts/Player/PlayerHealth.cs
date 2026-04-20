@@ -19,18 +19,13 @@ public class PlayerHealth : MonoBehaviour
     public Transform LastHitSource {  get; private set; }
     public int CurrentHealth => m_CurrentHealth;
     public int MaxHealth => m_MaxHealth;
-    
-    
-    private static bool initialized = false;
 
     private void Start()
     {
-        if (!initialized)
-        {
-            m_CurrentHealth = m_MaxHealth;
-            initialized = true;
-            
-        }
+        // Always sync from max on scene entry; StatTracker (if present) overwrites next frame when carrying HP.
+        // A static "initialized" flag breaks every reload after the first play in the editor or across scene loads.
+        m_CurrentHealth = m_MaxHealth;
+        StatTracker.PublishPlayerHealth(m_CurrentHealth);
     }
 
     /// <summary>Change health by amount. Negative = damage, positive = heal.</summary>
@@ -62,6 +57,8 @@ public class PlayerHealth : MonoBehaviour
         // Trigger hit reaction even if this damage is fatal
         m_OnHit?.Invoke();
 
+        StatTracker.PublishPlayerHealth(m_CurrentHealth);
+
         if (m_CurrentHealth == 0)
             m_OnZeroHealth?.Invoke();
     }
@@ -72,6 +69,7 @@ public class PlayerHealth : MonoBehaviour
         if (m_CurrentHealth > MaxHealth)
             m_CurrentHealth = MaxHealth;
         m_OnHeal?.Invoke();
+        StatTracker.PublishPlayerHealth(m_CurrentHealth);
     }
 
     private void Hit(int amount)
@@ -112,5 +110,6 @@ public class PlayerHealth : MonoBehaviour
     public void ResetHealth()
     {
         m_CurrentHealth = m_MaxHealth;
+        StatTracker.PublishPlayerHealth(m_CurrentHealth);
     }
 }

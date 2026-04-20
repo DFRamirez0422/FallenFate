@@ -13,7 +13,6 @@ public class QuestManager : MonoBehaviour
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
         Inventory = GameObject.FindGameObjectWithTag("PickUp_Manager").GetComponent<PickUp_Manager>();
     }
 
@@ -86,15 +85,15 @@ void Update()
       int currentProgress = GetCurrentProgress(quest, objective);
       if(currentProgress == objective.requiredAmount)
       {
-         return "Completed";
+         return "";
       }
       else if (objective.targetItem != null)
         {
-            return $"{currentProgress} / {objective.requiredAmount}";
+            return $"";
         }
         else
         {
-            return "In Progress";
+            return "";
         }
    }
 
