@@ -26,6 +26,8 @@ public class HealingItems_Pickup : CollidableObject
             // Heals player if not at max health
             if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
             {
+                UI_Action.SetActive(false);
+                Destroy(UI_Action);
                 this.gameObject.GetComponent<SpriteRenderer>().enabled = false; // Disable the collider to prevent multiple triggers
                 this.gameObject.GetComponent<Collider2D>().enabled = false; // Disable the collider to prevent multiple triggers
                 playerHealth.ChangeHealth(1);
@@ -41,9 +43,10 @@ public class HealingItems_Pickup : CollidableObject
     // Shows propmt when player enters trigger area
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Hitboxs"))
+        if (other.CompareTag("Hitboxs") || other.CompareTag("Player"))
         {
-            if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth){
+            PlayerHealth _playerHealth = other.GetComponentInParent<PlayerHealth>();
+            if(_playerHealth.m_CurrentHealth < _playerHealth.MaxHealth){
                 UI_Action = Instantiate(_UIPrompt);
                 UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
                 UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
@@ -63,8 +66,9 @@ public class HealingItems_Pickup : CollidableObject
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.CompareTag("Hitboxs")){
-         if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
+        if(collision.CompareTag("Hitboxs") || collision.CompareTag("Player")){
+           PlayerHealth _playerHealth = collision.GetComponentInParent<PlayerHealth>();
+         if(_playerHealth.m_CurrentHealth < _playerHealth.MaxHealth)
             {
                UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
                UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
@@ -82,7 +86,7 @@ public class HealingItems_Pickup : CollidableObject
     // Hide prompt when player exits trigger area
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Hitboxs"))
+        if (other.CompareTag("Hitboxs") || other.CompareTag("Player"))
         {
             UI_Action.SetActive(false);
             UI_Action.GetComponentsInChildren<Text>()[0].text = "";
