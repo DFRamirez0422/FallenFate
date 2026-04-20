@@ -229,6 +229,11 @@ public class Activate_Generators : CollidableObject
         }
     }
 
+    private string PromptWhenOn()
+    {
+        return "Generator is already on";
+    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         Collider2D hitCollider = collision.collider;
