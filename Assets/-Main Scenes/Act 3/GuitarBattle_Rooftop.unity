@@ -497,7 +497,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -15
-  m_Sprite: {fileID: 21300000, guid: f0056148c3385e047a16cf46c7bcbec3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5bbf27a958b5955489305e84d827a4da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -584,7 +584,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -15
-  m_Sprite: {fileID: 21300000, guid: f0056148c3385e047a16cf46c7bcbec3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5bbf27a958b5955489305e84d827a4da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -665,7 +665,7 @@ Transform:
   m_GameObject: {fileID: 278489923}
   serializedVersion: 2
   m_LocalRotation: {x: 0.41469327, y: -0, z: -0, w: 0.9099613}
-  m_LocalPosition: {x: 5.24, y: 9.662624, z: 11.805064}
+  m_LocalPosition: {x: 5.24, y: 10.8, z: 13.12}
   m_LocalScale: {x: 3.5888975, y: 3.5888972, z: 3.5888972}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -715,7 +715,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -15
-  m_Sprite: {fileID: 21300000, guid: 7c3c07a8b0b8c2549a6f1b108294c9af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1a6a05f27a23bcf4d8114a46c7a28ee6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3688,7 +3688,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -15
-  m_Sprite: {fileID: 21300000, guid: f0056148c3385e047a16cf46c7bcbec3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5bbf27a958b5955489305e84d827a4da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4002,7 +4002,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -15
-  m_Sprite: {fileID: 21300000, guid: 7c3c07a8b0b8c2549a6f1b108294c9af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1a6a05f27a23bcf4d8114a46c7a28ee6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4470,7 +4470,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279292, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_Bpm
-      value: 120
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604570903184279292, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
+      propertyPath: m_NoteSpeed
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279292, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_PlayOnStart
@@ -4548,13 +4552,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1604570903184279294, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604570903184279294, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_PlayableAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 5d2ae63490312da4d859ed0d8a834d94, type: 2}
+      objectReference: {fileID: 11400000, guid: 0d11bff82aeb7e246ab0c092b604e901, type: 2}
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_SceneBindings.Array.size
-      value: 68
+      value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_SceneBindings.Array.data[66].key
@@ -4567,7 +4579,7 @@ PrefabInstance:
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_SceneBindings.Array.data[68].key
       value: 
-      objectReference: {fileID: 1047342175955678552, guid: 84845c07f60a4534d90c3d934c931613, type: 2}
+      objectReference: {fileID: -1136005580180493153, guid: 0d11bff82aeb7e246ab0c092b604e901, type: 2}
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_SceneBindings.Array.data[69].key
       value: 
@@ -4582,6 +4594,10 @@ PrefabInstance:
       objectReference: {fileID: -7852279975032277112, guid: 84845c07f60a4534d90c3d934c931613, type: 2}
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_SceneBindings.Array.data[67].value
+      value: 
+      objectReference: {fileID: 2083979528}
+    - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
+      propertyPath: m_SceneBindings.Array.data[68].value
       value: 
       objectReference: {fileID: 2083979528}
     m_RemovedComponents: []
@@ -4717,7 +4733,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -15
-  m_Sprite: {fileID: 21300000, guid: 7c3c07a8b0b8c2549a6f1b108294c9af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1a6a05f27a23bcf4d8114a46c7a28ee6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4790,11 +4806,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279292, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_Bpm
-      value: 120
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279292, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_PlayerID
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604570903184279292, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
+      propertyPath: m_NoteSpeed
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279292, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_PlayOnStart
@@ -4871,7 +4891,7 @@ PrefabInstance:
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_PlayableAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 2c24aa780d4459d4bab57ec74cbc1602, type: 2}
+      objectReference: {fileID: 11400000, guid: dba94c07bdc52894d825290837ac2ddd, type: 2}
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_SceneBindings.Array.size
       value: 64
