@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cfbfad8f8639994ca9ec4d4fb19464e, type: 3}
+  m_Name: Guitar_GUILT _challenger
+  m_EditorClassIdentifier: 
+  lines:
+  - speaker: {fileID: 11400000, guid: 9235584753c47dc46bd4a168a1675377, type: 2}
+    emotion: 1
+    text: " She waited for you.\r\n\r"
+  - speaker: {fileID: 11400000, guid: 7ce02c1f8c657064e91da607aebe315a, type: 2}
+    emotion: 7
+    text: "I\u2019m here now.\r\r\r"
+  - speaker: {fileID: 11400000, guid: 9235584753c47dc46bd4a168a1675377, type: 2}
+    emotion: 1
+    text: "Not when she needed you.\r\n\rYou weren\u2019t there."
+  - speaker: {fileID: 11400000, guid: 9235584753c47dc46bd4a168a1675377, type: 2}
+    emotion: 0
+    text: "Play\u2026\r\r"
+  options:
+  - optionText: 
+    action: 1
+    nextDialogue: {fileID: 0}
+    sceneName: GuitarBattle_after_shed
+  requiredNPCs: []
+  actionOnDialogueEnd: 2
+  sceneName: 
+  nextDialogue: {fileID: 0}
+  objectsToActivate: []
+  objectsToInstantiate: []
