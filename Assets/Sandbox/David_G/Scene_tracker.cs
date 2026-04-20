@@ -31,4 +31,10 @@ public class Scene_tracker : MonoBehaviour
     {
         SceneManager.LoadScene(sceneToLoad);
     }
+
+    public void loadCurrentScene()
+    {
+        string NathansCurrentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(NathansCurrentScene);
+    }
 }

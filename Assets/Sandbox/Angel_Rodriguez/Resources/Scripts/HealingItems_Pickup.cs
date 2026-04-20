@@ -22,9 +22,12 @@ public class HealingItems_Pickup : CollidableObject
         if(_hasActivated) return;
         if (Input.GetButtonDown("Interact"))
         {
+            
             // Heals player if not at max health
             if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
             {
+                this.gameObject.GetComponent<SpriteRenderer>().enabled = false; // Disable the collider to prevent multiple triggers
+                this.gameObject.GetComponent<Collider2D>().enabled = false; // Disable the collider to prevent multiple triggers
                 playerHealth.ChangeHealth(1);
                 PickUp_Sound.Play();
                 Destroy(this.gameObject, PickUp_Sound.clip.length);
@@ -40,19 +43,27 @@ public class HealingItems_Pickup : CollidableObject
     {
         if (other.CompareTag("Hitboxs"))
         {
-            playerHealth = other.GetComponentInParent<PlayerHealth>();
-            UI_Action = Instantiate(_UIPrompt);
-            UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
-            UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
-            UI_Action.GetComponentsInChildren<Text>()[2].text = "";
-            UI_Action.SetActive(true);
+            if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth){
+                UI_Action = Instantiate(_UIPrompt);
+                UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;
+                UI_Action.GetComponentsInChildren<Text>()[1].text = "[x]";
+                UI_Action.GetComponentsInChildren<Text>()[2].text = "";
+                UI_Action.SetActive(true);
+            }
+             else
+            {
+                UI_Action = Instantiate(_UIPrompt);
+                UI_Action.GetComponentsInChildren<Text>()[0].text = "";
+                UI_Action.GetComponentsInChildren<Text>()[1].text = "";
+                UI_Action.GetComponentsInChildren<Text>()[2].text = "Health is full";
+                UI_Action.SetActive(true);
+            }
         }
     }
 
     void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.CompareTag("Hitboxs")){
-           playerHealth = collision.GetComponentInParent<PlayerHealth>();
          if(playerHealth.m_CurrentHealth < playerHealth.MaxHealth)
             {
                UI_Action.GetComponentsInChildren<Text>()[0].text = "Pick up " + item_Data.itemName;

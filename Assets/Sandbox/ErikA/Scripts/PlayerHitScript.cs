@@ -5,7 +5,6 @@ public class PlayerHitScript : MonoBehaviour
     [SerializeField] private GameObject m_ImpactEffect;
     [SerializeField] private Animator m_ImpactEffectAnimator;
     [SerializeField] private string[] m_ImpactStateNames;
-
     [SerializeField] private float m_HorizontalOffset = 0.25f;
 
     private PlayerHealth m_PlayerHealth;
@@ -30,6 +29,21 @@ public class PlayerHitScript : MonoBehaviour
 
     public void ImpactEffect()
     {
+        if (GrabberMovement.SomeoneGrabbedPlayer)
+        {
+            GrabberBloodEffect activeGrabberBlood = FindActiveGrabberBloodEffect();
+            if (activeGrabberBlood != null)
+            {
+                activeGrabberBlood.PlayGrabbedImpact();
+                return;
+            }
+        }
+
+        PlayNormalImpact();
+    }
+
+    private void PlayNormalImpact()
+    {
         if (m_ImpactEffect == null || m_ImpactEffectAnimator == null) return;
 
         m_ImpactEffect.SetActive(true);
@@ -43,7 +57,6 @@ public class PlayerHitScript : MonoBehaviour
         {
             Vector3 directionFromAttacker = transform.position - attacker.position;
 
-            // attacker on left -> spray right
             if (directionFromAttacker.x >= 0f)
             {
                 newScale.x = Mathf.Abs(m_OriginalLocalScale.x);
@@ -70,5 +83,20 @@ public class PlayerHitScript : MonoBehaviour
         }
 
         m_ImpactEffectAnimator.Update(0f);
+    }
+
+    private GrabberBloodEffect FindActiveGrabberBloodEffect()
+    {
+        ButtonMash[] grabbers = FindObjectsOfType<ButtonMash>();
+
+        foreach (ButtonMash grabber in grabbers)
+        {
+            if (grabber.started)
+            {
+                return grabber.GetComponent<GrabberBloodEffect>();
+            }
+        }
+
+        return null;
     }
 }

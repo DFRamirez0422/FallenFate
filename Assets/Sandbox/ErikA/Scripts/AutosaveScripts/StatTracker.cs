@@ -59,7 +59,7 @@ public class StatTracker : MonoBehaviour
         ApplyCarriedHealthToPlayer();
     }
 
-    private static PlayerHealth ResolvePlayerHealth()
+    private PlayerHealth ResolvePlayerHealth()
     {
         GameObject playerGo = GameObject.FindGameObjectWithTag("Player");
         if (playerGo != null)
@@ -85,12 +85,19 @@ public class StatTracker : MonoBehaviour
 
     private void Update()
     {
-        PlayerStats();
-    }
-
-    private void PlayerStats()
-    {
         if (PlayerObject != null)
             lastPlayerHealth = PlayerObject.CurrentHealth;
+    }
+
+    /// <summary>
+    /// Pushes the current health value into carry-over storage immediately.
+    /// Call this whenever <see cref="PlayerHealth"/> changes HP so a same-frame
+    /// scene load (e.g. death → LoadGameOver) cannot leave a stale lastPlayerHealth
+    /// (e.g. still 1 after a 1→0 kill) before <see cref="Update"/> runs.
+    /// </summary>
+    public static void PublishPlayerHealth(int health)
+    {
+        if (s_Instance != null)
+            s_Instance.lastPlayerHealth = health;
     }
 }

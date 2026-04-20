@@ -71,8 +71,14 @@ public class SaveManager : MonoBehaviour
         if (playerHealthComponent != null)
             currentHealth = playerHealthComponent.CurrentHealth;
 
-        // Edge case: never save a dead checkpoint
-        data.playerHealth = Mathf.Max(currentHealth, 1);
+        // Never persist "dead" as 1 HP — that makes the next load always start at 1.
+        // If we are saving while dead, store full health so respawn / load is playable.
+        if (currentHealth <= 0 && playerHealthComponent != null)
+            currentHealth = playerHealthComponent.MaxHealth;
+        else
+            currentHealth = Mathf.Max(currentHealth, 1);
+
+        data.playerHealth = currentHealth;
 
         SaveSystem.Save(data);
         Debug.Log("Autosave written.");
@@ -132,8 +138,9 @@ public class SaveManager : MonoBehaviour
 
         if (playerHealthComponent != null)
         {
-            playerHealthComponent.m_CurrentHealth = Mathf.Max(data.playerHealth, 1);
-            
+            int loaded = data.playerHealth <= 0 ? playerHealthComponent.MaxHealth : data.playerHealth;
+            playerHealthComponent.m_CurrentHealth = Mathf.Clamp(loaded, 1, playerHealthComponent.MaxHealth);
+            StatTracker.PublishPlayerHealth(playerHealthComponent.m_CurrentHealth);
         }
     }
 }
