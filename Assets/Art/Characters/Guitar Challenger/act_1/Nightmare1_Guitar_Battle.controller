@@ -32,7 +32,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Strum_Player_guitar
+  m_Name: Strum_enemy_guitar
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -110,7 +110,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle_Player_Guitar
+  m_Name: Idle_enemy_Guitar
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -185,7 +185,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Guitar_Battle
+  m_Name: Nightmare1_Guitar_Battle
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Strum
@@ -226,7 +226,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pre_Strum_Player_Guitar
+  m_Name: Pre_Strum_enemy_Guitar
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -264,9 +264,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0
+  m_TransitionDuration: 0.058953293
   m_TransitionOffset: 0
-  m_ExitTime: 0.0000000010627705
+  m_ExitTime: 0.17291063
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -351,7 +351,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TakeDamage_Player_guitar
+  m_Name: TakeDamage_enemy_guitar
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -390,7 +390,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.000000011175871
+  m_TransitionDuration: 0.42540827
   m_TransitionOffset: 0
   m_ExitTime: 0.05464819
   m_HasExitTime: 1

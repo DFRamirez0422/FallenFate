@@ -18,6 +18,8 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
         public GameObject player;
         public PlayerHealth playerHealth;
 
+        public Animator playerAnimator;
+
         [Tooltip("The Start note when the input should be pressed.")]
         [SerializeField] protected Transform m_StartNote;
         [Tooltip("The end note when the input should be released.")]
@@ -36,14 +38,17 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
 
         protected double m_StartHoldTimeOffset;
 
-        void CachePlayerHealth()
+        void CachePlayer()
         {
             if (playerHealth != null)
                 return;
             if (player == null)
                 player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
+            {
                 playerHealth = player.GetComponentInChildren<PlayerHealth>();
+                playerAnimator = player.GetComponentInChildren<Animator>();
+            }
             else if (Application.isPlaying)
                 Debug.LogError("Player not found (tag 'Player').", this);
         }
@@ -51,7 +56,7 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
         void FixedUpdate()
         {
             if (playerHealth == null)
-                CachePlayerHealth();
+                CachePlayer();
         }
 
         /// <summary>
@@ -61,7 +66,7 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
         public override void Initialize(RhythmClipData rhythmClipData)
         {
             base.Initialize(rhythmClipData);
-            CachePlayerHealth();
+            CachePlayer();
             m_Holding = false;
             m_LineRenderer.positionCount = 2;
             m_StartLineColor = m_LineRenderer.startColor;
@@ -129,6 +134,7 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
                 gameObject.SetActive(false);
                 InvokeNoteTriggerEventMiss();
                 playerHealth.ChangeHealth(-1);
+                playerAnimator.SetTrigger("Hurt");
             }
         }
 
@@ -163,6 +169,7 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
                 InvokeNoteTriggerEvent(inputEventData, timeDifference, (float) timeDifferencePercentage);
                 RhythmClipData.TrackObject.RemoveActiveNote(this);
                 playerHealth.ChangeHealth(1);
+                playerAnimator.SetTrigger("Strum");
             }
         
         }

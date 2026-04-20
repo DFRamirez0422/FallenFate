@@ -16,6 +16,9 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
     public class Enemy_HoldNote : Note
     {
 
+        public GameObject guitarist;
+        public Animator guitaristAnimator;
+
         [SerializeField] private bool m_AutoPlay = true;
         [SerializeField] private bool m_AutoPlayPerfectTiming = true;
 
@@ -39,6 +42,28 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
         protected double m_StartHoldTimeOffset;
         protected bool m_AutoPlayTapSent;
         protected bool m_AutoPlayReleaseSent;
+
+
+        void CacheGuitarist()
+        {
+            if (guitaristAnimator != null)
+                return;
+            if (guitarist == null)
+                guitarist = GameObject.FindGameObjectWithTag("Guitarist");
+            if (guitarist != null)
+            {
+                guitaristAnimator = guitarist.GetComponentInChildren<Animator>();
+            }
+            else if (Application.isPlaying)
+                Debug.LogError("Guitarist not found (tag 'Guitarist').", this);
+        }
+
+        void FixedUpdate()
+        {
+            if (guitaristAnimator == null)
+                CacheGuitarist();
+        }
+        
 
         /// <summary>
         /// Initialize the note.
@@ -148,6 +173,7 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
                 
                 InvokeNoteTriggerEvent(inputEventData, timeDifference, (float) timeDifferencePercentage);
                 RhythmClipData.TrackObject.RemoveActiveNote(this);
+                guitaristAnimator.SetTrigger("Strum");
             }
         
         }
