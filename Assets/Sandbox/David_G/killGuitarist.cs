@@ -4,7 +4,7 @@ public class killGuitarist : MonoBehaviour
 {
     [SerializeField] private GameObject guitarist;
     [SerializeField] private Animator guitaristAnimator;
-    [SerializeField] private bool isDead = true;   
+    [SerializeField] private bool isDead = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,6 +18,9 @@ public class killGuitarist : MonoBehaviour
 
     public void checkIfGuitaristIsDead()
     {
-        guitaristAnimator.SetBool("isDead", isDead);
+        if (isDead)
+        {
+            guitaristAnimator.SetTrigger("Dead");
+        }
     }
 }
