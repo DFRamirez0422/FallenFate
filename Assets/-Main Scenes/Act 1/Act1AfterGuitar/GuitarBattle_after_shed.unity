@@ -154,7 +154,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 215856293}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -253,7 +254,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -13.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 215856290}
+  - {fileID: 705027521}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &136255206
@@ -435,7 +438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 159518268}
   - component: {fileID: 159518269}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Dante Note Highway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +483,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -522,7 +525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 197909592}
   - component: {fileID: 197909593}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Dante Note Highway (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +570,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -599,6 +602,143 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &215856289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 215856290}
+  - component: {fileID: 215856293}
+  - component: {fileID: 215856292}
+  - component: {fileID: 215856291}
+  m_Layer: 0
+  m_Name: Guitar_cam
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &215856290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215856289}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 106782383}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &215856291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215856289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+--- !u!81 &215856292
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215856289}
+  m_Enabled: 1
+--- !u!20 &215856293
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215856289}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 4
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 10
+  m_Depth: 2
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &216087288
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,7 +793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 278489924}
   - component: {fileID: 278489925}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy_note_highway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -695,10 +835,10 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 256
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -826,8 +966,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 2141172473}
     m_Modifications:
     - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1561637352818215625, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -836,6 +988,10 @@ PrefabInstance:
     - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_Name
       value: Track Object (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2040444519951956598, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_RootOrder
@@ -1029,6 +1185,10 @@ PrefabInstance:
       propertyPath: m_OnNoteTriggeredMiss.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3043961517324168737, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_text
       value: D
@@ -1052,6 +1212,14 @@ PrefabInstance:
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221479908260202133, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -1081,9 +1249,25 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -7967558000469561968, guid: e9f9cedede912f249bfd3bfdcd86c4b9, type: 3}
+    - target: {fileID: 8118963627417979854, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684502952515763026, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056275174495545670, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9056275174495545670, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -1119,6 +1303,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 832450362}
     m_Modifications:
     - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1130,6 +1318,14 @@ PrefabInstance:
       propertyPath: m_OnNoteDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.Animator, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1561637352818215625, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1137,6 +1333,10 @@ PrefabInstance:
     - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_Name
       value: Track Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -1206,6 +1406,10 @@ PrefabInstance:
       propertyPath: m_PlayerID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3043961517324168737, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_text
       value: H
@@ -1229,6 +1433,14 @@ PrefabInstance:
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221479908260202133, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -1265,6 +1477,22 @@ PrefabInstance:
     - target: {fileID: 6868391308942707700, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8118963627417979854, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684502952515763026, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056275174495545670, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -1666,6 +1894,143 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &705027520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 705027521}
+  - component: {fileID: 705027524}
+  - component: {fileID: 705027523}
+  - component: {fileID: 705027522}
+  m_Layer: 0
+  m_Name: note_cam
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &705027521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705027520}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 106782383}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &705027522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705027520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+--- !u!81 &705027523
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705027520}
+  m_Enabled: 1
+--- !u!20 &705027524
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705027520}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 4
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 10
+  m_Depth: 2
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &710685401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,7 +2043,7 @@ GameObject:
   - component: {fileID: 710685405}
   - component: {fileID: 710685404}
   - component: {fileID: 710685403}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Canvas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1778,6 +2143,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 832450362}
     m_Modifications:
     - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1789,6 +2158,14 @@ PrefabInstance:
       propertyPath: m_OnNoteDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.Animator, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1561637352818215625, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1796,6 +2173,10 @@ PrefabInstance:
     - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_Name
       value: Track Object (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2040444519951956598, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_RootOrder
@@ -1857,6 +2238,10 @@ PrefabInstance:
       propertyPath: m_PlayerID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3043961517324168737, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_text
       value: K
@@ -1880,6 +2265,14 @@ PrefabInstance:
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221479908260202133, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -1913,6 +2306,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -7967558000469561968, guid: e9f9cedede912f249bfd3bfdcd86c4b9, type: 3}
+    - target: {fileID: 8118963627417979854, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684502952515763026, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056275174495545670, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1947,7 +2356,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 832450362}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Tracks (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1982,7 +2391,7 @@ GameObject:
   m_Component:
   - component: {fileID: 856281226}
   - component: {fileID: 856281227}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2301,7 +2710,7 @@ GameObject:
   - component: {fileID: 950827039}
   - component: {fileID: 950827041}
   - component: {fileID: 950827040}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2438,7 +2847,7 @@ GameObject:
   - component: {fileID: 963326875}
   - component: {fileID: 963326874}
   - component: {fileID: 963326873}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2540,7 +2949,7 @@ GameObject:
   - component: {fileID: 1069519896}
   - component: {fileID: 1069519895}
   - component: {fileID: 1069519894}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2999,7 +3408,7 @@ GameObject:
   - component: {fileID: 1151024662}
   - component: {fileID: 1151024664}
   - component: {fileID: 1151024663}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3133,8 +3542,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 2141172473}
     m_Modifications:
     - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1561637352818215625, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -3143,6 +3564,10 @@ PrefabInstance:
     - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_Name
       value: Track Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2040444519951956598, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_RootOrder
@@ -3360,6 +3785,10 @@ PrefabInstance:
       propertyPath: m_OnNoteTriggeredMiss.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3043961517324168737, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_text
       value: A
@@ -3383,6 +3812,14 @@ PrefabInstance:
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221479908260202133, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -3413,12 +3850,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4123209599839849536, guid: e9f9cedede912f249bfd3bfdcd86c4b9, type: 3}
     - target: {fileID: 8118963627417979854, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8118963627417979854, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684502952515763026, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056275174495545670, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9056275174495545670, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3451,7 +3904,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1256074275}
   - component: {fileID: 1256074276}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3541,6 +3994,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2141172473}
     m_Modifications:
     - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -3552,6 +4009,14 @@ PrefabInstance:
       propertyPath: m_OnNoteDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.Animator, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1561637352818215625, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -3559,6 +4024,10 @@ PrefabInstance:
     - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_Name
       value: Track Object (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2040444519951956598, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_RootOrder
@@ -3772,6 +4241,10 @@ PrefabInstance:
       propertyPath: m_OnNoteTriggeredMiss.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3043961517324168737, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_text
       value: S
@@ -3795,6 +4268,14 @@ PrefabInstance:
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221479908260202133, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -3824,6 +4305,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -744376527452209285, guid: e9f9cedede912f249bfd3bfdcd86c4b9, type: 3}
+    - target: {fileID: 8118963627417979854, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684502952515763026, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056275174495545670, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -3864,7 +4361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1405344167}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy_track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4296,7 +4793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1639121836}
   - component: {fileID: 1639121837}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Dante Note Highway (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4341,7 +4838,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4384,7 +4881,7 @@ GameObject:
   - component: {fileID: 1672795225}
   - component: {fileID: 1672795227}
   - component: {fileID: 1672795226}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4519,7 +5016,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718983644}
   - component: {fileID: 1718983645}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4610,7 +5107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1729539528}
   - component: {fileID: 1729539529}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy_note_highway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4652,10 +5149,10 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 256
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4769,10 +5266,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1828084605}
-  - component: {fileID: 1828084604}
-  - component: {fileID: 1828084603}
-  - component: {fileID: 1828084607}
-  - component: {fileID: 1828084606}
   m_Layer: 0
   m_Name: Enemy_Guitarist
   m_TagString: Guitarist
@@ -4780,31 +5273,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1828084603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828084602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a47976dbd3057a14d9eaad68a9494311, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TrackObject: {fileID: 517900701}
---- !u!114 &1828084604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828084602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b316dfe268baacf44bb89e4e2b8cd750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1828084605
 Transform:
   m_ObjectHideFlags: 0
@@ -4821,32 +5289,6 @@ Transform:
   - {fileID: 136255207}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1828084606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828084602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a47976dbd3057a14d9eaad68a9494311, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TrackObject: {fileID: 712841722}
---- !u!114 &1828084607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828084602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a47976dbd3057a14d9eaad68a9494311, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TrackObject: {fileID: 1845889693}
 --- !u!1001 &1845889691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4855,6 +5297,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 832450362}
     m_Modifications:
+    - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1151099385389875858, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -4867,9 +5313,21 @@ PrefabInstance:
       propertyPath: m_OnNoteDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.Animator, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1561637352818215625, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730137020830199184, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_Name
       value: Track Object (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040444519951956597, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2040444519951956598, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_RootOrder
@@ -4935,6 +5393,10 @@ PrefabInstance:
       propertyPath: m_PlayerID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3043961517324168737, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_text
       value: J
@@ -4958,6 +5420,14 @@ PrefabInstance:
     - target: {fileID: 3146146162059861911, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221479908260202133, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3749762080318327062, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
@@ -4987,6 +5457,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -744376527452209285, guid: e9f9cedede912f249bfd3bfdcd86c4b9, type: 3}
+    - target: {fileID: 8118963627417979854, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8684502952515763026, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056275174495545670, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9150116701031804199, guid: 19984c7f107318141bc4e5e47640eb90, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -5021,7 +5507,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1904261322}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player_dante_track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5202,6 +5688,10 @@ PrefabInstance:
     - target: {fileID: 1604570903184279280, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_Name
       value: Rhythm Director
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604570903184279280, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279290, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_TrackInput.Array.size
@@ -5450,7 +5940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2086520830}
   - component: {fileID: 2086520831}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy_note_highway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5492,10 +5982,10 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 256
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5538,6 +6028,10 @@ PrefabInstance:
     - target: {fileID: 1604570903184279280, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_Name
       value: Rhythm Director (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604570903184279280, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279290, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_SwipeUp.m_InputAction.m_Name
@@ -5669,6 +6163,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279293, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1604570903184279294, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
+      propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1604570903184279295, guid: 73d50a1f61c0c0d449cb4247cfafd1b0, type: 3}
@@ -5956,7 +6454,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2141172473}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Tracks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

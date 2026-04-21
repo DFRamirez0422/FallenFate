@@ -23,6 +23,8 @@ Table of contents for all project documentation files.
 ## Change Logs
 | Document | Description |
 |----------|-------------|
+| [2026-04-21 -- DG custom / enemy note prefabs (UI layer + Sprite-Unlit)](2026-04-21_dg-custom-enemy-note-prefabs-urp-sprite-ui-layer.md) | All CustomNotes / Enemy_notes prefabs: GameObjects on UI layer for RT cameras; SpriteRenderers use URP `Sprite-Unlit-Default.mat` |
+| [2026-04-21 -- GuitarBattle Tutorial Duel double audio](2026-04-21_guitar-battle-tutorial-duel-double-audio.md) | Fix overlapping song: disable AudioSource Play On Awake where timeline also drives the same clip; notes on dual Rhythm Director setup |
 | [2026-04-14 -- Nathan Echo merge (main) resolution](2026-04-14_nathan-echo-merge-main-resolution.md) | Merge `main` into `Nathan's-Enemies-Week-13`: keep `All echos/Echoes` sprites + Echo container new audio |
 | [2026-04-14 -- Act 2 & Act 3 Story DialogueSOs](2026-04-14_act2-act3-story-dialogue-so.md) | Dante-only story beat assets (Level 2 ×4, Level 3 ×5) from All Story Dialogue Boxes |
 | [2026-04-14 -- Interaction Action Description Copy](2026-04-14_interaction-action-description-copy.md) | Powered door + generator + Warden door `ActionDescription` strings; optional copy fields on `OpenDoors` / `Activate_Generators` |

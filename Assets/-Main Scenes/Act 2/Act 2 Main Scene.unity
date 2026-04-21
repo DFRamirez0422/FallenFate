@@ -30566,15 +30566,15 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 299656429828062886, guid: 89063650443f7d14ebc2f304927693ce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 891300317}
+      addedObject: {fileID: 891300314}
   m_SourcePrefab: {fileID: 100100000, guid: 89063650443f7d14ebc2f304927693ce, type: 3}
 --- !u!4 &891300313 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6254008626592140428, guid: 89063650443f7d14ebc2f304927693ce, type: 3}
   m_PrefabInstance: {fileID: 891300312}
   m_PrefabAsset: {fileID: 0}
---- !u!60 &891300317
-PolygonCollider2D:
+--- !u!61 &891300314
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -30607,7 +30607,7 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -1.7581465, y: 2.56715}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -30617,20 +30617,8 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 2.0297804, y: 0.5831051}
-      - {x: -0.010773897, y: 1.6141186}
-      - {x: -2.2269654, y: 0.49536133}
-      - {x: -2.082327, y: -0.7037413}
-      - {x: -1.2833257, y: -0.49020576}
-      - {x: -1.2059891, y: -0.184721}
-      - {x: -0.6201071, y: -0.1949004}
-      - {x: -0.088272214, y: -0.1472187}
-      - {x: 1.1049374, y: -0.09793639}
-      - {x: 1.3059471, y: -0.6001301}
-      - {x: 1.6513665, y: -0.52058226}
-  m_UseDelaunayMesh: 0
+  m_Size: {x: 3.6499581, y: 0.7324524}
+  m_EdgeRadius: 0
 --- !u!4 &909276375 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8100461033020064013, guid: 46e760a5516da4145887f8d36bf232d9, type: 3}
