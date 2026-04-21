@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6416374539476434616}
   - component: {fileID: 6919184742776398985}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 508809110536528139}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8586672744713458578}
   - component: {fileID: 5476776468114259646}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -216,7 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1587133033315448139}
   - component: {fileID: 1587133033315448136}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,7 +373,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1587133033856674525}
   - component: {fileID: 7991230484286277139}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,11 +409,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e38431a217182d4f9c1f866723c981e, type: 3}
   m_Name: Enemy_UP_HoldNote
+  m_EditorClassIdentifier: 
   m_UpdateWithTimeline: 1
   m_ActivateWithClip: 0
   m_ActivateDeactivateTimeOffset: {x: 0, y: 0}
   m_OrientToTrack: 1
   m_SetActiveWhileClipActive: {fileID: 0}
+  guitarist: {fileID: 0}
+  guitaristAnimator: {fileID: 0}
+  m_AutoPlay: 1
+  m_AutoPlayPerfectTiming: 1
   m_StartNote: {fileID: 508809110536528139}
   m_EndNote: {fileID: 390540688947539087}
   m_LineRenderer: {fileID: 1587133033315448136}
@@ -430,7 +435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6145298976143722191}
   - component: {fileID: 8673823761014749669}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -475,7 +480,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -517,7 +522,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3881406953550252760}
   - component: {fileID: 700969714731373736}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,7 +567,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -604,7 +609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7806065986110845662}
   - component: {fileID: 6016821778388764176}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -649,7 +654,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -691,7 +696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5975582099810809786}
   - component: {fileID: 627172981004946084}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -741,7 +746,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -783,7 +788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2637734923047428831}
   - component: {fileID: 5599217720715754576}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -833,7 +838,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -875,7 +880,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5875487186128429891}
   - component: {fileID: 1886365757934392775}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -920,7 +925,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -961,7 +966,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 390540688947539087}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -994,7 +999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8086713086731281148}
   - component: {fileID: 5149957191216176278}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1039,7 +1044,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1081,7 +1086,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3738527074392773560}
   - component: {fileID: 1270304877479816356}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1126,7 +1131,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1168,7 +1173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3699636254186332580}
   - component: {fileID: 21985486120398136}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Enemy_UP_HoldNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1213,7 +1218,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1364,4 +1369,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cbb54a6160b848bc9aaea7917d6bd6bc, type: 3}
-  m_Name: Enemy_UP_HoldNote
+  m_Name: 
+  m_EditorClassIdentifier: 
