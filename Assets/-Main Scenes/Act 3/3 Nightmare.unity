@@ -8167,6 +8167,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: "If she\u2019s not here DialogueTrigger"
       objectReference: {fileID: 0}
+    - target: {fileID: 299656429828062886, guid: 89063650443f7d14ebc2f304927693ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645570183732254526, guid: 89063650443f7d14ebc2f304927693ce, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3645570183732254526, guid: 89063650443f7d14ebc2f304927693ce, type: 3}
       propertyPath: m_Conversations.Array.size
       value: 1
@@ -8241,7 +8249,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1124693607}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -9164,12 +9172,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1211887558}
   m_Layer: 0
-  m_Name: Story_dialougeTriggers
+  m_Name: CutDialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1211887558
 Transform:
   m_ObjectHideFlags: 0
@@ -14540,6 +14548,10 @@ PrefabInstance:
     - target: {fileID: 3061244335370867962, guid: 26761b0e62887d84b825e4cd1276b0dc, type: 3}
       propertyPath: m_Name
       value: PhotoDialogueTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061244335370867962, guid: 26761b0e62887d84b825e4cd1276b0dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9192564815261727635, guid: 26761b0e62887d84b825e4cd1276b0dc, type: 3}
       propertyPath: m_LocalPosition.x
