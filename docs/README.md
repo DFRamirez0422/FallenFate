@@ -23,6 +23,7 @@ Table of contents for all project documentation files.
 ## Change Logs
 | Document | Description |
 |----------|-------------|
+| [2026-04-21 -- Guitar battle transitions + dialogue instantiation](2026-04-21_guitar-battle-transitions-dialogue-instantiation.md) | Adds Act2/Act3 guitar transition prefabs, standardizes transition material, and wires guitar challenger DialogueSOs to instantiate the correct transition object on dialogue end |
 | [2026-04-21 -- DG custom / enemy note prefabs (UI layer + Sprite-Unlit)](2026-04-21_dg-custom-enemy-note-prefabs-urp-sprite-ui-layer.md) | All CustomNotes / Enemy_notes prefabs: GameObjects on UI layer for RT cameras; SpriteRenderers use URP `Sprite-Unlit-Default.mat` |
 | [2026-04-21 -- GuitarBattle Tutorial Duel double audio](2026-04-21_guitar-battle-tutorial-duel-double-audio.md) | Fix overlapping song: disable AudioSource Play On Awake where timeline also drives the same clip; notes on dual Rhythm Director setup |
 | [2026-04-14 -- Nathan Echo merge (main) resolution](2026-04-14_nathan-echo-merge-main-resolution.md) | Merge `main` into `Nathan's-Enemies-Week-13`: keep `All echos/Echoes` sprites + Echo container new audio |
