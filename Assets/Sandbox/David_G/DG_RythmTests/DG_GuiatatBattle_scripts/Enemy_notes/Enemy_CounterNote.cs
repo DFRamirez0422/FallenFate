@@ -19,7 +19,7 @@ namespace Dypsloom.RhythmTimeline.Core.Notes
     public class Enemy_CounterNote : Note
     {
         [SerializeField] private bool m_AutoPlay = true;
-        [SerializeField] private float m_AutoPlayTapInterval = 0.25f;
+        [SerializeField] private float m_AutoPlayTapInterval = 0.033f;
         [FormerlySerializedAs("m_TmpText")]
         [Tooltip("The Counter Text.")]
         [SerializeField] protected TMP_Text m_CounterText;

@@ -23,6 +23,7 @@ Table of contents for all project documentation files.
 ## Change Logs
 | Document | Description |
 |----------|-------------|
+| [2026-04-21 -- Guitar Battle Audio Sync Fix](2026-04-21_guitar-battle-audio-sync-fix.md) | Fix 1-2 second note-vs-music desync in Act 1 and Act 3 guitar battles by enabling preloadAudioData on all guitar battle audio files |
 | [2026-04-21 -- Guitar battle transitions + dialogue instantiation](2026-04-21_guitar-battle-transitions-dialogue-instantiation.md) | Adds Act2/Act3 guitar transition prefabs, standardizes transition material, and wires guitar challenger DialogueSOs to instantiate the correct transition object on dialogue end |
 | [2026-04-21 -- DG custom / enemy note prefabs (UI layer + Sprite-Unlit)](2026-04-21_dg-custom-enemy-note-prefabs-urp-sprite-ui-layer.md) | All CustomNotes / Enemy_notes prefabs: GameObjects on UI layer for RT cameras; SpriteRenderers use URP `Sprite-Unlit-Default.mat` |
 | [2026-04-21 -- GuitarBattle Tutorial Duel double audio](2026-04-21_guitar-battle-tutorial-duel-double-audio.md) | Fix overlapping song: disable AudioSource Play On Awake where timeline also drives the same clip; notes on dual Rhythm Director setup |

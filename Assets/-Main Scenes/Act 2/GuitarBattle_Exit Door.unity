@@ -5952,6 +5952,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3187547455721894279, guid: 18354eeafa3d6b64ca632ef0fc0ee40a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1142074825}
+    - targetCorrespondingSourceObject: {fileID: 3187547455721894279, guid: 18354eeafa3d6b64ca632ef0fc0ee40a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1142074830}
   m_SourcePrefab: {fileID: 100100000, guid: 18354eeafa3d6b64ca632ef0fc0ee40a, type: 3}
 --- !u!1 &1142074822 stripped
 GameObject:
@@ -6015,6 +6018,22 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 1645684216715384085, guid: 18354eeafa3d6b64ca632ef0fc0ee40a, type: 3}
   m_PrefabInstance: {fileID: 1142074821}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1142074830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142074822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 516e06a692a7c8e4688fea4fee341efe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayerScoreManager: {fileID: 2083979529}
+  m_PlayerHealth: {fileID: 1142074825}
+  m_BadAccuracyName: BAD
+  m_HealthPenalty: 1
 --- !u!1 &1151024661
 GameObject:
   m_ObjectHideFlags: 0
@@ -10624,7 +10643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerID: 0
   m_RhythmDirector: {fileID: 2110779537}
-  m_ScoreSettings: {fileID: 11400000, guid: 3c74c4591686be34888bbd3a8f4ec3e8, type: 2}
+  m_ScoreSettings: {fileID: 11400000, guid: dad00103e08e8654bb583c94a258d1f1, type: 2}
   m_AddNoteScoreOnTrigger: 1
   m_ScoreTmp: {fileID: 1069519894}
   m_ScoreMultiplierTmp: {fileID: 0}
